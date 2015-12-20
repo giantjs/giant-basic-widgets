@@ -12,7 +12,7 @@ $oop.postpone($basicWidgets, 'Text', function (ns, className) {
      */
 
     /**
-     * Displays text, optionally HTML escaped, based on a string literal or stringifiable object.
+     * Displays text, optionally HTML escaped, based on a string literal or Stringifiable object.
      * @class
      * @extends $widget.Widget
      */
@@ -26,12 +26,12 @@ $oop.postpone($basicWidgets, 'Text', function (ns, className) {
                 var contentString = $utils.Stringifier.stringify(this.contentString);
                 if (contentString) {
                     this
-                        .removeCssClass('no-text')
-                        .addCssClass('has-text');
+                        .removeCssClass('text-empty')
+                        .addCssClass('text-has-content');
                 } else {
                     this
-                        .removeCssClass('has-text')
-                        .addCssClass('no-text');
+                        .removeCssClass('text-has-content')
+                        .addCssClass('text-empty');
                 }
             },
 
@@ -54,14 +54,13 @@ $oop.postpone($basicWidgets, 'Text', function (ns, className) {
                 base.init.call(this);
 
                 /**
-                 * Text or text provider associated with Text.
-                 * TODO: Rename to exclude "label"
+                 * String contents of the Text widget.
                  * @type {string|$utils.Stringifiable}
                  */
                 this.contentString = undefined;
 
                 /**
-                 * Whether label HTML escapes text before rendering.
+                 * Whether widget HTML escapes text before rendering.
                  * @type {boolean}
                  */
                 this.htmlEscaped = true;
@@ -80,20 +79,6 @@ $oop.postpone($basicWidgets, 'Text', function (ns, className) {
             },
 
             /**
-             * Sets flag that determines whether label will HTML escape text before rendering.
-             * Use with care: script embedded in contentString might compromise security!
-             * @param {boolean} htmlEscaped
-             * @returns {$basicWidgets.Text}
-             */
-            setHtmlEscaped: function (htmlEscaped) {
-                if (this.htmlEscaped !== htmlEscaped) {
-                    this.htmlEscaped = htmlEscaped;
-                    this._updateDom();
-                }
-                return this;
-            },
-
-            /**
              * Sets text to display on label. Accepts strings or objects that implement .toString().
              * Displayed text will be HTML encoded.
              * @param {string|$utils.Stringifiable} contentString
@@ -104,6 +89,20 @@ $oop.postpone($basicWidgets, 'Text', function (ns, className) {
                     this.contentString = contentString;
                     this._updateDom();
                     this._updateStyle();
+                }
+                return this;
+            },
+
+            /**
+             * Sets flag that determines whether label will HTML escape text before rendering.
+             * Use with care: script embedded in contentString might compromise security!
+             * @param {boolean} htmlEscaped
+             * @returns {$basicWidgets.Text}
+             */
+            setHtmlEscaped: function (htmlEscaped) {
+                if (this.htmlEscaped !== htmlEscaped) {
+                    this.htmlEscaped = htmlEscaped;
+                    this._updateDom();
                 }
                 return this;
             }
