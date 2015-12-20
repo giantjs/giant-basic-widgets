@@ -24,7 +24,6 @@ $oop.postpone($basicWidgets, 'DataText', function (ns, cn) {
         .addPrivateMethods(/** @lends $basicWidgets.DataText# */{
             /** @private */
             _updateContentString: function () {
-                console.log("setting value", this.entityKey.toField().getValue());
                 this.setContentString(this.entityKey.toField().getValue());
             }
         })
