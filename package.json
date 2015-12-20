@@ -17,14 +17,15 @@
     "type": "git",
     "url": "git@github.com:giantjs/giant-basic-widgets.git"
   },
-  "engines" : {
-    "npm" : "^3.0.0"
+  "engines": {
+    "npm": "^3.0.0"
   },
   "dependencies": {
     "giant-assertion": "~0.3.0",
     "giant-data": "~0.3.0",
     "giant-entity": "~0.3.0",
     "giant-event": "~0.3.0",
+    "giant-i18n": "~0.3.1",
     "giant-oop": "~0.3.0",
     "giant-templating": "~0.3.0",
     "giant-transport": "~0.3.0",

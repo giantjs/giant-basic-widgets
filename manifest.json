@@ -7,9 +7,9 @@
         "src/widgets/Application.def.js",
         "src/widgets/Text.def.js",
         "src/widgets/DataText.def.js",
+        "src/widgets/LocaleText.def.js",
         "src/exports.js"
       ],
-      
       "css": [
         "src/widgets/Text.css"
       ]

@@ -11,6 +11,7 @@
     <script src="../node_modules/giant-event/lib/giant-event.js"></script>
     <script src="../node_modules/giant-entity/lib/giant-entity.js"></script>
     <script src="../node_modules/giant-templating/lib/giant-templating.js"></script>
+    <script src="../node_modules/giant-i18n/lib/giant-i18n.js"></script>
     <script src="../node_modules/jquery/dist/jquery.js"></script>
     <script src="../node_modules/giant-widget/lib/giant-widget.js"></script>
 
@@ -22,15 +23,33 @@
             $basicWidgets.Application.create()
                     .renderInto(document.body);
 
+            // Plain text
             // TODO: add switch to modify encoding, input field to modify text
             $basicWidgets.Text.create()
                     .setContentString("<em>Hello</em>")
                     .addToParent($basicWidgets.Application.create());
 
+            // Entity-bound text
             // TODO: connect up with corresponding data input field(s)
             'user/1/name'.toField()
                     .setValue("<em>Hello</em>");
             $basicWidgets.DataText.create('user/1/name'.toFieldKey())
+                    .addToParent($basicWidgets.Application.create());
+
+            // Locale-bound text
+            // TODO: add language selector
+            'locale/en-uk'.toDocument().setTranslations({
+                "Hi!": "Hi!"
+            });
+            'locale/de-de'.toDocument().setTranslations({
+                "Hi!": "Gruß dich!"
+            });
+            $i18n.LocaleEnvironment.create()
+                    .markLocaleAsReady('en-uk'.toLocale())
+                    .markLocaleAsReady('de-de'.toLocale());
+            'de-de'.toLocale().setAsCurrentLocale();
+            $basicWidgets.LocaleText.create()
+                    .setOriginalContentString("Hi!".toTranslatable())
                     .addToParent($basicWidgets.Application.create());
         });
     </script>
