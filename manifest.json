@@ -3,8 +3,10 @@
     "assets": {
       "js": [
         "src/namespace.js",
+        "src/behaviors/EntityWidget.def.js",
+        "src/widgets/Application.def.js",
         "src/widgets/Text.def.js",
-        "src/widgets/EntityWidget.def.js",
+        "src/widgets/DataText.def.js",
         "src/exports.js"
       ],
       

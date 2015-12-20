@@ -1,8 +1,8 @@
-$oop.postpone($basicWidgets, 'Text', function (ns, className) {
+$oop.postpone($basicWidgets, 'Text', function (ns, cn) {
     "use strict";
 
     var base = $widget.Widget,
-        self = base.extend(className);
+        self = base.extend(cn);
 
     /**
      * Creates a Text instance.

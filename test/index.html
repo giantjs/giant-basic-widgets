@@ -19,10 +19,19 @@
 
     <script>
         $(function () {
+            $basicWidgets.Application.create()
+                    .renderInto(document.body);
+
             // TODO: add switch to modify encoding, input field to modify text
             $basicWidgets.Text.create()
-                    .setContentString("<em>H</em>ello")
-                    .renderInto(document.body);
+                    .setContentString("<em>Hello</em>")
+                    .addToParent($basicWidgets.Application.create());
+
+            // TODO: connect up with corresponding data input field(s)
+            'user/1/name'.toField()
+                    .setValue("<em>Hello</em>");
+            $basicWidgets.DataText.create('user/1/name'.toFieldKey())
+                    .addToParent($basicWidgets.Application.create());
         });
     </script>
 </head>
