@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Basic widgets test page</title>
+
+    <script src="../node_modules/giant-assertion/lib/giant-assertion.js"></script>
+    <script src="../node_modules/giant-oop/lib/giant-oop.js"></script>
+    <script src="../node_modules/giant-utils/lib/giant-utils.js"></script>
+    <script src="../node_modules/giant-data/lib/giant-data.js"></script>
+    <script src="../node_modules/giant-event/lib/giant-event.js"></script>
+    <script src="../node_modules/giant-entity/lib/giant-entity.js"></script>
+    <script src="../node_modules/giant-templating/lib/giant-templating.js"></script>
+    <script src="../node_modules/jquery/dist/jquery.js"></script>
+    <script src="../node_modules/giant-widget/lib/giant-widget.js"></script>
+
+    <script src="../lib/giant-basic-widgets.js"></script>
+    <link rel="stylesheet" href="../lib/giant-basic-widgets.css"/>
+
+    <script>
+        $(function () {
+            // TODO: add switch to modify encoding, input field to modify text
+            $basicWidgets.Text.create()
+                    .setContentString("<em>H</em>ello")
+                    .renderInto(document.body);
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

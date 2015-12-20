@@ -3,7 +3,7 @@
     "assets": {
       "js": [
         "src/namespace.js",
-        "src/widgets/Label.def.js",
+        "src/widgets/Text.def.js",
         "src/exports.js"
       ],
       

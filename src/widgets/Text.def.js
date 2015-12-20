@@ -1,14 +1,14 @@
-$oop.postpone($basicWidgets, 'Label', function (ns, className) {
+$oop.postpone($basicWidgets, 'Text', function (ns, className) {
     "use strict";
 
     var base = $widget.Widget,
         self = base.extend(className);
 
     /**
-     * Creates a Label instance.
-     * @name $basicWidgets.Label.create
+     * Creates a Text instance.
+     * @name $basicWidgets.Text.create
      * @function
-     * @returns {$basicWidgets.Label}
+     * @returns {$basicWidgets.Text}
      */
 
     /**
@@ -16,15 +16,15 @@ $oop.postpone($basicWidgets, 'Label', function (ns, className) {
      * @class
      * @extends $widget.Widget
      */
-    $basicWidgets.Label = self
-        .addPrivateMethods(/** @lends $basicWidgets.Label# */{
+    $basicWidgets.Text = self
+        .addPrivateMethods(/** @lends $basicWidgets.Text# */{
             /**
-             * Updates Label's CSS classes based on its content.
+             * Updates Text's CSS classes based on its content.
              * @private
              */
-            _updateLabelStyle: function () {
-                var labelText = $utils.Stringifier.stringify(this.labelText);
-                if (labelText) {
+            _updateStyle: function () {
+                var contentString = $utils.Stringifier.stringify(this.contentString);
+                if (contentString) {
                     this
                         .removeCssClass('no-text')
                         .addCssClass('has-text');
@@ -36,29 +36,29 @@ $oop.postpone($basicWidgets, 'Label', function (ns, className) {
             },
 
             /** @private */
-            _updateLabelDom: function () {
+            _updateDom: function () {
                 var element = this.getElement(),
                     currentLabelText;
 
                 if (element) {
-                    currentLabelText = $utils.Stringifier.stringify(this.labelText);
+                    currentLabelText = $utils.Stringifier.stringify(this.contentString);
                     element.innerHTML = this.htmlEscaped ?
                         currentLabelText.toHtml() :
                         currentLabelText;
                 }
             }
         })
-        .addMethods(/** @lends $basicWidgets.Label# */{
+        .addMethods(/** @lends $basicWidgets.Text# */{
             /** @ignore */
             init: function () {
                 base.init.call(this);
 
                 /**
-                 * Text or text provider associated with Label.
+                 * Text or text provider associated with Text.
                  * TODO: Rename to exclude "label"
                  * @type {string|$utils.Stringifiable}
                  */
-                this.labelText = undefined;
+                this.contentString = undefined;
 
                 /**
                  * Whether label HTML escapes text before rendering.
@@ -68,27 +68,27 @@ $oop.postpone($basicWidgets, 'Label', function (ns, className) {
 
                 this.setTagName('span');
 
-                this._updateLabelStyle();
+                this._updateStyle();
             },
 
             /** @ignore */
             contentMarkup: function () {
-                var currentLabelText = $utils.Stringifier.stringify(this.labelText);
+                var currentContentString = $utils.Stringifier.stringify(this.contentString);
                 return this.htmlEscaped ?
-                    currentLabelText.toHtml() :
-                    currentLabelText;
+                    currentContentString.toHtml() :
+                    currentContentString;
             },
 
             /**
              * Sets flag that determines whether label will HTML escape text before rendering.
-             * Use with care: script embedded in labelText might compromise security!
+             * Use with care: script embedded in contentString might compromise security!
              * @param {boolean} htmlEscaped
-             * @returns {$basicWidgets.Label}
+             * @returns {$basicWidgets.Text}
              */
             setHtmlEscaped: function (htmlEscaped) {
                 if (this.htmlEscaped !== htmlEscaped) {
                     this.htmlEscaped = htmlEscaped;
-                    this._updateLabelDom();
+                    this._updateDom();
                 }
                 return this;
             },
@@ -96,14 +96,14 @@ $oop.postpone($basicWidgets, 'Label', function (ns, className) {
             /**
              * Sets text to display on label. Accepts strings or objects that implement .toString().
              * Displayed text will be HTML encoded.
-             * @param {string|$utils.Stringifiable} labelText
-             * @returns {$basicWidgets.Label}
+             * @param {string|$utils.Stringifiable} contentString
+             * @returns {$basicWidgets.Text}
              */
-            setLabelText: function (labelText) {
-                if (this.labelText !== labelText) {
-                    this.labelText = labelText;
-                    this._updateLabelDom();
-                    this._updateLabelStyle();
+            setContentString: function (contentString) {
+                if (this.contentString !== contentString) {
+                    this.contentString = contentString;
+                    this._updateDom();
+                    this._updateStyle();
                 }
                 return this;
             }
