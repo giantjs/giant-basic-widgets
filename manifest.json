@@ -4,6 +4,7 @@
       "js": [
         "src/namespace.js",
         "src/widgets/Text.def.js",
+        "src/widgets/EntityWidget.def.js",
         "src/exports.js"
       ],
       
