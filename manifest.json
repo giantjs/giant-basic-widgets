@@ -1,0 +1,14 @@
+{
+  "main": {
+    "assets": {
+      "js": [
+        "src/namespace.js",
+        "src/widgets/Label.def.js",
+        "src/exports.js"
+      ],
+      
+      "css": [
+      ]
+    }
+  }
+}
