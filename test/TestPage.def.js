@@ -19,6 +19,55 @@ $oop.postpone(window, 'TestPage', function (ns, cn) {
         .setInstanceMapper(function () {
             return 'singleton';
         })
+        .addPrivateMethods(/** @lends window.TestPage# */{
+            /**
+             * TODO: add switch to modify encoding, input field to modify text
+             * @private
+             */
+            _addPlainText: function () {
+                this.getChild('widget-list')
+                    .addItemWidget($basicWidgets.Text.create()
+                        .setContentString("<em>Hello</em>"));
+            },
+
+            /**
+             * TODO: connect up with corresponding data input field(s)
+             * @private
+             */
+            _addEntityBoundText: function () {
+                'user/1/name'.toField()
+                    .setValue("<em>Hello</em>");
+
+                this.getChild('widget-list')
+                    .addItemWidget($basicWidgets.DataText.create('user/1/name'.toFieldKey()));
+            },
+
+            /**
+             * TODO: add language selector
+             * @private
+             */
+            _addLocaleBoundText: function () {
+                'locale/en-uk'.toDocument()
+                    .setTranslations({
+                        "Hi!": "Hi!"
+                    });
+
+                'locale/de-de'.toDocument()
+                    .setTranslations({
+                        "Hi!": "Gruß dich!"
+                    });
+
+                $i18n.LocaleEnvironment.create()
+                    .markLocaleAsReady('en-uk'.toLocale())
+                    .markLocaleAsReady('de-de'.toLocale());
+
+                'de-de'.toLocale().setAsCurrentLocale();
+
+                this.getChild('widget-list')
+                    .addItemWidget($basicWidgets.LocaleText.create()
+                        .setOriginalContentString("Hi!".toTranslatable()));
+            }
+        })
         .addMethods(/** @lends window.TestPage# */{
             /**
              * @ignore
@@ -26,34 +75,13 @@ $oop.postpone(window, 'TestPage', function (ns, cn) {
             init: function () {
                 base.init.call(this);
 
-                // Plain text
-                // TODO: add switch to modify encoding, input field to modify text
-                $basicWidgets.Text.create()
-                        .setContentString("<em>Hello</em>")
-                        .addToParent(this);
-    
-                // Entity-bound text
-                // TODO: connect up with corresponding data input field(s)
-                'user/1/name'.toField()
-                        .setValue("<em>Hello</em>");
-                $basicWidgets.DataText.create('user/1/name'.toFieldKey())
-                        .addToParent(this);
-    
-                // Locale-bound text
-                // TODO: add language selector
-                'locale/en-uk'.toDocument().setTranslations({
-                    "Hi!": "Hi!"
-                });
-                'locale/de-de'.toDocument().setTranslations({
-                    "Hi!": "Gruß dich!"
-                });
-                $i18n.LocaleEnvironment.create()
-                        .markLocaleAsReady('en-uk'.toLocale())
-                        .markLocaleAsReady('de-de'.toLocale());
-                'de-de'.toLocale().setAsCurrentLocale();
-                $basicWidgets.LocaleText.create()
-                        .setOriginalContentString("Hi!".toTranslatable())
-                        .addToParent(this);
+                $basicWidgets.List.create()
+                    .setChildName('widget-list')
+                    .addToParent(this);
+
+                this._addPlainText();
+                this._addEntityBoundText();
+                this._addLocaleBoundText();
             }
         });
 });
