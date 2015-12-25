@@ -1,0 +1,20 @@
+.TestListItem {
+    font-family: Arial, sans-serif;
+}
+
+.TestListItem h2 {
+    font-size: 18px;
+}
+
+.TestListItem span {
+    font-size: 14px;
+}
+
+.TestListItem > .widget-container {
+    margin: 0.5em 0;
+    border: 2px dashed lightgrey;
+}
+
+.TestListItem > .hint-container {
+    color: blue;
+}

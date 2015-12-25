@@ -25,9 +25,19 @@ $oop.postpone(window, 'TestPage', function (ns, cn) {
              * @private
              */
             _addPlainText: function () {
+                var text = $basicWidgets.Text.create()
+                    .setContentString("<em>Hello</em>");
+
                 this.getChild('widget-list')
-                    .addItemWidget($basicWidgets.Text.create()
-                        .setContentString("<em>Hello</em>"));
+                    .addItemWidget(
+                        text,
+                        [
+                            "Try switching HTML escaping: ",
+                            "<code>'",
+                            text.htmlAttributes.idAttribute,
+                            "'.toWidget().setHtmlEscaped(false)",
+                            "</code>"
+                        ].join(''));
             },
 
             /**
@@ -39,7 +49,9 @@ $oop.postpone(window, 'TestPage', function (ns, cn) {
                     .setValue("<em>Hello</em>");
 
                 this.getChild('widget-list')
-                    .addItemWidget($basicWidgets.DataText.create('user/1/name'.toFieldKey()));
+                    .addItemWidget(
+                        $basicWidgets.DataText.create('user/1/name'.toFieldKey()),
+                        "Try updating the field's content: <code>'user/1/name'.toField().setValue(\"Jane\")</code>");
             },
 
             /**
@@ -64,8 +76,10 @@ $oop.postpone(window, 'TestPage', function (ns, cn) {
                 'de-de'.toLocale().setAsCurrentLocale();
 
                 this.getChild('widget-list')
-                    .addItemWidget($basicWidgets.LocaleText.create()
-                        .setOriginalContentString("Hi!".toTranslatable()));
+                    .addItemWidget(
+                        $basicWidgets.LocaleText.create()
+                        .setOriginalContentString("Hi!".toTranslatable()),
+                    "Try changing the current locale: <code>'en-uk'.toLocale().setAsCurrentLocale()</code>");
             }
         })
         .addMethods(/** @lends window.TestPage# */{
@@ -75,7 +89,7 @@ $oop.postpone(window, 'TestPage', function (ns, cn) {
             init: function () {
                 base.init.call(this);
 
-                $basicWidgets.List.create()
+                TestList.create()
                     .setChildName('widget-list')
                     .addToParent(this);
 
