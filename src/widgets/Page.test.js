@@ -35,4 +35,23 @@
 
         application.unsubscribeFrom($basicWidgets.EVENT_PAGE_REMOVE);
     });
+
+    test("Active page setter", function () {
+        expect(3);
+
+        var page = $basicWidgets.Page.create(),
+            application = $basicWidgets.Application.create();
+
+        page.addMocks({
+            addToParent: function (parent) {
+                strictEqual(parent, application, "should add page to application");
+            }
+        });
+
+        strictEqual(page.setAsActivePage(), page, "should be chainable");
+
+        page.removeMocks();
+
+        equal(page.childName, 'active-page', "should set page childName property");
+    });
 }());

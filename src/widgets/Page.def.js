@@ -36,6 +36,18 @@ $oop.postpone($basicWidgets, 'Page', function (ns, cn) {
                 application.spawnEvent($basicWidgets.EVENT_PAGE_REMOVE)
                     .setSender(this)
                     .triggerSync();
+            },
+
+            /**
+             * Activates page. Previous active page will be replaced.
+             * @returns {$basicWidgets.Page}
+             */
+            setAsActivePage: function () {
+                this
+                    .setChildName('active-page')
+                    .addToParent($basicWidgets.Application.create());
+
+                return this;
             }
         });
 });
