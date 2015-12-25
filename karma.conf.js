@@ -21,6 +21,7 @@ module.exports = function (config) {
             'node_modules/giant-event/lib/giant-event.js',
             'node_modules/giant-templating/lib/giant-templating.js',
             'node_modules/giant-entity/lib/giant-entity.js',
+            'node_modules/giant-i18n/lib/giant-i18n.js',
             'node_modules/jquery/dist/jquery.js',
             'node_modules/giant-transport/lib/giant-transport.js',
             'node_modules/giant-widget/lib/giant-widget.js',
