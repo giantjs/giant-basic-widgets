@@ -8,6 +8,7 @@
         "src/widgets/Text.def.js",
         "src/widgets/DataText.def.js",
         "src/widgets/LocaleText.def.js",
+        "src/widgets/Page.def.js",
         "src/exports.js"
       ],
       "css": [
