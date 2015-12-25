@@ -19,12 +19,14 @@ $oop.postpone(window, 'TestList', function (ns, cn) {
             /**
              * @param {$widget.Widget} itemWidget
              * @param {string|$utils.Stringifiable} hintString
+             * @param {string} codeString
              * @returns {TestList}
              */
-            addItemWidget: function (itemWidget, hintString) {
+            addItemWidget: function (itemWidget, hintString, codeString) {
                 base.addItemWidget.call(this, TestListItem.create()
                     .setContentWidget(itemWidget)
-                    .setHintString(hintString));
+                    .setHintString(hintString)
+                    .setCodeString(codeString));
                 return this;
             }
         });

@@ -20,66 +20,53 @@ $oop.postpone(window, 'TestPage', function (ns, cn) {
             return 'singleton';
         })
         .addPrivateMethods(/** @lends window.TestPage# */{
+            //@formatter:off
+/** @private */
+_addPlainText: function () {
+    return $basicWidgets.Text.create()
+        .setContentString("<em>Hello</em>");
+},
+
+/** @private */
+_addEntityBoundText: function () {
+    // setting initial field value
+    'user/1/name'.toField()
+        .setValue("<em>Hello</em>");
+
+    return $basicWidgets.DataText.create('user/1/name'.toFieldKey());
+},
+
+/** @private */
+_addLocaleBoundText: function () {
+    // initializing translations
+    'locale/en-uk'.toDocument()
+        .setTranslations({
+            "Hi!": "Hi!"
+        });
+    'locale/de-de'.toDocument()
+        .setTranslations({
+            "Hi!": "Gruß dich!"
+        });
+    $i18n.LocaleEnvironment.create()
+        .markLocaleAsReady('en-uk'.toLocale())
+        .markLocaleAsReady('de-de'.toLocale());
+
+    // setting current locale to 'de-de'
+    'de-de'.toLocale().setAsCurrentLocale();
+
+    return $basicWidgets.LocaleText.create()
+        .setOriginalContentString("Hi!".toTranslatable());
+},
+            //@formatter:on
+
             /**
-             * TODO: add switch to modify encoding, input field to modify text
+             * @param {function} widgetSpawner
+             * @param {string|$utils.Stringifiable} hintString
              * @private
              */
-            _addPlainText: function () {
-                var text = $basicWidgets.Text.create()
-                    .setContentString("<em>Hello</em>");
-
+            _addWidget: function (widgetSpawner, hintString) {
                 this.getChild('widget-list')
-                    .addItemWidget(
-                        text,
-                        [
-                            "Try switching HTML escaping: ",
-                            "<code>'",
-                            text.htmlAttributes.idAttribute,
-                            "'.toWidget().setHtmlEscaped(false)",
-                            "</code>"
-                        ].join(''));
-            },
-
-            /**
-             * TODO: connect up with corresponding data input field(s)
-             * @private
-             */
-            _addEntityBoundText: function () {
-                'user/1/name'.toField()
-                    .setValue("<em>Hello</em>");
-
-                this.getChild('widget-list')
-                    .addItemWidget(
-                        $basicWidgets.DataText.create('user/1/name'.toFieldKey()),
-                        "Try updating the field's content: <code>'user/1/name'.toField().setValue(\"Jane\")</code>");
-            },
-
-            /**
-             * TODO: add language selector
-             * @private
-             */
-            _addLocaleBoundText: function () {
-                'locale/en-uk'.toDocument()
-                    .setTranslations({
-                        "Hi!": "Hi!"
-                    });
-
-                'locale/de-de'.toDocument()
-                    .setTranslations({
-                        "Hi!": "Gruß dich!"
-                    });
-
-                $i18n.LocaleEnvironment.create()
-                    .markLocaleAsReady('en-uk'.toLocale())
-                    .markLocaleAsReady('de-de'.toLocale());
-
-                'de-de'.toLocale().setAsCurrentLocale();
-
-                this.getChild('widget-list')
-                    .addItemWidget(
-                        $basicWidgets.LocaleText.create()
-                        .setOriginalContentString("Hi!".toTranslatable()),
-                    "Try changing the current locale: <code>'en-uk'.toLocale().setAsCurrentLocale()</code>");
+                    .addItemWidget(widgetSpawner(), hintString, widgetSpawner.toString());
             }
         })
         .addMethods(/** @lends window.TestPage# */{
@@ -98,9 +85,20 @@ $oop.postpone(window, 'TestPage', function (ns, cn) {
                     .setChildName('widget-list')
                     .addToParent(this);
 
-                this._addPlainText();
-                this._addEntityBoundText();
-                this._addLocaleBoundText();
+                // TODO: add switch to modify encoding, input field to modify text
+                this._addWidget(
+                    this._addPlainText,
+                    "widgetId.toWidget().setHtmlEscaped(false)");
+
+                // TODO: connect up with corresponding data input field(s)
+                this._addWidget(
+                    this._addEntityBoundText,
+                    "entityKey.toField().setValue('Jane')");
+
+                // TODO: add language selector
+                this._addWidget(
+                    this._addLocaleBoundText,
+                    "'en-uk'.toLocale().setAsCurrentLocale()");
             }
         });
 });

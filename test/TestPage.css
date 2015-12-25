@@ -1,3 +1,9 @@
+body {
+    margin: 0;
+}
+
 .TestPage {
+    padding: 10px;
+    background-color: lightgray;
     font-family: Arial, sans-serif;
 }

@@ -1,9 +1,32 @@
-.TestListItem h2 {
+.TestListItem > * {
+    margin: 0.5em 0;
+}
+
+.TestListItem > :not(.widget-container) {
+    font-size: 12px;
+}
+
+.TestListItem > :not(.widget-container) h2 {
     font-size: 18px;
 }
 
-.TestListItem span {
-    font-size: 14px;
+.TestListItem > :not(.widget-container) code {
+    color: blue;
+}
+
+.TestListItem > .attributes-container {
+    font-size: 12px;
+    color: grey;
+}
+
+.TestListItem > .attributes-container .widget-id:before {
+    content: "widgetId:";
+    margin-right: 0.5ex;
+}
+
+.TestListItem > .attributes-container .widget-entity-key:before {
+    content: "entityKey:";
+    margin-right: 0.5ex;
 }
 
 .TestListItem > .widget-container {
@@ -11,6 +34,7 @@
     border: 2px dashed lightgrey;
 }
 
-.TestListItem > .hint-container {
-    color: blue;
+.TestListItem > .hint-container:before {
+    content: "hint:";
+    margin-right: 0.5ex;
 }
