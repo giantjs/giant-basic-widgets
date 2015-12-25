@@ -89,6 +89,11 @@ $oop.postpone(window, 'TestPage', function (ns, cn) {
             init: function () {
                 base.init.call(this);
 
+                $basicWidgets.Text.create()
+                    .setTagName('h1')
+                    .setContentString("Giant Basic Widgets")
+                    .addToParent(this);
+
                 TestList.create()
                     .setChildName('widget-list')
                     .addToParent(this);
