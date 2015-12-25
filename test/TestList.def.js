@@ -16,6 +16,14 @@ $oop.postpone(window, 'TestList', function (ns, cn) {
      */
     window.TestList = self
         .addMethods(/** @lends window.TestList# */{
+            /** @ignore */
+            init: function () {
+                base.init.call(this);
+
+                /** @type {number} */
+                this.itemCount = 0;
+            },
+
             /**
              * @param {$widget.Widget} itemWidget
              * @param {string|$utils.Stringifiable} hintString
@@ -24,6 +32,7 @@ $oop.postpone(window, 'TestList', function (ns, cn) {
              */
             addItemWidget: function (itemWidget, hintString, codeString) {
                 base.addItemWidget.call(this, TestListItem.create()
+                    .setChildName('item-' + $utils.StringUtils.padLeft(this.itemCount++, 3))
                     .setContentWidget(itemWidget)
                     .setHintString(hintString)
                     .setCodeString(codeString));

@@ -31,7 +31,7 @@ _addPlainText: function () {
 _addEntityBoundText: function () {
     // setting initial field value
     'user/1/name'.toField()
-        .setValue("<em>Hello</em>");
+        .setValue("<em>Joe</em>");
 
     return $basicWidgets.DataText.create('user/1/name'.toFieldKey());
 },
