@@ -3,56 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Basic widgets test page</title>
-
+    <!--
+    ---- Dependencies
+    --->
     <script src="../node_modules/giant-assertion/lib/giant-assertion.js"></script>
     <script src="../node_modules/giant-oop/lib/giant-oop.js"></script>
     <script src="../node_modules/giant-utils/lib/giant-utils.js"></script>
     <script src="../node_modules/giant-data/lib/giant-data.js"></script>
     <script src="../node_modules/giant-event/lib/giant-event.js"></script>
+    <script src="../node_modules/giant-routing/lib/giant-routing.js"></script>
     <script src="../node_modules/giant-entity/lib/giant-entity.js"></script>
     <script src="../node_modules/giant-templating/lib/giant-templating.js"></script>
     <script src="../node_modules/giant-i18n/lib/giant-i18n.js"></script>
     <script src="../node_modules/jquery/dist/jquery.js"></script>
     <script src="../node_modules/giant-widget/lib/giant-widget.js"></script>
-
+    <!--
+    ---- Library assets
+    --->
     <script src="../lib/giant-basic-widgets.js"></script>
     <link rel="stylesheet" href="../lib/giant-basic-widgets.css"/>
-
-    <script>
-        $(function () {
-            $basicWidgets.Application.create()
-                    .renderInto(document.body);
-
-            // Plain text
-            // TODO: add switch to modify encoding, input field to modify text
-            $basicWidgets.Text.create()
-                    .setContentString("<em>Hello</em>")
-                    .addToParent($basicWidgets.Application.create());
-
-            // Entity-bound text
-            // TODO: connect up with corresponding data input field(s)
-            'user/1/name'.toField()
-                    .setValue("<em>Hello</em>");
-            $basicWidgets.DataText.create('user/1/name'.toFieldKey())
-                    .addToParent($basicWidgets.Application.create());
-
-            // Locale-bound text
-            // TODO: add language selector
-            'locale/en-uk'.toDocument().setTranslations({
-                "Hi!": "Hi!"
-            });
-            'locale/de-de'.toDocument().setTranslations({
-                "Hi!": "Gruß dich!"
-            });
-            $i18n.LocaleEnvironment.create()
-                    .markLocaleAsReady('en-uk'.toLocale())
-                    .markLocaleAsReady('de-de'.toLocale());
-            'de-de'.toLocale().setAsCurrentLocale();
-            $basicWidgets.LocaleText.create()
-                    .setOriginalContentString("Hi!".toTranslatable())
-                    .addToParent($basicWidgets.Application.create());
-        });
-    </script>
+    <!--
+    ---- Test page assets
+    --->
+    <script src="TestPage.def.js"></script>
 </head>
 <body>
 </body>
