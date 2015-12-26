@@ -85,9 +85,7 @@ $oop.postpone($basicWidgets, 'BinaryStateful', function () {
             }
         })
         .addMethods(/** @lends $basicWidgets.BinaryStateful# */{
-            /**
-             * Call from host's init.
-             */
+            /** Call from host's init. */
             init: function () {
                 /**
                  * Collection of BinaryState instances
@@ -97,9 +95,7 @@ $oop.postpone($basicWidgets, 'BinaryStateful', function () {
                 this.binaryStates = $data.Collection.create();
             },
 
-            /**
-             * Call from host's .afterAdd
-             */
+            /** Call from host's .afterAdd */
             afterAdd: function () {
                 var that = this;
 
@@ -117,9 +113,7 @@ $oop.postpone($basicWidgets, 'BinaryStateful', function () {
                     });
             },
 
-            /**
-             * Call from host's .afterRemove
-             */
+            /** Call from host's .afterRemove */
             afterRemove: function () {
                 var that = this;
 

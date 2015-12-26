@@ -31,6 +31,9 @@
 
 .TestListItem > .widget-container {
     margin: 0.5em 0;
+}
+
+.TestListItem > .widget-container > * {
     border: 2px dashed lightgrey;
 }
 
