@@ -3,6 +3,8 @@
     "assets": {
       "js": [
         "src/namespace.js",
+        "src/behaviors/BinaryState.def.js",
+        "src/behaviors/BinaryStateful.def.js",
         "src/behaviors/EntityWidget.def.js",
         "src/widgets/Application.def.js",
         "src/widgets/DataText.def.js",
