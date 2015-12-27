@@ -51,7 +51,7 @@ $oop.postpone($basicWidgets, 'Hyperlink', function (ns, cn) {
              * @returns {$basicWidgets.Hyperlink}
              */
             setTargetUrl: function (targetUrl) {
-                this.htmlAttributes.setItem('href', targetUrl);
+                this.addAttribute('href', targetUrl);
                 return this;
             },
 

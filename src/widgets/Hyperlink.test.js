@@ -30,12 +30,19 @@
     });
 
     test("Target URL setter", function () {
+        expect(3);
+
         var hyperlink = $basicWidgets.Hyperlink.create();
+
+        hyperlink.addMocks({
+            addAttribute: function (attributeName, attributeValue) {
+                equal(attributeName, 'href', "should set href attribute");
+                equal(attributeValue, 'http://foo.com', "should set target URL as href");
+            }
+        });
 
         strictEqual(hyperlink.setTargetUrl('http://foo.com'), hyperlink,
             "should be chainable");
-        equal(hyperlink.htmlAttributes.getItem('href'), 'http://foo.com',
-            "should set 'href' attribute");
     });
 
     test("Target URL getter", function () {
