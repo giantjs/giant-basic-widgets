@@ -66,6 +66,19 @@ _addHyperlink: function () {
 },
 
 /** @private */
+_addDataHyperlink: function () {
+    // setting entity values
+    'link/1'.toDocument().setNode({
+        title: 'HTTP Animals',
+        url: 'https://http.cat'
+    });
+
+    return $basicWidgets.DataHyperlink.create(
+        'link/1/url'.toFieldKey(),
+        'link/1/title'.toFieldKey());
+},
+
+/** @private */
 _addButton: function () {
     return $basicWidgets.Button.create();
 },
@@ -124,6 +137,11 @@ _addImage: function () {
                 this._addWidget(
                     this._addHyperlink,
                     "widgetId.toWidget().setTargetUrl('https://http.cat/200')");
+
+                // TODO: connect to input field(s)
+                this._addWidget(
+                    this._addDataHyperlink,
+                    "entityKey.toField().setValue('http://httpstatusdogs.com/')");
 
                 // TODO: Add switch for disabling
                 this._addWidget(
