@@ -32,7 +32,7 @@ $oop.postpone($basicWidgets, 'Image', function (ns, className) {
              * @returns {$basicWidgets.Image}
              */
             setImageUrl: function (imageUrl) {
-                this.htmlAttributes.setItem('src', imageUrl);
+                this.addAttribute('src', imageUrl);
                 return this;
             },
 

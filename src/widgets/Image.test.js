@@ -9,10 +9,18 @@
     });
 
     test("Image URL setter", function () {
+        expect(3);
+
         var image = $basicWidgets.Image.create();
+
+        image.addMocks({
+            addAttribute: function (attributeName, attributeValue) {
+                equal(attributeName, 'src', "should set src attribute");
+                equal(attributeValue, 'http://foo.com/img.jpg', "should set new URL as src");
+            }
+        });
+
         strictEqual(image.setImageUrl('http://foo.com/img.jpg'), image, "should be chainable");
-        equal(image.htmlAttributes.getItem('src'), 'http://foo.com/img.jpg',
-            "should set 'src' attribute");
     });
 
     test("Image URL getter", function () {
