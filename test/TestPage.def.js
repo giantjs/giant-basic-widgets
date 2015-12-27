@@ -98,8 +98,8 @@ _addDataImage: function () {
 },
 
 /** @private */
-_addInput: function () {
-    return $basicWidgets.Input.create();
+_addTextInput: function () {
+    return $basicWidgets.DirectInput.create();
 },
             //@formatter:on
 
@@ -127,8 +127,7 @@ _addInput: function () {
                     'onButtonClick',
                     'onInputFocus',
                     'onInputBlur',
-                    'onInputValueChange',
-                    'onInputTypeChange');
+                    'onInputStateChange');
 
                 $basicWidgets.Text.create()
                     .setTagName('h1')
@@ -172,7 +171,7 @@ _addInput: function () {
                     "entityKey.toField().setValue('http://httpcats.herokuapp.com/305')");
 
                 this._addWidget(
-                    this._addInput,
+                    this._addTextInput,
                     "widgetId.toWidget().setInputValue('foo')");
             },
 
@@ -183,8 +182,7 @@ _addInput: function () {
                     .subscribeTo($basicWidgets.EVENT_BUTTON_CLICK, this.onButtonClick)
                     .subscribeTo($basicWidgets.EVENT_INPUT_FOCUS, this.onInputFocus)
                     .subscribeTo($basicWidgets.EVENT_INPUT_BLUR, this.onInputBlur)
-                    .subscribeTo($basicWidgets.EVENT_INPUT_VALUE_CHANGE, this.onInputValueChange)
-                    .subscribeTo($basicWidgets.EVENT_INPUT_TYPE_CHANGE, this.onInputTypeChange);
+                    .subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, this.onInputStateChange);
             },
 
             /**
@@ -215,16 +213,8 @@ _addInput: function () {
              * @param {$widget.WidgetEvent} event
              * @ignore
              */
-            onInputValueChange: function (event) {
-                console.info("input value changed", event.sender.instanceId);
-            },
-
-            /**
-             * @param {$widget.WidgetEvent} event
-             * @ignore
-             */
-            onInputTypeChange: function (event) {
-                console.info("input type changed", event.sender.instanceId);
+            onInputStateChange: function (event) {
+                console.info("input state changed", event.sender.instanceId);
             }
         });
 });

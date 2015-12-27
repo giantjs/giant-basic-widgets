@@ -14,6 +14,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
 
     /**
      * TODO: Add before / after values to change events. (Possibly via specific event classes.)
+     * TODO: Add name attribute getter / setter.
      * @class
      * @extends $widget.Widget
      */
@@ -26,15 +27,6 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
              */
             _setValueProxy: function (element, value) {
                 element.value = value;
-            },
-
-            /**
-             * @param {HTMLInputElement} element
-             * @returns {*}
-             * @private
-             */
-            _getValueProxy: function (element) {
-                return element.value;
             },
 
             /**
@@ -69,17 +61,6 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
              */
             _blurProxy: function (element) {
                 return element.blur();
-            },
-
-            /** @private */
-            _updateInputValue: function () {
-                var element = this.getElement(),
-                    newValue = this._getValueProxy(element),
-                    oldValue = this.getInputValue();
-
-                if (element && oldValue !== newValue) {
-                    this.setInputValue(newValue);
-                }
             }
         })
         .addMethods(/** @lends $basicWidgets.Input# */{
@@ -97,8 +78,6 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
                 this.setTagName('input');
 
                 this.elevateMethods(
-                    'onInput',
-                    'onChange',
                     'onFocusIn',
                     'onFocusOut');
 
@@ -110,8 +89,6 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
                 base.afterRender.call(this);
 
                 var element = this.getElement();
-                this._addEventListenerProxy(element, 'input', this.onInput);
-                this._addEventListenerProxy(element, 'change', this.onChange);
                 this._addEventListenerProxy(element, 'focusin', this.onFocusIn);
                 this._addEventListenerProxy(element, 'focusout', this.onFocusOut);
             },
@@ -156,11 +133,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
              * @returns {$basicWidgets.Input}
              */
             setInputValue: function (inputValue) {
-                var oldInputValue = this.getInputValue();
-                if (inputValue !== oldInputValue) {
-                    this.addAttribute('value', inputValue);
-                    this.triggerSync($basicWidgets.EVENT_INPUT_VALUE_CHANGE);
-                }
+                this.addAttribute('value', inputValue);
                 return this;
             },
 
@@ -169,11 +142,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
              * @returns {$basicWidgets.Input}
              */
             clearInputValue: function () {
-                var oldInputValue = this.getInputValue();
-                if (oldInputValue !== undefined) {
-                    this.removeAttribute('value');
-                    this.triggerSync($basicWidgets.EVENT_INPUT_VALUE_CHANGE);
-                }
+                this.removeAttribute('value');
                 return this;
             },
 
@@ -222,26 +191,6 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
              * @param {Event} event
              * @ignore
              */
-            onInput: function (event) {
-                var link = $event.pushOriginalEvent(event);
-                this._updateInputValue();
-                link.unlink();
-            },
-
-            /**
-             * @param {Event} event
-             * @ignore
-             */
-            onChange: function (event) {
-                var link = $event.pushOriginalEvent(event);
-                this._updateInputValue();
-                link.unlink();
-            },
-
-            /**
-             * @param {Event} event
-             * @ignore
-             */
             onFocusIn: function (event) {
                 var link = $event.pushOriginalEvent(event);
                 this.triggerSync($basicWidgets.EVENT_INPUT_FOCUS);
@@ -265,7 +214,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
 
     $oop.addGlobalConstants.call($basicWidgets, /** @lends $basicWidgets */{
         /** @constant */
-        EVENT_INPUT_VALUE_CHANGE: 'widget.change.input.value',
+        EVENT_INPUT_STATE_CHANGE: 'widget.change.input.state',
 
         /** @constant */
         EVENT_INPUT_FOCUS: 'widget.focus.input',

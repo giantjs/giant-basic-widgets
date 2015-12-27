@@ -93,22 +93,11 @@
     });
 
     test("Input value setter", function () {
-        expect(5);
+        expect(3);
 
         var input = $basicWidgets.Input.create();
 
-        function onValueChange() {
-            ok(true, "should trigger value change event");
-        }
-
-        input.subscribeTo($basicWidgets.EVENT_INPUT_VALUE_CHANGE, onValueChange);
-
         input.addMocks({
-            getInputValue: function () {
-                ok(true, "should get current input value");
-                return 'bar';
-            },
-
             addAttribute: function (attrName, attrValue) {
                 equal(attrName, 'value', "should set value attribute");
                 equal(attrValue, 'foo', "should set specified value");
@@ -116,35 +105,20 @@
         });
 
         strictEqual(input.setInputValue('foo'), input, "should be chainable");
-
-        input.unsubscribeFrom($basicWidgets.EVENT_INPUT_VALUE_CHANGE, onValueChange);
     });
 
     test("Input value removal", function () {
-        expect(4);
+        expect(2);
 
         var input = $basicWidgets.Input.create();
 
-        function onValueChange() {
-            ok(true, "should trigger value change event");
-        }
-
-        input.subscribeTo($basicWidgets.EVENT_INPUT_VALUE_CHANGE, onValueChange);
-
         input.addMocks({
-            getInputValue: function () {
-                ok(true, "should get current input value");
-                return 'bar';
-            },
-
             removeAttribute: function (attrName) {
                 equal(attrName, 'value', "should remove value attribute");
             }
         });
 
         strictEqual(input.clearInputValue(), input, "should be chainable");
-
-        input.unsubscribeFrom($basicWidgets.EVENT_INPUT_VALUE_CHANGE, onValueChange);
     });
 
     test("Input value getter", function () {
