@@ -88,6 +88,14 @@ _addImage: function () {
     return $basicWidgets.Image.create()
         .setImageUrl('http://httpcats.herokuapp.com/418');
 },
+
+/** @private */
+_addDataImage: function () {
+    // setting entity values
+    'photo/1/url'.toField().setValue('http://httpcats.herokuapp.com/417');
+
+    return $basicWidgets.DataImage.create('photo/1/url'.toFieldKey());
+},
             //@formatter:on
 
             /**
@@ -102,6 +110,9 @@ _addImage: function () {
         })
         .addMethods(/** @lends window.TestPage# */{
             /**
+             * TODO: Add data editors for databound widgets.
+             * TODO: Add value editors for plain widgets.
+             * TODO: Add switches to binary states.
              * @ignore
              */
             init: function () {
@@ -118,32 +129,26 @@ _addImage: function () {
                     .setChildName('widget-list')
                     .addToParent(this);
 
-                // TODO: add switch to modify encoding, input field to modify text
                 this._addWidget(
                     this._addPlainText,
                     "widgetId.toWidget().setHtmlEscaped(false)");
 
-                // TODO: connect up with corresponding data input field(s)
                 this._addWidget(
                     this._addEntityBoundText,
                     "entityKey.toField().setValue('Jane')");
 
-                // TODO: add language selector
                 this._addWidget(
                     this._addLocaleBoundText,
                     "'en-uk'.toLocale().setAsCurrentLocale()");
 
-                // TODO: add url and text editor
                 this._addWidget(
                     this._addHyperlink,
                     "widgetId.toWidget().setTargetUrl('https://http.cat/200')");
 
-                // TODO: connect to input field(s)
                 this._addWidget(
                     this._addDataHyperlink,
                     "entityKey.toField().setValue('http://httpstatusdogs.com/')");
 
-                // TODO: Add switch for disabling
                 this._addWidget(
                     this._addButton,
                     "widgetId.toWidget().disableBy('foo')");
@@ -151,6 +156,10 @@ _addImage: function () {
                 this._addWidget(
                     this._addImage,
                     "widgetId.toWidget().setImageUrl('http://httpcats.herokuapp.com/404')");
+
+                this._addWidget(
+                    this._addDataImage,
+                    "entityKey.toField().setValue('http://httpcats.herokuapp.com/305')");
             },
 
             /** @ignore */
