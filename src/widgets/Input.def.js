@@ -15,6 +15,9 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
     /**
      * TODO: Add before / after values to change events. (Possibly via specific event classes.)
      * TODO: Add name attribute getter / setter.
+     * TODO: Add interface to associate label.
+     * TODO: Disallow undefined inputType.
+     * TODO: Add disabling.
      * @class
      * @extends $widget.Widget
      */
