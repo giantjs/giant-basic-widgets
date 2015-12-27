@@ -59,6 +59,13 @@ _addLocaleBoundText: function () {
 },
 
 /** @private */
+_addHyperlink: function () {
+    return $basicWidgets.Hyperlink.create()
+        .setTargetUrl('https://http.cat')
+        .setContentString("HTTP Cats");
+},
+
+/** @private */
 _addButton: function () {
     return $basicWidgets.Button.create();
 },
@@ -112,6 +119,11 @@ _addImage: function () {
                 this._addWidget(
                     this._addLocaleBoundText,
                     "'en-uk'.toLocale().setAsCurrentLocale()");
+
+                // TODO: add url and text editor
+                this._addWidget(
+                    this._addHyperlink,
+                    "widgetId.toWidget().setTargetUrl('https://http.cat/200')");
 
                 // TODO: Add switch for disabling
                 this._addWidget(
