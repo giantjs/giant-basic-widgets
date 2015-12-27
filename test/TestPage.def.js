@@ -62,6 +62,12 @@ _addLocaleBoundText: function () {
 _addButton: function () {
     return $basicWidgets.Button.create();
 },
+
+/** @private */
+_addImage: function () {
+    return $basicWidgets.Image.create()
+        .setImageUrl('http://httpcats.herokuapp.com/418');
+},
             //@formatter:on
 
             /**
@@ -107,10 +113,14 @@ _addButton: function () {
                     this._addLocaleBoundText,
                     "'en-uk'.toLocale().setAsCurrentLocale()");
 
-                // TODO: add language selector
+                // TODO: Add switch for disabling
                 this._addWidget(
                     this._addButton,
                     "widgetId.toWidget().disableBy('foo')");
+
+                this._addWidget(
+                    this._addImage,
+                    "widgetId.toWidget().setImageUrl('http://httpcats.herokuapp.com/404')");
             },
 
             /** @ignore */
