@@ -10,7 +10,6 @@ $oop.postpone($basicWidgets, 'DataHyperlink', function (ns, cn) {
      * @name $basicWidgets.DataHyperlink.create
      * @function
      * @param {$entity.FieldKey} urlKey Identifies the URL associated with the link.
-     * @param {$entity.FieldKey} textKey Identifies the text associated with the link.
      * @returns {$basicWidgets.DataHyperlink}
      */
 
@@ -33,19 +32,10 @@ $oop.postpone($basicWidgets, 'DataHyperlink', function (ns, cn) {
         .addMethods(/** @lends $basicWidgets.DataHyperlink# */{
             /**
              * @param {$entity.FieldKey} urlKey
-             * @param {$entity.FieldKey} textKey
              * @ignore
              */
-            init: function (urlKey, textKey) {
-                $assertion
-                    .isFieldKey(urlKey, "Invalid URL field key")
-                    .isFieldKey(textKey, "Invalid text field key");
-
-                /**
-                 * Field key that identifies the text
-                 * @type {$entity.FieldKey}
-                 */
-                this.textKey = textKey;
+            init: function (urlKey) {
+                $assertion.isFieldKey(urlKey, "Invalid field key");
 
                 base.init.call(this);
                 $basicWidgets.EntityWidget.init.call(this, urlKey);
@@ -62,15 +52,6 @@ $oop.postpone($basicWidgets, 'DataHyperlink', function (ns, cn) {
             afterRemove: function () {
                 base.afterRemove.call(this);
                 this.unbindFromDelegatedEntityChange(this.entityKey, 'onUrlChange');
-            },
-
-            /**
-             * Creates default databound Text widget based on the textKey provided at instantiation.
-             * Override to specify custom widget.
-             * @returns {$basicWidgets.DataText}
-             */
-            spawnTextWidget: function () {
-                return $basicWidgets.DataText.create(this.textKey);
             },
 
             /** @ignore */

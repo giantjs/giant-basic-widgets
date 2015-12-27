@@ -12,7 +12,9 @@ $oop.postpone($basicWidgets, 'Hyperlink', function (ns, cn) {
      */
 
     /**
-     * Implements a basic hyperlink.
+     * Implements an empty hyperlink.
+     * Add content (text, image, etc) as ad-hoc child widgets, or alternatively,
+     * subclass Hyperlink to implement re-usable, composite content.
      * @class
      * @extends $widget.Widget
      */
@@ -22,27 +24,6 @@ $oop.postpone($basicWidgets, 'Hyperlink', function (ns, cn) {
             init: function () {
                 base.init.call(this);
                 this.setTagName('a');
-
-                this.spawnTextWidget()
-                    .setChildName('link-text')
-                    .addToParent(this);
-            },
-
-            /**
-             * Creates Text widget to be used inside the link.
-             * Override to specify custom widget.
-             * @returns {$basicWidgets.Text}
-             */
-            spawnTextWidget: function () {
-                return $basicWidgets.Text.create();
-            },
-
-            /**
-             * Retrieves the text widget contained within the link.
-             * @returns {$basicWidgets.Text}
-             */
-            getTextWidget: function () {
-                return this.getChild('link-text');
             },
 
             /**
@@ -61,17 +42,6 @@ $oop.postpone($basicWidgets, 'Hyperlink', function (ns, cn) {
              */
             getTargetUrl: function () {
                 return this.htmlAttributes.getItem('href');
-            },
-
-            /**
-             * Sets the link's text content.
-             * @param {string} contentString
-             * @returns {$basicWidgets.Hyperlink}
-             */
-            setContentString: function (contentString) {
-                this.getTextWidget()
-                    .setContentString(contentString);
-                return this;
             }
         });
 });

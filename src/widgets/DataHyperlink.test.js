@@ -9,14 +9,8 @@
         }, "should raise exception on missing arguments");
 
         throws(function () {
-            $basicWidgets.DataHyperlink.create('foo', 'bar');
+            $basicWidgets.DataHyperlink.create('foo');
         }, "should raise exception on invalid arguments");
-
-        var urlKey = 'link/1/url'.toFieldKey(),
-            textKey = 'link/1/text'.toFieldKey(),
-            dataHyperlink = $basicWidgets.DataHyperlink.create(urlKey, textKey);
-
-        strictEqual(dataHyperlink.textKey, textKey, "should set textKey property");
     });
 
     test("URL change handler", function () {

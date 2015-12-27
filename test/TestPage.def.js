@@ -62,7 +62,8 @@ _addLocaleBoundText: function () {
 _addHyperlink: function () {
     return $basicWidgets.Hyperlink.create()
         .setTargetUrl('https://http.cat')
-        .setContentString("HTTP Cats");
+        .addChild($basicWidgets.Text.create()
+            .setContentString("HTTP Cats"));
 },
 
 /** @private */
@@ -73,9 +74,8 @@ _addDataHyperlink: function () {
         url: 'https://http.cat'
     });
 
-    return $basicWidgets.DataHyperlink.create(
-        'link/1/url'.toFieldKey(),
-        'link/1/title'.toFieldKey());
+    return $basicWidgets.DataHyperlink.create('link/1/url'.toFieldKey())
+        .addChild($basicWidgets.DataText.create('link/1/title'.toFieldKey()));
 },
 
 /** @private */
