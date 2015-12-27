@@ -14,6 +14,7 @@
         "src/widgets/DataText.def.js",
         "src/widgets/Hyperlink.def.js",
         "src/widgets/Image.def.js",
+        "src/widgets/Input.def.js",
         "src/widgets/List.def.js",
         "src/widgets/LocaleText.def.js",
         "src/widgets/Page.def.js",
@@ -22,6 +23,7 @@
       ],
       "css": [
         "src/widgets/Button.css",
+        "src/widgets/Input.css",
         "src/widgets/List.css",
         "src/widgets/Text.css"
       ]

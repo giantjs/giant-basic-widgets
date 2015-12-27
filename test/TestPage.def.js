@@ -96,6 +96,11 @@ _addDataImage: function () {
 
     return $basicWidgets.DataImage.create('photo/1/url'.toFieldKey());
 },
+
+/** @private */
+_addInput: function () {
+    return $basicWidgets.Input.create();
+},
             //@formatter:on
 
             /**
@@ -118,7 +123,12 @@ _addDataImage: function () {
             init: function () {
                 base.init.call(this);
 
-                this.elevateMethod('onButtonClick');
+                this.elevateMethods(
+                    'onButtonClick',
+                    'onInputFocus',
+                    'onInputBlur',
+                    'onInputValueChange',
+                    'onInputTypeChange');
 
                 $basicWidgets.Text.create()
                     .setTagName('h1')
@@ -160,12 +170,21 @@ _addDataImage: function () {
                 this._addWidget(
                     this._addDataImage,
                     "entityKey.toField().setValue('http://httpcats.herokuapp.com/305')");
+
+                this._addWidget(
+                    this._addInput,
+                    "widgetId.toWidget().setInputValue('foo')");
             },
 
             /** @ignore */
             afterAdd: function () {
                 base.afterAdd.call(this);
-                this.subscribeTo($basicWidgets.EVENT_BUTTON_CLICK, this.onButtonClick);
+                this
+                    .subscribeTo($basicWidgets.EVENT_BUTTON_CLICK, this.onButtonClick)
+                    .subscribeTo($basicWidgets.EVENT_INPUT_FOCUS, this.onInputFocus)
+                    .subscribeTo($basicWidgets.EVENT_INPUT_BLUR, this.onInputBlur)
+                    .subscribeTo($basicWidgets.EVENT_INPUT_VALUE_CHANGE, this.onInputValueChange)
+                    .subscribeTo($basicWidgets.EVENT_INPUT_TYPE_CHANGE, this.onInputTypeChange);
             },
 
             /**
@@ -174,6 +193,38 @@ _addDataImage: function () {
              */
             onButtonClick: function (event) {
                 console.info("button clicked", event.sender.instanceId);
+            },
+
+            /**
+             * @param {$widget.WidgetEvent} event
+             * @ignore
+             */
+            onInputFocus: function (event) {
+                console.info("input focused", event.sender.instanceId);
+            },
+
+            /**
+             * @param {$widget.WidgetEvent} event
+             * @ignore
+             */
+            onInputBlur: function (event) {
+                console.info("input blurred", event.sender.instanceId);
+            },
+
+            /**
+             * @param {$widget.WidgetEvent} event
+             * @ignore
+             */
+            onInputValueChange: function (event) {
+                console.info("input value changed", event.sender.instanceId);
+            },
+
+            /**
+             * @param {$widget.WidgetEvent} event
+             * @ignore
+             */
+            onInputTypeChange: function (event) {
+                console.info("input type changed", event.sender.instanceId);
             }
         });
 });

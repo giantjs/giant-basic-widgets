@@ -15,5 +15,6 @@ body {
 }
 
 .TestPage .Image {
-    width: 240px;
+    box-sizing: border-box;
+    max-width: 100%;
 }
