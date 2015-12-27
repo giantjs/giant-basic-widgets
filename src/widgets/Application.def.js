@@ -2,7 +2,9 @@ $oop.postpone($basicWidgets, 'Application', function (ns, cn) {
     "use strict";
 
     var base = $widget.Widget,
-        self = base.extend(cn);
+        self = base.extend(cn)
+            .addTraitAndExtend($basicWidgets.BinaryStateful)
+            .addTrait($basicWidgets.Disableable);
 
     /**
      * Creates a Application instance.
@@ -12,10 +14,11 @@ $oop.postpone($basicWidgets, 'Application', function (ns, cn) {
      */
 
     /**
-     * Main widget for the application. All other widgets must be a child of Application.
-     * TODO: Add Disableable (when ready).
+     * Main widget for the application. All other widgets must be descendants of Application.
      * @class
      * @extends $widget.Widget
+     * @extends $basicWidgets.BinaryStateful
+     * @extends $basicWidgets.Disableable
      */
     $basicWidgets.Application = self
         .setInstanceMapper(function () {
@@ -25,6 +28,8 @@ $oop.postpone($basicWidgets, 'Application', function (ns, cn) {
             /** @ignore */
             init: function () {
                 base.init.call(this);
+                $basicWidgets.BinaryStateful.init.call(this);
+                $basicWidgets.Disableable.init.call(this);
 
                 this.elevateMethods(
                     'onPageAdd',
