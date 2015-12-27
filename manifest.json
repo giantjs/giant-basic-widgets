@@ -8,6 +8,7 @@
         "src/behaviors/Disableable.def.js",
         "src/behaviors/EntityWidget.def.js",
         "src/widgets/Application.def.js",
+        "src/widgets/Button.def.js",
         "src/widgets/DataText.def.js",
         "src/widgets/List.def.js",
         "src/widgets/LocaleText.def.js",
@@ -16,6 +17,7 @@
         "src/exports.js"
       ],
       "css": [
+        "src/widgets/Button.css",
         "src/widgets/List.css",
         "src/widgets/Text.css"
       ]

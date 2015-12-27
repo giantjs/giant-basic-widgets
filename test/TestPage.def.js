@@ -57,6 +57,11 @@ _addLocaleBoundText: function () {
     return $basicWidgets.LocaleText.create()
         .setOriginalContentString("Hi!".toTranslatable());
 },
+
+/** @private */
+_addButton: function () {
+    return $basicWidgets.Button.create();
+},
             //@formatter:on
 
             /**
@@ -66,7 +71,7 @@ _addLocaleBoundText: function () {
              */
             _addWidget: function (widgetSpawner, hintString) {
                 this.getChild('widget-list')
-                    .addItemWidget(widgetSpawner(), hintString, widgetSpawner.toString());
+                    .addItemWidget(widgetSpawner.call(this), hintString, widgetSpawner.toString());
             }
         })
         .addMethods(/** @lends window.TestPage# */{
@@ -75,6 +80,8 @@ _addLocaleBoundText: function () {
              */
             init: function () {
                 base.init.call(this);
+
+                this.elevateMethod('onButtonClick');
 
                 $basicWidgets.Text.create()
                     .setTagName('h1')
@@ -99,6 +106,25 @@ _addLocaleBoundText: function () {
                 this._addWidget(
                     this._addLocaleBoundText,
                     "'en-uk'.toLocale().setAsCurrentLocale()");
+
+                // TODO: add language selector
+                this._addWidget(
+                    this._addButton,
+                    "widgetId.toWidget().disableBy('foo')");
+            },
+
+            /** @ignore */
+            afterAdd: function () {
+                base.afterAdd.call(this);
+                this.subscribeTo($basicWidgets.EVENT_BUTTON_CLICK, this.onButtonClick);
+            },
+
+            /**
+             * @param {$widget.WidgetEvent} event
+             * @ignore
+             */
+            onButtonClick: function (event) {
+                console.info("button clicked", event.sender.instanceId);
             }
         });
 });
