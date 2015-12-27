@@ -101,6 +101,11 @@ _addDataImage: function () {
 _addTextInput: function () {
     return $basicWidgets.DirectInput.create();
 },
+
+/** @private */
+_addCheckboxInput: function () {
+    return $basicWidgets.BinaryInput.create('checkbox');
+},
             //@formatter:on
 
             /**
@@ -173,6 +178,10 @@ _addTextInput: function () {
                 this._addWidget(
                     this._addTextInput,
                     "widgetId.toWidget().setInputValue('foo')");
+
+                this._addWidget(
+                    this._addCheckboxInput,
+                    "widgetId.toWidget().setInputValue('checked')");
             },
 
             /** @ignore */
