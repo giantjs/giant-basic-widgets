@@ -8,6 +8,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
      * Creates an Input instance.
      * @name $basicWidgets.Input.create
      * @function
+     * @param {string} [inputType='text'] Type attribute of the input element.
      * @returns {$basicWidgets.Input}
      */
 
@@ -19,7 +20,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
     $basicWidgets.Input = self
         .addPrivateMethods(/** @lends $basicWidgets.Input# */{
             /**
-             * @param {HTMLElement} element
+             * @param {HTMLInputElement} element
              * @param {*} value
              * @private
              */
@@ -28,7 +29,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
             },
 
             /**
-             * @param {HTMLElement} element
+             * @param {HTMLInputElement} element
              * @returns {*}
              * @private
              */
@@ -82,8 +83,16 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
             }
         })
         .addMethods(/** @lends $basicWidgets.Input# */{
-            /** @ignore */
-            init: function () {
+            /**
+             * TODO: Stricter checks for input type?
+             * @param {string} [inputType='text']
+             * @ignore
+             */
+            init: function (inputType) {
+                $assertion.isStringOptional(inputType, "Invalid input type");
+
+                inputType = inputType || 'text';
+
                 base.init.call(this);
                 this.setTagName('input');
 
@@ -92,6 +101,8 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
                     'onChange',
                     'onFocusIn',
                     'onFocusOut');
+
+                this.addAttribute('type', inputType);
             },
 
             /** @ignore */
@@ -128,19 +139,6 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
                 var element = this.getElement();
                 if (element && attributeName === 'value') {
                     this._setValueProxy(element, '');
-                }
-                return this;
-            },
-
-            /**
-             * @param {string} inputType
-             * @returns {$basicWidgets.Input}
-             */
-            setInputType: function (inputType) {
-                var oldInputType = this.getInputType();
-                if (inputType !== oldInputType) {
-                    this.addAttribute('type', inputType);
-                    this.triggerSync($basicWidgets.EVENT_INPUT_TYPE_CHANGE);
                 }
                 return this;
             },
@@ -266,9 +264,6 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
     "use strict";
 
     $oop.addGlobalConstants.call($basicWidgets, /** @lends $basicWidgets */{
-        /** @constant */
-        EVENT_INPUT_TYPE_CHANGE: 'widget.change.input.type',
-
         /** @constant */
         EVENT_INPUT_VALUE_CHANGE: 'widget.change.input.value',
 

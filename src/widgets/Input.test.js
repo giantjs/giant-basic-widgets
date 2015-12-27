@@ -4,8 +4,16 @@
     module("Input");
 
     test("Instantiation", function () {
+        throws(function () {
+            $basicWidgets.Input.create(1234);
+        }, "should raise exception on invalid argument");
+
         var input = $basicWidgets.Input.create();
         equal(input.tagName, 'input', "should set tagName property to INPUT");
+        equal(input.htmlAttributes.getItem('type'), 'text', "should set default type");
+
+        equal($basicWidgets.Input.create('foo')
+            .htmlAttributes.getItem('type'), 'foo', "should set input type");
     });
 
     test("Attribute addition override", function () {
@@ -65,34 +73,6 @@
         strictEqual(input.removeAttribute('value'), input, "should be chainable");
 
         $widget.Widget.removeMocks();
-    });
-
-    test("Input type setter", function () {
-        expect(5);
-
-        var input = $basicWidgets.Input.create();
-
-        function onTypeChange() {
-            ok(true, "should trigger type change event");
-        }
-
-        input.subscribeTo($basicWidgets.EVENT_INPUT_TYPE_CHANGE, onTypeChange);
-
-        input.addMocks({
-            getInputType: function () {
-                ok(true, "should get current input type");
-                return 'bar';
-            },
-
-            addAttribute: function (attrName, attrValue) {
-                equal(attrName, 'type', "should set type attribute");
-                equal(attrValue, 'foo', "should set specified value as type");
-            }
-        });
-
-        strictEqual(input.setInputType('foo'), input, "should be chainable");
-
-        input.unsubscribeFrom($basicWidgets.EVENT_INPUT_TYPE_CHANGE, onTypeChange);
     });
 
     test("Input type getter", function () {
