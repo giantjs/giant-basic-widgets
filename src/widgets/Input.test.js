@@ -178,6 +178,20 @@
             "should forward value returned by htmlAttributes");
     });
 
+    test("Name setter", function () {
+        var input = $basicWidgets.Input.create('text');
+
+        strictEqual(input.setInputName('foo'), input, "should be chainable");
+        equal(input.htmlAttributes.getItem('name'), 'foo', "should set name attribute");
+    });
+
+    test("Name getter", function () {
+        var input = $basicWidgets.Input.create('text')
+            .setInputName('foo');
+
+        equal(input.getInputName(), 'foo', "should return name attribute");
+    });
+
     test("Focusing", function () {
         expect(2);
 

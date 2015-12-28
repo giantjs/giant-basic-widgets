@@ -16,7 +16,6 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
 
     /**
      * TODO: Add before / after values to change events. (Possibly via specific event classes.)
-     * TODO: Add name attribute getter / setter.
      * @class
      * @extends $widget.Widget
      * @extends $basicWidgets.BinaryStateful
@@ -209,6 +208,22 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
              */
             getInputValue: function () {
                 return this.htmlAttributes.getItem('value');
+            },
+
+            /**
+             * @param {string} inputName
+             * @returns {$basicWidgets.Input}
+             */
+            setInputName: function (inputName) {
+                this.addAttribute('name', inputName);
+                return this;
+            },
+
+            /**
+             * @returns {string}
+             */
+            getInputName: function () {
+                return this.htmlAttributes.getItem('name');
             },
 
             /**

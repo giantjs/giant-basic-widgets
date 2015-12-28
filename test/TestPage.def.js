@@ -107,6 +107,7 @@ _addTextInput: function (itemWidget) {
         .addToParent(itemWidget);
 
     return $basicWidgets.DirectInput.create()
+        .setInputName('name')
         .linkLabelWidget(label);
 },
 
@@ -120,6 +121,7 @@ _addCheckboxInput: function (itemWidget) {
         .addToParent(itemWidget);
 
     return $basicWidgets.BinaryInput.create('checkbox')
+        .setInputName('meows')
         .linkLabelWidget(label);
 },
             //@formatter:on
