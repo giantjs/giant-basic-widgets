@@ -2,7 +2,9 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
     "use strict";
 
     var base = $widget.Widget,
-        self = base.extend(cn);
+        self = base.extend(cn)
+            .addTraitAndExtend($basicWidgets.BinaryStateful)
+            .addTraitAndExtend($basicWidgets.Disableable);
 
     /**
      * Creates an Input instance.
@@ -16,9 +18,10 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
      * TODO: Add before / after values to change events. (Possibly via specific event classes.)
      * TODO: Add name attribute getter / setter.
      * TODO: Add interface to associate label.
-     * TODO: Add disabling.
      * @class
      * @extends $widget.Widget
+     * @extends $basicWidgets.BinaryStateful
+     * @extends $basicWidgets.Disableable
      */
     $basicWidgets.Input = self
         .addPrivateMethods(/** @lends $basicWidgets.Input# */{
@@ -63,6 +66,15 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
              */
             _blurProxy: function (element) {
                 return element.blur();
+            },
+
+            /** @private */
+            _updateInputEnabledState: function () {
+                if (this.isDisabled()) {
+                    this.addAttribute('disabled', 'disabled');
+                } else {
+                    this.removeAttribute('disabled');
+                }
             }
         })
         .addMethods(/** @lends $basicWidgets.Input# */{
@@ -75,6 +87,9 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
                 $assertion.isString(inputType, "Invalid input type");
 
                 base.init.call(this);
+                $basicWidgets.BinaryStateful.init.call(this);
+                $basicWidgets.Disableable.init.call(this);
+
                 this.setTagName('input');
 
                 this.elevateMethods(
@@ -85,12 +100,40 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
             },
 
             /** @ignore */
+            afterAdd: function () {
+                base.afterAdd.call(this);
+                $basicWidgets.BinaryStateful.afterAdd.call(this);
+            },
+
+            /** @ignore */
+            afterRemove: function () {
+                base.afterRemove.call(this);
+                $basicWidgets.BinaryStateful.afterRemove.call(this);
+            },
+
+            /** @ignore */
             afterRender: function () {
                 base.afterRender.call(this);
 
                 var element = this.getElement();
                 this._addEventListenerProxy(element, 'focusin', this.onFocusIn);
                 this._addEventListenerProxy(element, 'focusout', this.onFocusOut);
+            },
+
+            /** Call from host's .afterStateOn */
+            afterStateOn: function (stateName) {
+                $basicWidgets.Disableable.afterStateOn.call(this, stateName);
+                if (stateName === self.STATE_NAME_DISABLED) {
+                    this._updateInputEnabledState();
+                }
+            },
+
+            /** Call from host's .afterStateOff */
+            afterStateOff: function (stateName) {
+                $basicWidgets.Disableable.afterStateOff.call(this, stateName);
+                if (stateName === self.STATE_NAME_DISABLED) {
+                    this._updateInputEnabledState();
+                }
             },
 
             /**

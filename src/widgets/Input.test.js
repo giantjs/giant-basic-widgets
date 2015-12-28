@@ -17,6 +17,35 @@
         equal(input.htmlAttributes.getItem('type'), 'text', "should set input type");
     });
 
+    test("State-on handler override", function () {
+        expect(1);
+
+        var input = $basicWidgets.Input.create('text');
+
+        input.addMocks({
+            _updateInputEnabledState: function () {
+                ok(true, "should update enabled state");
+            }
+        });
+
+        input.disableBy('foo');
+    });
+
+    test("State-off handler override", function () {
+        expect(1);
+
+        var input = $basicWidgets.Input.create('text')
+            .disableBy('foo');
+
+        input.addMocks({
+            _updateInputEnabledState: function () {
+                ok(true, "should update enabled state");
+            }
+        });
+
+        input.enableBy('foo');
+    });
+
     test("Attribute addition override", function () {
         expect(6);
 
