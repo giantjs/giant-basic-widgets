@@ -105,6 +105,16 @@
         $widget.Widget.removeMocks();
     });
 
+    test("Label widget setter", function () {
+        var input = $basicWidgets.Input.create('text'),
+            label = $basicWidgets.Text.create();
+
+        strictEqual(input.linkLabelWidget(label), input, "should be chainable");
+        equal(label.tagName, 'label', "should change label tagName property to 'label'");
+        equal(label.htmlAttributes.getItem('for'), input.htmlAttributes.idAttribute,
+            "should set 'for' attribute to input ID");
+    });
+
     test("Input type getter", function () {
         expect(2);
 

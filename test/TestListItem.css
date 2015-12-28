@@ -33,7 +33,7 @@
     margin: 0.5em 0;
 }
 
-.TestListItem > .widget-container > * {
+.TestListItem > .widget-container > .sample-widget {
     border: 2px dashed lightgrey;
 }
 

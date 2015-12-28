@@ -17,7 +17,6 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
     /**
      * TODO: Add before / after values to change events. (Possibly via specific event classes.)
      * TODO: Add name attribute getter / setter.
-     * TODO: Add interface to associate label.
      * @class
      * @extends $widget.Widget
      * @extends $basicWidgets.BinaryStateful
@@ -160,6 +159,21 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
                 if (element && attributeName === 'value') {
                     this._setValueProxy(element, '');
                 }
+                return this;
+            },
+
+            /**
+             * @param {$basicWidgets.Text} labelWidget
+             * @returns {$basicWidgets.Input}
+             */
+            linkLabelWidget: function (labelWidget) {
+                $assertion.assert($basicWidgets.Text.isBaseOf(labelWidget),
+                    "Invalid label widget");
+
+                labelWidget
+                    .setTagName('label')
+                    .addAttribute('for', this.htmlAttributes.idAttribute);
+
                 return this;
             },
 

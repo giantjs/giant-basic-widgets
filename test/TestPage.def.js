@@ -98,13 +98,29 @@ _addDataImage: function () {
 },
 
 /** @private */
-_addTextInput: function () {
-    return $basicWidgets.DirectInput.create();
+_addTextInput: function (itemWidget) {
+    // creating a label for the input
+    var label = $basicWidgets.Text.create()
+        .setChildName('A-label')
+        .setContentString("Name")
+        .setContainerCssClass('widget-container')
+        .addToParent(itemWidget);
+
+    return $basicWidgets.DirectInput.create()
+        .linkLabelWidget(label);
 },
 
 /** @private */
-_addCheckboxInput: function () {
-    return $basicWidgets.BinaryInput.create('checkbox');
+_addCheckboxInput: function (itemWidget) {
+    // creating a label for the input
+    var label = $basicWidgets.Text.create()
+        .setChildName('z-label')
+        .setContentString("Meows")
+        .setContainerCssClass('widget-container')
+        .addToParent(itemWidget);
+
+    return $basicWidgets.BinaryInput.create('checkbox')
+        .linkLabelWidget(label);
 },
             //@formatter:on
 
@@ -115,7 +131,7 @@ _addCheckboxInput: function () {
              */
             _addWidget: function (widgetSpawner, hintString) {
                 this.getChild('widget-list')
-                    .addItemWidget(widgetSpawner.call(this), hintString, widgetSpawner.toString());
+                    .addTestItem(widgetSpawner, hintString);
             }
         })
         .addMethods(/** @lends window.TestPage# */{

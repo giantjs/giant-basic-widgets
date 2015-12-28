@@ -25,17 +25,22 @@ $oop.postpone(window, 'TestList', function (ns, cn) {
             },
 
             /**
-             * @param {$widget.Widget} itemWidget
+             * @param {function} widgetSpawner
              * @param {string|$utils.Stringifiable} hintString
-             * @param {string} codeString
-             * @returns {TestList}
+             * @returns {window.TestList}
              */
-            addItemWidget: function (itemWidget, hintString, codeString) {
-                base.addItemWidget.call(this, TestListItem.create()
+            addTestItem: function (widgetSpawner, hintString) {
+                var itemWidget = TestListItem.create()
                     .setChildName('item-' + $utils.StringUtils.padLeft(this.itemCount++, 3))
-                    .setContentWidget(itemWidget)
                     .setHintString(hintString)
-                    .setCodeString(codeString));
+                    .setCodeString(widgetSpawner.toString()),
+                    sampleWidget = widgetSpawner(itemWidget)
+                        .setChildName('sample-widget');
+
+                itemWidget.setContentWidget(sampleWidget);
+
+                this.addItemWidget(itemWidget);
+
                 return this;
             }
         });
