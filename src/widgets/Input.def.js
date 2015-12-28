@@ -15,7 +15,6 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
      */
 
     /**
-     * TODO: Add before / after values to change events. (Possibly via specific event classes.)
      * @class
      * @extends $widget.Widget
      * @extends $basicWidgets.BinaryStateful

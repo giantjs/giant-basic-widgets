@@ -3,6 +3,7 @@
     "assets": {
       "js": [
         "src/namespace.js",
+        "src/utils/InputStateChangeEvent.def.js",
         "src/behaviors/BinaryState.def.js",
         "src/behaviors/BinaryStateful.def.js",
         "src/behaviors/Disableable.def.js",

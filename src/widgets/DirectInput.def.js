@@ -70,7 +70,10 @@ $oop.postpone($basicWidgets, 'DirectInput', function (ns, cn) {
                 var oldInputValue = this.getInputValue();
                 base.setInputValue.call(this, inputValue);
                 if (inputValue !== oldInputValue) {
-                    this.triggerSync($basicWidgets.EVENT_INPUT_STATE_CHANGE);
+                    this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
+                        .setBeforeValue(oldInputValue)
+                        .setAfterValue(inputValue)
+                        .triggerSync();
                 }
                 return this;
             },
@@ -83,7 +86,9 @@ $oop.postpone($basicWidgets, 'DirectInput', function (ns, cn) {
                 var oldInputValue = this.getInputValue();
                 base.clearInputValue.call(this);
                 if (oldInputValue !== undefined) {
-                    this.triggerSync($basicWidgets.EVENT_INPUT_STATE_CHANGE);
+                    this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
+                        .setBeforeValue(oldInputValue)
+                        .triggerSync();
                 }
                 return this;
             },

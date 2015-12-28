@@ -63,12 +63,15 @@
     });
 
     test("Checked state setter", function () {
-        expect(3);
+        expect(5);
 
-        var input = $basicWidgets.BinaryInput.create();
+        var input = $basicWidgets.BinaryInput.create()
+            .setInputValue('foo');
 
-        function onStateChange() {
+        function onStateChange(event) {
             ok(true, "should trigger value change event");
+            strictEqual(event.beforeValue, undefined, "should set beforeValue property");
+            equal(event.afterValue, 'foo', "should set afterValue property");
         }
 
         input.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
@@ -86,12 +89,15 @@
     });
 
     test("Checked state removal", function () {
-        expect(3);
+        expect(5);
 
-        var input = $basicWidgets.BinaryInput.create();
+        var input = $basicWidgets.BinaryInput.create()
+            .setInputValue('foo');
 
-        function onStateChange() {
+        function onStateChange(event) {
             ok(true, "should trigger value change event");
+            equal(event.beforeValue, 'foo', "should set beforeValue property");
+            strictEqual(event.afterValue, undefined, "should set afterValue property");
         }
 
         input.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);

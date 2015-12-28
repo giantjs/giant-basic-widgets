@@ -4,12 +4,14 @@
     module("DirectInput");
 
     test("Input value setter", function () {
-        expect(3);
+        expect(5);
 
         var input = $basicWidgets.DirectInput.create();
 
-        function onValueChange() {
+        function onValueChange(event) {
             ok(true, "should trigger value change event");
+            equal(event.beforeValue, 'bar', "should set beforeValue property");
+            equal(event.afterValue, 'foo', "should set afterValue property");
         }
 
         input.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, onValueChange);
@@ -27,12 +29,14 @@
     });
 
     test("Input value removal", function () {
-        expect(3);
+        expect(5);
 
         var input = $basicWidgets.DirectInput.create();
 
-        function onValueChange() {
+        function onValueChange(event) {
             ok(true, "should trigger value change event");
+            equal(event.beforeValue, 'bar', "should set beforeValue property");
+            strictEqual(event.afterValue, undefined, "should set afterValue property");
         }
 
         input.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, onValueChange);

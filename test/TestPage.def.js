@@ -237,11 +237,14 @@ _addCheckboxInput: function (itemWidget) {
             },
 
             /**
-             * @param {$widget.WidgetEvent} event
+             * @param {$basicWidgets.InputStateChangeEvent} event
              * @ignore
              */
             onInputStateChange: function (event) {
-                console.info("input state changed", event.sender.instanceId);
+                console.info(
+                    "input state changed", event.sender.instanceId,
+                    "from", event.beforeValue,
+                    "to", event.afterValue);
             }
         });
 });

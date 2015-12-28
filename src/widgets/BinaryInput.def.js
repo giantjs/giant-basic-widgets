@@ -13,7 +13,6 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
 
     /**
      * TODO: Add surrogate?
-     * TODO: Include value in the state change event.
      * @class
      * @extends $basicWidgets.Input
      */
@@ -105,10 +104,14 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
              * @returns {$basicWidgets.Input}
              */
             setChecked: function (checked) {
-                var oldChecked = this.getChecked();
+                var oldChecked = this.getChecked(),
+                    inputValue = this.getInputValue();
                 if (checked !== oldChecked) {
                     this.addAttribute('checked', checked);
-                    this.triggerSync($basicWidgets.EVENT_INPUT_STATE_CHANGE);
+                    this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
+                        .setBeforeValue(oldChecked ? inputValue : undefined)
+                        .setAfterValue(checked ? inputValue : undefined)
+                        .triggerSync();
                 }
                 return this;
             },
@@ -120,8 +123,10 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
             clearChecked: function () {
                 var oldChecked = this.getChecked();
                 if (oldChecked !== undefined) {
-                    base.clearInputValue.call(this);
-                    this.triggerSync($basicWidgets.EVENT_INPUT_STATE_CHANGE);
+                    this.removeAttribute('checked');
+                    this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
+                        .setBeforeValue(this.getInputValue())
+                        .triggerSync();
                 }
                 return this;
             },
