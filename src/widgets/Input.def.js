@@ -8,7 +8,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
      * Creates an Input instance.
      * @name $basicWidgets.Input.create
      * @function
-     * @param {string} [inputType='text'] Type attribute of the input element.
+     * @param {string} inputType Type attribute of the input element.
      * @returns {$basicWidgets.Input}
      */
 
@@ -16,7 +16,6 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
      * TODO: Add before / after values to change events. (Possibly via specific event classes.)
      * TODO: Add name attribute getter / setter.
      * TODO: Add interface to associate label.
-     * TODO: Disallow undefined inputType.
      * TODO: Add disabling.
      * @class
      * @extends $widget.Widget
@@ -69,13 +68,11 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
         .addMethods(/** @lends $basicWidgets.Input# */{
             /**
              * TODO: Stricter checks for input type?
-             * @param {string} [inputType='text']
+             * @param {string} inputType
              * @ignore
              */
             init: function (inputType) {
-                $assertion.isStringOptional(inputType, "Invalid input type");
-
-                inputType = inputType || 'text';
+                $assertion.isString(inputType, "Invalid input type");
 
                 base.init.call(this);
                 this.setTagName('input');

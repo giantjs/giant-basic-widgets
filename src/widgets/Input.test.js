@@ -5,21 +5,22 @@
 
     test("Instantiation", function () {
         throws(function () {
+            $basicWidgets.Input.create();
+        }, "should raise exception on missing argument");
+
+        throws(function () {
             $basicWidgets.Input.create(1234);
         }, "should raise exception on invalid argument");
 
-        var input = $basicWidgets.Input.create();
+        var input = $basicWidgets.Input.create('text');
         equal(input.tagName, 'input', "should set tagName property to INPUT");
-        equal(input.htmlAttributes.getItem('type'), 'text', "should set default type");
-
-        equal($basicWidgets.Input.create('foo')
-            .htmlAttributes.getItem('type'), 'foo', "should set input type");
+        equal(input.htmlAttributes.getItem('type'), 'text', "should set input type");
     });
 
     test("Attribute addition override", function () {
         expect(6);
 
-        var input = $basicWidgets.Input.create(),
+        var input = $basicWidgets.Input.create('text'),
             inputElement = document.createElement('input');
 
         input.addMocks({
@@ -49,7 +50,7 @@
     test("Attribute removal override", function () {
         expect(5);
 
-        var input = $basicWidgets.Input.create(),
+        var input = $basicWidgets.Input.create('text'),
             inputElement = document.createElement('input');
 
         input.addMocks({
@@ -78,7 +79,7 @@
     test("Input type getter", function () {
         expect(2);
 
-        var input = $basicWidgets.Input.create(),
+        var input = $basicWidgets.Input.create('text'),
             attributeValue = {};
 
         input.htmlAttributes.addMocks({
@@ -95,7 +96,7 @@
     test("Input value setter", function () {
         expect(3);
 
-        var input = $basicWidgets.Input.create();
+        var input = $basicWidgets.Input.create('text');
 
         input.addMocks({
             addAttribute: function (attrName, attrValue) {
@@ -110,7 +111,7 @@
     test("Input value removal", function () {
         expect(2);
 
-        var input = $basicWidgets.Input.create();
+        var input = $basicWidgets.Input.create('text');
 
         input.addMocks({
             removeAttribute: function (attrName) {
@@ -124,7 +125,7 @@
     test("Input value getter", function () {
         expect(2);
 
-        var input = $basicWidgets.Input.create(),
+        var input = $basicWidgets.Input.create('text'),
             attributeValue = {};
 
         input.htmlAttributes.addMocks({
@@ -141,7 +142,7 @@
     test("Focusing", function () {
         expect(2);
 
-        var input = $basicWidgets.Input.create(),
+        var input = $basicWidgets.Input.create('text'),
             inputElement = document.createElement('input');
 
         input.addMocks({
@@ -160,7 +161,7 @@
     test("Blurring", function () {
         expect(2);
 
-        var input = $basicWidgets.Input.create(),
+        var input = $basicWidgets.Input.create('text'),
             inputElement = document.createElement('input');
 
         input.addMocks({
@@ -177,7 +178,7 @@
     });
 
     test("Focus getter", function () {
-        var input = $basicWidgets.Input.create(),
+        var input = $basicWidgets.Input.create('text'),
             inputElement = document.createElement('input');
 
         input.addMocks({
