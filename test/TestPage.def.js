@@ -197,7 +197,7 @@ _addCheckboxInput: function (itemWidget) {
 
                 this._addWidget(
                     this._addCheckboxInput,
-                    "widgetId.toWidget().setInputValue('checked')");
+                    "widgetId.toWidget().setChecked(true)");
             },
 
             /** @ignore */
