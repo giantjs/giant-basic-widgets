@@ -12,6 +12,7 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
      */
 
     /**
+     * Implements checkbox or radio button.
      * TODO: Add surrogate?
      * @class
      * @extends $basicWidgets.Input

@@ -12,6 +12,7 @@ $oop.postpone($basicWidgets, 'DirectInput', function (ns, cn) {
      */
 
     /**
+     * Implements text-based inputs such as text, password, email, etc.
      * @class
      * @extends $basicWidgets.Input
      */
