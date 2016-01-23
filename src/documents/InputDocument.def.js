@@ -19,28 +19,11 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
     $basicWidgets.InputDocument = self
         .addMethods(/** @lends $basicWidgets.InputDocument# */{
             /**
-             * @param {string} description
-             * @returns {$basicWidgets.InputDocument}
-             */
-            setDescription: function (description) {
-                this.getField('description').setValue(description);
-                return this;
-            },
-
-            /**
-             * Retrieves description string associated with input.
-             * @returns {string}
-             */
-            getDescription: function () {
-                return this.getField('description').getValue();
-            },
-
-            /**
              * @param {string} groupId
              * @returns {$basicWidgets.InputDocument}
              */
-            setGroupId: function (groupId) {
-                this.getField('groupId').setValue(groupId);
+            setInputName: function (groupId) {
+                this.getField('name').setValue(groupId);
                 return this;
             },
 
@@ -48,15 +31,15 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
              * Retrieves group ID associated with input.
              * @returns {string}
              */
-            getGroupId: function () {
-                return this.getField('groupId').getValue();
+            getInputName: function () {
+                return this.getField('name').getValue();
             },
 
             /**
              * @param {*} value
              * @returns {$basicWidgets.InputDocument}
              */
-            setValue: function (value) {
+            setInputValue: function (value) {
                 this.getField('value').setValue(value);
                 return this;
             },
@@ -65,7 +48,7 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
              * Retrieves current value associated with input.
              * @returns {*}
              */
-            getValue: function () {
+            getInputValue: function () {
                 return this.getField('value').getValue();
             }
         });

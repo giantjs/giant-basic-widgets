@@ -112,6 +112,24 @@ _addTextInput: function (itemWidget) {
 },
 
 /** @private */
+_addDataTextInput: function (itemWidget) {
+    // setting input properties
+    'input/1'.toDocument().setNode({
+        name: 'foo'
+    });
+
+    // creating a label for the input
+    var label = $basicWidgets.Text.create()
+        .setChildName('A-label')
+        .setContentString("Message")
+        .setContainerCssClass('widget-container')
+        .addToParent(itemWidget);
+
+    return $basicWidgets.DataDirectInput.create('input/1'.toDocumentKey(), 'form/1/values'.toFieldKey())
+        .linkLabelWidget(label);
+},
+
+/** @private */
 _addCheckboxInput: function (itemWidget) {
     // creating a label for the input
     var label = $basicWidgets.Text.create()
@@ -197,6 +215,10 @@ _addCheckboxInput: function (itemWidget) {
                 this._addWidget(
                     this._addTextInput,
                     "widgetId.toWidget().setInputValue('foo')");
+
+                this._addWidget(
+                    this._addDataTextInput,
+                    "'form/1/values/foo'.toItem().setValue('Hello World!')");
 
                 this._addWidget(
                     this._addCheckboxInput,
