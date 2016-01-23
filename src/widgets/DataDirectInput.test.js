@@ -115,7 +115,7 @@
     });
 
     test("Name field change handler", function () {
-        expect(2);
+        expect(1);
 
         var input = $basicWidgets.DataDirectInput.create(
             'input/1'.toDocumentKey(),
@@ -124,10 +124,6 @@
         input.afterAdd();
 
         input.addMocks({
-            _updateDisabledState: function () {
-                ok(true, "should update disabled state");
-            },
-
             _syncInputNameToEntity: function () {
                 ok(true, "should sync input name to entity");
             }

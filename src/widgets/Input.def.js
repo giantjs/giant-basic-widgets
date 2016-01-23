@@ -66,11 +66,22 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
             },
 
             /** @private */
-            _updateInputEnabledState: function () {
+            _updateDisabledAttribute: function () {
                 if (this.isDisabled()) {
                     this.addAttribute('disabled', 'disabled');
                 } else {
                     this.removeAttribute('disabled');
+                }
+            },
+
+            /** @private */
+            _updateDisabledState: function () {
+                var inputName = this.getInputName();
+
+                if (inputName) {
+                    this.enableBy('input-name-availability');
+                } else {
+                    this.disableBy('input-name-availability');
                 }
             }
         })
@@ -99,6 +110,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
             /** @ignore */
             afterAdd: function () {
                 base.afterAdd.call(this);
+                this._updateDisabledState();
                 $basicWidgets.BinaryStateful.afterAdd.call(this);
             },
 
@@ -121,7 +133,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
             afterStateOn: function (stateName) {
                 $basicWidgets.Disableable.afterStateOn.call(this, stateName);
                 if (stateName === self.STATE_NAME_DISABLED) {
-                    this._updateInputEnabledState();
+                    this._updateDisabledAttribute();
                 }
             },
 
@@ -129,7 +141,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
             afterStateOff: function (stateName) {
                 $basicWidgets.Disableable.afterStateOff.call(this, stateName);
                 if (stateName === self.STATE_NAME_DISABLED) {
-                    this._updateInputEnabledState();
+                    this._updateDisabledAttribute();
                 }
             },
 
@@ -215,6 +227,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
              */
             setInputName: function (inputName) {
                 this.addAttribute('name', inputName);
+                this._updateDisabledState();
                 return this;
             },
 
@@ -224,6 +237,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
              */
             clearInputName: function () {
                 this.removeAttribute('name');
+                this._updateDisabledState();
                 return this;
             },
 

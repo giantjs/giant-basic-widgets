@@ -21,18 +21,6 @@ $oop.postpone($basicWidgets, 'DataDirectInput', function (ns, cn) {
     $basicWidgets.DataDirectInput = self
         .addPrivateMethods(/** @lends $basicWidgets.DataDirectInput# */{
             /** @private */
-            _updateDisabledState: function () {
-                var inputDocument = this.entityKey.toDocument(),
-                    inputName = inputDocument.getInputName();
-
-                if (inputName) {
-                    this.enableBy('input-name-availability');
-                } else {
-                    this.disableBy('input-name-availability');
-                }
-            },
-
-            /** @private */
             _syncInputNameToEntity: function () {
                 var inputDocument = this.entityKey.toDocument(),
                     inputName = inputDocument.getInputName();
@@ -100,7 +88,7 @@ $oop.postpone($basicWidgets, 'DataDirectInput', function (ns, cn) {
             /** @ignore */
             afterAdd: function () {
                 base.afterAdd.call(this);
-                this._updateDisabledState();
+                this._syncInputNameToEntity();
                 this._syncInputValueToEntity();
 
                 this
@@ -146,7 +134,6 @@ $oop.postpone($basicWidgets, 'DataDirectInput', function (ns, cn) {
 
             /** @ignore */
             onNameFieldChange: function () {
-                this._updateDisabledState();
                 this._syncInputNameToEntity();
             }
         });

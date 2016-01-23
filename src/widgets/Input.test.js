@@ -23,8 +23,8 @@
         var input = $basicWidgets.Input.create('text');
 
         input.addMocks({
-            _updateInputEnabledState: function () {
-                ok(true, "should update enabled state");
+            _updateDisabledAttribute: function () {
+                ok(true, "should update disabled attribute");
             }
         });
 
@@ -38,8 +38,8 @@
             .disableBy('foo');
 
         input.addMocks({
-            _updateInputEnabledState: function () {
-                ok(true, "should update enabled state");
+            _updateDisabledAttribute: function () {
+                ok(true, "should update disabled attribute");
             }
         });
 
@@ -179,18 +179,30 @@
     });
 
     test("Input name setter", function () {
+        expect(3);
+
         var input = $basicWidgets.Input.create('text');
+
+        input.addMocks({
+            _updateDisabledState: function () {
+                ok(true, "should update disbled state");
+            }
+        });
 
         strictEqual(input.setInputName('foo'), input, "should be chainable");
         equal(input.htmlAttributes.getItem('name'), 'foo', "should set name attribute");
     });
 
     test("Input name removal", function () {
-        expect(2);
+        expect(3);
 
         var input = $basicWidgets.Input.create('text');
 
         input.addMocks({
+            _updateDisabledState: function () {
+                ok(true, "should update disbled state");
+            },
+
             removeAttribute: function (attrName) {
                 equal(attrName, 'name', "should remove name attribute");
             }
