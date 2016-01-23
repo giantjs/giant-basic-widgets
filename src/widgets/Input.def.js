@@ -219,6 +219,15 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
             },
 
             /**
+             * Clears input name attribute.
+             * @returns {$basicWidgets.Input}
+             */
+            clearInputName: function () {
+                this.removeAttribute('name');
+                return this;
+            },
+
+            /**
              * @returns {string}
              */
             getInputName: function () {

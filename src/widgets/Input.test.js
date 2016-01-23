@@ -178,14 +178,28 @@
             "should forward value returned by htmlAttributes");
     });
 
-    test("Name setter", function () {
+    test("Input name setter", function () {
         var input = $basicWidgets.Input.create('text');
 
         strictEqual(input.setInputName('foo'), input, "should be chainable");
         equal(input.htmlAttributes.getItem('name'), 'foo', "should set name attribute");
     });
 
-    test("Name getter", function () {
+    test("Input name removal", function () {
+        expect(2);
+
+        var input = $basicWidgets.Input.create('text');
+
+        input.addMocks({
+            removeAttribute: function (attrName) {
+                equal(attrName, 'name', "should remove name attribute");
+            }
+        });
+
+        strictEqual(input.clearInputName(), input, "should be chainable");
+    });
+
+    test("Input name getter", function () {
         var input = $basicWidgets.Input.create('text')
             .setInputName('foo');
 
