@@ -3,7 +3,8 @@ $oop.postpone($basicWidgets, 'DataDirectInput', function (ns, cn) {
 
     var base = $basicWidgets.DirectInput,
         self = base.extend(cn)
-            .addTrait($basicWidgets.EntityWidget);
+            .addTrait($basicWidgets.EntityWidget)
+            .addTraitAndExtend($basicWidgets.EntityInput);
 
     /**
      * @name $basicWidgets.DataDirectInput.create
@@ -17,36 +18,10 @@ $oop.postpone($basicWidgets, 'DataDirectInput', function (ns, cn) {
      * @class
      * @extends $basicWidgets.DirectInput
      * @extends $basicWidgets.EntityWidget
+     * @extends $basicWidgets.EntityInput
      */
     $basicWidgets.DataDirectInput = self
         .addPrivateMethods(/** @lends $basicWidgets.DataDirectInput# */{
-            /** @private */
-            _syncInputNameToEntity: function () {
-                var inputDocument = this.entityKey.toDocument(),
-                    inputName = inputDocument.getInputName();
-
-                if (inputName) {
-                    this.setInputName(inputName);
-                } else {
-                    this.clearInputName();
-                }
-            },
-
-            /**
-             * Syncs input value to value entity.
-             * @private
-             */
-            _syncInputValueToEntity: function () {
-                var inputDocument = this.entityKey.toDocument(),
-                    inputValue = inputDocument.getInputValue();
-
-                if (typeof inputValue !== 'undefined') {
-                    this.setInputValue($utils.Stringifier.stringify(inputValue));
-                } else {
-                    this.clearInputValue();
-                }
-            },
-
             /** @private */
             _syncEntityToInputValue: function () {
                 var inputDocument = this.entityKey.toDocument();
@@ -72,34 +47,20 @@ $oop.postpone($basicWidgets, 'DataDirectInput', function (ns, cn) {
             /** @ignore */
             afterAdd: function () {
                 base.afterAdd.call(this);
-                this._syncInputNameToEntity();
-                this._syncInputValueToEntity();
+                $basicWidgets.EntityInput.afterAdd.call(this);
 
-                this
-                    .subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, this.onInputStateChange)
-                    .bindToDelegatedEntityChange(this.entityKey.getFieldKey('name'), 'onNameFieldChange')
-                    .bindToDelegatedEntityChange(this.entityKey.getFieldKey('value'), 'onValueFieldChange');
+                this.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, this.onInputStateChange);
             },
 
             /** @ignore */
             afterRemove: function () {
                 base.afterRemove.call(this);
-                this.unbindAll();
+                $basicWidgets.EntityInput.afterRemove.call(this);
             },
 
             /** @ignore */
             onInputStateChange: function () {
                 this._syncEntityToInputValue();
-            },
-
-            /** @ignore */
-            onValueFieldChange: function () {
-                this._syncInputValueToEntity();
-            },
-
-            /** @ignore */
-            onNameFieldChange: function () {
-                this._syncInputNameToEntity();
             }
         });
 });

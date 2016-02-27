@@ -3,12 +3,13 @@ $oop.postpone($basicWidgets, 'DataBinaryInput', function (ns, cn) {
 
     var base = $basicWidgets.BinaryInput,
         self = base.extend(cn)
-            .addTrait($basicWidgets.EntityWidget);
+            .addTrait($basicWidgets.EntityWidget)
+            .addTraitAndExtend($basicWidgets.EntityInput);
 
     /**
      * @name $basicWidgets.DataBinaryInput.create
      * @function
-     * @param {string} [inputType='checkbox']
+     * @param {string} [inputType]
      * @param {$entity.DocumentKey} inputKey
      * @returns {$basicWidgets.DataBinaryInput}
      */
@@ -17,33 +18,10 @@ $oop.postpone($basicWidgets, 'DataBinaryInput', function (ns, cn) {
      * @class
      * @extends $basicWidgets.BinaryInput
      * @extends $basicWidgets.EntityWidget
+     * @extends $basicWidgets.EntityInput
      */
     $basicWidgets.DataBinaryInput = self
         .addPrivateMethods(/** @lends $basicWidgets.DataBinaryInput# */{
-            /** @private */
-            _syncInputNameToEntity: function () {
-                var inputDocument = this.entityKey.toDocument(),
-                    inputName = inputDocument.getInputName();
-
-                if (inputName) {
-                    this.setInputName(inputName);
-                } else {
-                    this.clearInputName();
-                }
-            },
-
-            /** @private */
-            _syncInputValueToEntity: function () {
-                var inputDocument = this.entityKey.toDocument(),
-                    inputValue = inputDocument.getInputValue();
-
-                if (typeof inputValue !== 'undefined') {
-                    this.setInputValue(inputValue);
-                } else {
-                    this.clearInputValue();
-                }
-            },
-
             /**
              * Syncs input value to value entity.
              * @private
@@ -66,7 +44,7 @@ $oop.postpone($basicWidgets, 'DataBinaryInput', function (ns, cn) {
         })
         .addMethods(/** @lends $basicWidgets.DataBinaryInput# */{
             /**
-             * @param {string} [inputType='checkbox']
+             * @param {string} [inputType]
              * @param {$entity.DocumentKey} inputKey
              * @ignore
              */
@@ -83,36 +61,26 @@ $oop.postpone($basicWidgets, 'DataBinaryInput', function (ns, cn) {
             /** @ignore */
             afterAdd: function () {
                 base.afterAdd.call(this);
-                this._syncInputNameToEntity();
-                this._syncInputValueToEntity();
+                $basicWidgets.EntityInput.afterAdd.call(this);
+
                 this._syncInputStateToEntity();
 
                 this
                     .subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, this.onInputStateChange)
-                    .bindToDelegatedEntityChange(this.entityKey.getFieldKey('name'), 'onNameFieldChange')
-                    .bindToDelegatedEntityChange(this.entityKey.getFieldKey('value'), 'onValueFieldChange')
                     .bindToDelegatedEntityChange(this.entityKey.getFieldKey('state'), 'onStateFieldChange');
             },
 
             /** @ignore */
             afterRemove: function () {
                 base.afterRemove.call(this);
-                this.unbindAll();
+                $basicWidgets.EntityInput.afterRemove.call(this);
+
+                this.unbindFromDelegatedEntityChange(this.entityKey.getFieldKey('state'), 'onStateFieldChange');
             },
 
             /** @ignore */
             onInputStateChange: function () {
                 this._syncEntityToInputState();
-            },
-
-            /** @ignore */
-            onNameFieldChange: function () {
-                this._syncInputNameToEntity();
-            },
-
-            /** @ignore */
-            onValueFieldChange: function () {
-                this._syncInputValueToEntity();
             },
 
             /** @ignore */

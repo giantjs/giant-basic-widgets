@@ -36,52 +36,6 @@
         checkbox.afterRemove();
     });
 
-    test("Name change handler", function () {
-        expect(1);
-
-        var checkbox = $basicWidgets.DataBinaryInput.create('checkbox', 'input/1'.toDocumentKey());
-
-        'input/1'.toDocument().unsetNode();
-
-        checkbox.afterAdd();
-
-        checkbox.addMocks({
-            _syncInputNameToEntity: function () {
-                ok(true, "should sync name in entity to input");
-            }
-        });
-
-        'input/1'.toDocument()
-            .setNode({
-                name: 'foo'
-            });
-
-        checkbox.afterRemove();
-    });
-
-    test("Value change handler", function () {
-        expect(1);
-
-        var checkbox = $basicWidgets.DataBinaryInput.create('checkbox', 'input/1'.toDocumentKey());
-
-        'input/1'.toDocument().unsetNode();
-
-        checkbox.afterAdd();
-
-        checkbox.addMocks({
-            _syncInputValueToEntity: function () {
-                ok(true, "should sync value in entity to input");
-            }
-        });
-
-        'input/1'.toDocument()
-            .setNode({
-                value: 'foo'
-            });
-
-        checkbox.afterRemove();
-    });
-
     test("State change handler", function () {
         expect(1);
 
