@@ -39,4 +39,37 @@
             inputs: {}
         }, "should remove item from values collection");
     });
+
+    test("Value extraction", function () {
+        'input/1'.toDocument()
+            .setNode({
+                name : 'foo',
+                value: 1
+            });
+        'input/2'.toDocument()
+            .setNode({
+                name : 'foo',
+                value: 2
+            });
+        'input/3'.toDocument()
+            .setNode({
+                name : 'bar',
+                value: "Hello World"
+            });
+
+        'form/1'.toDocument()
+            .unsetNode()
+            .addInput('input/1'.toDocumentKey())
+            .addInput('input/2'.toDocumentKey())
+            .addInput('input/3'.toDocumentKey());
+
+        var inputValues = 'form/1'.toDocument().getInputValues();
+
+        ok(inputValues.isA($data.Dictionary), "should return Dictionary instance");
+
+        deepEqual(inputValues.items, {
+            foo: [1, 2],
+            bar: "Hello World"
+        }, "should return name-value associations");
+    });
 }());

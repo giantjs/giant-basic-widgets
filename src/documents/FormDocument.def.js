@@ -12,7 +12,6 @@ $oop.postpone($basicWidgets, 'FormDocument', function () {
      */
 
     /**
-     * TODO: Add name - value association extractor.
      * @class
      * @extends $entity.Document
      */
@@ -38,6 +37,26 @@ $oop.postpone($basicWidgets, 'FormDocument', function () {
                 var inputRef = inputKey.toString();
                 this.getField('inputs').getItem(inputRef).unsetKey();
                 return this;
+            },
+
+            /**
+             * Extracts values from inputs associated with the form.
+             * TODO: Take state into consideration.
+             * @returns {$data.Dictionary}
+             */
+            getInputValues: function () {
+                var result = $data.Dictionary.create();
+
+                this.getField('inputs').getItemsAsCollection()
+                    .forEachItem(function (inputRef) {
+                        var inputDocument = inputRef.toDocument(),
+                            inputName = inputDocument.getInputName(),
+                            inputValue = inputDocument.getInputValue();
+
+                        result.addItem(inputName, inputValue);
+                    });
+
+                return result;
             }
         });
 });
