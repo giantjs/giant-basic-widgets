@@ -41,3 +41,13 @@
     content: "hint:";
     margin-right: 0.5ex;
 }
+
+.TestListItem > .widget-container * {
+    vertical-align: top;
+}
+
+.TestListItem > .widget-container input + label,
+.TestListItem > .widget-container label + input,
+.TestListItem > .widget-container label + textarea {
+    margin: 0 0 0 0.5em;
+}

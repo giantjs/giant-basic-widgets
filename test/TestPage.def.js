@@ -106,8 +106,22 @@ _addTextInput: function (itemWidget) {
         .setContainerCssClass('widget-container')
         .addToParent(itemWidget);
 
-    return $basicWidgets.DirectInput.create()
+    return $basicWidgets.DirectInput.create('text')
         .setInputName('name')
+        .linkLabelWidget(label);
+},
+
+/** @private */
+_addTextArea: function (itemWidget) {
+    // creating a label for the input
+    var label = $basicWidgets.Text.create()
+        .setChildName('A-label')
+        .setContentString("Description")
+        .setContainerCssClass('widget-container')
+        .addToParent(itemWidget);
+
+    return $basicWidgets.TextArea.create()
+        .setInputName('description')
         .linkLabelWidget(label);
 },
 
@@ -126,7 +140,7 @@ _addDataTextInput: function (itemWidget) {
         .setContainerCssClass('widget-container')
         .addToParent(itemWidget);
 
-    return $basicWidgets.DataDirectInput.create('input/1'.toDocumentKey())
+    return $basicWidgets.DataDirectInput.create('text', 'input/1'.toDocumentKey())
         .linkLabelWidget(label);
 },
 
@@ -240,6 +254,10 @@ _addDataCheckboxInput: function (itemWidget) {
                 this._addWidget(
                     this._addDataTextInput,
                     "'input/1/value'.toField().setValue('Hello World!')");
+
+                this._addWidget(
+                    this._addTextArea,
+                    "widgetId.toWidget().setInputValue('foo')");
 
                 this._addWidget(
                     this._addCheckboxInput,
