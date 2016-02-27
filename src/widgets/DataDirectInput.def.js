@@ -9,7 +9,6 @@ $oop.postpone($basicWidgets, 'DataDirectInput', function (ns, cn) {
      * @name $basicWidgets.DataDirectInput.create
      * @function
      * @param {$entity.DocumentKey} inputKey
-     * @param {$entity.FieldKey} formValuesKey
      * @returns {$basicWidgets.DataDirectInput}
      */
 
@@ -38,13 +37,9 @@ $oop.postpone($basicWidgets, 'DataDirectInput', function (ns, cn) {
              */
             _syncInputValueToEntity: function () {
                 var inputDocument = this.entityKey.toDocument(),
-                    inputName = inputDocument.getInputName(),
-                    formValueKey,
-                    inputValue;
+                    inputValue = inputDocument.getInputValue();
 
-                if (inputName) {
-                    formValueKey = this.formValuesKey.getItemKey(inputName);
-                    inputValue = formValueKey.toItem().getValue();
+                if (typeof inputValue !== 'undefined') {
                     this.setInputValue($utils.Stringifier.stringify(inputValue));
                 } else {
                     this.clearInputValue();
@@ -53,36 +48,23 @@ $oop.postpone($basicWidgets, 'DataDirectInput', function (ns, cn) {
 
             /** @private */
             _syncEntityToInputValue: function () {
-                var inputDocument = this.entityKey.toDocument(),
-                    inputName = inputDocument.getInputName();
-
-                if (inputName) {
-                    this.formValuesKey.getItemKey(inputName).toItem()
-                        .setValue(this.getInputValue());
-                }
+                var inputDocument = this.entityKey.toDocument();
+                inputDocument.setInputValue(this.getInputValue());
             }
         })
         .addMethods(/** @lends $basicWidgets.DataDirectInput# */{
             /**
              * @param {$entity.DocumentKey} inputKey
-             * @param {$entity.FieldKey} formValuesKey
              * @ignore
              */
-            init: function (inputKey, formValuesKey) {
+            init: function (inputKey) {
                 $assertion
-                    .isDocumentKey(inputKey, "Invalid input key")
-                    .isFieldKey(formValuesKey, "Invalid values key");
+                    .isDocumentKey(inputKey, "Invalid input key");
 
                 base.init.call(this);
                 $basicWidgets.EntityWidget.init.call(this, inputKey);
 
                 this.elevateMethod('onInputStateChange');
-
-                /**
-                 * Identifies collection holding form values.
-                 * @type {$entity.FieldKey}
-                 */
-                this.formValuesKey = formValuesKey;
             },
 
             /** @ignore */
@@ -94,32 +76,13 @@ $oop.postpone($basicWidgets, 'DataDirectInput', function (ns, cn) {
                 this
                     .subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, this.onInputStateChange)
                     .bindToDelegatedEntityChange(this.entityKey.getFieldKey('name'), 'onNameFieldChange')
-                    .bindToEntityChange(this.formValuesKey, 'onFormValuesChange');
+                    .bindToDelegatedEntityChange(this.entityKey.getFieldKey('value'), 'onValueFieldChange');
             },
 
             /** @ignore */
-            afterRemove: function() {
+            afterRemove: function () {
                 base.afterRemove.call(this);
                 this.unbindAll();
-            },
-
-            /**
-             * @param {string} inputName
-             * @returns {$basicWidgets.DataDirectInput}
-             */
-            setInputName: function (inputName) {
-                base.setInputName.call(this, inputName);
-                this._syncInputValueToEntity();
-                return this;
-            },
-
-            /**
-             * @returns {$basicWidgets.DataDirectInput}
-             */
-            clearInputName: function () {
-                base.clearInputName.call(this);
-                this._syncInputValueToEntity();
-                return this;
             },
 
             /** @ignore */
@@ -128,7 +91,7 @@ $oop.postpone($basicWidgets, 'DataDirectInput', function (ns, cn) {
             },
 
             /** @ignore */
-            onFormValuesChange: function () {
+            onValueFieldChange: function () {
                 this._syncInputValueToEntity();
             },
 

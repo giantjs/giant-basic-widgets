@@ -115,7 +115,8 @@ _addTextInput: function (itemWidget) {
 _addDataTextInput: function (itemWidget) {
     // setting input properties
     'input/1'.toDocument().setNode({
-        name: 'foo'
+        name: 'message',
+        value: "This is an entity bound input"
     });
 
     // creating a label for the input
@@ -125,7 +126,7 @@ _addDataTextInput: function (itemWidget) {
         .setContainerCssClass('widget-container')
         .addToParent(itemWidget);
 
-    return $basicWidgets.DataDirectInput.create('input/1'.toDocumentKey(), 'form/1/values'.toFieldKey())
+    return $basicWidgets.DataDirectInput.create('input/1'.toDocumentKey())
         .linkLabelWidget(label);
 },
 
@@ -238,7 +239,7 @@ _addDataCheckboxInput: function (itemWidget) {
 
                 this._addWidget(
                     this._addDataTextInput,
-                    "'form/1/values/foo'.toItem().setValue('Hello World!')");
+                    "'input/1/value'.toField().setValue('Hello World!')");
 
                 this._addWidget(
                     this._addCheckboxInput,

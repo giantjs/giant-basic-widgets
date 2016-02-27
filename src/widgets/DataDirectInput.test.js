@@ -13,70 +13,16 @@
         }, "should raise exception on invalid arguments");
 
         var input = $basicWidgets.DataDirectInput.create(
-            'input/1'.toDocumentKey(),
-            'form/1/values'.toFieldKey());
+            'input/1'.toDocumentKey());
 
         ok(input.entityKey.equals('input/1'.toDocumentKey()),
             "should set entityKey property");
-        ok(input.formValuesKey.equals('form/1/values'.toFieldKey()),
-            "should set formValuesKey property");
     });
-
-    test("Input name setter", function () {
-        expect(4);
-
-        var input = $basicWidgets.DataDirectInput.create(
-            'input/1'.toDocumentKey(),
-            'form/1/values'.toFieldKey());
-
-        $basicWidgets.DirectInput.addMocks({
-            setInputName: function (inputName) {
-                strictEqual(this, input, "should set input name on input");
-                equal(inputName, 'foo', "should pass input name to setter");
-            }
-        });
-
-        input.addMocks({
-            _syncInputValueToEntity: function () {
-                ok(true, "should sync input value to value entity");
-            }
-        });
-
-        strictEqual(input.setInputName('foo'), input, "should be chainable");
-
-        $basicWidgets.DirectInput.removeMocks();
-    });
-
-    test("Input name removal", function () {
-        expect(3);
-
-        var input = $basicWidgets.DataDirectInput.create(
-            'input/1'.toDocumentKey(),
-            'form/1/values'.toFieldKey());
-
-        $basicWidgets.DirectInput.addMocks({
-            clearInputName: function () {
-                strictEqual(this, input, "should clear input name on input");
-            }
-        });
-
-        input.addMocks({
-            _syncInputValueToEntity: function () {
-                ok(true, "should sync input value to value entity");
-            }
-        });
-
-        strictEqual(input.clearInputName(), input, "should be chainable");
-
-        $basicWidgets.DirectInput.removeMocks();
-    });
-
-    test("Input state change handler", function () {
+    
+    test("Input state handler", function () {
         expect(1);
 
-        var input = $basicWidgets.DataDirectInput.create(
-            'input/1'.toDocumentKey(),
-            'form/1/values'.toFieldKey());
+        var input = $basicWidgets.DataDirectInput.create('input/1'.toDocumentKey());
 
         input.afterAdd();
 
@@ -91,12 +37,12 @@
         input.afterRemove();
     });
 
-    test("Form values change handler", function () {
+    test("Value change handler", function () {
         expect(1);
 
-        var input = $basicWidgets.DataDirectInput.create(
-            'input/1'.toDocumentKey(),
-            'form/1/values'.toFieldKey());
+        var input = $basicWidgets.DataDirectInput.create('input/1'.toDocumentKey());
+
+        'input/1'.toDocument().unsetNode();
 
         input.afterAdd();
 
@@ -106,20 +52,15 @@
             }
         });
 
-        'form/1/values'.toField().setValue({
-            foo: 'bar',
-            baz: 'quux'
-        });
+        'input/1'.toDocument().setInputValue('bar');
 
         input.afterRemove();
     });
 
-    test("Name field change handler", function () {
+    test("Name change handler", function () {
         expect(1);
 
-        var input = $basicWidgets.DataDirectInput.create(
-            'input/1'.toDocumentKey(),
-            'form/1/values'.toFieldKey());
+        var input = $basicWidgets.DataDirectInput.create('input/1'.toDocumentKey());
 
         'input/1'.toDocument().unsetNode();
 
