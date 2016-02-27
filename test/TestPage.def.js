@@ -112,20 +112,6 @@ _addTextInput: function (itemWidget) {
 },
 
 /** @private */
-_addTextArea: function (itemWidget) {
-    // creating a label for the input
-    var label = $basicWidgets.Text.create()
-        .setChildName('A-label')
-        .setContentString("Description")
-        .setContainerCssClass('widget-container')
-        .addToParent(itemWidget);
-
-    return $basicWidgets.TextArea.create()
-        .setInputName('description')
-        .linkLabelWidget(label);
-},
-
-/** @private */
 _addDataTextInput: function (itemWidget) {
     // setting input properties
     'input/1'.toDocument().setNode({
@@ -141,6 +127,39 @@ _addDataTextInput: function (itemWidget) {
         .addToParent(itemWidget);
 
     return $basicWidgets.DataDirectInput.create('text', 'input/1'.toDocumentKey())
+        .linkLabelWidget(label);
+},
+
+/** @private */
+_addTextArea: function (itemWidget) {
+    // creating a label for the input
+    var label = $basicWidgets.Text.create()
+        .setChildName('A-label')
+        .setContentString("Description")
+        .setContainerCssClass('widget-container')
+        .addToParent(itemWidget);
+
+    return $basicWidgets.TextArea.create()
+        .setInputName('description')
+        .linkLabelWidget(label);
+},
+
+/** @private */
+_addDataTextArea: function (itemWidget) {
+    // setting input properties
+    'input/3'.toDocument().setNode({
+        name: 'synopsis',
+        value: "This is an entity bound textarea"
+    });
+
+    // creating a label for the input
+    var label = $basicWidgets.Text.create()
+        .setChildName('A-label')
+        .setContentString("Synopsis")
+        .setContainerCssClass('widget-container')
+        .addToParent(itemWidget);
+
+    return $basicWidgets.DataTextArea.create('input/3'.toDocumentKey())
         .linkLabelWidget(label);
 },
 
@@ -258,6 +277,10 @@ _addDataCheckboxInput: function (itemWidget) {
                 this._addWidget(
                     this._addTextArea,
                     "widgetId.toWidget().setInputValue('foo')");
+
+                this._addWidget(
+                    this._addDataTextArea,
+                    "'input/3/value'.toField().setValue('Hello World!')");
 
                 this._addWidget(
                     this._addCheckboxInput,
