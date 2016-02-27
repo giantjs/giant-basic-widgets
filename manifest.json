@@ -14,6 +14,7 @@
         "src/widgets/Application.def.js",
         "src/widgets/BinaryInput.def.js",
         "src/widgets/Button.def.js",
+        "src/widgets/DataBinaryInput.def.js",
         "src/widgets/DataDirectInput.def.js",
         "src/widgets/DataHyperlink.def.js",
         "src/widgets/DataImage.def.js",

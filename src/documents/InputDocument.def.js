@@ -12,6 +12,8 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
      */
 
     /**
+     * Represents the state of an input component.
+     * Not every input has value of their own. (Only binary inputs?)
      * TODO: Add tests for getter-setters.
      * @class
      * @extends $entity.Document
@@ -50,6 +52,22 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
              */
             getInputValue: function () {
                 return this.getField('value').getValue();
+            },
+
+            /**
+             * @param {*} state
+             * @returns {$basicWidgets.InputDocument}
+             */
+            setInputState: function (state) {
+                this.getField('state').setValue(state);
+                return this;
+            },
+
+            /**
+             * @returns {*}
+             */
+            getInputState: function () {
+                return this.getField('state').getValue();
             }
         });
 });
@@ -66,6 +84,7 @@ $oop.amendPostponed($entity, 'Document', function () {
 (function () {
     "use strict";
 
+    // TODO: Are these necessary?
     $assertion.addTypes(/** @lends $assertion */{
         /** @param {$basicWidgets.InputDocument} expr */
         isInputDocument: function (expr) {

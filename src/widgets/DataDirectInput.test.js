@@ -121,6 +121,8 @@
             'input/1'.toDocumentKey(),
             'form/1/values'.toFieldKey());
 
+        'input/1'.toDocument().unsetNode();
+
         input.afterAdd();
 
         input.addMocks({

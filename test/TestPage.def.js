@@ -143,6 +143,26 @@ _addCheckboxInput: function (itemWidget) {
         .setInputValue('Yes')
         .linkLabelWidget(label);
 },
+
+/** @private */
+_addDataCheckboxInput: function (itemWidget) {
+    // setting input properties
+    'input/2'.toDocument().setNode({
+        name: 'abilities',
+        value: 'jumps',
+        state: true
+    });
+
+    // creating a label for the input
+    var label = $basicWidgets.Text.create()
+        .setChildName('z-label')
+        .setContentString("Jumps")
+        .setContainerCssClass('widget-container')
+        .addToParent(itemWidget);
+
+    return $basicWidgets.DataBinaryInput.create('checkbox', 'input/2'.toDocumentKey())
+        .linkLabelWidget(label);
+},
             //@formatter:on
 
             /**
@@ -223,6 +243,10 @@ _addCheckboxInput: function (itemWidget) {
                 this._addWidget(
                     this._addCheckboxInput,
                     "widgetId.toWidget().setChecked(true)");
+
+                this._addWidget(
+                    this._addDataCheckboxInput,
+                    "'input/2/state'.toField().setValue(false)");
             },
 
             /** @ignore */
