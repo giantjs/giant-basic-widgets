@@ -8,48 +8,35 @@
             "should return FormDocument instance for 'input' document type");
     });
 
-    test("Input value setter", function () {
+    test("Adding input", function () {
         var document = 'form/1'.toDocument();
 
         // clearing document contents
         document.unsetNode();
 
-        document.setInputValue('input/1'.toDocumentKey(), "Hello World!");
+        document.addInput('input/1'.toDocumentKey());
 
         deepEqual('form/1'.toDocument().getNode(), {
-            values: {
-                'input/1': "Hello World!"
+            inputs: {
+                'input/1': 'input/1'
             }
         }, "should set item in values collection");
     });
 
-    test("Clearing input value", function () {
+    test("Removing input", function () {
         var document = 'form/1'.toDocument();
 
         // initializing document contents
         document.setNode({
-            values: {
-                'input/1': "Hello World!"
+            inputs: {
+                'input/1': 'input/1'
             }
         });
 
-        document.clearInputValue('input/1'.toDocumentKey());
+        document.removeInput('input/1'.toDocumentKey());
 
         deepEqual('form/1'.toDocument().getNode(), {
-            values: {}
+            inputs: {}
         }, "should remove item from values collection");
-    });
-
-    test("Input value getter", function () {
-        var document = 'form/1'.toDocument();
-
-        // initializing document contents
-        document.setNode({
-            values: {
-                'input/1': "Hello World!"
-            }
-        });
-
-        equal(document.getInputValue('input/1'.toDocumentKey()), "Hello World!");
     });
 }());

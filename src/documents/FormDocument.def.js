@@ -19,33 +19,25 @@ $oop.postpone($basicWidgets, 'FormDocument', function () {
     $basicWidgets.FormDocument = self
         .addMethods(/** @lends $basicWidgets.FormDocument# */{
             /**
-             * Sets value associated with a specific input.
-             * @param {$entity.DocumentKey} inputKey Identifies input
-             * @param {*} inputValue Value associated with input
+             * Adds input to form.
+             * @param {$entity.DocumentKey} inputKey
              * @returns {$basicWidgets.FormDocument}
              */
-            setInputValue: function (inputKey, inputValue) {
-                this.getField('values').getItem(inputKey.toString()).setValue(inputValue);
+            addInput: function (inputKey) {
+                var inputRef = inputKey.toString();
+                this.getField('inputs').getItem(inputRef).setValue(inputRef);
                 return this;
             },
 
             /**
-             * Clears value associated with a specific input.
+             * Removes item from the form.
              * @param {$entity.DocumentKey} inputKey
              * @returns {$basicWidgets.FormDocument}
              */
-            clearInputValue: function (inputKey) {
-                this.getField('values').getItem(inputKey.toString()).unsetKey();
+            removeInput: function (inputKey) {
+                var inputRef = inputKey.toString();
+                this.getField('inputs').getItem(inputRef).unsetKey();
                 return this;
-            },
-
-            /**
-             * Retrieves value associated with a specific input.
-             * @param {$entity.DocumentKey} inputKey
-             * @returns {*}
-             */
-            getInputValue: function (inputKey) {
-                return this.getField('values').getItem(inputKey.toString()).getValue();
             }
         });
 });
