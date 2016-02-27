@@ -7,12 +7,13 @@ $oop.postpone($basicWidgets, 'DirectInput', function (ns, cn) {
     /**
      * @name $basicWidgets.DirectInput.create
      * @function
-     * @param {string} [inputType='text']
+     * @param {string} [inputType]
      * @returns {$basicWidgets.DirectInput}
      */
 
     /**
      * Implements text-based inputs such as text, password, email, etc.
+     * TODO: Handle TAB.
      * @class
      * @extends $basicWidgets.Input
      */
@@ -40,12 +41,10 @@ $oop.postpone($basicWidgets, 'DirectInput', function (ns, cn) {
         })
         .addMethods(/** @lends $basicWidgets.DirectInput# */{
             /**
-             * @param {string} [inputType='text']
+             * @param {string} [inputType]
              * @ignore
              */
             init: function (inputType) {
-                inputType = inputType || 'text';
-
                 base.init.call(this, inputType);
 
                 this.elevateMethods(

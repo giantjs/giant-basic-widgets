@@ -8,6 +8,7 @@ $oop.postpone($basicWidgets, 'DataDirectInput', function (ns, cn) {
     /**
      * @name $basicWidgets.DataDirectInput.create
      * @function
+     * @param {string} [type]
      * @param {$entity.DocumentKey} inputKey
      * @returns {$basicWidgets.DataDirectInput}
      */
@@ -54,14 +55,15 @@ $oop.postpone($basicWidgets, 'DataDirectInput', function (ns, cn) {
         })
         .addMethods(/** @lends $basicWidgets.DataDirectInput# */{
             /**
+             * @param {string} [type]
              * @param {$entity.DocumentKey} inputKey
              * @ignore
              */
-            init: function (inputKey) {
+            init: function (type, inputKey) {
                 $assertion
                     .isDocumentKey(inputKey, "Invalid input key");
 
-                base.init.call(this);
+                base.init.call(this, type);
                 $basicWidgets.EntityWidget.init.call(this, inputKey);
 
                 this.elevateMethod('onInputStateChange');

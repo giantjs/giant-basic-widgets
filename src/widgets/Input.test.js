@@ -5,10 +5,6 @@
 
     test("Instantiation", function () {
         throws(function () {
-            $basicWidgets.Input.create();
-        }, "should raise exception on missing argument");
-
-        throws(function () {
             $basicWidgets.Input.create(1234);
         }, "should raise exception on invalid argument");
 

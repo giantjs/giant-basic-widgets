@@ -9,20 +9,21 @@
         }, "should raise exception on missing arguments");
 
         throws(function () {
-            $basicWidgets.DataDirectInput.create('foo');
+            $basicWidgets.DataDirectInput.create('foo', 'bar');
         }, "should raise exception on invalid arguments");
 
         var input = $basicWidgets.DataDirectInput.create(
+            'text',
             'input/1'.toDocumentKey());
 
         ok(input.entityKey.equals('input/1'.toDocumentKey()),
             "should set entityKey property");
     });
-    
+
     test("Input state handler", function () {
         expect(1);
 
-        var input = $basicWidgets.DataDirectInput.create('input/1'.toDocumentKey());
+        var input = $basicWidgets.DataDirectInput.create('text', 'input/1'.toDocumentKey());
 
         input.afterAdd();
 
@@ -40,7 +41,7 @@
     test("Value change handler", function () {
         expect(1);
 
-        var input = $basicWidgets.DataDirectInput.create('input/1'.toDocumentKey());
+        var input = $basicWidgets.DataDirectInput.create('text', 'input/1'.toDocumentKey());
 
         'input/1'.toDocument().unsetNode();
 
@@ -60,7 +61,7 @@
     test("Name change handler", function () {
         expect(1);
 
-        var input = $basicWidgets.DataDirectInput.create('input/1'.toDocumentKey());
+        var input = $basicWidgets.DataDirectInput.create('text', 'input/1'.toDocumentKey());
 
         'input/1'.toDocument().unsetNode();
 

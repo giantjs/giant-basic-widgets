@@ -83,16 +83,31 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
                 } else {
                     this.disableBy('input-name-availability');
                 }
+            },
+
+            /**
+             * @param {*} inputValue
+             * @private
+             */
+            _setInputValue: function (inputValue) {
+                this.addAttribute('value', inputValue);
+            },
+
+            /**
+             * @private
+             */
+            _clearInputValue: function () {
+                this.removeAttribute('value');
             }
         })
         .addMethods(/** @lends $basicWidgets.Input# */{
             /**
              * TODO: Stricter checks for input type?
-             * @param {string} inputType
+             * @param {string} [inputType]
              * @ignore
              */
             init: function (inputType) {
-                $assertion.isString(inputType, "Invalid input type");
+                $assertion.isStringOptional(inputType, "Invalid input type");
 
                 base.init.call(this);
                 $basicWidgets.BinaryStateful.init.call(this);
@@ -104,7 +119,9 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
                     'onFocusIn',
                     'onFocusOut');
 
-                this.addAttribute('type', inputType);
+                if (inputType) {
+                    this.addAttribute('type', inputType);
+                }
             },
 
             /** @ignore */
@@ -200,7 +217,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
              * @returns {$basicWidgets.Input}
              */
             setInputValue: function (inputValue) {
-                this.addAttribute('value', inputValue);
+                this._setInputValue(inputValue);
                 return this;
             },
 
@@ -209,7 +226,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
              * @returns {$basicWidgets.Input}
              */
             clearInputValue: function () {
-                this.removeAttribute('value');
+                this._clearInputValue();
                 return this;
             },
 
