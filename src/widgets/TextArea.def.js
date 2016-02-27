@@ -25,6 +25,14 @@ $oop.postpone($basicWidgets, 'TextArea', function (ns, cn) {
             },
 
             /**
+             * @returns {string}
+             * @private
+             */
+            _getInputValue: function () {
+                return this.inputValue;
+            },
+
+            /**
              * @param {string} inputValue
              * @private
              */
@@ -52,8 +60,8 @@ $oop.postpone($basicWidgets, 'TextArea', function (ns, cn) {
             },
 
             /** @ignore */
-            afterAdd: function () {
-                base.afterAdd.call(this);
+            afterRender: function () {
+                base.afterRender.call(this);
                 this._updateDom();
             },
 

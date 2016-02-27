@@ -85,6 +85,11 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
                 }
             },
 
+            /** @private */
+            _getInputValue: function () {
+                return this.htmlAttributes.getItem('value');
+            },
+
             /**
              * @param {*} inputValue
              * @private
@@ -93,9 +98,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
                 this.addAttribute('value', inputValue);
             },
 
-            /**
-             * @private
-             */
+            /** @private */
             _clearInputValue: function () {
                 this.removeAttribute('value');
             }
@@ -235,7 +238,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
              * @returns {*}
              */
             getInputValue: function () {
-                return this.htmlAttributes.getItem('value');
+                return this._getInputValue();
             },
 
             /**
