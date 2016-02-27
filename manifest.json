@@ -5,6 +5,7 @@
         "src/namespace.js",
         "src/utils/InputStateChangeEvent.def.js",
         "src/documents/config.def.js",
+        "src/documents/FormDocument.def.js",
         "src/documents/InputDocument.def.js",
         "src/behaviors/BinaryState.def.js",
         "src/behaviors/BinaryStateful.def.js",
