@@ -73,15 +73,6 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
              */
             getInputState: function () {
                 return this.getField('state').getValue();
-            },
-
-            /**
-             * Determines validity based on the current input value and state.
-             * Override in subclass to provide custom validity checker.
-             * @returns {boolean}
-             */
-            isValid: function () {
-                return true;
             }
         });
 });

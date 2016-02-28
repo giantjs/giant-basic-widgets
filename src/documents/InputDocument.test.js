@@ -58,8 +58,4 @@
 
         equal(document.getInputState(), true, "should retrieve state field");
     });
-
-    test("Validity checker", function () {
-        ok('input/1'.toDocument().isValid(), "should return true");
-    });
 }());
