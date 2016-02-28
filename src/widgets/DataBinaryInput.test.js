@@ -23,6 +23,8 @@
 
         var checkbox = $basicWidgets.DataBinaryInput.create('checkbox', 'input/1'.toDocumentKey());
 
+        'input/1'.toDocument().unsetNode();
+
         checkbox.afterAdd();
 
         checkbox.addMocks({
