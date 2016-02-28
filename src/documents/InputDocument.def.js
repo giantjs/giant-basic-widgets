@@ -68,6 +68,26 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
             },
 
             /**
+             * Retrieves document key for validator associated with input.
+             * @returns {$entity.DocumentKey}
+             */
+            getValidatorKey: function () {
+                var validatorRef = this.getField('validator').getValue();
+                return validatorRef && validatorRef.toDocumentKey();
+            },
+
+            /**
+             * Sets document key identifying validator to be associated with input.
+             * @param {$entity.DocumentKey} validatorKey
+             * @returns {$basicWidgets.InputDocument}
+             * @see $basicWidgets.ValidatorDocument
+             */
+            setValidatorKey: function (validatorKey) {
+                this.getField('validator').setValue(validatorKey.toString());
+                return this;
+            },
+
+            /**
              * Retrieves current state value associated with the input.
              * @returns {*}
              */

@@ -8,8 +8,9 @@ $oop.amendPostponed($entity, 'config', function () {
             itemType  : 'reference'
         },
 
-        'input/name' : {fieldType: 'string'},
-        'input/value': {},
-        'input/state': {}
+        'input/name'     : {fieldType: 'string'},
+        'input/value'    : {},
+        'input/state'    : {},
+        'input/validator': {fieldType: 'reference'}
     });
 });

@@ -58,4 +58,26 @@
 
         equal(document.getInputState(), true, "should retrieve state field");
     });
+
+    test("Validator setter", function () {
+        var document = 'input/1'.toDocument().unsetNode();
+
+        strictEqual(document.setValidatorKey('validator/foo'.toDocumentKey()), document,
+            "should be chainable");
+        deepEqual(document.getNode(), {
+            validator: 'validator/foo'
+        }, "should set state field");
+    });
+
+    test("Validator getter", function () {
+        var document = 'input/1'.toDocument()
+            .unsetNode()
+            .setValidatorKey('validator/foo'.toDocumentKey()),
+            validatorKey;
+
+        validatorKey = document.getValidatorKey();
+        ok(validatorKey.isA($entity.DocumentKey), "should return DocumentKey instance");
+        ok(validatorKey.equals('validator/foo'.toDocumentKey()),
+            "should retrieve validator key");
+    });
 }());
