@@ -34,7 +34,7 @@
 }
 
 .TestListItem > .widget-container > .sample-widget {
-    border: 2px dashed lightgrey;
+    border: 2px dashed red;
 }
 
 .TestListItem > .hint-container:before {
