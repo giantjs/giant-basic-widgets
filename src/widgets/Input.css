@@ -4,6 +4,11 @@
     border: 0;
 }
 
+.Input.widget-disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
 .Input:focus {
     outline: 0;
 }
