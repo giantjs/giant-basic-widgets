@@ -12,15 +12,15 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
      */
 
     /**
-     * Represents the state of an input component.
-     * Not every input has value of their own. (Only binary inputs?)
-     * TODO: Add tests for getter-setters.
+     * Represents an input component, including its name, value, state, and validity.
      * @class
      * @extends $entity.Document
      */
     $basicWidgets.InputDocument = self
         .addMethods(/** @lends $basicWidgets.InputDocument# */{
             /**
+             * Sets name associated with the input. The name field identifies
+             * the input in the form, as well as groups inputs having the same name.
              * @param {string} groupId
              * @returns {$basicWidgets.InputDocument}
              */
@@ -30,7 +30,7 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
             },
 
             /**
-             * Retrieves group ID associated with input.
+             * Retrieves name associated with input.
              * @returns {string}
              */
             getInputName: function () {
@@ -38,6 +38,7 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
             },
 
             /**
+             * Sets current value associated with the input.
              * @param {*} value
              * @returns {$basicWidgets.InputDocument}
              */
@@ -55,6 +56,9 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
             },
 
             /**
+             * Sets current state value associated with the input.
+             * Input state may be controlled independently from value,
+             * but they may contribute to the form together.
              * @param {*} state
              * @returns {$basicWidgets.InputDocument}
              */
@@ -64,10 +68,20 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
             },
 
             /**
+             * Retrieves current state value associated with the input.
              * @returns {*}
              */
             getInputState: function () {
                 return this.getField('state').getValue();
+            },
+
+            /**
+             * Determines validity based on the current input value and state.
+             * Override in subclass to provide custom validity checker.
+             * @returns {boolean}
+             */
+            isValid: function () {
+                return true;
             }
         });
 });
@@ -80,21 +94,3 @@ $oop.amendPostponed($entity, 'Document', function () {
             return documentKey && documentKey.documentType === 'input';
         });
 });
-
-(function () {
-    "use strict";
-
-    // TODO: Are these necessary?
-    $assertion.addTypes(/** @lends $assertion */{
-        /** @param {$basicWidgets.InputDocument} expr */
-        isInputDocument: function (expr) {
-            return $basicWidgets.InputDocument.isBaseOf(expr);
-        },
-
-        /** @param {$basicWidgets.InputDocument} [expr] */
-        isInputDocumentOptional: function (expr) {
-            return expr === undefined ||
-                $basicWidgets.InputDocument.isBaseOf(expr);
-        }
-    });
-}());
