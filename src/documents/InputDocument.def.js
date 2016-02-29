@@ -93,6 +93,34 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
              */
             getInputState: function () {
                 return this.getField('state').getValue();
+            },
+
+            /**
+             * @param {$entity.EntityChangeEvent} event
+             * @ignore
+             */
+            onValueChange: function (event) {
+                var valueBefore = event.beforeNode,
+                    valueAfter = event.afterNode,
+                    validatorKey = this.getValidatorKey(),
+                    validatorDocument = validatorKey && validatorKey.toDocument(),
+                    wasValid, isValid;
+
+                if (validatorDocument) {
+                    // fetching validity of old and new input values
+                    wasValid = validatorDocument.validate(valueBefore);
+                    isValid = validatorDocument.validate(valueAfter);
+
+                    if (wasValid !== isValid) {
+                        // TODO: Use custom validity event class.
+                        this.entityKey.spawnEvent($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE)
+                            .setPayloadItems({
+                                wasValid: wasValid,
+                                isValid : isValid
+                            })
+                            .triggerSync();
+                    }
+                }
             }
         });
 });
@@ -105,3 +133,51 @@ $oop.amendPostponed($entity, 'Document', function () {
             return documentKey && documentKey.documentType === 'input';
         });
 });
+
+$oop.amendPostponed($entity, 'entityEventSpace', function () {
+    "use strict";
+
+    $entity.entityEventSpace
+        .subscribeTo(
+            $entity.EVENT_ENTITY_CHANGE,
+            'entity>document>input'.toPath(),
+            function (event) {
+                var affectedKey = event.sender,
+                    beforeNode = event.beforeNode,
+                    afterNode = event.afterNode,
+                    documentKey,
+                    valueBefore,
+                    valueAfter;
+
+                if (affectedKey.isA($entity.DocumentKey)) {
+                    // input document node changed
+                    documentKey = affectedKey;
+                    valueBefore = beforeNode && beforeNode.value;
+                    valueAfter = afterNode && afterNode.value;
+                    if (valueBefore !== valueAfter) {
+                        documentKey.toDocument()
+                            .onValueChange(event.clone()
+                                .setAffectedKey(affectedKey)
+                                .setBeforeNode(valueBefore)
+                                .setAfterNode(valueAfter));
+                    }
+                } else if (affectedKey.isA($entity.FieldKey)) {
+                    // input value field changed
+                    documentKey = affectedKey.documentKey;
+                    documentKey.toDocument()
+                        .onValueChange(event);
+                }
+            });
+});
+
+(function () {
+    "use strict";
+
+    $oop.addGlobalConstants.call($basicWidgets, /** @lends $basicWidgets */{
+        /**
+         * Signals that the validity of an input has changed.
+         * @constant
+         */
+        EVENT_INPUT_VALIDITY_CHANGE: 'widget.input.validity-change'
+    });
+}());

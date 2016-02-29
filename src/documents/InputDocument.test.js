@@ -80,4 +80,50 @@
         ok(validatorKey.equals('validator/foo'.toDocumentKey()),
             "should retrieve validator key");
     });
+
+    test("Input document change handler", function () {
+        expect(3);
+
+        'input/1'.toDocument().unsetNode();
+
+        'input/1'.toDocumentKey()
+            .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, function (event) {
+                ok(true, "input validity changed");
+                equal(event.payload.wasValid, false, "should set wasValid payload");
+                equal(event.payload.isValid, true, "should set isValid payload");
+            });
+
+        'input/1'.toDocument()
+            .setNode({
+                name     : 'foo',
+                value: 'bar',
+                validator: 'validator/string'
+            });
+
+        'input/1'.toDocumentKey()
+            .unsubscribeFrom();
+    });
+
+    test("Input value change handler", function () {
+        expect(3);
+
+        'input/1'.toDocument()
+            .setNode({
+                name     : 'foo',
+                value: 'bar',
+                validator: 'validator/string'
+            });
+
+        'input/1'.toDocumentKey()
+            .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, function (event) {
+                ok(true, "input validity changed");
+                equal(event.payload.wasValid, true, "should set wasValid payload");
+                equal(event.payload.isValid, false, "should set isValid payload");
+            });
+
+        'input/1/value'.toField().setValue(0);
+
+        'input/1'.toDocumentKey()
+            .unsubscribeFrom();
+    });
 }());
