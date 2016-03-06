@@ -121,6 +121,7 @@
                 equal(event.payload.isValid, false, "should set isValid payload");
             });
 
+        'input/1/foo'.toField().setValue('foo');
         'input/1/value'.toField().setValue('bar');
 
         'input/1'.toDocumentKey()

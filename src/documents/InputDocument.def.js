@@ -161,7 +161,10 @@ $oop.amendPostponed($entity, 'entityEventSpace', function () {
                                 .setBeforeNode(valueBefore)
                                 .setAfterNode(valueAfter));
                     }
-                } else if (affectedKey.isA($entity.FieldKey)) {
+                } else if (
+                    affectedKey.isA($entity.FieldKey) &&
+                    affectedKey.fieldName === 'value'
+                ) {
                     // input value field changed
                     documentKey = affectedKey.documentKey;
                     documentKey.toDocument()
