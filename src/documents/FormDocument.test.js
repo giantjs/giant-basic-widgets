@@ -72,4 +72,45 @@
             bar: "Hello World"
         }, "should return name-value associations");
     });
+
+    test("Input validity change handler", function () {
+        expect(3);
+
+        'input/1'.toDocument().setNode({
+            name     : 'foo',
+            value    : '12345',
+            validator: 'validator/number'
+        });
+
+        'input/2'.toDocument().setNode({
+            name : 'foo',
+            value: 'hello'
+        });
+
+        'form/1'.toDocument().setNode({
+            inputs: {
+                'input/1': 'input/1',
+                'input/2': 'input/2'
+            }
+        });
+
+        function onFormValidityChange(event) {
+            ok(event.sender.equals('form/1'.toDocumentKey()),
+                "should trigger form validity change event");
+            equal(event.payload.wasValid, true, "should set wasValid property");
+            equal(event.payload.isValid, false, "should set isValid property");
+        }
+
+        'form/1'.toDocumentKey()
+            .subscribeTo($basicWidgets.EVENT_FORM_VALIDITY_CHANGE, onFormValidityChange);
+
+        'input/1/value'.toField().setValue('baz');
+
+        'form/1'.toDocumentKey()
+            .unsubscribeFrom($basicWidgets.EVENT_FORM_VALIDITY_CHANGE, onFormValidityChange);
+
+        'form/1'.toDocument().unsetNode();
+        'form/2'.toDocument().unsetNode();
+        'input/1'.toDocument().unsetNode();
+    });
 }());

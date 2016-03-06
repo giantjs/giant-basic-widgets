@@ -57,6 +57,44 @@ $oop.postpone($basicWidgets, 'FormDocument', function () {
                     });
 
                 return result;
+            },
+
+            /**
+             * @param {$event.Event} event
+             * @ignore
+             */
+            onInputValidityChange: function (event) {
+                var inputKey = event.sender,
+                    payload = event.payload,
+                    isRestValid;
+
+                // determining whether rest of the fields are valid
+                // TODO: Do it in a way that we don't have to validate every field.
+                isRestValid = this.getField('inputs').getItemsAsCollection()
+                    .clone()
+                    .deleteItem(inputKey.toString())
+                    .mapValues(function (inputRef) {
+                        var inputDocument = inputRef.toDocument(),
+                            validatorKey = inputDocument.getValidatorKey(),
+                            validatorDocument = validatorKey && validatorKey.toDocument();
+
+                        return validatorDocument ?
+                            validatorDocument.validate(inputDocument.getInputValue()) :
+                            true;
+                    })
+                    .getValues()
+                    .reduce(function (curr, next) {
+                        return curr && next;
+                    }, true);
+
+                if (isRestValid) {
+                    this.entityKey.spawnEvent($basicWidgets.EVENT_FORM_VALIDITY_CHANGE)
+                        .setPayloadItems({
+                            wasValid: payload.wasValid,
+                            isValid : payload.isValid
+                        })
+                        .triggerSync();
+                }
             }
         });
 });
@@ -69,3 +107,36 @@ $oop.amendPostponed($entity, 'Document', function () {
             return documentKey && documentKey.documentType === 'form';
         });
 });
+
+$oop.amendPostponed($entity, 'entityEventSpace', function () {
+    "use strict";
+
+    $entity.entityEventSpace.subscribeTo(
+        $basicWidgets.EVENT_INPUT_VALIDITY_CHANGE,
+        'entity>document>input'.toPath(),
+        function (event) {
+            var inputKey = event.sender,
+                inputQuery = ['document', 'form', '{|}'.toKVP(), 'inputs', inputKey.toString()].toQuery();
+
+            // TODO: Think about return value.
+            // TODO: Revisit as soon as giant-entity supports back-references.
+            $entity.entities.queryKeysAsHash(inputQuery)
+                .toCollection()
+                .mapValues(function (formId) {
+                    return ['form', formId].toDocument();
+                })
+                .callOnEachItem('onInputValidityChange', event);
+        });
+});
+
+(function () {
+    "use strict";
+
+    $oop.addGlobalConstants.call($basicWidgets, /** @lends $basicWidgets */{
+        /**
+         * Signals that the validity of an entire form has changed.
+         * @constant
+         */
+        EVENT_FORM_VALIDITY_CHANGE: 'widget.form.validity-change'
+    });
+}());
