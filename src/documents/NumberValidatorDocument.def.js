@@ -1,4 +1,4 @@
-$oop.postpone($basicWidgets, 'StringValidatorDocument', function () {
+$oop.postpone($basicWidgets, 'NumberValidatorDocument', function () {
     "use strict";
 
     var base = $basicWidgets.ValidatorDocument,
@@ -16,14 +16,14 @@ $oop.postpone($basicWidgets, 'StringValidatorDocument', function () {
      * @class
      * @extends $basicWidgets.ValidatorDocument
      */
-    $basicWidgets.StringValidatorDocument = self
+    $basicWidgets.NumberValidatorDocument = self
         .addMethods(/** @lends $basicWidgets.StringValidatorDocument# */{
             /**
-             * @param {string} value
+             * @param {*} value
              * @returns {boolean}
              */
             validate: function (value) {
-                return $assertion.validators.isString(value);
+                return !isNaN(parseInt(value, 10));
             }
         });
 });
@@ -32,7 +32,7 @@ $oop.amendPostponed($entity, 'Document', function () {
     "use strict";
 
     $entity.Document
-        .addSurrogate($basicWidgets, 'StringValidatorDocument', function (documentKey) {
-            return documentKey.equals('validator/string'.toDocumentKey());
+        .addSurrogate($basicWidgets, 'NumberValidatorDocument', function (documentKey) {
+            return documentKey.equals('validator/number'.toDocumentKey());
         }, 1);
 });

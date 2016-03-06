@@ -96,8 +96,8 @@
         'input/1'.toDocument()
             .setNode({
                 name     : 'foo',
-                value: 'bar',
-                validator: 'validator/string'
+                value: '1',
+                validator: 'validator/number'
             });
 
         'input/1'.toDocumentKey()
@@ -110,8 +110,8 @@
         'input/1'.toDocument()
             .setNode({
                 name     : 'foo',
-                value: 'bar',
-                validator: 'validator/string'
+                value: '1',
+                validator: 'validator/number'
             });
 
         'input/1'.toDocumentKey()
@@ -121,7 +121,7 @@
                 equal(event.payload.isValid, false, "should set isValid payload");
             });
 
-        'input/1/value'.toField().setValue(0);
+        'input/1/value'.toField().setValue('bar');
 
         'input/1'.toDocumentKey()
             .unsubscribeFrom();
