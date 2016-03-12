@@ -74,6 +74,13 @@
             "should retrieve validator key");
     });
 
+    test("Validity getter", function () {
+        var document = 'input/1'.toDocument()
+            .unsetNode();
+
+        equal(document.getValidity(), true, "should retrieve validity");
+    });
+
     test("Input document change handler", function () {
         expect(3);
 
