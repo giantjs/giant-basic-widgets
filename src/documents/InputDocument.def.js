@@ -17,6 +17,26 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
      * @extends $entity.Document
      */
     $basicWidgets.InputDocument = self
+        .addPrivateMethods(/** @lends $basicWidgets.InputDocument# */{
+            /**
+             * @param {boolean} validity
+             * @private
+             */
+            _setValidity: function (validity) {
+                this.getField('_validity').setValue(validity);
+            },
+
+            /** @private */
+            _validate: function () {
+                var validatorKey = this.getValidatorKey(),
+                    validatorDocument = validatorKey && validatorKey.toDocument();
+
+                if (validatorDocument) {
+                    // setting validity flag corresponding to current input value
+                    this._setValidity(validatorDocument.validate(this.getInputValue()));
+                }
+            }
+        })
         .addMethods(/** @lends $basicWidgets.InputDocument# */{
             /**
              * Sets name associated with the input. The name field identifies
@@ -59,6 +79,7 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
              * Sets current state value associated with the input.
              * Input state may be controlled independently from value,
              * but they may contribute to the form together.
+             * TODO: Revisit from a validation POV.
              * @param {*} state
              * @returns {$basicWidgets.InputDocument}
              */
@@ -88,6 +109,13 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
             },
 
             /**
+             * @returns {boolean}
+             */
+            getValidity: function () {
+                return this.getField('_validity').getValue();
+            },
+
+            /**
              * Retrieves current state value associated with the input.
              * @returns {*}
              */
@@ -96,30 +124,69 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
             },
 
             /**
+             * @param event
+             * @ignore
+             */
+            onDocumentChange: function (event) {
+                var documentKey = event.sender,
+                    beforeNode = event.beforeNode,
+                    afterNode = event.afterNode,
+                    valueBefore = beforeNode && beforeNode.value,
+                    valueAfter = afterNode && afterNode.value,
+                    validatorRefBefore = beforeNode && beforeNode.validator,
+                    validatorRefAfter = afterNode && afterNode.validator,
+                    validityBefore = beforeNode && beforeNode._validity,
+                    validityAfter = afterNode && afterNode._validity;
+
+                if (valueAfter !== valueBefore ||
+                    validatorRefAfter !== validatorRefBefore
+                ) {
+                    // when either value or validator changes
+                    // re-validating current state
+                    this._validate();
+                }
+
+                if (validityAfter !== validityBefore) {
+                    // when validity flag changes
+                    // calling appropriate field change handler
+                    this.onValidityChange(event.clone()
+                        .setSender(documentKey.getFieldKey('_validity'))
+                        .setAffectedKey(documentKey)
+                        .setBeforeNode(validityBefore)
+                        .setAfterNode(validityAfter));
+                }
+            },
+
+            /** @ignore */
+            onValueChange: function () {
+                this._validate();
+            },
+
+            /** @ignore */
+            onValidatorChange: function () {
+                this._validate();
+            },
+
+            /**
              * @param {$entity.EntityChangeEvent} event
              * @ignore
              */
-            onValueChange: function (event) {
-                var valueBefore = event.beforeNode,
-                    valueAfter = event.afterNode,
-                    validatorKey = this.getValidatorKey(),
-                    validatorDocument = validatorKey && validatorKey.toDocument(),
-                    wasValid, isValid;
+            onValidityChange: function (event) {
+                var wasValid = event.beforeNode,
+                    isValid = event.afterNode;
 
-                if (validatorDocument) {
-                    // fetching validity of old and new input values
-                    wasValid = validatorDocument.validate(valueBefore);
-                    isValid = validatorDocument.validate(valueAfter);
-
-                    if (wasValid !== isValid) {
-                        // TODO: Use custom validity event class.
-                        this.entityKey.spawnEvent($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE)
-                            .setPayloadItems({
-                                wasValid: wasValid,
-                                isValid : isValid
-                            })
-                            .triggerSync();
-                    }
+                if (typeof isValid === 'undefined') {
+                    // validity has been removed
+                    // re-validating
+                    this._validate();
+                } else {
+                    // TODO: Use custom validity event class.
+                    this.entityKey.spawnEvent($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE)
+                        .setPayloadItems({
+                            wasValid: wasValid,
+                            isValid : isValid
+                        })
+                        .triggerSync();
                 }
             }
         });
@@ -143,32 +210,37 @@ $oop.amendPostponed($entity, 'entityEventSpace', function () {
             'entity>document>input'.toPath(),
             function (event) {
                 var affectedKey = event.sender,
-                    beforeNode = event.beforeNode,
-                    afterNode = event.afterNode,
-                    documentKey,
-                    valueBefore,
-                    valueAfter;
+                    documentKey;
 
                 if (affectedKey.isA($entity.DocumentKey)) {
-                    // input document node changed
+                    // entire input document changed
                     documentKey = affectedKey;
-                    valueBefore = beforeNode && beforeNode.value;
-                    valueAfter = afterNode && afterNode.value;
-                    if (valueBefore !== valueAfter) {
-                        documentKey.toDocument()
-                            .onValueChange(event.clone()
-                                .setAffectedKey(affectedKey)
-                                .setBeforeNode(valueBefore)
-                                .setAfterNode(valueAfter));
-                    }
-                } else if (
-                    affectedKey.isA($entity.FieldKey) &&
-                    affectedKey.fieldName === 'value'
-                ) {
-                    // input value field changed
-                    documentKey = affectedKey.documentKey;
+
                     documentKey.toDocument()
-                        .onValueChange(event);
+                        .onDocumentChange(event);
+                } else if (affectedKey.isA($entity.FieldKey)) {
+                    // one of the fields changed
+                    documentKey = affectedKey.documentKey;
+
+                    switch (affectedKey.fieldName) {
+                    case 'value':
+                        // input value field changed
+                        documentKey.toDocument()
+                            .onValueChange(event);
+                        break;
+
+                    case 'validator':
+                        // input validator field changed
+                        documentKey.toDocument()
+                            .onValidatorChange(event);
+                        break;
+
+                    case '_validity':
+                        // input validator field changed
+                        documentKey.toDocument()
+                            .onValidityChange(event);
+                        break;
+                    }
                 }
             });
 });

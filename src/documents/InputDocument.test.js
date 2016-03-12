@@ -29,9 +29,7 @@
         var document = 'input/1'.toDocument().unsetNode();
 
         strictEqual(document.setInputValue("foo"), document, "should be chainable");
-        deepEqual(document.getNode(), {
-            value: "foo"
-        }, "should set value field");
+        equal(document.getField('value').getValue(), "foo", "should set value field");
     });
 
     test("Value getter", function () {
@@ -46,9 +44,7 @@
         var document = 'input/1'.toDocument().unsetNode();
 
         strictEqual(document.setInputState(true), document, "should be chainable");
-        deepEqual(document.getNode(), {
-            state: true
-        }, "should set state field");
+        equal(document.getField('state').getValue(), true, "should set state field");
     });
 
     test("State getter", function () {
@@ -64,9 +60,8 @@
 
         strictEqual(document.setValidatorKey('validator/foo'.toDocumentKey()), document,
             "should be chainable");
-        deepEqual(document.getNode(), {
-            validator: 'validator/foo'
-        }, "should set state field");
+        equal(document.getField('validator').getValue(), 'validator/foo',
+            "should set state field");
     });
 
     test("Validator getter", function () {
@@ -88,8 +83,8 @@
 
         'input/1'.toDocumentKey()
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, function (event) {
-                ok(true, "input validity changed");
-                equal(event.payload.wasValid, false, "should set wasValid payload");
+                ok(true, "should change input validity");
+                equal(event.payload.wasValid, undefined, "should set wasValid payload");
                 equal(event.payload.isValid, true, "should set isValid payload");
             });
 
@@ -116,13 +111,36 @@
 
         'input/1'.toDocumentKey()
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, function (event) {
-                ok(true, "input validity changed");
+                ok(true, "should change input validity");
                 equal(event.payload.wasValid, true, "should set wasValid payload");
                 equal(event.payload.isValid, false, "should set isValid payload");
             });
 
         'input/1/foo'.toField().setValue('foo');
         'input/1/value'.toField().setValue('bar');
+
+        'input/1'.toDocumentKey()
+            .unsubscribeFrom();
+    });
+
+    test("Input validator change handler", function () {
+        expect(3);
+
+        'input/1'.toDocument()
+            .setNode({
+                name : 'foo',
+                value: '1'
+            });
+
+        'input/1'.toDocumentKey()
+            .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, function (event) {
+                ok(true, "should change input validity");
+                equal(event.payload.wasValid, undefined, "should set wasValid payload");
+                equal(event.payload.isValid, true, "should set isValid payload");
+            });
+
+        'input/1/foo'.toField().setValue('foo');
+        'input/1/validator'.toField().setValue('validator/number');
 
         'input/1'.toDocumentKey()
             .unsubscribeFrom();
