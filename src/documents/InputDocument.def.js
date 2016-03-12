@@ -12,7 +12,10 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
      */
 
     /**
-     * Represents an input component, including its name, value, state, and validity.
+     * Represents an input component, including its name, value, and state.
+     * Manages validation.
+     * An input document is valid when it either does not have a validator associated,
+     * or the associated validator evaluates to true.
      * @class
      * @extends $entity.Document
      */
