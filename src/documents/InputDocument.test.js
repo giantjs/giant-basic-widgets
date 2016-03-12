@@ -12,9 +12,7 @@
         var document = 'input/1'.toDocument().unsetNode();
 
         strictEqual(document.setInputName("foo"), document, "should be chainable");
-        deepEqual(document.getNode(), {
-            name: "foo"
-        }, "should set name field");
+        equal(document.getField('name').getValue(), "foo", "should set name field");
     });
 
     test("Name getter", function () {
@@ -129,18 +127,41 @@
         'input/1'.toDocument()
             .setNode({
                 name : 'foo',
-                value: '1'
+                value: 'abc'
             });
 
         'input/1'.toDocumentKey()
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, function (event) {
                 ok(true, "should change input validity");
-                equal(event.payload.wasValid, undefined, "should set wasValid payload");
-                equal(event.payload.isValid, true, "should set isValid payload");
+                equal(event.payload.wasValid, true, "should set wasValid payload");
+                equal(event.payload.isValid, false, "should set isValid payload");
             });
 
         'input/1/foo'.toField().setValue('foo');
         'input/1/validator'.toField().setValue('validator/number');
+
+        'input/1'.toDocumentKey()
+            .unsubscribeFrom();
+    });
+
+    test("Input validator remove handler", function () {
+        expect(3);
+
+        'input/1'.toDocument()
+            .setNode({
+                name     : 'foo',
+                value: 'abc',
+                validator: 'validator/number'
+            });
+
+        'input/1'.toDocumentKey()
+            .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, function (event) {
+                ok(true, "should change input validity");
+                equal(event.payload.wasValid, false, "should set wasValid payload");
+                equal(event.payload.isValid, true, "should set isValid payload");
+            });
+
+        'input/1/validator'.toField().unsetNode();
 
         'input/1'.toDocumentKey()
             .unsubscribeFrom();

@@ -34,6 +34,9 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
                 if (validatorDocument) {
                     // setting validity flag corresponding to current input value
                     this._setValidity(validatorDocument.validate(this.getInputValue()));
+                } else {
+                    // absent validator implies validity by default
+                    this._setValidity(true);
                 }
             }
         })
