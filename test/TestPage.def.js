@@ -115,14 +115,15 @@ _addTextInput: function (itemWidget) {
 _addDataTextInput: function (itemWidget) {
     // setting input properties
     'input/1'.toDocument().setNode({
-        name: 'message',
-        value: "This is an entity bound input"
+        name: 'lives',
+        value: "9",
+        validator: 'validator/number'
     });
 
     // creating a label for the input
     var label = $basicWidgets.Text.create()
         .setChildName('A-label')
-        .setContentString("Message")
+        .setContentString("Lives")
         .setContainerCssClass('widget-container')
         .addToParent(itemWidget);
 

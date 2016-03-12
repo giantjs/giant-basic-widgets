@@ -35,6 +35,20 @@ $oop.postpone($basicWidgets, 'EntityInput', function () {
                 } else {
                     this.clearInputValue();
                 }
+            },
+
+            /** @private */
+            _syncValidityToEntity: function () {
+                var inputDocument = this.entityKey.toDocument(),
+                    inputValidity = inputDocument.getValidity();
+
+                if (inputValidity) {
+                    this.addCssClass('input-valid')
+                        .removeCssClass('input-invalid');
+                } else {
+                    this.addCssClass('input-invalid')
+                        .removeCssClass('input-valid');
+                }
             }
         })
         .addMethods(/** @lends $basicWidgets.EntityInput# */{
@@ -44,10 +58,12 @@ $oop.postpone($basicWidgets, 'EntityInput', function () {
             afterAdd: function () {
                 this._syncInputNameToEntity();
                 this._syncInputValueToEntity();
+                this._syncValidityToEntity();
 
                 this
                     .bindToDelegatedEntityChange(this.entityKey.getFieldKey('name'), 'onNameFieldChange')
-                    .bindToDelegatedEntityChange(this.entityKey.getFieldKey('value'), 'onValueFieldChange');
+                    .bindToDelegatedEntityChange(this.entityKey.getFieldKey('value'), 'onValueFieldChange')
+                    .bindToEntity(this.entityKey, $basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, 'onValidityChange');
             },
 
             /**
@@ -56,7 +72,8 @@ $oop.postpone($basicWidgets, 'EntityInput', function () {
             afterRemove: function () {
                 this
                     .unbindFromDelegatedEntityChange(this.entityKey.getFieldKey('name'), 'onNameFieldChange')
-                    .unbindFromDelegatedEntityChange(this.entityKey.getFieldKey('value'), 'onValueFieldChange');
+                    .unbindFromDelegatedEntityChange(this.entityKey.getFieldKey('value'), 'onValueFieldChange')
+                    .unbindFromEntity(this.entityKey, $basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, 'onValidityChange');
             },
 
             /** @ignore */
@@ -67,6 +84,11 @@ $oop.postpone($basicWidgets, 'EntityInput', function () {
             /** @ignore */
             onNameFieldChange: function () {
                 this._syncInputNameToEntity();
+            },
+
+            /** @ignore */
+            onValidityChange: function () {
+                this._syncValidityToEntity();
             }
         });
 });

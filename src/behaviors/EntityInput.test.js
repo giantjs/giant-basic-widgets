@@ -60,4 +60,26 @@
 
         input.afterRemove();
     });
+
+    test("Validity change handler", function () {
+        expect(1);
+
+        var input = EntityInput.create('input/1'.toDocumentKey());
+
+        'input/1'.toDocument().setNode({
+            _validity: false
+        });
+
+        input.afterAdd();
+
+        input.addMocks({
+            _syncValidityToEntity: function () {
+                ok(true, "should sync validity to entity");
+            }
+        });
+
+        'input/1/_validity'.toField().setValue(true);
+
+        input.afterRemove();
+    });
 }());

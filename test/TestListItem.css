@@ -46,6 +46,10 @@
     vertical-align: top;
 }
 
+.TestListItem > .widget-container input.input-invalid {
+    color: red;
+}
+
 .TestListItem > .widget-container input + label,
 .TestListItem > .widget-container label + input,
 .TestListItem > .widget-container label + textarea {
