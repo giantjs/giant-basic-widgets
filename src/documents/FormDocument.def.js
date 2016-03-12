@@ -40,12 +40,12 @@ $oop.postpone($basicWidgets, 'FormDocument', function () {
             },
 
             /**
-             * Extracts values from inputs associated with the form.
+             * Extracts values from inputs associated with the form,
+             * in a format that can be used as a query / post params.
              * TODO: Take state into consideration.
-             * TODO: Rename to something more in line with forms & query params.
              * @returns {$data.Dictionary}
              */
-            getInputValues: function () {
+            getQueryParams: function () {
                 var result = $data.Dictionary.create();
 
                 this.getField('inputs').getItemsAsCollection()

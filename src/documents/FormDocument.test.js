@@ -63,7 +63,7 @@
             .addInput('input/2'.toDocumentKey())
             .addInput('input/3'.toDocumentKey());
 
-        var inputValues = 'form/1'.toDocument().getInputValues();
+        var inputValues = 'form/1'.toDocument().getQueryParams();
 
         ok(inputValues.isA($data.Dictionary), "should return Dictionary instance");
 
