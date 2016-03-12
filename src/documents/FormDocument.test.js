@@ -73,6 +73,39 @@
         }, "should return name-value associations");
     });
 
+    test("Form validation", function () {
+        'input/1'.toDocument()
+            .setNode({
+                name     : 'foo',
+                value: 1,
+                validator: 'validator/number'
+            });
+        'input/2'.toDocument()
+            .setNode({
+                name : 'foo',
+                value: 2
+            });
+        'input/3'.toDocument()
+            .setNode({
+                name : 'bar',
+                value: "Hello World"
+            });
+
+        'form/1'.toDocument()
+            .unsetNode()
+            .addInput('input/1'.toDocumentKey())
+            .addInput('input/2'.toDocumentKey())
+            .addInput('input/3'.toDocumentKey());
+
+        equal('form/1'.toDocument().isValid(), true,
+            "should return true for all valid inputs");
+
+        'input/1/value'.toField().setValue("abc");
+
+        equal('form/1'.toDocument().isValid(), false,
+            "should return false for at least 1 invalid input");
+    });
+
     test("Input validity change handler", function () {
         expect(3);
 

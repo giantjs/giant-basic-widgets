@@ -42,6 +42,7 @@ $oop.postpone($basicWidgets, 'FormDocument', function () {
             /**
              * Extracts values from inputs associated with the form.
              * TODO: Take state into consideration.
+             * TODO: Rename to something more in line with forms & query params.
              * @returns {$data.Dictionary}
              */
             getInputValues: function () {
@@ -57,6 +58,21 @@ $oop.postpone($basicWidgets, 'FormDocument', function () {
                     });
 
                 return result;
+            },
+
+            /**
+             * Determines the overall validity of the form.
+             * @returns {boolean}
+             */
+            isValid: function () {
+                return this.getField('inputs').getItemsAsCollection()
+                    .mapValues(function (inputRef) {
+                        return inputRef.toDocument().getValidity();
+                    })
+                    .getValues()
+                    .reduce(function (curr, next) {
+                        return curr && next;
+                    }, true);
             },
 
             /**
