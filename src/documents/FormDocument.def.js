@@ -69,18 +69,11 @@ $oop.postpone($basicWidgets, 'FormDocument', function () {
                     isRestValid;
 
                 // determining whether rest of the fields are valid
-                // TODO: Do it in a way that we don't have to validate every field.
                 isRestValid = this.getField('inputs').getItemsAsCollection()
                     .clone()
                     .deleteItem(inputKey.toString())
                     .mapValues(function (inputRef) {
-                        var inputDocument = inputRef.toDocument(),
-                            validatorKey = inputDocument.getValidatorKey(),
-                            validatorDocument = validatorKey && validatorKey.toDocument();
-
-                        return validatorDocument ?
-                            validatorDocument.validate(inputDocument.getInputValue()) :
-                            true;
+                        return inputRef.toDocument().getValidity();
                     })
                     .getValues()
                     .reduce(function (curr, next) {
@@ -120,6 +113,7 @@ $oop.amendPostponed($entity, 'entityEventSpace', function () {
 
             // TODO: Think about return value.
             // TODO: Revisit as soon as giant-entity supports back-references.
+            // allows inputs to be associated with multiple forms
             $entity.entities.queryKeysAsHash(inputQuery)
                 .toCollection()
                 .mapValues(function (formId) {
