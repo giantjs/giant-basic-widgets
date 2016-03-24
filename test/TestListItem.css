@@ -55,3 +55,7 @@
 .TestListItem > .widget-container label + textarea {
     margin: 0 0 0 0.5em;
 }
+
+.TestListItem .DataDirectInput.input-invalid {
+    color: red;
+}
