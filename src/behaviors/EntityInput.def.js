@@ -5,7 +5,7 @@ $oop.postpone($basicWidgets, 'EntityInput', function () {
         self = base.extend();
 
     /**
-     * Implements entity binding for the name & value attributes of an input.
+     * Implements entity binding for the name, value, and validity attributes of an input.
      * @class
      * @extends $oop.Base
      * @extends $basicWidgets.Input
@@ -40,14 +40,23 @@ $oop.postpone($basicWidgets, 'EntityInput', function () {
             /** @private */
             _syncValidityToEntity: function () {
                 var inputDocument = this.entityKey.toDocument(),
-                    inputValidity = inputDocument.getValidity();
+                    isValid = inputDocument.getValidity();
 
-                if (inputValidity) {
-                    this.addCssClass('input-valid')
+                switch (isValid) {
+                case true:
+                    this.removeCssClass('input-invalid')
+                        .addCssClass('input-valid');
+                    break;
+
+                case false:
+                    this.removeCssClass('input-valid')
+                        .addCssClass('input-invalid');
+                    break;
+
+                default:
+                    this.removeCssClass('input-valid')
                         .removeCssClass('input-invalid');
-                } else {
-                    this.addCssClass('input-invalid')
-                        .removeCssClass('input-valid');
+                    break;
                 }
             }
         })
