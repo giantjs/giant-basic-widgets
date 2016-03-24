@@ -24,6 +24,15 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
         .addPrivateMethods(/** @lends $basicWidgets.Input# */{
             /**
              * @param {HTMLInputElement} element
+             * @returns {string}
+             * @private
+             */
+            _getValueProxy: function (element) {
+                return element.value;
+            },
+
+            /**
+             * @param {HTMLInputElement} element
              * @param {*} value
              * @private
              */
@@ -173,7 +182,9 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
             addAttribute: function (attributeName, attributeValue) {
                 base.addAttribute.call(this, attributeName, attributeValue);
                 var element = this.getElement();
-                if (element && attributeName === 'value') {
+                if (element && attributeName === 'value' &&
+                    attributeValue !== this._getValueProxy(element)
+                ) {
                     this._setValueProxy(element, attributeValue);
                 }
                 return this;
@@ -186,7 +197,9 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
             removeAttribute: function (attributeName) {
                 base.removeAttribute.call(this, attributeName);
                 var element = this.getElement();
-                if (element && attributeName === 'value') {
+                if (element && attributeName === 'value' &&
+                    this._getValueProxy(element)
+                ) {
                     this._setValueProxy(element, '');
                 }
                 return this;

@@ -43,7 +43,7 @@
     });
 
     test("Attribute addition override", function () {
-        expect(6);
+        expect(7);
 
         var input = $basicWidgets.Input.create('text'),
             inputElement = document.createElement('input');
@@ -51,6 +51,11 @@
         input.addMocks({
             getElement: function () {
                 return inputElement;
+            },
+
+            _getValueProxy: function (element) {
+                strictEqual(element, inputElement, "should call value getter proxy");
+                return '';
             },
 
             _setValueProxy: function (element, attrValue) {
@@ -73,7 +78,7 @@
     });
 
     test("Attribute removal override", function () {
-        expect(5);
+        expect(6);
 
         var input = $basicWidgets.Input.create('text'),
             inputElement = document.createElement('input');
@@ -81,6 +86,11 @@
         input.addMocks({
             getElement: function () {
                 return inputElement;
+            },
+
+            _getValueProxy: function (element) {
+                strictEqual(element, inputElement, "should call value getter proxy");
+                return 'foo';
             },
 
             _setValueProxy: function (element, attrValue) {
