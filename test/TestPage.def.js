@@ -86,13 +86,13 @@ _addButton: function () {
 /** @private */
 _addImage: function () {
     return $basicWidgets.Image.create()
-        .setImageUrl('http://httpcats.herokuapp.com/418');
+        .setImageUrl('https://placekitten.com/g/512/256');
 },
 
 /** @private */
 _addDataImage: function () {
     // setting entity values
-    'photo/1/url'.toField().setValue('http://httpcats.herokuapp.com/417');
+    'photo/1/url'.toField().setValue('https://placekitten.com/g/512/384');
 
     return $basicWidgets.DataImage.create('photo/1/url'.toFieldKey());
 },
@@ -261,11 +261,11 @@ _addDataCheckboxInput: function (itemWidget) {
 
                 this._addWidget(
                     this._addImage,
-                    "widgetId.toWidget().setImageUrl('http://httpcats.herokuapp.com/404')");
+                    "widgetId.toWidget().setImageUrl('https://placekitten.com/g/512/320')");
 
                 this._addWidget(
                     this._addDataImage,
-                    "entityKey.toField().setValue('http://httpcats.herokuapp.com/305')");
+                    "entityKey.toField().setValue('https://placekitten.com/g/512/320')");
 
                 this._addWidget(
                     this._addTextInput,
