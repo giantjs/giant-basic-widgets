@@ -4,7 +4,7 @@ $oop.postpone($basicWidgets, 'ClickArea', function (ns, cn) {
     var base = $widget.Widget,
         self = base.extend(cn)
             .addTraitAndExtend($basicWidgets.BinaryStateful)
-            .addTrait($basicWidgets.Disableable)
+            .addTrait($basicWidgets.Disableable, 'Disableable')
             .addTraitAndExtend($basicWidgets.Clickable, 'Clickable');
 
     /**

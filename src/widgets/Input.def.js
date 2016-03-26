@@ -4,7 +4,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
     var base = $widget.Widget,
         self = base.extend(cn)
             .addTraitAndExtend($basicWidgets.BinaryStateful)
-            .addTraitAndExtend($basicWidgets.Disableable);
+            .addTraitAndExtend($basicWidgets.Disableable, 'Disableable');
 
     /**
      * Creates an Input instance.
