@@ -16,7 +16,7 @@
         "src/behaviors/EntityWidget.def.js",
         "src/widgets/Application.def.js",
         "src/widgets/BinaryInput.def.js",
-        "src/widgets/Button.def.js",
+        "src/widgets/ClickArea.def.js",
         "src/widgets/DataBinaryInput.def.js",
         "src/widgets/DataDirectInput.def.js",
         "src/widgets/DataHyperlink.def.js",
@@ -35,7 +35,7 @@
         "src/exports.js"
       ],
       "css": [
-        "src/widgets/Button.css",
+        "src/widgets/ClickArea.css",
         "src/widgets/Input.css",
         "src/widgets/List.css",
         "src/widgets/Text.css"

@@ -8,10 +8,9 @@ body {
     font-family: Arial, sans-serif;
 }
 
-.TestPage .Button {
+.TestPage .ClickArea {
     height: 30px;
     width: 100px;
-    background-color: red;
 }
 
 .TestPage .Image {

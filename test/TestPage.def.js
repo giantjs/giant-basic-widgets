@@ -79,8 +79,8 @@ _addDataHyperlink: function () {
 },
 
 /** @private */
-_addButton: function () {
-    return $basicWidgets.Button.create();
+_addClickArea: function () {
+    return $basicWidgets.ClickArea.create();
 },
 
 /** @private */
@@ -221,7 +221,7 @@ _addDataCheckboxInput: function (itemWidget) {
                 base.init.call(this);
 
                 this.elevateMethods(
-                    'onButtonClick',
+                    'onClickAreaClick',
                     'onInputFocus',
                     'onInputBlur',
                     'onInputStateChange');
@@ -256,7 +256,7 @@ _addDataCheckboxInput: function (itemWidget) {
                     "entityKey.toField().setValue('http://httpstatusdogs.com/')");
 
                 this._addWidget(
-                    this._addButton,
+                    this._addClickArea,
                     "widgetId.toWidget().disableBy('foo')");
 
                 this._addWidget(
@@ -296,7 +296,7 @@ _addDataCheckboxInput: function (itemWidget) {
             afterAdd: function () {
                 base.afterAdd.call(this);
                 this
-                    .subscribeTo($basicWidgets.EVENT_BUTTON_CLICK, this.onButtonClick)
+                    .subscribeTo($basicWidgets.EVENT_CLICK_AREA_CLICK, this.onClickAreaClick)
                     .subscribeTo($basicWidgets.EVENT_INPUT_FOCUS, this.onInputFocus)
                     .subscribeTo($basicWidgets.EVENT_INPUT_BLUR, this.onInputBlur)
                     .subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, this.onInputStateChange);
@@ -306,8 +306,8 @@ _addDataCheckboxInput: function (itemWidget) {
              * @param {$widget.WidgetEvent} event
              * @ignore
              */
-            onButtonClick: function (event) {
-                console.info("button clicked", event.sender.instanceId);
+            onClickAreaClick: function (event) {
+                console.info("widget clicked", event.sender.instanceId);
             },
 
             /**

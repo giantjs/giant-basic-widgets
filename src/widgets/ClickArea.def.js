@@ -1,4 +1,4 @@
-$oop.postpone($basicWidgets, 'Button', function (ns, cn) {
+$oop.postpone($basicWidgets, 'ClickArea', function (ns, cn) {
     "use strict";
 
     var base = $widget.Widget,
@@ -7,22 +7,23 @@ $oop.postpone($basicWidgets, 'Button', function (ns, cn) {
             .addTrait($basicWidgets.Disableable);
 
     /**
-     * Creates a Button instance.
-     * @name $basicWidgets.Button.create
+     * Creates a ClickArea instance.
+     * @name $basicWidgets.ClickArea.create
      * @function
-     * @returns {$basicWidgets.Button}
+     * @returns {$basicWidgets.ClickArea}
      */
 
     /**
-     * General purpose button widget.
+     * Implements an area or container that can be clicked.
+     * Typically used as a button.
      * Supports disabling and click events.
      * @class
      * @extends $widget.Widget
      * @extends $basicWidgets.BinaryStateful
      * @extends $basicWidgets.Disableable
      */
-    $basicWidgets.Button = self
-        .addPrivateMethods(/** @lends $basicWidgets.Button# */{
+    $basicWidgets.ClickArea = self
+        .addPrivateMethods(/** @lends $basicWidgets.ClickArea# */{
             /**
              * @param {Element} element
              * @param {string} type
@@ -33,7 +34,7 @@ $oop.postpone($basicWidgets, 'Button', function (ns, cn) {
                 return element.addEventListener(type, callback);
             }
         })
-        .addMethods(/** @lends $basicWidgets.Button# */{
+        .addMethods(/** @lends $basicWidgets.ClickArea# */{
             /** @ignore */
             init: function () {
                 base.init.call(this);
@@ -62,12 +63,12 @@ $oop.postpone($basicWidgets, 'Button', function (ns, cn) {
             },
 
             /**
-             * Clicks the button. Call this method for controlling the button externally.
-             * @returns {$basicWidgets.Button}
+             * Clicks the area. Call this method for controlling the widget externally.
+             * @returns {$basicWidgets.ClickArea}
              */
-            clickButton: function () {
+            click: function () {
                 if (!this.isDisabled()) {
-                    this.triggerSync($basicWidgets.EVENT_BUTTON_CLICK);
+                    this.triggerSync($basicWidgets.EVENT_CLICK_AREA_CLICK);
                 }
                 return this;
             },
@@ -77,7 +78,7 @@ $oop.postpone($basicWidgets, 'Button', function (ns, cn) {
              * @ignore */
             onClick: function (event) {
                 var link = $event.pushOriginalEvent(event);
-                this.clickButton();
+                this.click();
                 link.unlink();
             }
         });
@@ -88,9 +89,9 @@ $oop.postpone($basicWidgets, 'Button', function (ns, cn) {
 
     $oop.addGlobalConstants.call($basicWidgets, /** @lends $basicWidgets */{
         /**
-         * Signals that a Button was clicked.
+         * Signals that a ClickArea was clicked.
          * @constants
          */
-        EVENT_BUTTON_CLICK: 'widget.click.button'
+        EVENT_CLICK_AREA_CLICK: 'widget.click-area.click'
     });
 }());
