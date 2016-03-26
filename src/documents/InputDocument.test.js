@@ -97,7 +97,7 @@
             .setNode({
                 name     : 'foo',
                 value: '1',
-                validator: 'validator/number'
+                validator: 'numberValidator/1'
             });
 
         'input/1'.toDocumentKey()
@@ -111,7 +111,7 @@
             .setNode({
                 name     : 'foo',
                 value: '1',
-                validator: 'validator/number'
+                validator: 'numberValidator/1'
             });
 
         'input/1'.toDocumentKey()
@@ -145,7 +145,7 @@
             });
 
         'input/1/foo'.toField().setValue('foo');
-        'input/1/validator'.toField().setValue('validator/number');
+        'input/1/validator'.toField().setValue('numberValidator/1');
 
         'input/1'.toDocumentKey()
             .unsubscribeFrom();
@@ -158,7 +158,7 @@
             .setNode({
                 name     : 'foo',
                 value: 'abc',
-                validator: 'validator/number'
+                validator: 'numberValidator/1'
             });
 
         'input/1'.toDocumentKey()

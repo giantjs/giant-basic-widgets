@@ -78,7 +78,7 @@
             .setNode({
                 name     : 'foo',
                 value: 1,
-                validator: 'validator/number'
+                validator: 'numberValidator/1'
             });
         'input/2'.toDocument()
             .setNode({
@@ -112,7 +112,7 @@
         'input/1'.toDocument().setNode({
             name     : 'foo',
             value    : '12345',
-            validator: 'validator/number'
+            validator: 'numberValidator/1'
         });
 
         'input/2'.toDocument().setNode({

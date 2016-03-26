@@ -113,11 +113,17 @@ _addTextInput: function (itemWidget) {
 
 /** @private */
 _addDataTextInput: function (itemWidget) {
+    // setting up validator
+    'numberValidator/1'.toDocument().setNode({
+        minValue: 1,
+        maxValue: 10
+    });
+
     // setting input properties
     'input/1'.toDocument().setNode({
         name: 'lives',
-        value: "9",
-        validator: 'validator/number'
+        value: '9',
+        validator: 'numberValidator/1'
     });
 
     // creating a label for the input

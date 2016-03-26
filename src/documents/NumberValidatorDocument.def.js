@@ -19,11 +19,34 @@ $oop.postpone($basicWidgets, 'NumberValidatorDocument', function () {
     $basicWidgets.NumberValidatorDocument = self
         .addMethods(/** @lends $basicWidgets.NumberValidatorDocument# */{
             /**
-             * @param {*} value
+             * Retrieves the minimum value for the number to validate.
+             * Returning undefined means there is no minimum value.
+             * @returns {number}
+             */
+            getMinValue: function () {
+                return this.getField('minValue').getValue();
+            },
+
+            /**
+             * Retrieves the maximum value for the number to validate.
+             * Returning undefined means there is no maximum value.
+             * @returns {number}
+             */
+            getMaxValue: function () {
+                return this.getField('maxValue').getValue();
+            },
+
+            /**
+             * @param {number} value
              * @returns {boolean}
              */
             validate: function (value) {
-                return !isNaN(value);
+                var minValue = this.getMinValue(),
+                    maxValue = this.getMaxValue();
+
+                return !isNaN(value) &&
+                    (minValue === undefined || value >= minValue) &&
+                    (maxValue === undefined || value <= maxValue);
             }
         });
 });
@@ -33,6 +56,6 @@ $oop.amendPostponed($entity, 'Document', function () {
 
     $entity.Document
         .addSurrogate($basicWidgets, 'NumberValidatorDocument', function (documentKey) {
-            return documentKey.equals('validator/number'.toDocumentKey());
+            return documentKey && documentKey.documentType === 'numberValidator';
         }, 1);
 });
