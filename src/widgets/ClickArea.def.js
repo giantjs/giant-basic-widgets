@@ -4,7 +4,8 @@ $oop.postpone($basicWidgets, 'ClickArea', function (ns, cn) {
     var base = $widget.Widget,
         self = base.extend(cn)
             .addTraitAndExtend($basicWidgets.BinaryStateful)
-            .addTrait($basicWidgets.Disableable);
+            .addTrait($basicWidgets.Disableable)
+            .addTraitAndExtend($basicWidgets.Clickable, 'Clickable');
 
     /**
      * Creates a ClickArea instance.
@@ -21,27 +22,16 @@ $oop.postpone($basicWidgets, 'ClickArea', function (ns, cn) {
      * @extends $widget.Widget
      * @extends $basicWidgets.BinaryStateful
      * @extends $basicWidgets.Disableable
+     * @extends $basicWidgets.Clickable
      */
     $basicWidgets.ClickArea = self
-        .addPrivateMethods(/** @lends $basicWidgets.ClickArea# */{
-            /**
-             * @param {Element} element
-             * @param {string} type
-             * @param {function} callback
-             * @private
-             */
-            _addEventListenerProxy: function (element, type, callback) {
-                return element.addEventListener(type, callback);
-            }
-        })
         .addMethods(/** @lends $basicWidgets.ClickArea# */{
             /** @ignore */
             init: function () {
                 base.init.call(this);
                 $basicWidgets.BinaryStateful.init.call(this);
                 $basicWidgets.Disableable.init.call(this);
-
-                this.elevateMethod('onClick');
+                $basicWidgets.Clickable.init.call(this);
             },
 
             /** @ignore */
@@ -59,39 +49,18 @@ $oop.postpone($basicWidgets, 'ClickArea', function (ns, cn) {
             /** @ignore */
             afterRender: function () {
                 base.afterRender.call(this);
-                this._addEventListenerProxy(this.getElement(), 'click', this.onClick);
+                $basicWidgets.Clickable.afterRender.call(this);
             },
 
             /**
-             * Clicks the area. Call this method for controlling the widget externally.
+             * Overrides Clickable's click to take disabled state into account.
              * @returns {$basicWidgets.ClickArea}
              */
             click: function () {
                 if (!this.isDisabled()) {
-                    this.triggerSync($basicWidgets.EVENT_CLICK_AREA_CLICK);
+                    $basicWidgets.Clickable.click.call(this);
                 }
                 return this;
-            },
-
-            /**
-             * @param {Event} event
-             * @ignore */
-            onClick: function (event) {
-                var link = $event.pushOriginalEvent(event);
-                this.click();
-                link.unlink();
             }
         });
 });
-
-(function () {
-    "use strict";
-
-    $oop.addGlobalConstants.call($basicWidgets, /** @lends $basicWidgets */{
-        /**
-         * Signals that a ClickArea was clicked.
-         * @constants
-         */
-        EVENT_CLICK_AREA_CLICK: 'widget.click-area.click'
-    });
-}());

@@ -10,7 +10,7 @@
 
         clickArea.addMocks({
             triggerSync: function (eventName) {
-                equal(eventName, $basicWidgets.EVENT_CLICK_AREA_CLICK,
+                equal(eventName, $basicWidgets.EVENT_CLICKABLE_CLICK,
                     "should trigger click event");
             }
         });

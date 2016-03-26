@@ -221,7 +221,7 @@ _addDataCheckboxInput: function (itemWidget) {
                 base.init.call(this);
 
                 this.elevateMethods(
-                    'onClickAreaClick',
+                    'onClickableClick',
                     'onInputFocus',
                     'onInputBlur',
                     'onInputStateChange');
@@ -296,7 +296,7 @@ _addDataCheckboxInput: function (itemWidget) {
             afterAdd: function () {
                 base.afterAdd.call(this);
                 this
-                    .subscribeTo($basicWidgets.EVENT_CLICK_AREA_CLICK, this.onClickAreaClick)
+                    .subscribeTo($basicWidgets.EVENT_CLICKABLE_CLICK, this.onClickableClick)
                     .subscribeTo($basicWidgets.EVENT_INPUT_FOCUS, this.onInputFocus)
                     .subscribeTo($basicWidgets.EVENT_INPUT_BLUR, this.onInputBlur)
                     .subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, this.onInputStateChange);
@@ -306,7 +306,7 @@ _addDataCheckboxInput: function (itemWidget) {
              * @param {$widget.WidgetEvent} event
              * @ignore
              */
-            onClickAreaClick: function (event) {
+            onClickableClick: function (event) {
                 console.info("widget clicked", event.sender.instanceId);
             },
 
