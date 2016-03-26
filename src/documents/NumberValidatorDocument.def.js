@@ -5,7 +5,7 @@ $oop.postpone($basicWidgets, 'NumberValidatorDocument', function () {
         self = base.extend();
 
     /**
-     * @name $basicWidgets.StringValidatorDocument.create
+     * @name $basicWidgets.NumberValidatorDocument.create
      * @function
      * @param {$entity.DocumentKey} documentKey
      * @returns {$basicWidgets.ValidatorDocument}
@@ -17,13 +17,13 @@ $oop.postpone($basicWidgets, 'NumberValidatorDocument', function () {
      * @extends $basicWidgets.ValidatorDocument
      */
     $basicWidgets.NumberValidatorDocument = self
-        .addMethods(/** @lends $basicWidgets.StringValidatorDocument# */{
+        .addMethods(/** @lends $basicWidgets.NumberValidatorDocument# */{
             /**
              * @param {*} value
              * @returns {boolean}
              */
             validate: function (value) {
-                return !isNaN(parseInt(value, 10));
+                return !isNaN(value);
             }
         });
 });

@@ -9,7 +9,7 @@
     });
 
     test("Validation", function () {
-        equal('validator/number'.toDocument().validate(true), false,
+        equal('validator/number'.toDocument().validate('abc'), false,
             "should return false for non-number");
         equal('validator/number'.toDocument().validate(12345), true,
             "should return true for number");
