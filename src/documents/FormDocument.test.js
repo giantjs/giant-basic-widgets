@@ -130,8 +130,10 @@
         function onFormValidityChange(event) {
             ok(event.sender.equals('form/1'.toDocumentKey()),
                 "should trigger form validity change event");
-            equal(event.payload.wasValid, true, "should set wasValid property");
-            equal(event.payload.isValid, false, "should set isValid property");
+            deepEqual(event.payload.wasValid, {}, "should set wasValid property");
+            deepEqual(event.payload.isValid, {
+                'validation-reason.not-a-number': true
+            }, "should set isValid property");
         }
 
         'form/1'.toDocumentKey()

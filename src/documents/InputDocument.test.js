@@ -88,14 +88,15 @@
 
         'input/1'.toDocumentKey()
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, function (event) {
+                console.log("event triggered");
                 ok(true, "should change input validity");
                 equal(event.payload.wasValid, undefined, "should set wasValid payload");
-                equal(event.payload.isValid, true, "should set isValid payload");
+                deepEqual(event.payload.isValid, {}, "should set isValid payload");
             });
 
         'input/1'.toDocument()
             .setNode({
-                name     : 'foo',
+                name: 'foo',
                 value: '1',
                 validator: 'numberValidator/1'
             });
@@ -109,7 +110,7 @@
 
         'input/1'.toDocument()
             .setNode({
-                name     : 'foo',
+                name: 'foo',
                 value: '1',
                 validator: 'numberValidator/1'
             });
@@ -117,8 +118,10 @@
         'input/1'.toDocumentKey()
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, function (event) {
                 ok(true, "should change input validity");
-                equal(event.payload.wasValid, true, "should set wasValid payload");
-                equal(event.payload.isValid, false, "should set isValid payload");
+                deepEqual(event.payload.wasValid, {}, "should set wasValid payload");
+                deepEqual(event.payload.isValid, {
+                    'validation-reason.not-a-number': true
+                }, "should set isValid payload");
             });
 
         'input/1/foo'.toField().setValue('foo');
@@ -133,15 +136,17 @@
 
         'input/1'.toDocument()
             .setNode({
-                name : 'foo',
+                name: 'foo',
                 value: 'abc'
             });
 
         'input/1'.toDocumentKey()
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, function (event) {
                 ok(true, "should change input validity");
-                equal(event.payload.wasValid, true, "should set wasValid payload");
-                equal(event.payload.isValid, false, "should set isValid payload");
+                deepEqual(event.payload.wasValid, {}, "should set wasValid payload");
+                deepEqual(event.payload.isValid, {
+                    'validation-reason.not-a-number': true
+                }, "should set isValid payload");
             });
 
         'input/1/foo'.toField().setValue('foo');
@@ -156,7 +161,7 @@
 
         'input/1'.toDocument()
             .setNode({
-                name     : 'foo',
+                name: 'foo',
                 value: 'abc',
                 validator: 'numberValidator/1'
             });
@@ -164,8 +169,10 @@
         'input/1'.toDocumentKey()
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, function (event) {
                 ok(true, "should change input validity");
-                equal(event.payload.wasValid, false, "should set wasValid payload");
-                equal(event.payload.isValid, true, "should set isValid payload");
+                deepEqual(event.payload.wasValid, {
+                    'validation-reason.not-a-number': true
+                }, "should set wasValid payload");
+                deepEqual(event.payload.isValid, {}, "should set isValid payload");
             });
 
         'input/1/validator'.toField().unsetNode();

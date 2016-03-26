@@ -23,10 +23,11 @@ $oop.postpone($basicWidgets, 'ValidatorDocument', function () {
              * according to the current validator's validation rules.
              * Override for specific documents to provide custom validation rules.
              * @param {*} value
-             * @returns {boolean}
+             * @returns {string[]} List of reason identifiers for failing validation.
+             * When array length is zero, validation succeeded.
              */
             validate: function (value) {
-                return true;
+                return [];
             }
         });
 });

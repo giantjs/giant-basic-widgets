@@ -14,15 +14,18 @@
             maxValue: 99999
         });
 
-        equal('numberValidator/1'.toDocument().validate('abc'), false,
-            "should return false for non-number");
-        equal('numberValidator/1'.toDocument().validate(12345), true,
-            "should return true for number");
-        equal('numberValidator/1'.toDocument().validate("12345"), true,
-            "should return true for stringified number");
-        equal('numberValidator/1'.toDocument().validate(5), false,
-            "should return false for lower than minimum");
-        equal('numberValidator/1'.toDocument().validate(100000), false,
-            "should return false for higher than maximum");
+        deepEqual('numberValidator/1'.toDocument().validate('abc'), [
+            $basicWidgets.NumberValidatorDocument.REASON_NAN
+        ], "should return NAN reason for non-number");
+        deepEqual('numberValidator/1'.toDocument().validate(12345), [],
+            "should return empty array for number");
+        deepEqual('numberValidator/1'.toDocument().validate("12345"), [],
+            "should return empty array for stringified number");
+        deepEqual('numberValidator/1'.toDocument().validate(5), [
+            $basicWidgets.NumberValidatorDocument.REASON_VALUE_TOO_LOW
+        ], "should return false for lower than minimum");
+        deepEqual('numberValidator/1'.toDocument().validate(100000), [
+            $basicWidgets.NumberValidatorDocument.REASON_VALUE_TOO_HIGH
+        ], "should return false for higher than maximum");
     });
 }());

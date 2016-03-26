@@ -22,25 +22,51 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
     $basicWidgets.InputDocument = self
         .addPrivateMethods(/** @lends $basicWidgets.InputDocument# */{
             /**
-             * @param {boolean} validity
+             * Validates current input value.
+             * TODO: Break down to further private methods.
              * @private
              */
-            _setValidity: function (validity) {
-                this.getField('_validity').setValue(validity);
-            },
-
-            /** @private */
             _validate: function () {
                 var validatorKey = this.getValidatorKey(),
-                    validatorDocument = validatorKey && validatorKey.toDocument();
+                    validatorDocument = validatorKey && validatorKey.toDocument(),
+                    reasonsField = this.getField('_reasons'),
+                    newReasons = (validatorDocument && validatorDocument.validate(this.getInputValue()) || [])
+                        .toCollection()
+                        .mapKeys(function (reason) {
+                            return reason;
+                        })
+                        .mapValues(function () {
+                            return true;
+                        })
+                        .toSet(),
+                    oldReasons = reasonsField
+                        .getItemsAsCollection()
+                        .toSet(),
+                    reasonsToAdd = newReasons
+                        .subtract(oldReasons)
+                        .toCollection(),
+                    reasonsToRemove = oldReasons
+                        .subtract(newReasons)
+                        .toCollection();
 
-                if (validatorDocument) {
-                    // setting validity flag corresponding to current input value
-                    this._setValidity(validatorDocument.validate(this.getInputValue()));
-                } else {
-                    // absent validator implies validity by default
-                    this._setValidity(true);
+                if (!reasonsField.getValue()) {
+                    // setting initial value for reasons, in case value starts out valid
+                    reasonsField.setValue({});
                 }
+
+                // adding new reasons
+                reasonsToAdd
+                    .mapValues(function (t, reason) {
+                        return reasonsField.getItem(reason);
+                    })
+                    .callOnEachItem('setValue', true);
+
+                // removing reasons that no longer apply
+                reasonsToRemove
+                    .mapValues(function (t, reason) {
+                        return reasonsField.getItem(reason);
+                    })
+                    .callOnEachItem('unsetKey');
             }
         })
         .addMethods(/** @lends $basicWidgets.InputDocument# */{
@@ -115,10 +141,15 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
             },
 
             /**
+             * Determines the validity of the input document's current value.
              * @returns {boolean}
              */
             getValidity: function () {
-                return this.getField('_validity').getValue();
+                var reasonCount = this.getField('_reasons')
+                    .getItemsAsCollection()
+                    .getKeyCount();
+
+                return reasonCount === 0;
             },
 
             /**
@@ -140,9 +171,10 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
                     valueBefore = beforeNode && beforeNode.value,
                     valueAfter = afterNode && afterNode.value,
                     validatorRefBefore = beforeNode && beforeNode.validator,
-                    validatorRefAfter = afterNode && afterNode.validator,
-                    validityBefore = beforeNode && beforeNode._validity,
-                    validityAfter = afterNode && afterNode._validity;
+                    validatorRefAfter = afterNode && afterNode.validator;
+
+                var validityBefore = beforeNode && beforeNode._reasons,
+                    validityAfter = afterNode && afterNode._reasons;
 
                 if (valueAfter !== valueBefore ||
                     validatorRefAfter !== validatorRefBefore
@@ -156,7 +188,7 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
                     // when validity flag changes
                     // calling appropriate field change handler
                     this.onValidityChange(event.clone()
-                        .setSender(documentKey.getFieldKey('_validity'))
+                        .setSender(documentKey.getFieldKey('_reasons'))
                         .setAffectedKey(documentKey)
                         .setBeforeNode(validityBefore)
                         .setAfterNode(validityAfter));
@@ -178,10 +210,10 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
              * @ignore
              */
             onValidityChange: function (event) {
-                var wasValid = event.beforeNode,
-                    isValid = event.afterNode;
+                var reasonsBefore = event.beforeNode,
+                    reasonsAfter = event.afterNode;
 
-                if (typeof isValid === 'undefined') {
+                if (typeof reasonsAfter === 'undefined') {
                     // validity has been removed
                     // re-validating
                     this._validate();
@@ -189,8 +221,8 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
                     // TODO: Use custom validity event class.
                     this.entityKey.spawnEvent($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE)
                         .setPayloadItems({
-                            wasValid: wasValid,
-                            isValid : isValid
+                            wasValid: reasonsBefore,
+                            isValid: reasonsAfter
                         })
                         .triggerSync();
                 }
@@ -241,7 +273,7 @@ $oop.amendPostponed($entity, 'entityEventSpace', function () {
                             .onValidatorChange(event);
                         break;
 
-                    case '_validity':
+                    case '_reasons':
                         // input validator field changed
                         documentKey.toDocument()
                             .onValidityChange(event);

@@ -17,6 +17,25 @@ $oop.postpone($basicWidgets, 'NumberValidatorDocument', function () {
      * @extends $basicWidgets.ValidatorDocument
      */
     $basicWidgets.NumberValidatorDocument = self
+        .addConstants(/** @lends $basicWidgets.NumberValidatorDocument */{
+            /**
+             * Signals that the value was not a number.
+             * @constant
+             */
+            REASON_NAN: 'validation-reason.not-a-number',
+
+            /**
+             * Signals that the value was lower than the minimum.
+             * @constant
+             */
+            REASON_VALUE_TOO_LOW: 'validation-reason.value-too-low',
+
+            /**
+             * Signals that the value exceeded the maximum value.
+             * @constant
+             */
+            REASON_VALUE_TOO_HIGH: 'validation-reason.value-too-high'
+        })
         .addMethods(/** @lends $basicWidgets.NumberValidatorDocument# */{
             /**
              * Retrieves the minimum value for the number to validate.
@@ -38,15 +57,27 @@ $oop.postpone($basicWidgets, 'NumberValidatorDocument', function () {
 
             /**
              * @param {number} value
-             * @returns {boolean}
+             * @returns {string[]}
              */
             validate: function (value) {
-                var minValue = this.getMinValue(),
-                    maxValue = this.getMaxValue();
+                var isNumber = !isNaN(value),
+                    minValue = this.getMinValue(),
+                    maxValue = this.getMaxValue(),
+                    result = [];
 
-                return !isNaN(value) &&
-                    (minValue === undefined || value >= minValue) &&
-                    (maxValue === undefined || value <= maxValue);
+                if (!isNumber) {
+                    result.push(self.REASON_NAN);
+                }
+
+                if (minValue !== undefined && value < minValue) {
+                    result.push(self.REASON_VALUE_TOO_LOW);
+                }
+
+                if (minValue !== undefined && value > maxValue) {
+                    result.push(self.REASON_VALUE_TOO_HIGH);
+                }
+
+                return result;
             }
         });
 });

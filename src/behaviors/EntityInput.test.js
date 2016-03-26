@@ -67,7 +67,7 @@
         var input = EntityInput.create('input/1'.toDocumentKey());
 
         'input/1'.toDocument().setNode({
-            _validity: false
+            _reasons: ['foo']
         });
 
         input.afterAdd();
@@ -78,7 +78,7 @@
             }
         });
 
-        'input/1/_validity'.toField().setValue(true);
+        'input/1/_reasons'.toField().setValue([]);
 
         input.afterRemove();
     });

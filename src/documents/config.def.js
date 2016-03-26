@@ -12,6 +12,6 @@ $oop.amendPostponed($entity, 'config', function () {
         'input/value'    : {},
         'input/state'    : {},
         'input/validator': {fieldType: 'reference'},
-        'input/_validity': {fieldType: 'boolean'}
+        'input/_reasons': {fieldType: 'collection'}
     });
 });
