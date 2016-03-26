@@ -3,12 +3,12 @@
   "version": "0.3.0",
   "description": "Basic widgets module for Giant",
   "keywords": [
-    "widgets",
-    "button",
-    "label",
-    "form",
-    "dropdown",
-    "popup"
+    "checkbox",
+    "databound",
+    "input",
+    "radio",
+    "text",
+    "widgets"
   ],
   "author": "Dan Stocker <dan@kwaia.com>",
   "copyright": "Copyright (c) 2014-2015 Dan Stocker",
