@@ -223,8 +223,8 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
                         .setPayloadItems({
                             reasonsBefore: reasonsBefore,
                             reasonsAfter: reasonsAfter,
-                            wasValid: reasonsBefore,
-                            isValid: reasonsAfter
+                            wasValid: reasonsBefore && $data.DataUtils.isEmptyObject(reasonsBefore),
+                            isValid: $data.DataUtils.isEmptyObject(reasonsAfter)
                         })
                         .triggerSync();
                 }

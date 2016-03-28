@@ -82,7 +82,7 @@
     });
 
     test("Input document change handler", function () {
-        expect(3);
+        expect(5);
 
         'input/1'.toDocument().unsetNode();
 
@@ -92,6 +92,8 @@
                 ok(true, "should change input validity");
                 equal(event.payload.reasonsBefore, undefined, "should set reasonsBefore payload");
                 deepEqual(event.payload.reasonsAfter, {}, "should set reasonsAfter payload");
+                equal(event.payload.wasValid, undefined, "should set wasValid payload");
+                equal(event.payload.isValid, true, "should set isValid payload");
             });
 
         'input/1'.toDocument()
@@ -106,7 +108,7 @@
     });
 
     test("Input value change handler", function () {
-        expect(3);
+        expect(5);
 
         'input/1'.toDocument()
             .setNode({
@@ -122,6 +124,8 @@
                 deepEqual(event.payload.reasonsAfter, {
                     'validation-reason.not-a-number': true
                 }, "should set reasonsAfter payload");
+                equal(event.payload.wasValid, true, "should set wasValid payload");
+                equal(event.payload.isValid, false, "should set isValid payload");
             });
 
         'input/1/foo'.toField().setValue('foo');
@@ -132,7 +136,7 @@
     });
 
     test("Input validator change handler", function () {
-        expect(3);
+        expect(5);
 
         'input/1'.toDocument()
             .setNode({
@@ -147,6 +151,8 @@
                 deepEqual(event.payload.reasonsAfter, {
                     'validation-reason.not-a-number': true
                 }, "should set reasonsAfter payload");
+                equal(event.payload.wasValid, true, "should set wasValid payload");
+                equal(event.payload.isValid, false, "should set isValid payload");
             });
 
         'input/1/foo'.toField().setValue('foo');
@@ -157,7 +163,7 @@
     });
 
     test("Input validator remove handler", function () {
-        expect(3);
+        expect(5);
 
         'input/1'.toDocument()
             .setNode({
@@ -173,6 +179,8 @@
                     'validation-reason.not-a-number': true
                 }, "should set reasonsBefore payload");
                 deepEqual(event.payload.reasonsAfter, {}, "should set reasonsAfter payload");
+                equal(event.payload.wasValid, false, "should set wasValid payload");
+                equal(event.payload.isValid, true, "should set isValid payload");
             });
 
         'input/1/validator'.toField().unsetNode();
