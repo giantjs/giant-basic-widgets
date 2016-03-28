@@ -100,8 +100,8 @@
 
         'input/1'.toDocument()
             .setNode({
-                name: 'foo',
-                value: '1',
+                name     : 'foo',
+                value    : '1',
                 validator: 'numberValidator/1'
             });
 
@@ -114,8 +114,8 @@
 
         'input/1'.toDocument()
             .setNode({
-                name: 'foo',
-                value: '1',
+                name     : 'foo',
+                value    : '1',
                 validator: 'numberValidator/1'
             });
 
@@ -140,12 +140,52 @@
             .unsubscribeFrom();
     });
 
+    test("Input value change between invalid states handler", function () {
+        expect(3);
+
+        'numberValidator/1'.toDocument()
+            .setNode({
+                minValue: 6,
+                maxValue: 4
+            });
+
+        'input/1'.toDocument()
+            .setNode({
+                name     : 'foo',
+                value    : 5,
+                validator: 'numberValidator/1'
+            });
+
+        'input/1'.toDocumentKey()
+            .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, function (event) {
+                ok(false, "should NOT change input validity");
+            })
+            .subscribeTo($basicWidgets.EVENT_INPUT_VALIDATION_FAILURE_CHANGE, function (event) {
+                ok(true, "should change input validation failure");
+                deepEqual(event.payload.reasonsBefore, {
+                    "validation-reason.value-too-high": true,
+                    "validation-reason.value-too-low": true
+                }, "should set reasonsBefore payload");
+                deepEqual(event.payload.reasonsAfter, {
+                    "validation-reason.value-too-high": true
+                }, "should set reasonsAfter payload");
+            });
+
+        // will still be invalid after change - but for different reasons
+        'input/1/value'.toField().setValue(7);
+
+        'input/1'.toDocumentKey()
+            .unsubscribeFrom();
+
+        'numberValidator/1'.toDocument().unsetNode();
+    });
+
     test("Input validator change handler", function () {
         expect(6);
 
         'input/1'.toDocument()
             .setNode({
-                name: 'foo',
+                name : 'foo',
                 value: 'abc'
             });
 
@@ -175,8 +215,8 @@
 
         'input/1'.toDocument()
             .setNode({
-                name: 'foo',
-                value: 'abc',
+                name     : 'foo',
+                value    : 'abc',
                 validator: 'numberValidator/1'
             });
 
