@@ -221,6 +221,8 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
                     // TODO: Use custom validity event class.
                     this.entityKey.spawnEvent($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE)
                         .setPayloadItems({
+                            reasonsBefore: reasonsBefore,
+                            reasonsAfter: reasonsAfter,
                             wasValid: reasonsBefore,
                             isValid: reasonsAfter
                         })

@@ -90,8 +90,8 @@
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, function (event) {
                 console.log("event triggered");
                 ok(true, "should change input validity");
-                equal(event.payload.wasValid, undefined, "should set wasValid payload");
-                deepEqual(event.payload.isValid, {}, "should set isValid payload");
+                equal(event.payload.reasonsBefore, undefined, "should set reasonsBefore payload");
+                deepEqual(event.payload.reasonsAfter, {}, "should set reasonsAfter payload");
             });
 
         'input/1'.toDocument()
@@ -118,10 +118,10 @@
         'input/1'.toDocumentKey()
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, function (event) {
                 ok(true, "should change input validity");
-                deepEqual(event.payload.wasValid, {}, "should set wasValid payload");
-                deepEqual(event.payload.isValid, {
+                deepEqual(event.payload.reasonsBefore, {}, "should set reasonsBefore payload");
+                deepEqual(event.payload.reasonsAfter, {
                     'validation-reason.not-a-number': true
-                }, "should set isValid payload");
+                }, "should set reasonsAfter payload");
             });
 
         'input/1/foo'.toField().setValue('foo');
@@ -143,10 +143,10 @@
         'input/1'.toDocumentKey()
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, function (event) {
                 ok(true, "should change input validity");
-                deepEqual(event.payload.wasValid, {}, "should set wasValid payload");
-                deepEqual(event.payload.isValid, {
+                deepEqual(event.payload.reasonsBefore, {}, "should set reasonsBefore payload");
+                deepEqual(event.payload.reasonsAfter, {
                     'validation-reason.not-a-number': true
-                }, "should set isValid payload");
+                }, "should set reasonsAfter payload");
             });
 
         'input/1/foo'.toField().setValue('foo');
@@ -169,10 +169,10 @@
         'input/1'.toDocumentKey()
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, function (event) {
                 ok(true, "should change input validity");
-                deepEqual(event.payload.wasValid, {
+                deepEqual(event.payload.reasonsBefore, {
                     'validation-reason.not-a-number': true
-                }, "should set wasValid payload");
-                deepEqual(event.payload.isValid, {}, "should set isValid payload");
+                }, "should set reasonsBefore payload");
+                deepEqual(event.payload.reasonsAfter, {}, "should set reasonsAfter payload");
             });
 
         'input/1/validator'.toField().unsetNode();
