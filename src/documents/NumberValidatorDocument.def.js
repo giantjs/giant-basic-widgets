@@ -12,7 +12,11 @@ $oop.postpone($basicWidgets, 'NumberValidatorDocument', function () {
      */
 
     /**
-     * Implements string validation.
+     * Describes number validation.
+     * Validation might fail in case the value is
+     * a) not a number
+     * b) too low (optional)
+     * c) too high (optional)
      * @class
      * @extends $basicWidgets.ValidatorDocument
      */
