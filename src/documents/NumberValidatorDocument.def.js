@@ -30,6 +30,7 @@ $oop.postpone($basicWidgets, 'NumberValidatorDocument', function () {
 
             /**
              * Signals that the value was lower than the minimum.
+             * TODO: Snip out "value".
              * @constant
              */
             REASON_VALUE_TOO_LOW: 'validation-reason.value-too-low',
@@ -77,7 +78,7 @@ $oop.postpone($basicWidgets, 'NumberValidatorDocument', function () {
                     result.push(self.REASON_VALUE_TOO_LOW);
                 }
 
-                if (minValue !== undefined && value > maxValue) {
+                if (maxValue !== undefined && value > maxValue) {
                     result.push(self.REASON_VALUE_TOO_HIGH);
                 }
 

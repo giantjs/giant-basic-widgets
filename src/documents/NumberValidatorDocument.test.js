@@ -16,16 +16,24 @@
 
         deepEqual('numberValidator/1'.toDocument().validate('abc'), [
             $basicWidgets.NumberValidatorDocument.REASON_NAN
-        ], "should return NAN reason for non-number");
+        ], "should fail for non-number");
         deepEqual('numberValidator/1'.toDocument().validate(12345), [],
-            "should return empty array for number");
+            "should pass for number within min and max");
         deepEqual('numberValidator/1'.toDocument().validate("12345"), [],
-            "should return empty array for stringified number");
+            "should pass for stringified number");
         deepEqual('numberValidator/1'.toDocument().validate(5), [
             $basicWidgets.NumberValidatorDocument.REASON_VALUE_TOO_LOW
-        ], "should return false for lower than minimum");
+        ], "should fail for number lower than minimum");
         deepEqual('numberValidator/1'.toDocument().validate(100000), [
             $basicWidgets.NumberValidatorDocument.REASON_VALUE_TOO_HIGH
-        ], "should return false for higher than maximum");
+        ], "should fail for number higher than maximum");
+
+        'numberValidator/1'.toDocument().unsetNode();
+
+        deepEqual('numberValidator/1'.toDocument().validate(5), [],
+            "should pass with no minimum");
+        deepEqual('numberValidator/1'.toDocument().validate(100000), [],
+            "should pass with no maximum");
+
     });
 }());
