@@ -65,20 +65,3 @@ $oop.amendPostponed($event, 'Event', function () {
             return eventName === 'widget.change.input.state';
         }, 1);
 });
-
-(function () {
-    "use strict";
-
-    $assertion.addTypes(/** @lends $assertion */{
-        /** @param {$basicWidgets.InputStateChangeEvent} expr */
-        isInputStateChangeEvent: function (expr) {
-            return $basicWidgets.InputStateChangeEvent.isBaseOf(expr);
-        },
-
-        /** @param {$basicWidgets.InputStateChangeEvent} expr */
-        isInputStateChangeEventOptional: function (expr) {
-            return expr === undefined ||
-                $basicWidgets.InputStateChangeEvent.isBaseOf(expr);
-        }
-    });
-}());
