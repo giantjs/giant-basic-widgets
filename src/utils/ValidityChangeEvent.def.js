@@ -53,6 +53,19 @@ $oop.postpone($basicWidgets, 'ValidityChangeEvent', function () {
             setIsValid: function (isValid) {
                 this.isValid = isValid;
                 return this;
+            },
+
+            /**
+             * @param {$data.Path} currentPath
+             * @returns {$basicWidgets.ValidityChangeEvent}
+             */
+            clone: function (currentPath) {
+                var result = base.clone.call(this, currentPath);
+
+                result.wasValid = this.wasValid;
+                result.isValid = this.isValid;
+
+                return result;
             }
         });
 });

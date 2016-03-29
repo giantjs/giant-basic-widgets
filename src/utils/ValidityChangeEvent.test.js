@@ -29,4 +29,15 @@
         strictEqual(event.setIsValid(true), event, "should be chainable");
         equal(event.isValid, true, "should set isValid property");
     });
+
+    test("Cloning", function () {
+        var event = $widget.widgetEventSpace.spawnEvent('widget.validity.change')
+            .setWasValid(true)
+            .setIsValid(false),
+            clone = event.clone('foo'.toPath());
+
+        ok(clone.isA($basicWidgets.ValidityChangeEvent), "should return ValidityChangeEvent");
+        equal(clone.wasValid, event.wasValid, "should copy wasValid property");
+        equal(clone.isValid, event.isValid, "should copy isValid property");
+    })
 }());

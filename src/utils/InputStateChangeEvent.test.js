@@ -29,4 +29,15 @@
         strictEqual(event.setAfterValue('foo'), event, "should be chainable");
         equal(event.afterValue, 'foo', "should set afterValue property");
     });
+
+    test("Cloning", function () {
+        var event = $widget.widgetEventSpace.spawnEvent('widget.change.input.state')
+            .setBeforeValue('foo')
+            .setAfterValue('bar'),
+            clone = event.clone('baz'.toPath());
+
+        ok(clone.isA($basicWidgets.InputStateChangeEvent), "should return InputStateChangeEvent");
+        equal(clone.beforeValue, event.beforeValue, "should copy beforeValue property");
+        equal(clone.afterValue, event.afterValue, "should copy afterValue property");
+    })
 }());

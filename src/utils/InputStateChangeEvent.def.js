@@ -53,6 +53,19 @@ $oop.postpone($basicWidgets, 'InputStateChangeEvent', function () {
             setAfterValue: function (afterValue) {
                 this.afterValue = afterValue;
                 return this;
+            },
+
+            /**
+             * @param {$data.Path} currentPath
+             * @returns {$basicWidgets.InputStateChangeEvent}
+             */
+            clone: function (currentPath) {
+                var result = base.clone.call(this, currentPath);
+
+                result.beforeValue = this.beforeValue;
+                result.afterValue = this.afterValue;
+
+                return result;
             }
         });
 });
