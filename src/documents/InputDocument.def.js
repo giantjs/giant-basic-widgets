@@ -242,10 +242,8 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
                 if (isValid !== wasValid) {
                     // TODO: Use custom validity event class.
                     this.entityKey.spawnEvent($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE)
-                        .setPayloadItems({
-                            wasValid: wasValid,
-                            isValid: isValid
-                        })
+                        .setWasValid(wasValid)
+                        .setIsValid(isValid)
                         .triggerSync();
                 }
             }
@@ -325,13 +323,13 @@ $oop.amendPostponed($entity, 'entityEventSpace', function () {
          * Eg. the entered email address becomes valid.
          * @constant
          */
-        EVENT_INPUT_VALIDITY_CHANGE: 'widget.input.validity-change',
+        EVENT_INPUT_VALIDITY_CHANGE: 'widget.validity.change.input',
 
         /**
          * Signals that the validation failure(s) associated with an input have changed.
          * Eg. an entered password is no longer too short, but still does not satisfy a RegExp.
          * @constant
          */
-        EVENT_INPUT_VALIDATION_FAILURE_CHANGE: 'widget.input.validation-failure-change'
+        EVENT_INPUT_VALIDATION_FAILURE_CHANGE: 'widget.validation-failure.change.input'
     });
 }());

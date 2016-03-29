@@ -76,12 +76,11 @@ $oop.postpone($basicWidgets, 'FormDocument', function () {
             },
 
             /**
-             * @param {$event.Event} event
+             * @param {$basicWidgets.ValidityChangeEvent} event
              * @ignore
              */
             onInputValidityChange: function (event) {
                 var inputKey = event.sender,
-                    payload = event.payload,
                     isRestValid;
 
                 // determining whether rest of the fields are valid
@@ -98,10 +97,8 @@ $oop.postpone($basicWidgets, 'FormDocument', function () {
 
                 if (isRestValid) {
                     this.entityKey.spawnEvent($basicWidgets.EVENT_FORM_VALIDITY_CHANGE)
-                        .setPayloadItems({
-                            wasValid: payload.wasValid,
-                            isValid : payload.isValid
-                        })
+                        .setWasValid(event.wasValid)
+                        .setIsValid(event.isValid)
                         .triggerSync();
                 }
             }
@@ -147,6 +144,6 @@ $oop.amendPostponed($entity, 'entityEventSpace', function () {
          * Signals that the validity of an entire form has changed.
          * @constant
          */
-        EVENT_FORM_VALIDITY_CHANGE: 'widget.form.validity-change'
+        EVENT_FORM_VALIDITY_CHANGE: 'widget.validity.change.form'
     });
 }());

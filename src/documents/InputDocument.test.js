@@ -89,8 +89,8 @@
         'input/1'.toDocumentKey()
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, function (event) {
                 ok(true, "should change input validity");
-                equal(event.payload.wasValid, undefined, "should set wasValid payload");
-                equal(event.payload.isValid, true, "should set isValid payload");
+                equal(event.wasValid, undefined, "should set wasValid payload");
+                equal(event.isValid, true, "should set isValid payload");
             })
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDATION_FAILURE_CHANGE, function (event) {
                 ok(true, "should change input validation failure");
@@ -122,8 +122,8 @@
         'input/1'.toDocumentKey()
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, function (event) {
                 ok(true, "should change input validity");
-                equal(event.payload.wasValid, true, "should set wasValid payload");
-                equal(event.payload.isValid, false, "should set isValid payload");
+                equal(event.wasValid, true, "should set wasValid payload");
+                equal(event.isValid, false, "should set isValid payload");
             })
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDATION_FAILURE_CHANGE, function (event) {
                 ok(true, "should change input validation failure");
@@ -192,8 +192,8 @@
         'input/1'.toDocumentKey()
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, function (event) {
                 ok(true, "should change input validity");
-                equal(event.payload.wasValid, true, "should set wasValid payload");
-                equal(event.payload.isValid, false, "should set isValid payload");
+                equal(event.wasValid, true, "should set wasValid payload");
+                equal(event.isValid, false, "should set isValid payload");
             })
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDATION_FAILURE_CHANGE, function (event) {
                 ok(true, "should change input validation failure");
@@ -223,8 +223,8 @@
         'input/1'.toDocumentKey()
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, function (event) {
                 ok(true, "should change input validity");
-                equal(event.payload.wasValid, false, "should set wasValid payload");
-                equal(event.payload.isValid, true, "should set isValid payload");
+                equal(event.wasValid, false, "should set wasValid payload");
+                equal(event.isValid, true, "should set isValid payload");
             })
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDATION_FAILURE_CHANGE, function (event) {
                 ok(true, "should change input validation failure");
