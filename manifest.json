@@ -10,6 +10,7 @@
         "src/documents/FormDocument.def.js",
         "src/documents/InputDocument.def.js",
         "src/documents/NumberValidatorDocument.def.js",
+        "src/documents/RegexpValidatorDocument.def.js",
         "src/documents/StringValidatorDocument.def.js",
         "src/documents/ValidatorDocument.def.js",
         "src/behaviors/BinaryState.def.js",
