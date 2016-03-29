@@ -94,8 +94,8 @@
             })
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDATION_FAILURE_CHANGE, function (event) {
                 ok(true, "should change input validation failure");
-                equal(event.payload.reasonsBefore, undefined, "should set reasonsBefore payload");
-                deepEqual(event.payload.reasonsAfter, {}, "should set reasonsAfter payload");
+                equal(event.reasonsBefore, undefined, "should set reasonsBefore payload");
+                deepEqual(event.reasonsAfter, {}, "should set reasonsAfter payload");
             });
 
         'input/1'.toDocument()
@@ -127,8 +127,8 @@
             })
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDATION_FAILURE_CHANGE, function (event) {
                 ok(true, "should change input validation failure");
-                deepEqual(event.payload.reasonsBefore, {}, "should set reasonsBefore payload");
-                deepEqual(event.payload.reasonsAfter, {
+                deepEqual(event.reasonsBefore, {}, "should set reasonsBefore payload");
+                deepEqual(event.reasonsAfter, {
                     'validation-reason.not-a-number': true
                 }, "should set reasonsAfter payload");
             });
@@ -162,11 +162,11 @@
             })
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDATION_FAILURE_CHANGE, function (event) {
                 ok(true, "should change input validation failure");
-                deepEqual(event.payload.reasonsBefore, {
+                deepEqual(event.reasonsBefore, {
                     "validation-reason.value-too-high": true,
                     "validation-reason.value-too-low": true
                 }, "should set reasonsBefore payload");
-                deepEqual(event.payload.reasonsAfter, {
+                deepEqual(event.reasonsAfter, {
                     "validation-reason.value-too-high": true
                 }, "should set reasonsAfter payload");
             });
@@ -197,8 +197,8 @@
             })
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDATION_FAILURE_CHANGE, function (event) {
                 ok(true, "should change input validation failure");
-                deepEqual(event.payload.reasonsBefore, {}, "should set reasonsBefore payload");
-                deepEqual(event.payload.reasonsAfter, {
+                deepEqual(event.reasonsBefore, {}, "should set reasonsBefore payload");
+                deepEqual(event.reasonsAfter, {
                     'validation-reason.not-a-number': true
                 }, "should set reasonsAfter payload");
             });
@@ -228,10 +228,10 @@
             })
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDATION_FAILURE_CHANGE, function (event) {
                 ok(true, "should change input validation failure");
-                deepEqual(event.payload.reasonsBefore, {
+                deepEqual(event.reasonsBefore, {
                     'validation-reason.not-a-number': true
                 }, "should set reasonsBefore payload");
-                deepEqual(event.payload.reasonsAfter, {}, "should set reasonsAfter payload");
+                deepEqual(event.reasonsAfter, {}, "should set reasonsAfter payload");
             });
 
         'input/1/validator'.toField().unsetNode();

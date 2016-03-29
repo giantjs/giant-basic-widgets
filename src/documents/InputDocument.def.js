@@ -218,29 +218,24 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
                     // re-validating
                     this._validate();
                 } else {
-                    // TODO: Use custom validity event class.
                     this.entityKey.spawnEvent($basicWidgets.EVENT_INPUT_VALIDATION_FAILURE_CHANGE)
-                        .setPayloadItems({
-                            reasonsBefore: reasonsBefore,
-                            reasonsAfter: reasonsAfter
-                        })
+                        .setReasonsBefore(reasonsBefore)
+                        .setReasonsAfter(reasonsAfter)
                         .triggerSync();
                 }
             },
 
             /**
-             * @param {$event.Event} event
+             * @param {$basicWidgets.ValidationFailureChangeEvent} event
              * @ignore
              */
             onValidationFailureChange: function (event) {
-                var payload = event.payload,
-                    reasonsBefore = payload.reasonsBefore,
-                    reasonsAfter = payload.reasonsAfter,
+                var reasonsBefore = event.reasonsBefore,
+                    reasonsAfter = event.reasonsAfter,
                     wasValid = reasonsBefore && $data.DataUtils.isEmptyObject(reasonsBefore),
                     isValid = reasonsAfter && $data.DataUtils.isEmptyObject(reasonsAfter);
 
                 if (isValid !== wasValid) {
-                    // TODO: Use custom validity event class.
                     this.entityKey.spawnEvent($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE)
                         .setWasValid(wasValid)
                         .setIsValid(isValid)
