@@ -22,10 +22,10 @@
         deepEqual('numberValidator/1'.toDocument().validate("12345"), [],
             "should pass for stringified number");
         deepEqual('numberValidator/1'.toDocument().validate(5), [
-            $basicWidgets.NumberValidatorDocument.REASON_VALUE_TOO_LOW
+            $basicWidgets.NumberValidatorDocument.REASON_TOO_LOW
         ], "should fail for number lower than minimum");
         deepEqual('numberValidator/1'.toDocument().validate(100000), [
-            $basicWidgets.NumberValidatorDocument.REASON_VALUE_TOO_HIGH
+            $basicWidgets.NumberValidatorDocument.REASON_TOO_HIGH
         ], "should fail for number higher than maximum");
 
         'numberValidator/1'.toDocument().unsetNode();

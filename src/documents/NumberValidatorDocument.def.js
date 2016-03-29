@@ -30,16 +30,15 @@ $oop.postpone($basicWidgets, 'NumberValidatorDocument', function () {
 
             /**
              * Signals that the value was lower than the minimum.
-             * TODO: Snip out "value".
              * @constant
              */
-            REASON_VALUE_TOO_LOW: 'validation-reason.value-too-low',
+            REASON_TOO_LOW: 'validation-reason.too-low',
 
             /**
              * Signals that the value exceeded the maximum value.
              * @constant
              */
-            REASON_VALUE_TOO_HIGH: 'validation-reason.value-too-high'
+            REASON_TOO_HIGH: 'validation-reason.too-high'
         })
         .addMethods(/** @lends $basicWidgets.NumberValidatorDocument# */{
             /**
@@ -75,11 +74,11 @@ $oop.postpone($basicWidgets, 'NumberValidatorDocument', function () {
                 }
 
                 if (minValue !== undefined && value < minValue) {
-                    result.push(self.REASON_VALUE_TOO_LOW);
+                    result.push(self.REASON_TOO_LOW);
                 }
 
                 if (maxValue !== undefined && value > maxValue) {
-                    result.push(self.REASON_VALUE_TOO_HIGH);
+                    result.push(self.REASON_TOO_HIGH);
                 }
 
                 return result;

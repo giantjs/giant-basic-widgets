@@ -163,11 +163,11 @@
             .subscribeTo($basicWidgets.EVENT_INPUT_VALIDATION_FAILURE_CHANGE, function (event) {
                 ok(true, "should change input validation failure");
                 deepEqual(event.reasonsBefore, {
-                    "validation-reason.value-too-high": true,
-                    "validation-reason.value-too-low": true
+                    "validation-reason.too-high": true,
+                    "validation-reason.too-low": true
                 }, "should set reasonsBefore payload");
                 deepEqual(event.reasonsAfter, {
-                    "validation-reason.value-too-high": true
+                    "validation-reason.too-high": true
                 }, "should set reasonsAfter payload");
             });
 
