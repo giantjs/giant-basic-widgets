@@ -26,6 +26,7 @@
         "src/widgets/DataDirectInput.def.js",
         "src/widgets/DataHyperlink.def.js",
         "src/widgets/DataImage.def.js",
+        "src/widgets/DataList.def.js",
         "src/widgets/DataText.def.js",
         "src/widgets/DataTextArea.def.js",
         "src/widgets/DirectInput.def.js",
