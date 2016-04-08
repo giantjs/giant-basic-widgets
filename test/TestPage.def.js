@@ -204,6 +204,41 @@ _addDataCheckboxInput: function (itemWidget) {
     return $basicWidgets.DataBinaryInput.create('checkbox', 'input/2'.toDocumentKey())
         .linkLabelWidget(label);
 },
+
+/** @private */
+_addList: function () {
+    return $basicWidgets.List.create()
+        .addItemWidget($basicWidgets.Text.create()
+            .setChildName('month-01')
+            .setContentString("January"))
+        .addItemWidget($basicWidgets.Text.create()
+            .setChildName('month-02')
+            .setContentString("February"))
+        .addItemWidget($basicWidgets.Text.create()
+            .setChildName('month-99')
+            .setContentString("and so on..."));
+},
+
+/** @private */
+_addDataList: function () {
+    // adding field configuration
+    $entity.config.appendNode('document>field'.toPath(), {
+        'week/days': { fieldType : 'collection' }
+    });
+
+    // setting collection contents
+    'week/1'.toDocument().setNode({
+        days: {
+            '1': 'Monday',
+            '2': 'Tuesday',
+            '3': 'Wednesday',
+            '4': 'Thursday',
+            '5': 'Friday'
+        }
+    });
+
+    return $basicWidgets.DataList.create('week/1/days'.toFieldKey());
+},
             //@formatter:on
 
             /**
@@ -296,6 +331,14 @@ _addDataCheckboxInput: function (itemWidget) {
                 this._addWidget(
                     this._addDataCheckboxInput,
                     "'input/2/state'.toField().setValue(false)");
+
+                this._addWidget(
+                    this._addList,
+                    "widgetId.toWidget().getChild('month-02').removeFromParent()");
+
+                this._addWidget(
+                    this._addDataList,
+                    "'week/1/days/3'.toItem().unsetKey()");
             },
 
             /** @ignore */
