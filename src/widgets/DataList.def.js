@@ -18,7 +18,7 @@ $oop.postpone($basicWidgets, 'DataList', function (ns, className) {
      * Keeps list in sync with the changes of the corresponding collection.
      * Expects to be bound to a field of field type 'collection',
      * and item ID type 'reference'.
-     * TODO: Add single item value change handler.
+     * TODO: Add single item value change handler. (Depends on change in $entity.)
      * @class
      * @extends $basicWidgets.List
      * @extends $entity.EntityBound
@@ -26,10 +26,7 @@ $oop.postpone($basicWidgets, 'DataList', function (ns, className) {
      */
     $basicWidgets.DataList = self
         .addPrivateMethods(/** @lends $basicWidgets.DataList# */{
-            /**
-             * TODO: Break down to smaller functions.
-             * @private
-             */
+            /** @private */
             _updateItemWidgets: function () {
                 var fieldKey = this.entityKey,
 
