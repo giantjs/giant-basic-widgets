@@ -223,7 +223,32 @@ _addList: function () {
 },
 
 /** @private */
-_addDataList: function () {
+_addEntityList: function () {
+    // constructing EntityList class
+    var EntityList = $basicWidgets.List.extend('EntityList')
+        .addTraitAndExtend($basicWidgets.EntityList)
+        .addMethods({
+            init: function (fieldKey) {
+                $basicWidgets.List.init.call(this);
+                $basicWidgets.EntityList.init.call(this, fieldKey);
+            },
+            afterAdd: function () {
+                $basicWidgets.List.afterAdd.call(this);
+                $basicWidgets.EntityList.afterAdd.call(this);
+            },
+            afterRemove: function () {
+                $basicWidgets.List.afterRemove.call(this);
+                $basicWidgets.EntityList.afterRemove.call(this);
+            },
+            spawnItemWidget: function (itemKey) {
+                return $basicWidgets.DataText.create(itemKey)
+                    .setTagName('li');
+            },
+            spawnItemName: function (itemKey) {
+                return itemKey.itemId;
+            }
+        });
+
     // adding field configuration
     $entity.config.appendNode('document>field'.toPath(), {
         'week/days': { fieldType : 'collection' }
@@ -240,7 +265,7 @@ _addDataList: function () {
         }
     });
 
-    return $basicWidgets.DataList.create('week/1/days'.toFieldKey());
+    return EntityList.create('week/1/days'.toFieldKey());
 },
             //@formatter:on
 
@@ -339,9 +364,9 @@ _addDataList: function () {
                     this._addList,
                     "widgetId.toWidget().getChild('month-02').removeFromParent()");
 
-                this._addWidget(
-                    this._addDataList,
-                    "'week/1/days/3'.toItem().unsetKey()");
+//                this._addWidget(
+//                    this._addEntityList,
+//                    "'week/1/days/3'.toItem().unsetKey()");
             },
 
             /** @ignore */

@@ -1,34 +1,26 @@
-$oop.postpone($basicWidgets, 'DataList', function (ns, className) {
+$oop.postpone($basicWidgets, 'EntityList', function () {
     "use strict";
 
-    var base = $basicWidgets.List,
-        self = base.extend(className)
+    var base = $basicWidgets.EntityWidget,
+        self = base.extend()
             .addTrait($basicWidgets.EntityWidget);
 
     /**
-     * Creates a DataList instance.
-     * @name $basicWidgets.DataList.create
-     * @function
-     * @param {$entity.FieldKey} fieldKey Key to an ordered reference collection.
-     * @returns {$basicWidgets.DataList}
-     */
-
-    /**
-     * The DataList maintains a list of widgets based on a collection field.
+     * The EntityList maintains a list of widgets based on a collection field.
      * Keeps list in sync with the changes of the corresponding collection.
      * Expects to be bound to a field of field type 'collection',
      * and item ID type 'reference'.
      * TODO: Add single item value change handler. (Depends on change in $entity.)
      * @class
-     * @extends $basicWidgets.List
-     * @extends $entity.EntityBound
      * @extends $basicWidgets.EntityWidget
+     * @extends $basicWidgets.List
      */
-    $basicWidgets.DataList = self
-        .addPrivateMethods(/** @lends $basicWidgets.DataList# */{
+    $basicWidgets.EntityList = self
+        .addPrivateMethods(/** @lends $basicWidgets.EntityList# */{
             /** @private */
             _updateItemWidgets: function () {
-                var fieldKey = this.entityKey,
+                var that = this,
+                    fieldKey = this.entityKey,
 
                 // identifying new and current item IDs
                     itemIdsInCache = this.entityKey.toField()
@@ -49,12 +41,15 @@ $oop.postpone($basicWidgets, 'DataList', function (ns, className) {
                         });
 
                 // obtaining widgets based on
-                    var widgetsToRemove = itemKeysToRemove
-                        .passEachItemTo(this.getItemWidgetByKey, this)
-                        .filterByType($widget.Widget)
-                        .toWidgetCollection(),
+                var widgetsToRemove = itemKeysToRemove
+                    .passEachItemTo(this.getItemWidgetByKey, this)
+                    .filterByType($widget.Widget)
+                    .toWidgetCollection(),
                     widgetsToAdd = itemKeysToAdd
-                        .passEachItemTo(this.spawnItemWidget, this)
+                        .mapValues(function (itemKey) {
+                            return that.spawnItemWidget(itemKey)
+                                .setChildName(that.spawnItemName(itemKey));
+                        })
                         .toWidgetCollection();
 
                 // removing old widgets
@@ -73,7 +68,7 @@ $oop.postpone($basicWidgets, 'DataList', function (ns, className) {
                     .passEachItemTo(this.spawnItemName);
             }
         })
-        .addMethods(/** @lends $basicWidgets.DataList# */{
+        .addMethods(/** @lends $basicWidgets.EntityList# */{
             /**
              * @param {$entity.FieldKey} fieldKey
              * @ignore
@@ -84,50 +79,28 @@ $oop.postpone($basicWidgets, 'DataList', function (ns, className) {
                     .assert(fieldKey.getFieldType() === 'collection', "Invalid field type");
 
                 base.init.call(this);
-                $entity.EntityBound.init.call(this);
                 $basicWidgets.EntityWidget.init.call(this, fieldKey);
 
                 /**
+                 * Lookup between item IDs and child names for item widgets.
                  * @type {$data.Collection}
                  */
                 this.itemIdToChildName = $data.Collection.create();
             },
 
-            /** @ignore */
+            /**
+             * Call from host's afterAdd()
+             */
             afterAdd: function () {
-                base.afterAdd.call(this);
                 this._updateItemWidgets();
                 this.bindToEntityChange(this.entityKey, 'onItemsChange');
             },
 
-            /** @ignore */
+            /**
+             * Call from host's afterRemove()
+             */
             afterRemove: function () {
-                base.afterRemove.call(this);
                 this.unbindFromEntityChange(this.entityKey, 'onItemsChange');
-            },
-
-            /**
-             * Creates item widget for the specified item key.
-             * To specify a custom widget class, either override this method in a subclass, or provide
-             * a surrogate definition on DataText, in case the custom item widget is also DataText-based.
-             * @param {$entity.ReferenceItemKey} itemKey
-             * @returns {$widget.Widget}
-             */
-            spawnItemWidget: function (itemKey) {
-                return $basicWidgets.DataText.create(itemKey)
-                    .setTagName('li')
-                    .setChildName(this.spawnItemName(itemKey));
-            },
-
-            /**
-             * Retrieves the item childName associated with the specified itemKey. (Child name determines order.)
-             * To specify custom child name for item widgets, override this method.
-             * TODO: Rename to 'spawnItemOrder' once giant-widget supports independent child ordering.
-             * @param {$entity.ItemKey} itemKey
-             * @returns {string}
-             */
-            spawnItemName: function (itemKey) {
-                return itemKey.itemId;
             },
 
             /**
@@ -142,10 +115,27 @@ $oop.postpone($basicWidgets, 'DataList', function (ns, className) {
 
             /**
              * Called when at least one collection item gets added or removed.
-             * @ignores
+             * @ignore
              */
             onItemsChange: function () {
                 this._updateItemWidgets();
             }
         });
+
+    /**
+     * Creates item widget for the specified item key.
+     * To specify a custom widget class, override this method in the host.
+     * @name $basicWidgets.EntityList#spawnItemWidget
+     * @function
+     * @returns {$widget.Widget}
+     */
+
+    /**
+     * Retrieves the item childName associated with the specified itemKey. (Child name determines order.)
+     * To specify custom child name for item widgets, override this method.
+     * TODO: Rename to 'spawnItemOrder' once giant-widget supports independent child ordering.
+     * @name $basicWidgets.EntityList#spawnItemName
+     * @function
+     * @returns {string}
+     */
 });

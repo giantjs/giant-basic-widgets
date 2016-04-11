@@ -1,52 +1,58 @@
 (function () {
     "use strict";
 
-    module("DataList");
+    module("EntityList");
+
+    var DataTextList = $basicWidgets.List.extend('DataTextList')
+        .addTraitAndExtend($basicWidgets.EntityList)
+        .addMethods({
+            init: function (fieldKey) {
+                $basicWidgets.List.init.call(this);
+                $basicWidgets.EntityList.init.call(this, fieldKey);
+            },
+
+            afterAdd: function () {
+                $basicWidgets.List.afterAdd.call(this);
+                $basicWidgets.EntityList.afterAdd.call(this);
+            },
+
+            afterRemove: function () {
+                $basicWidgets.List.afterRemove.call(this);
+                $basicWidgets.EntityList.afterRemove.call(this);
+            },
+
+            spawnItemWidget: function (itemKey) {
+                return $basicWidgets.DataText.create(itemKey)
+                    .setTagName('li');
+            },
+
+            spawnItemName: function (itemKey) {
+                return itemKey.itemId;
+            }
+        });
 
     test("Instantiation", function () {
         throws(function () {
-            $basicWidgets.DataList.create();
+            DataTextList.create();
         }, "should raise exception on missing arguments");
 
         throws(function () {
-            $basicWidgets.DataList.create('foo');
+            DataTextList.create('foo');
         }, "should raise exception on invalid arguments");
 
         throws(function () {
-            $basicWidgets.DataList.create('input/dataListTest/name'.toFieldKey());
+            DataTextList.create('input/dataListTest/name'.toFieldKey());
         }, "should raise exception on invalid field type");
 
-        var dataList = $basicWidgets.DataList.create('form/dataListTest/inputs'.toFieldKey());
+        var dataList = DataTextList.create('form/dataListTest/inputs'.toFieldKey());
 
         ok(dataList.itemIdToChildName.isA($data.Collection),
             "should set itemRefToChildName property");
     });
 
-    test("Default item widget spawner", function () {
-        var fieldKey = 'form/dataListTest/inputs'.toFieldKey(),
-            itemKey = fieldKey.getItemKey('foo'),
-            dataList = $basicWidgets.DataList.create(fieldKey),
-            itemWidget;
-
-        itemWidget = dataList.spawnItemWidget(itemKey);
-
-        ok(itemWidget.isA($basicWidgets.DataText), "should return DataText instance");
-        equal(itemWidget.childName, dataList.spawnItemName(itemKey),
-            "should set childName property on item widget");
-    });
-
-    test("Default item name spawner", function () {
-        var fieldKey = 'form/dataListTest/inputs'.toFieldKey(),
-            itemKey = fieldKey.getItemKey('foo'),
-            dataList = $basicWidgets.DataList.create(fieldKey);
-
-        equal(dataList.spawnItemName(itemKey), 'foo',
-            "should return item ID");
-    });
-
     test("Item widget updating", function () {
         var fieldKey = 'form/dataListTest/inputs'.toFieldKey(),
-            dataList = $basicWidgets.DataList.create(fieldKey),
+            dataList = DataTextList.create(fieldKey),
             removedChildNames = [],
             addedChildNames = [];
 
@@ -89,7 +95,7 @@
 
     test("Item widget getter by item key", function () {
         var fieldKey = 'form/dataListTest/inputs'.toFieldKey(),
-            dataList = $basicWidgets.DataList.create(fieldKey);
+            dataList = DataTextList.create(fieldKey);
 
         fieldKey.toField()
             .setNode({
@@ -115,7 +121,7 @@
         expect(1);
 
         var fieldKey = 'form/dataListTest/inputs'.toFieldKey(),
-            dataList = $basicWidgets.DataList.create(fieldKey);
+            dataList = DataTextList.create(fieldKey);
 
         fieldKey.toField()
             .setNode({
