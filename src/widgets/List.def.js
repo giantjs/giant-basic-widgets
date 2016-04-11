@@ -16,6 +16,28 @@ $oop.postpone($basicWidgets, 'List', function (ns, cn) {
      * @extends $widget.Widget
      */
     $basicWidgets.List = self
+        .addPrivateMethods(/** @lends $basicWidgets.List# */{
+            /**
+             * @param {$widget.Widget} itemWidget
+             * @private
+             */
+            _checkListItemTagName: function (itemWidget) {
+                var itemTagName = itemWidget.tagName;
+
+                switch (this.tagName) {
+                case 'ul':
+                case 'ol':
+                    return itemTagName === 'li';
+
+                case 'dl':
+                    return itemTagName === 'dt' ||
+                        itemTagName === 'dd';
+
+                default:
+                    return true;
+                }
+            }
+        })
         .addMethods(/** @lends $basicWidgets.List# */{
             /** @ignore */
             init: function () {
@@ -29,9 +51,11 @@ $oop.postpone($basicWidgets, 'List', function (ns, cn) {
              * @returns {$basicWidgets.List}
              */
             addItemWidget: function (itemWidget) {
-                itemWidget
-                    .setTagName('li')
-                    .addToParent(this);
+                $assertion.assert(this._checkListItemTagName(itemWidget),
+                    "Invalid item tag name");
+
+                itemWidget.addToParent(this);
+
                 return this;
             }
         });

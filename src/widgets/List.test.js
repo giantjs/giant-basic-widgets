@@ -13,8 +13,18 @@
         var list = $basicWidgets.List.create(),
             item = $widget.Widget.create();
 
+        throws(function () {
+            list.addItemWidget(item);
+        }, "should throw exception on invalid tag name");
+
+        item.setTagName('li');
+
         strictEqual(list.addItemWidget(item), list, "should be chainable");
         strictEqual(item.parent, list, "should add item to list as child");
-        equal(item.tagName, 'li', "should set item's tagName property to li");
+
+        // should not throw exception
+        $basicWidgets.List.create()
+            .setTagName('div')
+            .addItemWidget($widget.Widget.create());
     });
 }());

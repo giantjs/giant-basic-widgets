@@ -115,6 +115,7 @@ $oop.postpone($basicWidgets, 'DataList', function (ns, className) {
              */
             spawnItemWidget: function (itemKey) {
                 return $basicWidgets.DataText.create(itemKey)
+                    .setTagName('li')
                     .setChildName(this.spawnItemName(itemKey));
             },
 
