@@ -40,11 +40,11 @@ $oop.postpone(window, 'TestListItem', function (ns, cn) {
                     .setContainerCssClass('name-container')
                     .addToParent(this);
 
-                $basicWidgets.List.create()
+                $widget.Widget.create()
                     .setChildName('widget-attributes')
-                    .addItemWidget($basicWidgets.Text.create()
+                    .addChild($basicWidgets.Text.create()
                         .setChildName('widget-id'))
-                    .addItemWidget($basicWidgets.Text.create()
+                    .addChild($basicWidgets.Text.create()
                         .setChildName('widget-entity-key'))
                     .setContainerCssClass('attributes-container')
                     .addToParent(this);

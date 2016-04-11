@@ -209,12 +209,15 @@ _addDataCheckboxInput: function (itemWidget) {
 _addList: function () {
     return $basicWidgets.List.create()
         .addItemWidget($basicWidgets.Text.create()
+            .setTagName('li')
             .setChildName('month-01')
             .setContentString("January"))
         .addItemWidget($basicWidgets.Text.create()
+            .setTagName('li')
             .setChildName('month-02')
             .setContentString("February"))
         .addItemWidget($basicWidgets.Text.create()
+            .setTagName('li')
             .setChildName('month-99')
             .setContentString("and so on..."));
 },

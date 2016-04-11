@@ -19,6 +19,7 @@ $oop.postpone(window, 'TestList', function (ns, cn) {
             /** @ignore */
             init: function () {
                 base.init.call(this);
+                this.setTagName('div');
 
                 /** @type {number} */
                 this.itemCount = 0;
