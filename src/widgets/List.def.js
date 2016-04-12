@@ -46,7 +46,7 @@ $oop.postpone($basicWidgets, 'List', function (ns, cn) {
             },
 
             /**
-             * Adds item to list. Changes item's tagName property to 'li'.
+             * Adds item to list.
              * @param itemWidget
              * @returns {$basicWidgets.List}
              */
