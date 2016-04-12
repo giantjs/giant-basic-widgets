@@ -6,7 +6,7 @@ $oop.postpone($basicWidgets, 'EntityList', function () {
             .addTrait($basicWidgets.EntityWidget);
 
     /**
-     * The EntityList maintains a list of widgets based on a collection field.
+     * Enables list-like widgets to bind their children composition to a collection field.
      * Keeps list in sync with the changes of the corresponding collection.
      * Expects to be bound to a field of field type 'collection',
      * and item ID type 'reference'.
