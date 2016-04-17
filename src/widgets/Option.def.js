@@ -43,6 +43,15 @@ $oop.postpone($basicWidgets, 'Option', function (ns, cn) {
             /**
              * TODO: Move to DOM proxy class.
              * @param {HTMLOptionElement} element
+             * @private
+             */
+            _getSelectedProxy: function (element) {
+                return element.selected;
+            },
+
+            /**
+             * TODO: Move to DOM proxy class.
+             * @param {HTMLOptionElement} element
              * @param {boolean} selected
              * @private
              */
@@ -64,6 +73,16 @@ $oop.postpone($basicWidgets, 'Option', function (ns, cn) {
                  * @type {boolean}
                  */
                 this.isSelected = false;
+            },
+
+            /** @ignore */
+            afterRender: function () {
+                base.afterRender.call(this);
+
+                // syncing selected state to 'selected' attribute
+                if (this._getSelectedProxy(this.getElement())) {
+                    this.selectOption();
+                }
             },
 
             /** @ignore */

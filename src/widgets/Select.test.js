@@ -121,16 +121,17 @@
 
         function onSelectionCahnge(event) {
             ok(true, "should trigger event about change");
-            deepEqual(event.payload.beforeValues, {},
-                "should send before values to event");
-            deepEqual(event.payload.afterValues, {
+            deepEqual(event.payload.beforeValues, {
                 foo: 'foo'
+            }, "should send before values to event");
+            deepEqual(event.payload.afterValues, {
+                bar: 'bar'
             }, "should send before values to event");
         }
 
         select.subscribeTo($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, onSelectionCahnge);
 
-        option1.selectOption();
+        option2.selectOption();
 
         select.unsubscribeFrom($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, onSelectionCahnge);
 

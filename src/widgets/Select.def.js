@@ -191,17 +191,19 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
 
                     // setting new selected option values
                     selectedValues.setItem(affectedValue, affectedValue);
+
+                    // triggering event about selected value change
+                    this.spawnEvent($basicWidgets.EVENT_SELECT_SELECTION_CHANGE)
+                        .setPayloadItems({
+                            beforeValues: oldSelectedValues.items,
+                            afterValues : selectedValues.items
+                        })
+                        .triggerSync();
                 } else {
                     selectedValues.deleteItem(affectedValue);
-                }
 
-                // triggering event about selected value change
-                this.spawnEvent($basicWidgets.EVENT_SELECT_SELECTION_CHANGE)
-                    .setPayloadItems({
-                        beforeValues: oldSelectedValues.items,
-                        afterValues : selectedValues.items
-                    })
-                    .triggerSync();
+                    // TODO: Trigger event when multiple
+                }
             }
         });
 });
