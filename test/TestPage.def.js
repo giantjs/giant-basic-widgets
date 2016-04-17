@@ -267,6 +267,23 @@ _addEntityList: function () {
 
     return EntityList.create('week/1/days'.toFieldKey());
 },
+
+/** @private */
+_addSelect: function () {
+    return $basicWidgets.Select.create()
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('month-01')
+            .setOptionValue('january')
+            .setContentString("January"))
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('month-02')
+            .setOptionValue('february')
+            .setContentString("February"))
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('month-99')
+            .setOptionValue('other')
+            .setContentString("and so on..."));
+},
             //@formatter:on
 
             /**
@@ -293,7 +310,10 @@ _addEntityList: function () {
                     'onClickableClick',
                     'onInputFocus',
                     'onInputBlur',
-                    'onInputStateChange');
+                    'onInputStateChange',
+                    'onOptionValueChange',
+                    'onOptionSelectedChange',
+                    'onSelectSelectionChange');
 
                 $basicWidgets.Text.create()
                     .setTagName('h1')
@@ -367,6 +387,10 @@ _addEntityList: function () {
 //                this._addWidget(
 //                    this._addEntityList,
 //                    "'week/1/days/3'.toItem().unsetKey()");
+
+                this._addWidget(
+                    this._addSelect,
+                    "widgetId.toWidget().getOptionWidgetByValue('february').selectOption()");
             },
 
             /** @ignore */
@@ -376,7 +400,10 @@ _addEntityList: function () {
                     .subscribeTo($basicWidgets.EVENT_CLICKABLE_CLICK, this.onClickableClick)
                     .subscribeTo($basicWidgets.EVENT_INPUT_FOCUS, this.onInputFocus)
                     .subscribeTo($basicWidgets.EVENT_INPUT_BLUR, this.onInputBlur)
-                    .subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, this.onInputStateChange);
+                    .subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, this.onInputStateChange)
+                    .subscribeTo($basicWidgets.EVENT_OPTION_VALUE_CHANGE, this.onOptionValueChange)
+                    .subscribeTo($basicWidgets.EVENT_OPTION_SELECTED_CHANGE, this.onOptionSelectedChange)
+                    .subscribeTo($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, this.onSelectSelectionChange);
             },
 
             /**
@@ -412,6 +439,39 @@ _addEntityList: function () {
                     "input state changed", event.sender.instanceId,
                     "from", event.beforeValue,
                     "to", event.afterValue);
+            },
+
+            /**
+             * @param {$event.Event} event
+             * @ignore
+             */
+            onOptionValueChange: function (event) {
+                console.info(
+                    "option value changed", event.sender.instanceId,
+                    "from", event.payload.beforeValue,
+                    "to", event.payload.afterValue);
+            },
+
+            /**
+             * @param {$event.Event} event
+             * @ignore
+             */
+            onOptionSelectedChange: function (event) {
+                console.info(
+                    "option selected state changed", event.sender.instanceId,
+                    "from", event.payload.wasSelected,
+                    "to", event.payload.isSelected);
+            },
+
+            /**
+             * @param {$event.Event} event
+             * @ignore
+             */
+            onSelectSelectionChange: function (event) {
+                console.info(
+                    "select selection changed", event.sender.instanceId,
+                    "from", Object.keys(event.payload.beforeValues),
+                    "to", Object.keys(event.payload.afterValues));
             }
         });
 });
