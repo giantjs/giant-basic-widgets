@@ -15,7 +15,6 @@ $oop.postpone($basicWidgets, 'Option', function (ns, cn) {
 
     /**
      * Represents a single option among multiple choices, based on the <option> element.
-     * TODO: Update selected state after rendering, based on 'selected' HTML attribute.
      * @class
      * @extends $basicWidgets.Text
      * @extends $basicWidgets.Disableable
