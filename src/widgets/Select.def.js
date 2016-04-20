@@ -2,7 +2,8 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
     "use strict";
 
     var base = $basicWidgets.List,
-        self = base.extend(cn);
+        self = base.extend(cn),
+        slice = Array.prototype.slice;
 
     /**
      * @name $basicWidgets.Select.create
@@ -12,24 +13,11 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
 
     /**
      * A select dropdown based on the <select> element.
-     * Multiple selected items are not supported ATM.
-     * TODO: Multiple select as subclass?
      * @class
      * @extends $basicWidgets.List
      */
     $basicWidgets.Select = self
         .addPrivateMethods(/** @lends $basicWidgets.Select# */{
-            /**
-             * @param {$widget.Widget} itemWidget
-             * @private
-             */
-            _checkOptionTagName: function (itemWidget) {
-                var itemTagName = itemWidget.tagName;
-
-                return itemTagName === 'option' ||
-                    itemTagName === 'optgroup';
-            },
-
             /**
              * TODO: Move to DomProxy static class.
              * @param {Element} element
@@ -48,6 +36,45 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
              */
             _valueGetterProxy: function (element) {
                 return element.value;
+            },
+
+            /**
+             * TODO: Move to DomProxy static class.
+             * @param {HTMLSelectElement} element
+             * @param {boolean} multiple
+             * @private
+             */
+            _multipleSetterProxy: function (element, multiple) {
+                element.multiple = multiple;
+            },
+
+            /**
+             * TODO: Move to DomProxy static class.
+             * @param {HTMLSelectElement} element
+             * @returns {HTMLCollection}
+             * @private
+             */
+            _selectedOptionsGetterProxy: function (element) {
+                return element.selectedOptions;
+            },
+
+            /** @private */
+            _updateMultiplicity: function () {
+                var element = this.getElement(),
+                    selectedOptionWidget;
+
+                if (element) {
+                    // updating DOM
+                    this._multipleSetterProxy(element, this.allowsMultipleOptions);
+                }
+
+                if (!this.allowsMultipleOptions) {
+                    // reducing number of selected values to 1
+                    selectedOptionWidget = this.getOptionWidgetByValue(this.selectedValues.getFirstValue());
+                    if (selectedOptionWidget) {
+                        selectedOptionWidget.selectOption();
+                    }
+                }
             }
         })
         .addMethods(/** @lends $basicWidgets.Select# */{
@@ -56,9 +83,17 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
                 base.init.call(this);
 
                 this.elevateMethods(
+                    '_valueGetterProxy',
+                    'getOptionWidgetByValue',
                     'onChange',
                     'onOptionValueChange',
                     'onOptionSelectedChange');
+
+                /**
+                 * Whether multiple options may be selected.
+                 * @type {boolean}
+                 */
+                this.allowsMultipleOptions = false;
 
                 /**
                  * All option widgets indexed by their values.
@@ -79,6 +114,9 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
             /** @ignore */
             afterAdd: function () {
                 base.afterAdd.call(this);
+
+                this._updateMultiplicity();
+
                 this.subscribeTo($basicWidgets.EVENT_OPTION_VALUE_CHANGE, this.onOptionValueChange)
                     .subscribeTo($basicWidgets.EVENT_OPTION_SELECTED_CHANGE, this.onOptionSelectedChange);
             },
@@ -89,8 +127,6 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
 
                 var element = this.getElement();
                 this._addEventListenerProxy(element, 'change', this.onChange);
-
-                // TODO: Initial value from DOM? How will that mix with entity binding in subclass?
             },
 
             /**
@@ -114,6 +150,26 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
             },
 
             /**
+             * Allows select to have multiple options selected.
+             * @returns {$basicWidgets.Select}
+             */
+            allowMultipleSelected: function () {
+                this.allowsMultipleOptions = true;
+                this._updateMultiplicity();
+                return this;
+            },
+
+            /**
+             * Prevents select to have multiple options selected.
+             * @returns {$basicWidgets.Select}
+             */
+            allowSingleSelectedOnly: function () {
+                this.allowsMultipleOptions = false;
+                this._updateMultiplicity();
+                return this;
+            },
+
+            /**
              * Retrieves the Option instance associated with the specified value.
              * @param {string} optionValue
              * @returns {$basicWidgets.Option}
@@ -129,14 +185,24 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
             onChange: function (event) {
                 var link = $event.pushOriginalEvent(event);
 
-                // identifying affected option
-                var affectedValue = this._valueGetterProxy(this.getElement()),
-                    affectedOptionWidget = this.getOptionWidgetByValue(affectedValue);
+                var selectedOptionElements = this._selectedOptionsGetterProxy(this.getElement()),
+                    oldSelectedValues = this.selectedValues.toSet(),
+                    newSelectedValues = slice.call(selectedOptionElements).toCollection()
+                        .mapValues(this._valueGetterProxy)
+                        .mapKeys(function (value, key) {
+                            return value;
+                        })
+                        .toSet(),
+                    selectedValues = newSelectedValues.subtract(oldSelectedValues).toCollection(),
+                    deselectedValues = oldSelectedValues.subtract(newSelectedValues).toCollection();
 
-                if (affectedOptionWidget) {
-                    // selecting option widget
-                    affectedOptionWidget.selectOption();
-                }
+                selectedValues
+                    .mapValues(this.getOptionWidgetByValue)
+                    .callOnEachItem('selectOption');
+
+                deselectedValues
+                    .mapValues(this.getOptionWidgetByValue)
+                    .callOnEachItem('deselectOption');
 
                 link.unlink();
             },
@@ -181,17 +247,25 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
                     oldSelectedValues = selectedValues.clone(),
                     isSelected = affectedOptionWidget.isSelected;
 
-                if (isSelected) {
-                    // TODO: This is only for single select
+                if (isSelected && !this.allowsMultipleOptions) {
+                    // when option got selected in a single select
                     // deselecting currently selected options
                     selectedValues.toStringDictionary()
                         .combineWith(this.optionWidgetsByValue.toDictionary())
                         .toCollection()
                         .callOnEachItem('deselectOption');
+                }
 
-                    // setting new selected option values
+                // updating selected values
+                if (isSelected) {
                     selectedValues.setItem(affectedValue, affectedValue);
+                } else {
+                    selectedValues.deleteItem(affectedValue);
+                }
 
+                if (isSelected || this.allowsMultipleOptions) {
+                    // when option got selected in a single select
+                    // or selected / deselected in a multi select
                     // triggering event about selected value change
                     this.spawnEvent($basicWidgets.EVENT_SELECT_SELECTION_CHANGE)
                         .setPayloadItems({
@@ -199,10 +273,6 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
                             afterValues : selectedValues.items
                         })
                         .triggerSync();
-                } else {
-                    selectedValues.deleteItem(affectedValue);
-
-                    // TODO: Trigger event when multiple
                 }
             }
         });
