@@ -14,6 +14,9 @@ $oop.amendPostponed($entity, 'config', function () {
         'input/validator': {fieldType: 'reference'},
         'input/_reasons' : {fieldType: 'collection'},
 
+        'option/value'      : {fieldType: 'string'},
+        'option/description': {fieldType: 'string'},
+
         'numberValidator/minValue': {fieldType: 'number'},
         'numberValidator/maxValue': {fieldType: 'number'},
 
