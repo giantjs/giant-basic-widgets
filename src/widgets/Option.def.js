@@ -86,6 +86,7 @@ $oop.postpone($basicWidgets, 'Option', function (ns, cn) {
 
             /** @ignore */
             afterStateOn: function (stateName) {
+                $basicWidgets.Disableable.afterStateOn.call(this, stateName);
                 if (stateName === self.STATE_NAME_DISABLED) {
                     this._updateDisabledAttribute();
                 }
@@ -93,6 +94,7 @@ $oop.postpone($basicWidgets, 'Option', function (ns, cn) {
 
             /** @ignore */
             afterStateOff: function (stateName) {
+                $basicWidgets.Disableable.afterStateOff.call(this, stateName);
                 if (stateName === self.STATE_NAME_DISABLED) {
                     this._updateDisabledAttribute();
                 }
