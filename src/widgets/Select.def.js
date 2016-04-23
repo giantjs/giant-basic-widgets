@@ -245,8 +245,6 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
                     selectedValues = newSelectedValues.subtract(oldSelectedValues).toCollection(),
                     deselectedValues = oldSelectedValues.subtract(newSelectedValues).toCollection();
 
-                // TODO: How to hit individual options without triggering select change each time?
-
                 selectedValues
                     .mapValues(this.getOptionWidgetByValue)
                     .callOnEachItem('selectOption');
@@ -288,6 +286,7 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
             },
 
             /**
+             * TODO: Debounce handler.
              * @param {$event.Event} event
              * @ignore
              */
