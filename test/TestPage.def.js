@@ -107,7 +107,7 @@ _addTextInput: function (itemWidget) {
         .addToParent(itemWidget);
 
     return $basicWidgets.DirectInput.create('text')
-        .setInputName('name')
+        .setName('name')
         .linkLabelWidget(label);
 },
 
@@ -147,7 +147,7 @@ _addTextArea: function (itemWidget) {
         .addToParent(itemWidget);
 
     return $basicWidgets.TextArea.create()
-        .setInputName('description')
+        .setName('description')
         .linkLabelWidget(label);
 },
 
@@ -180,8 +180,8 @@ _addCheckboxInput: function (itemWidget) {
         .addToParent(itemWidget);
 
     return $basicWidgets.BinaryInput.create('checkbox')
-        .setInputName('meows')
-        .setInputValue('Yes')
+        .setName('meows')
+        .setValue('Yes')
         .linkLabelWidget(label);
 },
 
@@ -358,7 +358,7 @@ _addSelect: function () {
 
                 this._addWidget(
                     this._addTextInput,
-                    "widgetId.toWidget().setInputValue('foo')");
+                    "widgetId.toWidget().setValue('foo')");
 
                 this._addWidget(
                     this._addDataTextInput,
@@ -366,7 +366,7 @@ _addSelect: function () {
 
                 this._addWidget(
                     this._addTextArea,
-                    "widgetId.toWidget().setInputValue('foo')");
+                    "widgetId.toWidget().setValue('foo')");
 
                 this._addWidget(
                     this._addDataTextArea,

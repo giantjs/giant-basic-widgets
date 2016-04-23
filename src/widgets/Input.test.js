@@ -134,7 +134,7 @@
             }
         });
 
-        strictEqual(input.getInputType(), attributeValue,
+        strictEqual(input.getType(), attributeValue,
             "should forward value returned by htmlAttributes");
     });
 
@@ -150,7 +150,7 @@
             }
         });
 
-        strictEqual(input.setInputValue('foo'), input, "should be chainable");
+        strictEqual(input.setValue('foo'), input, "should be chainable");
     });
 
     test("Input value removal", function () {
@@ -164,7 +164,7 @@
             }
         });
 
-        strictEqual(input.clearInputValue(), input, "should be chainable");
+        strictEqual(input.clearValue(), input, "should be chainable");
     });
 
     test("Input value getter", function () {
@@ -180,7 +180,7 @@
             }
         });
 
-        strictEqual(input.getInputValue(), attributeValue,
+        strictEqual(input.getValue(), attributeValue,
             "should forward value returned by htmlAttributes");
     });
 
@@ -195,7 +195,7 @@
             }
         });
 
-        strictEqual(input.setInputName('foo'), input, "should be chainable");
+        strictEqual(input.setName('foo'), input, "should be chainable");
         equal(input.htmlAttributes.getItem('name'), 'foo', "should set name attribute");
     });
 
@@ -214,14 +214,14 @@
             }
         });
 
-        strictEqual(input.clearInputName(), input, "should be chainable");
+        strictEqual(input.clearName(), input, "should be chainable");
     });
 
     test("Input name getter", function () {
         var input = $basicWidgets.Input.create('text')
-            .setInputName('foo');
+            .setName('foo');
 
-        equal(input.getInputName(), 'foo', "should return name attribute");
+        equal(input.getName(), 'foo', "should return name attribute");
     });
 
     test("Focusing", function () {
@@ -240,7 +240,7 @@
             }
         });
 
-        strictEqual(input.focusOnInput(), input, "should be chainable");
+        strictEqual(input.focus(), input, "should be chainable");
     });
 
     test("Blurring", function () {
@@ -259,7 +259,7 @@
             }
         });
 
-        strictEqual(input.blurInput(), input, "should be chainable");
+        strictEqual(input.blur(), input, "should be chainable");
     });
 
     test("Focus getter", function () {

@@ -30,7 +30,7 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
                 var validatorKey = this.getValidatorKey(),
                     validatorDocument = validatorKey && validatorKey.toDocument(),
                     reasonsField = this.getField('_reasons'),
-                    newReasons = (validatorDocument && validatorDocument.validate(this.getInputValue()) || [])
+                    newReasons = (validatorDocument && validatorDocument.validate(this.getValue()) || [])
                         .toCollection()
                         .mapKeys(function (reason) {
                             return reason;
@@ -73,11 +73,11 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
             /**
              * Sets name associated with the input. The name field identifies
              * the input in the form, as well as groups inputs having the same name.
-             * @param {string} groupId
+             * @param {string} name
              * @returns {$basicWidgets.InputDocument}
              */
-            setInputName: function (groupId) {
-                this.getField('name').setValue(groupId);
+            setName: function (name) {
+                this.getField('name').setValue(name);
                 return this;
             },
 
@@ -85,7 +85,7 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
              * Retrieves name associated with input.
              * @returns {string}
              */
-            getInputName: function () {
+            getName: function () {
                 return this.getField('name').getValue();
             },
 
@@ -94,7 +94,7 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
              * @param {*} value
              * @returns {$basicWidgets.InputDocument}
              */
-            setInputValue: function (value) {
+            setValue: function (value) {
                 this.getField('value').setValue(value);
                 return this;
             },
@@ -103,7 +103,7 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
              * Retrieves current value associated with input.
              * @returns {*}
              */
-            getInputValue: function () {
+            getValue: function () {
                 return this.getField('value').getValue();
             },
 
@@ -115,7 +115,7 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
              * @param {*} state
              * @returns {$basicWidgets.InputDocument}
              */
-            setInputState: function (state) {
+            setState: function (state) {
                 this.getField('state').setValue(state);
                 return this;
             },
@@ -154,9 +154,10 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
 
             /**
              * Retrieves current state value associated with the input.
+             * TODO: Move to binary input document subclass
              * @returns {*}
              */
-            getInputState: function () {
+            getState: function () {
                 return this.getField('state').getValue();
             },
 
@@ -306,7 +307,7 @@ $oop.amendPostponed($entity, 'entityEventSpace', function () {
                 var inputKey = event.sender;
                 return inputKey.toDocument().onValidationFailureChange(event);
             }
-        )
+        );
 });
 
 (function () {

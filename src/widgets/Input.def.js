@@ -85,9 +85,9 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
 
             /** @private */
             _updateDisabledState: function () {
-                var inputName = this.getInputName();
+                var name = this.getName();
 
-                if (inputName) {
+                if (name) {
                     this.enableBy('input-name-availability');
                 } else {
                     this.disableBy('input-name-availability');
@@ -95,20 +95,20 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
             },
 
             /** @private */
-            _getInputValue: function () {
+            _getValue: function () {
                 return this.htmlAttributes.getItem('value');
             },
 
             /**
-             * @param {*} inputValue
+             * @param {*} value
              * @private
              */
-            _setInputValue: function (inputValue) {
-                this.addAttribute('value', inputValue);
+            _setValue: function (value) {
+                this.addAttribute('value', value);
             },
 
             /** @private */
-            _clearInputValue: function () {
+            _clearValue: function () {
                 this.removeAttribute('value');
             }
         })
@@ -223,17 +223,17 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
             /**
              * @returns {string}
              */
-            getInputType: function () {
+            getType: function () {
                 return this.htmlAttributes.getItem('type');
             },
 
             /**
              * Sets input value.
-             * @param {*} inputValue
+             * @param {*} value
              * @returns {$basicWidgets.Input}
              */
-            setInputValue: function (inputValue) {
-                this._setInputValue(inputValue);
+            setValue: function (value) {
+                this._setValue(value);
                 return this;
             },
 
@@ -241,8 +241,8 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
              * Clears input value and triggers events.
              * @returns {$basicWidgets.Input}
              */
-            clearInputValue: function () {
-                this._clearInputValue();
+            clearValue: function () {
+                this._clearValue();
                 return this;
             },
 
@@ -250,16 +250,16 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
              * Retrieves value associated with input.
              * @returns {*}
              */
-            getInputValue: function () {
-                return this._getInputValue();
+            getValue: function () {
+                return this._getValue();
             },
 
             /**
-             * @param {string} inputName
+             * @param {string} name
              * @returns {$basicWidgets.Input}
              */
-            setInputName: function (inputName) {
-                this.addAttribute('name', inputName);
+            setName: function (name) {
+                this.addAttribute('name', name);
                 this._updateDisabledState();
                 return this;
             },
@@ -268,7 +268,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
              * Clears input name attribute.
              * @returns {$basicWidgets.Input}
              */
-            clearInputName: function () {
+            clearName: function () {
                 this.removeAttribute('name');
                 this._updateDisabledState();
                 return this;
@@ -277,7 +277,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
             /**
              * @returns {string}
              */
-            getInputName: function () {
+            getName: function () {
                 return this.htmlAttributes.getItem('name');
             },
 
@@ -285,7 +285,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
              * Focuses on the current input.
              * @returns {$basicWidgets.Input}
              */
-            focusOnInput: function () {
+            focus: function () {
                 var element = this.getElement();
                 if (element) {
                     this._focusProxy(element);
@@ -297,7 +297,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
              * Removes focus from the current input.
              * @returns {$basicWidgets.Input}
              */
-            blurInput: function () {
+            blur: function () {
                 var element = this.getElement();
                 if (element) {
                     this._blurProxy(element);

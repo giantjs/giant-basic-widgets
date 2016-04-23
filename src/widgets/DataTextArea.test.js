@@ -31,7 +31,7 @@
             }
         });
 
-        input.setInputValue('bar');
+        input.setValue('bar');
 
         input.afterRemove();
     });

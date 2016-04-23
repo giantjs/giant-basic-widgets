@@ -11,46 +11,46 @@
     test("Name setter", function () {
         var document = 'input/1'.toDocument().unsetNode();
 
-        strictEqual(document.setInputName("foo"), document, "should be chainable");
+        strictEqual(document.setName("foo"), document, "should be chainable");
         equal(document.getField('name').getValue(), "foo", "should set name field");
     });
 
     test("Name getter", function () {
         var document = 'input/1'.toDocument()
             .unsetNode()
-            .setInputName("foo");
+            .setName("foo");
 
-        equal(document.getInputName(), "foo", "should retrieve name field");
+        equal(document.getName(), "foo", "should retrieve name field");
     });
 
     test("Value setter", function () {
         var document = 'input/1'.toDocument().unsetNode();
 
-        strictEqual(document.setInputValue("foo"), document, "should be chainable");
+        strictEqual(document.setValue("foo"), document, "should be chainable");
         equal(document.getField('value').getValue(), "foo", "should set value field");
     });
 
     test("Value getter", function () {
         var document = 'input/1'.toDocument()
             .unsetNode()
-            .setInputValue("foo");
+            .setValue("foo");
 
-        equal(document.getInputValue(), "foo", "should retrieve value field");
+        equal(document.getValue(), "foo", "should retrieve value field");
     });
 
     test("State setter", function () {
         var document = 'input/1'.toDocument().unsetNode();
 
-        strictEqual(document.setInputState(true), document, "should be chainable");
+        strictEqual(document.setState(true), document, "should be chainable");
         equal(document.getField('state').getValue(), true, "should set state field");
     });
 
     test("State getter", function () {
         var document = 'input/1'.toDocument()
             .unsetNode()
-            .setInputState(true);
+            .setState(true);
 
-        equal(document.getInputState(), true, "should retrieve state field");
+        equal(document.getState(), true, "should retrieve state field");
     });
 
     test("Validator setter", function () {

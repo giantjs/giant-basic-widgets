@@ -25,7 +25,7 @@ $oop.postpone($basicWidgets, 'DataDirectInput', function (ns, cn) {
             /** @private */
             _syncEntityToInputValue: function () {
                 var inputDocument = this.entityKey.toDocument();
-                inputDocument.setInputValue(this.getInputValue());
+                inputDocument.setValue(this.getValue());
             }
         })
         .addMethods(/** @lends $basicWidgets.DataDirectInput# */{

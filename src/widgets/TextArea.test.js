@@ -6,7 +6,7 @@
     test("Instantiation", function () {
         var textarea = $basicWidgets.TextArea.create();
         equal(textarea.tagName, 'textarea', "should set tagName property");
-        ok(textarea.hasOwnProperty('inputValue'), "should add inputValue property");
+        ok(textarea.hasOwnProperty('value'), "should add value property");
     });
 
     test("Input value setter", function () {
@@ -16,11 +16,11 @@
 
         textarea.addMocks({
             _updateDom: function () {
-                equal(this.inputValue, 'foo', "should set inputValue property");
+                equal(this.value, 'foo', "should set value property");
             }
         });
 
-        textarea.setInputValue("foo");
+        textarea.setValue("foo");
     });
 
     test("Input value clear", function () {
@@ -30,10 +30,10 @@
 
         textarea.addMocks({
             _updateDom: function () {
-                equal(typeof this.inputValue, 'undefined', "should clear inputValue property");
+                equal(typeof this.value, 'undefined', "should clear value property");
             }
         });
 
-        textarea.clearInputValue();
+        textarea.clearValue();
     });
 }());

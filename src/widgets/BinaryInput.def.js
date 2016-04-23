@@ -106,12 +106,12 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
              */
             setChecked: function (checked) {
                 var oldChecked = this.getChecked(),
-                    inputValue = this.getInputValue();
+                    value = this.getValue();
                 if (checked !== oldChecked) {
                     this.addAttribute('checked', checked);
                     this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
-                        .setBeforeValue(oldChecked ? inputValue : undefined)
-                        .setAfterValue(checked ? inputValue : undefined)
+                        .setBeforeValue(oldChecked ? value : undefined)
+                        .setAfterValue(checked ? value : undefined)
                         .triggerSync();
                 }
                 return this;
@@ -126,7 +126,7 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
                 if (oldChecked !== undefined) {
                     this.removeAttribute('checked');
                     this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
-                        .setBeforeValue(this.getInputValue())
+                        .setBeforeValue(this.getValue())
                         .triggerSync();
                 }
                 return this;

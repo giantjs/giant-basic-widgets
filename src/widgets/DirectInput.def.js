@@ -29,13 +29,13 @@ $oop.postpone($basicWidgets, 'DirectInput', function (ns, cn) {
             },
 
             /** @private */
-            _updateInputValue: function () {
+            _updateValue: function () {
                 var element = this.getElement(),
                     newValue = this._getValueProxy(element),
-                    oldValue = this.getInputValue();
+                    oldValue = this.getValue();
 
                 if (element && oldValue !== newValue) {
-                    this.setInputValue(newValue);
+                    this.setValue(newValue);
                 }
             }
         })
@@ -63,16 +63,16 @@ $oop.postpone($basicWidgets, 'DirectInput', function (ns, cn) {
 
             /**
              * Sets input value.
-             * @param {*} inputValue
+             * @param {*} value
              * @returns {$basicWidgets.Input}
              */
-            setInputValue: function (inputValue) {
-                var oldInputValue = this.getInputValue();
-                base.setInputValue.call(this, inputValue);
-                if (inputValue !== oldInputValue) {
+            setValue: function (value) {
+                var oldValue = this.getValue();
+                base.setValue.call(this, value);
+                if (value !== oldValue) {
                     this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
-                        .setBeforeValue(oldInputValue)
-                        .setAfterValue(inputValue)
+                        .setBeforeValue(oldValue)
+                        .setAfterValue(value)
                         .triggerSync();
                 }
                 return this;
@@ -82,12 +82,12 @@ $oop.postpone($basicWidgets, 'DirectInput', function (ns, cn) {
              * Clears input value and triggers events.
              * @returns {$basicWidgets.Input}
              */
-            clearInputValue: function () {
-                var oldInputValue = this.getInputValue();
-                base.clearInputValue.call(this);
-                if (oldInputValue !== undefined) {
+            clearValue: function () {
+                var oldValue = this.getValue();
+                base.clearValue.call(this);
+                if (oldValue !== undefined) {
                     this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
-                        .setBeforeValue(oldInputValue)
+                        .setBeforeValue(oldValue)
                         .triggerSync();
                 }
                 return this;
@@ -99,7 +99,7 @@ $oop.postpone($basicWidgets, 'DirectInput', function (ns, cn) {
              */
             onInput: function (event) {
                 var link = $event.pushOriginalEvent(event);
-                this._updateInputValue();
+                this._updateValue();
                 link.unlink();
             },
 
@@ -109,7 +109,7 @@ $oop.postpone($basicWidgets, 'DirectInput', function (ns, cn) {
              */
             onChange: function (event) {
                 var link = $event.pushOriginalEvent(event);
-                this._updateInputValue();
+                this._updateValue();
                 link.unlink();
             }
         });

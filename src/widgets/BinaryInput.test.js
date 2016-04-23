@@ -66,7 +66,7 @@
         expect(5);
 
         var input = $basicWidgets.BinaryInput.create()
-            .setInputValue('foo');
+            .setValue('foo');
 
         function onStateChange(event) {
             ok(true, "should trigger value change event");
@@ -92,7 +92,7 @@
         expect(5);
 
         var input = $basicWidgets.BinaryInput.create()
-            .setInputValue('foo');
+            .setValue('foo');
 
         function onStateChange(event) {
             ok(true, "should trigger value change event");

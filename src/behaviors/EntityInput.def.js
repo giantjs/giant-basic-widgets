@@ -16,24 +16,24 @@ $oop.postpone($basicWidgets, 'EntityInput', function () {
             /** @private */
             _syncInputNameToEntity: function () {
                 var inputDocument = this.entityKey.toDocument(),
-                    inputName = inputDocument.getInputName();
+                    name = inputDocument.getName();
 
-                if (inputName) {
-                    this.setInputName(inputName);
+                if (name) {
+                    this.setName(name);
                 } else {
-                    this.clearInputName();
+                    this.clearName();
                 }
             },
 
             /** @private */
             _syncInputValueToEntity: function () {
                 var inputDocument = this.entityKey.toDocument(),
-                    inputValue = inputDocument.getInputValue();
+                    value = inputDocument.getValue();
 
-                if (typeof inputValue !== 'undefined') {
-                    this.setInputValue(inputValue);
+                if (typeof value !== 'undefined') {
+                    this.setValue(value);
                 } else {
-                    this.clearInputValue();
+                    this.clearValue();
                 }
             },
 

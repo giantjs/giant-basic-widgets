@@ -17,13 +17,13 @@
         input.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, onValueChange);
 
         input.addMocks({
-            getInputValue: function () {
+            getValue: function () {
                 ok(true, "should get current input value");
                 return 'bar';
             }
         });
 
-        strictEqual(input.setInputValue('foo'), input, "should be chainable");
+        strictEqual(input.setValue('foo'), input, "should be chainable");
 
         input.unsubscribeFrom($basicWidgets.EVENT_INPUT_STATE_CHANGE, onValueChange);
     });
@@ -42,13 +42,13 @@
         input.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, onValueChange);
 
         input.addMocks({
-            getInputValue: function () {
+            getValue: function () {
                 ok(true, "should get current input value");
                 return 'bar';
             }
         });
 
-        strictEqual(input.clearInputValue(), input, "should be chainable");
+        strictEqual(input.clearValue(), input, "should be chainable");
 
         input.unsubscribeFrom($basicWidgets.EVENT_INPUT_STATE_CHANGE, onValueChange);
     });

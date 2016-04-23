@@ -25,13 +25,6 @@ var $widget = $widget || require('giant-widget');
 /** @namespace */
 var $basicWidgets = {};
 
-/**
- * Whether to poll input values at a regular interval.
- * Set to true when change/input events do not get fired on form autofill, etc.
- * @type {boolean}
- */
-$basicWidgets.pollInputValues = false;
-
 if (typeof window === 'undefined') {
     /**
      * Built-in global window object.

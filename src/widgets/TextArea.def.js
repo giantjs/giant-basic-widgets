@@ -20,7 +20,7 @@ $oop.postpone($basicWidgets, 'TextArea', function (ns, cn) {
             _updateDom: function () {
                 var element = this.getElement();
                 if (element) {
-                    element.value = $utils.Stringifier.stringify(this.inputValue);
+                    element.value = $utils.Stringifier.stringify(this.value);
                 }
             },
 
@@ -28,22 +28,22 @@ $oop.postpone($basicWidgets, 'TextArea', function (ns, cn) {
              * @returns {string}
              * @private
              */
-            _getInputValue: function () {
-                return this.inputValue;
+            _getValue: function () {
+                return this.value;
             },
 
             /**
-             * @param {string} inputValue
+             * @param {string} value
              * @private
              */
-            _setInputValue: function (inputValue) {
-                this.inputValue = inputValue;
+            _setValue: function (value) {
+                this.value = value;
                 this._updateDom();
             },
 
             /** @private */
-            _clearInputValue: function () {
-                this.inputValue = undefined;
+            _clearValue: function () {
+                this.value = undefined;
                 this._updateDom();
             }
         })
@@ -54,9 +54,10 @@ $oop.postpone($basicWidgets, 'TextArea', function (ns, cn) {
                 this.setTagName('textarea');
 
                 /**
+                 * Value associated with text area.
                  * @type {string}
                  */
-                this.inputValue = undefined;
+                this.value = undefined;
             },
 
             /** @ignore */
@@ -70,7 +71,7 @@ $oop.postpone($basicWidgets, 'TextArea', function (ns, cn) {
              * @ignore
              */
             contentMarkup: function () {
-                return $utils.Stringifier.stringify(this.inputValue).toHtml();
+                return $utils.Stringifier.stringify(this.value).toHtml();
             }
         });
 });

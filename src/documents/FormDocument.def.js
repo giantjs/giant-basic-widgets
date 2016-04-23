@@ -51,10 +51,10 @@ $oop.postpone($basicWidgets, 'FormDocument', function () {
                 this.getField('inputs').getItemsAsCollection()
                     .forEachItem(function (inputRef) {
                         var inputDocument = inputRef.toDocument(),
-                            inputName = inputDocument.getInputName(),
-                            inputValue = inputDocument.getInputValue();
+                            name = inputDocument.getName(),
+                            value = inputDocument.getValue();
 
-                        result.addItem(inputName, inputValue);
+                        result.addItem(name, value);
                     });
 
                 return result;

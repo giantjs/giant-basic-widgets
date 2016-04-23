@@ -36,7 +36,7 @@
             }
         });
 
-        'input/1'.toDocument().setInputValue('bar');
+        'input/1'.toDocument().setValue('bar');
 
         input.afterRemove();
     });
