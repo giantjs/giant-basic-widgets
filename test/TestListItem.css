@@ -52,7 +52,8 @@
 
 .TestListItem > .widget-container input + label,
 .TestListItem > .widget-container label + input,
-.TestListItem > .widget-container label + textarea {
+.TestListItem > .widget-container label + textarea,
+.TestListItem > .widget-container label + select {
     margin: 0 0 0 0.5em;
 }
 

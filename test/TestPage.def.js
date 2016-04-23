@@ -269,20 +269,46 @@ _addEntityList: function () {
 },
 
 /** @private */
-_addSelect: function () {
+_addSelect: function (itemWidget) {
+    // creating a label for the select
+    var label = $basicWidgets.Text.create()
+        .setChildName('A-label')
+        .setContentString("Weekday")
+        .setContainerCssClass('widget-container')
+        .addToParent(itemWidget);
+
     return $basicWidgets.Select.create()
+        .setChildName('B-select')
+        .setName('weekday')
         .addItemWidget($basicWidgets.Option.create()
-            .setChildName('month-01')
-            .setOptionValue('january')
-            .setContentString("January"))
+            .setChildName('day-01')
+            .setOptionValue('mon')
+            .setContentString("Monday"))
         .addItemWidget($basicWidgets.Option.create()
-            .setChildName('month-02')
-            .setOptionValue('february')
-            .setContentString("February"))
+            .setChildName('day-02')
+            .setOptionValue('tue')
+            .setContentString("Tuesday"))
         .addItemWidget($basicWidgets.Option.create()
-            .setChildName('month-99')
-            .setOptionValue('other')
-            .setContentString("and so on..."));
+            .setChildName('day-03')
+            .setOptionValue('wed')
+            .setContentString("Wednesday"))
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-04')
+            .setOptionValue('thu')
+            .setContentString("Thursday"))
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-05')
+            .setOptionValue('fri')
+            .setContentString("Friday"))
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-06')
+            .setOptionValue('sat')
+            .setContentString("Saturday"))
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-07')
+            .setOptionValue('sun')
+            .setContentString("Sunday"))
+        .linkLabelWidget(label);
 },
             //@formatter:on
 

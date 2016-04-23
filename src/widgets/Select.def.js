@@ -2,7 +2,10 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
     "use strict";
 
     var base = $basicWidgets.List,
-        self = base.extend(cn),
+        self = base.extend(cn)
+            .addTraitAndExtend($basicWidgets.BinaryStateful)
+            .addTraitAndExtend($basicWidgets.Disableable, 'Disableable')
+            .addTraitAndExtend($basicWidgets.Controllable, 'Controllable'),
         slice = Array.prototype.slice;
 
     /**
@@ -15,6 +18,9 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
      * A select dropdown based on the <select> element.
      * @class
      * @extends $basicWidgets.List
+     * @extends $basicWidgets.BinaryStateful
+     * @extends $basicWidgets.Disableable
+     * @extends $basicWidgets.Controllable
      */
     $basicWidgets.Select = self
         .addPrivateMethods(/** @lends $basicWidgets.Select# */{
@@ -81,6 +87,8 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
             /** @ignore */
             init: function () {
                 base.init.call(this);
+                $basicWidgets.BinaryStateful.init.call(this);
+                $basicWidgets.Disableable.init.call(this);
 
                 this.elevateMethods(
                     '_valueGetterProxy',
@@ -114,6 +122,8 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
             /** @ignore */
             afterAdd: function () {
                 base.afterAdd.call(this);
+                $basicWidgets.BinaryStateful.afterAdd.call(this);
+                $basicWidgets.Controllable.afterAdd.call(this);
 
                 this._updateMultiplicity();
 
@@ -122,11 +132,50 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
             },
 
             /** @ignore */
+            afterRemove: function () {
+                base.afterRemove.call(this);
+                $basicWidgets.BinaryStateful.afterRemove.call(this);
+            },
+
+            /** @ignore */
             afterRender: function () {
                 base.afterRender.call(this);
 
                 var element = this.getElement();
                 this._addEventListenerProxy(element, 'change', this.onChange);
+            },
+
+            /** Call from host's .afterStateOn */
+            afterStateOn: function (stateName) {
+                $basicWidgets.Disableable.afterStateOn.call(this, stateName);
+                $basicWidgets.Controllable.afterStateOn.call(this, stateName);
+            },
+
+            /** Call from host's .afterStateOff */
+            afterStateOff: function (stateName) {
+                $basicWidgets.Disableable.afterStateOff.call(this, stateName);
+                $basicWidgets.Controllable.afterStateOff.call(this, stateName);
+            },
+
+            /**
+             * @param {string} attributeName
+             * @param {*} attributeValue
+             * @returns {$basicWidgets.Select}
+             */
+            addAttribute: function (attributeName, attributeValue) {
+                base.addAttribute.call(this, attributeName, attributeValue);
+                $basicWidgets.Controllable.addAttribute.call(this, attributeName, attributeValue);
+                return this;
+            },
+
+            /**
+             * @param {string} attributeName
+             * @returns {$basicWidgets.Select}
+             */
+            removeAttribute: function (attributeName) {
+                base.removeAttribute.call(this, attributeName);
+                $basicWidgets.Controllable.removeAttribute.call(this, attributeName);
+                return this;
             },
 
             /**
