@@ -24,6 +24,24 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
     $basicWidgets.Input = self
         .addPrivateMethods(/** @lends $basicWidgets.Input# */{
             /**
+             * @param {HTMLInputElement} element
+             * @returns {string}
+             * @private
+             */
+            _getValueProxy: function (element) {
+                return element.value;
+            },
+
+            /**
+             * @param {HTMLInputElement} element
+             * @param {*} value
+             * @private
+             */
+            _setValueProxy: function (element, value) {
+                element.value = value;
+            },
+
+            /**
              * @param {HTMLElement} element
              * @param {string} type
              * @param {function} callback
@@ -55,6 +73,24 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
              */
             _blurProxy: function (element) {
                 return element.blur();
+            },
+
+            /** @private */
+            _getValue: function () {
+                return this.htmlAttributes.getItem('value');
+            },
+
+            /**
+             * @param {*} value
+             * @private
+             */
+            _setValue: function (value) {
+                this.addAttribute('value', value);
+            },
+
+            /** @private */
+            _clearValue: function () {
+                this.removeAttribute('value');
             }
         })
         .addMethods(/** @lends $basicWidgets.Input# */{
@@ -122,7 +158,12 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
              */
             addAttribute: function (attributeName, attributeValue) {
                 base.addAttribute.call(this, attributeName, attributeValue);
-                $basicWidgets.Controllable.addAttribute.call(this, attributeName, attributeValue);
+                var element = this.getElement();
+                if (element && attributeName === 'value' &&
+                    attributeValue !== this._getValueProxy(element)
+                ) {
+                    this._setValueProxy(element, attributeValue);
+                }
                 return this;
             },
 
@@ -132,8 +173,40 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
              */
             removeAttribute: function (attributeName) {
                 base.removeAttribute.call(this, attributeName);
-                $basicWidgets.Controllable.removeAttribute.call(this, attributeName);
+                var element = this.getElement();
+                if (element && attributeName === 'value' &&
+                    this._getValueProxy(element)
+                ) {
+                    this._setValueProxy(element, '');
+                }
                 return this;
+            },
+
+            /**
+             * Sets input value.
+             * @param {*} value
+             * @returns {$basicWidgets.Controllable}
+             */
+            setValue: function (value) {
+                this._setValue(value);
+                return this;
+            },
+
+            /**
+             * Clears input value and triggers events.
+             * @returns {$basicWidgets.Controllable}
+             */
+            clearValue: function () {
+                this._clearValue();
+                return this;
+            },
+
+            /**
+             * Retrieves value associated with input.
+             * @returns {*}
+             */
+            getValue: function () {
+                return this._getValue();
             },
 
             /**

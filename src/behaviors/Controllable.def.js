@@ -17,24 +17,6 @@ $oop.postpone($basicWidgets, 'Controllable', function () {
      */
     $basicWidgets.Controllable = self
         .addPrivateMethods(/** @lends $basicWidgets.Controllable# */{
-            /**
-             * @param {HTMLInputElement} element
-             * @returns {string}
-             * @private
-             */
-            _getValueProxy: function (element) {
-                return element.value;
-            },
-
-            /**
-             * @param {HTMLInputElement} element
-             * @param {*} value
-             * @private
-             */
-            _setValueProxy: function (element, value) {
-                element.value = value;
-            },
-
             /** @private */
             _updateDisabledAttribute: function () {
                 if (this.isDisabled()) {
@@ -53,24 +35,6 @@ $oop.postpone($basicWidgets, 'Controllable', function () {
                 } else {
                     this.disableBy('input-name-availability');
                 }
-            },
-
-            /** @private */
-            _getValue: function () {
-                return this.htmlAttributes.getItem('value');
-            },
-
-            /**
-             * @param {*} value
-             * @private
-             */
-            _setValue: function (value) {
-                this.addAttribute('value', value);
-            },
-
-            /** @private */
-            _clearValue: function () {
-                this.removeAttribute('value');
             }
         })
         .addMethods(/** @lends $basicWidgets.Controllable# */{
@@ -100,37 +64,6 @@ $oop.postpone($basicWidgets, 'Controllable', function () {
             },
 
             /**
-             * Call from host's .addAttribute
-             * @param {string} attributeName
-             * @param {*} attributeValue
-             * @returns {$basicWidgets.Controllable}
-             */
-            addAttribute: function (attributeName, attributeValue) {
-                var element = this.getElement();
-                if (element && attributeName === 'value' &&
-                    attributeValue !== this._getValueProxy(element)
-                ) {
-                    this._setValueProxy(element, attributeValue);
-                }
-                return this;
-            },
-
-            /**
-             * Call from host's .removeAttribute
-             * @param {string} attributeName
-             * @returns {$basicWidgets.Controllable}
-             */
-            removeAttribute: function (attributeName) {
-                var element = this.getElement();
-                if (element && attributeName === 'value' &&
-                    this._getValueProxy(element)
-                ) {
-                    this._setValueProxy(element, '');
-                }
-                return this;
-            },
-
-            /**
              * @param {$basicWidgets.Text} labelWidget
              * @returns {$basicWidgets.Controllable}
              */
@@ -143,33 +76,6 @@ $oop.postpone($basicWidgets, 'Controllable', function () {
                     .addAttribute('for', this.htmlAttributes.idAttribute);
 
                 return this;
-            },
-
-            /**
-             * Sets input value.
-             * @param {*} value
-             * @returns {$basicWidgets.Controllable}
-             */
-            setValue: function (value) {
-                this._setValue(value);
-                return this;
-            },
-
-            /**
-             * Clears input value and triggers events.
-             * @returns {$basicWidgets.Controllable}
-             */
-            clearValue: function () {
-                this._clearValue();
-                return this;
-            },
-
-            /**
-             * Retrieves value associated with input.
-             * @returns {*}
-             */
-            getValue: function () {
-                return this._getValue();
             },
 
             /**
@@ -199,4 +105,23 @@ $oop.postpone($basicWidgets, 'Controllable', function () {
                 return this.htmlAttributes.getItem('name');
             }
         });
+
+    /**
+     * @name $basicWidgets.Controllable#setValue
+     * @function
+     * @param {string} value
+     * @returns {$basicWidgets.Controllable}
+     */
+
+    /**
+     * @name $basicWidgets.Controllable#clearValue
+     * @function
+     * @returns {$basicWidgets.Controllable}
+     */
+
+    /**
+     * @name $basicWidgets.Controllable#getValue
+     * @function
+     * @returns {string}
+     */
 });

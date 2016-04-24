@@ -188,27 +188,6 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
             },
 
             /**
-             * @param {string} attributeName
-             * @param {*} attributeValue
-             * @returns {$basicWidgets.Select}
-             */
-            addAttribute: function (attributeName, attributeValue) {
-                base.addAttribute.call(this, attributeName, attributeValue);
-                $basicWidgets.Controllable.addAttribute.call(this, attributeName, attributeValue);
-                return this;
-            },
-
-            /**
-             * @param {string} attributeName
-             * @returns {$basicWidgets.Select}
-             */
-            removeAttribute: function (attributeName) {
-                base.removeAttribute.call(this, attributeName);
-                $basicWidgets.Controllable.removeAttribute.call(this, attributeName);
-                return this;
-            },
-
-            /**
              * Adds option widget to the select.
              * Only allows Option instances the value on which are not yet present in the Select.
              * @param {$basicWidgets.Option} itemWidget

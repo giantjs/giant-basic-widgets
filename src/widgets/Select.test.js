@@ -47,9 +47,9 @@
                 .setOptionValue('bar'));
 
         $basicWidgets.Option.addMocks({
-           selectOption: function () {
-               equal(this.getOptionValue(), 'foo', "should select corresponding option");
-           }
+            selectOption: function () {
+                equal(this.getOptionValue(), 'foo', "should select corresponding option");
+            }
         });
 
         strictEqual(select.setValue('foo'), select, "should be chainable");
@@ -210,8 +210,7 @@
 
         function onSelectionChange(event) {
             ok(true, "should trigger event about change");
-            deepEqual(event.payload.beforeValues, {
-            }, "should send before values to event");
+            deepEqual(event.payload.beforeValues, {}, "should send before values to event");
             deepEqual(event.payload.afterValues, {
                 bar: 'bar'
             }, "should send before values to event");
@@ -245,8 +244,7 @@
 
         function onSelectionChange(event) {
             ok(true, "should trigger event about change");
-            deepEqual(event.payload.beforeValues, {
-            }, "should send before values to event");
+            deepEqual(event.payload.beforeValues, {}, "should send before values to event");
             deepEqual(event.payload.afterValues, {
                 foo: 'foo',
                 bar: 'bar'

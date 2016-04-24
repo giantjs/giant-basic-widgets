@@ -29,23 +29,13 @@
             afterStateOff  : function (stateName) {
                 $basicWidgets.Disableable.afterStateOff.call(this, stateName);
                 $basicWidgets.Controllable.afterStateOff.call(this, stateName);
-            },
-            addAttribute   : function (attributeName, attributeValue) {
-                $widget.Widget.addAttribute.call(this, attributeName, attributeValue);
-                $basicWidgets.Controllable.addAttribute.call(this, attributeName, attributeValue);
-                return this;
-            },
-            removeAttribute: function (attributeName) {
-                $widget.Widget.removeAttribute.call(this, attributeName);
-                $basicWidgets.Controllable.removeAttribute.call(this, attributeName);
-                return this;
             }
         });
 
     test("State-on handler override", function () {
         expect(1);
 
-        var input = Controllable.create('text');
+        var input = Controllable.create();
 
         input.addMocks({
             _updateDisabledAttribute: function () {
@@ -59,7 +49,7 @@
     test("State-off handler override", function () {
         expect(1);
 
-        var input = Controllable.create('text')
+        var input = Controllable.create()
             .disableBy('foo');
 
         input.addMocks({
@@ -70,78 +60,8 @@
 
         input.enableBy('foo');
     });
-
-    test("Attribute addition override", function () {
-        expect(7);
-
-        var input = Controllable.create('text'),
-            inputElement = document.createElement('input');
-
-        input.addMocks({
-            getElement: function () {
-                return inputElement;
-            },
-
-            _getValueProxy: function (element) {
-                strictEqual(element, inputElement, "should call value getter proxy");
-                return '';
-            },
-
-            _setValueProxy: function (element, attrValue) {
-                strictEqual(element, inputElement, "should call value setter proxy");
-                equal(attrValue, 'foo', "should pass attribute value to proxy");
-            }
-        });
-
-        $widget.Widget.addMocks({
-            addAttribute: function (attrName, attrValue) {
-                strictEqual(this, input, "should add attribute to input");
-                equal(attrName, 'value', "should pass attribute name to setter");
-                equal(attrValue, 'foo', "should pass attribute value to setter");
-            }
-        });
-
-        strictEqual(input.addAttribute('value', 'foo'), input, "should be chainable");
-
-        $widget.Widget.removeMocks();
-    });
-
-    test("Attribute removal override", function () {
-        expect(6);
-
-        var input = Controllable.create('text'),
-            inputElement = document.createElement('input');
-
-        input.addMocks({
-            getElement: function () {
-                return inputElement;
-            },
-
-            _getValueProxy: function (element) {
-                strictEqual(element, inputElement, "should call value getter proxy");
-                return 'foo';
-            },
-
-            _setValueProxy: function (element, attrValue) {
-                strictEqual(element, inputElement, "should call value setter proxy");
-                equal(attrValue, '', "should pass empty string as value to proxy");
-            }
-        });
-
-        $widget.Widget.addMocks({
-            removeAttribute: function (attrName) {
-                strictEqual(this, input, "should add attribute to input");
-                equal(attrName, 'value', "should pass attribute name to setter");
-            }
-        });
-
-        strictEqual(input.removeAttribute('value'), input, "should be chainable");
-
-        $widget.Widget.removeMocks();
-    });
-
     test("Label widget setter", function () {
-        var input = Controllable.create('text'),
+        var input = Controllable.create(),
             label = $basicWidgets.Text.create();
 
         strictEqual(input.linkLabelWidget(label), input, "should be chainable");
@@ -149,57 +69,10 @@
         equal(label.htmlAttributes.getItem('for'), input.htmlAttributes.idAttribute,
             "should set 'for' attribute to input ID");
     });
-
-    test("Controllable value setter", function () {
-        expect(3);
-
-        var input = Controllable.create('text');
-
-        input.addMocks({
-            addAttribute: function (attrName, attrValue) {
-                equal(attrName, 'value', "should set value attribute");
-                equal(attrValue, 'foo', "should set specified value");
-            }
-        });
-
-        strictEqual(input.setValue('foo'), input, "should be chainable");
-    });
-
-    test("Controllable value removal", function () {
-        expect(2);
-
-        var input = Controllable.create('text');
-
-        input.addMocks({
-            removeAttribute: function (attrName) {
-                equal(attrName, 'value', "should remove value attribute");
-            }
-        });
-
-        strictEqual(input.clearValue(), input, "should be chainable");
-    });
-
-    test("Controllable value getter", function () {
-        expect(2);
-
-        var input = Controllable.create('text'),
-            attributeValue = {};
-
-        input.htmlAttributes.addMocks({
-            getItem: function (key) {
-                equal(key, 'value', "should get value attribute");
-                return attributeValue;
-            }
-        });
-
-        strictEqual(input.getValue(), attributeValue,
-            "should forward value returned by htmlAttributes");
-    });
-
     test("Controllable name setter", function () {
         expect(3);
 
-        var input = Controllable.create('text');
+        var input = Controllable.create();
 
         input.addMocks({
             _updateDisabledState: function () {
@@ -214,7 +87,7 @@
     test("Controllable name removal", function () {
         expect(3);
 
-        var input = Controllable.create('text');
+        var input = Controllable.create();
 
         input.addMocks({
             _updateDisabledState: function () {
@@ -230,7 +103,7 @@
     });
 
     test("Controllable name getter", function () {
-        var input = Controllable.create('text')
+        var input = Controllable.create()
             .setName('foo');
 
         equal(input.getName(), 'foo', "should return name attribute");
