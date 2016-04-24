@@ -103,7 +103,7 @@ $oop.postpone($basicWidgets, 'Controllable', function () {
              * Call from host's .addAttribute
              * @param {string} attributeName
              * @param {*} attributeValue
-             * @returns {$basicWidgets.Input}
+             * @returns {$basicWidgets.Controllable}
              */
             addAttribute: function (attributeName, attributeValue) {
                 var element = this.getElement();
@@ -118,7 +118,7 @@ $oop.postpone($basicWidgets, 'Controllable', function () {
             /**
              * Call from host's .removeAttribute
              * @param {string} attributeName
-             * @returns {$basicWidgets.Input}
+             * @returns {$basicWidgets.Controllable}
              */
             removeAttribute: function (attributeName) {
                 var element = this.getElement();
@@ -132,7 +132,7 @@ $oop.postpone($basicWidgets, 'Controllable', function () {
 
             /**
              * @param {$basicWidgets.Text} labelWidget
-             * @returns {$basicWidgets.Input}
+             * @returns {$basicWidgets.Controllable}
              */
             linkLabelWidget: function (labelWidget) {
                 $assertion.assert($basicWidgets.Text.isBaseOf(labelWidget),
@@ -148,7 +148,7 @@ $oop.postpone($basicWidgets, 'Controllable', function () {
             /**
              * Sets input value.
              * @param {*} value
-             * @returns {$basicWidgets.Input}
+             * @returns {$basicWidgets.Controllable}
              */
             setValue: function (value) {
                 this._setValue(value);
@@ -157,7 +157,7 @@ $oop.postpone($basicWidgets, 'Controllable', function () {
 
             /**
              * Clears input value and triggers events.
-             * @returns {$basicWidgets.Input}
+             * @returns {$basicWidgets.Controllable}
              */
             clearValue: function () {
                 this._clearValue();
@@ -174,7 +174,7 @@ $oop.postpone($basicWidgets, 'Controllable', function () {
 
             /**
              * @param {string} name
-             * @returns {$basicWidgets.Input}
+             * @returns {$basicWidgets.Controllable}
              */
             setName: function (name) {
                 this.addAttribute('name', name);
@@ -184,7 +184,7 @@ $oop.postpone($basicWidgets, 'Controllable', function () {
 
             /**
              * Clears input name attribute.
-             * @returns {$basicWidgets.Input}
+             * @returns {$basicWidgets.Controllable}
              */
             clearName: function () {
                 this.removeAttribute('name');
