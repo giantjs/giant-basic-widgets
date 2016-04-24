@@ -81,6 +81,21 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
                         selectedOptionWidget.selectOption();
                     }
                 }
+            },
+
+            /** @private */
+            _triggerSelectionChange: function () {
+                var selectedValuesBefore = this._lastSelectedValues,
+                    selectedValuesAfter = this.selectedValues;
+
+                this._lastSelectedValues = this.selectedValues.clone();
+
+                this.spawnEvent($basicWidgets.EVENT_SELECT_SELECTION_CHANGE)
+                    .setPayloadItems({
+                        beforeValues: selectedValuesBefore.items,
+                        afterValues : selectedValuesAfter.items
+                    })
+                    .triggerSync();
             }
         })
         .addMethods(/** @lends $basicWidgets.Select# */{
@@ -92,10 +107,25 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
 
                 this.elevateMethods(
                     '_valueGetterProxy',
+                    '_triggerSelectionChange',
                     'getOptionWidgetByValue',
                     'onChange',
                     'onOptionValueChange',
                     'onOptionSelectedChange');
+
+                /**
+                 * Selected values before the last option select event.
+                 * @type {$data.Collection}
+                 * @private
+                 */
+                this._lastSelectedValues = $data.Collection.create();
+
+                /**
+                 * Debouncer for triggering selection change events.
+                 * @type {$utils.Debouncer}
+                 * @private
+                 */
+                this._triggerSelectionChangeDebouncer = this._triggerSelectionChange.toDebouncer();
 
                 /**
                  * Whether multiple options may be selected.
@@ -286,7 +316,6 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
             },
 
             /**
-             * TODO: Debounce handler.
              * @param {$event.Event} event
              * @ignore
              */
@@ -294,7 +323,6 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
                 var affectedOptionWidget = event.sender,
                     affectedValue = affectedOptionWidget.getOptionValue(),
                     selectedValues = this.selectedValues,
-                    oldSelectedValues = selectedValues.clone(),
                     isSelected = affectedOptionWidget.isSelected;
 
                 if (isSelected && !this.allowsMultipleOptions) {
@@ -313,17 +341,10 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
                     selectedValues.deleteItem(affectedValue);
                 }
 
-                if (isSelected || this.allowsMultipleOptions) {
-                    // when option got selected in a single select
-                    // or selected / deselected in a multi select
-                    // triggering event about selected value change
-                    this.spawnEvent($basicWidgets.EVENT_SELECT_SELECTION_CHANGE)
-                        .setPayloadItems({
-                            beforeValues: oldSelectedValues.items,
-                            afterValues : selectedValues.items
-                        })
-                        .triggerSync();
-                }
+                // triggering selection changed event
+                // debouncing makes sure that a burst of synchronous option select/deselect events
+                // does not trigger a lot of selection change events
+                this._triggerSelectionChangeDebouncer.schedule(0);
             }
         });
 });

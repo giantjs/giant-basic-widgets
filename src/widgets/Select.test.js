@@ -134,11 +134,12 @@
         select.removeFromParent();
     });
 
-    test("Single option selected state change handler", function () {
+    test("Single option selected state change handler", function (assert) {
         expect(3);
 
-        var option1 = $basicWidgets.Option.create()
-            .setOptionValue('foo'),
+        var done = assert.async(),
+            option1 = $basicWidgets.Option.create()
+                .setOptionValue('foo'),
             option2 = $basicWidgets.Option.create()
                 .setOptionValue('bar'),
             select = $basicWidgets.Select.create()
@@ -146,30 +147,33 @@
                 .addItemWidget(option2)
                 .addToParent($basicWidgets.Application.create());
 
-        function onSelectionCahnge(event) {
+        function onSelectionChange(event) {
             ok(true, "should trigger event about change");
             deepEqual(event.payload.beforeValues, {
-                foo: 'foo'
             }, "should send before values to event");
             deepEqual(event.payload.afterValues, {
                 bar: 'bar'
             }, "should send before values to event");
+
+            // cleaning up
+            select.unsubscribeFrom($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, onSelectionChange);
+            select.removeFromParent();
+
+            done();
         }
 
-        select.subscribeTo($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, onSelectionCahnge);
+        select.subscribeTo($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, onSelectionChange);
 
+        option1.selectOption();
         option2.selectOption();
-
-        select.unsubscribeFrom($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, onSelectionCahnge);
-
-        select.removeFromParent();
     });
 
-    test("Multiple option selected state change handler", function () {
+    test("Multiple option selected state change handler", function (assert) {
         expect(3);
 
-        var option1 = $basicWidgets.Option.create()
-            .setOptionValue('foo'),
+        var done = assert.async(),
+            option1 = $basicWidgets.Option.create()
+                .setOptionValue('foo'),
             option2 = $basicWidgets.Option.create()
                 .setOptionValue('bar'),
             select = $basicWidgets.Select.create()
@@ -178,23 +182,25 @@
                 .addItemWidget(option2)
                 .addToParent($basicWidgets.Application.create());
 
-        function onSelectionCahnge(event) {
+        function onSelectionChange(event) {
             ok(true, "should trigger event about change");
             deepEqual(event.payload.beforeValues, {
-                foo: 'foo'
             }, "should send before values to event");
             deepEqual(event.payload.afterValues, {
                 foo: 'foo',
                 bar: 'bar'
             }, "should send before values to event");
+
+            // cleaning up
+            select.unsubscribeFrom($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, onSelectionChange);
+            select.removeFromParent();
+
+            done();
         }
 
-        select.subscribeTo($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, onSelectionCahnge);
+        select.subscribeTo($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, onSelectionChange);
 
+        option1.selectOption();
         option2.selectOption();
-
-        select.unsubscribeFrom($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, onSelectionCahnge);
-
-        select.removeFromParent();
     });
 }());
