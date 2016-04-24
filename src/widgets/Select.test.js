@@ -37,6 +37,67 @@
         }, "should throw exception on adding duplicate");
     });
 
+    test("Value setter", function () {
+        expect(2);
+
+        var select = $basicWidgets.Select.create()
+            .addItemWidget($basicWidgets.Option.create()
+                .setOptionValue('foo'))
+            .addItemWidget($basicWidgets.Option.create()
+                .setOptionValue('bar'));
+
+        $basicWidgets.Option.addMocks({
+           selectOption: function () {
+               equal(this.getOptionValue(), 'foo', "should select corresponding option");
+           }
+        });
+
+        strictEqual(select.setValue('foo'), select, "should be chainable");
+
+        $basicWidgets.Option.removeMocks();
+    });
+
+    test("Value clear", function () {
+        var select = $basicWidgets.Select.create()
+            .allowMultipleSelected()
+            .addItemWidget($basicWidgets.Option.create()
+                .setOptionValue('foo'))
+            .addItemWidget($basicWidgets.Option.create()
+                .setOptionValue('bar')),
+            deselectedValues = [];
+
+        select.selectedValues = $data.Collection.create({
+            bar: 'bar'
+        });
+
+        $basicWidgets.Option.addMocks({
+            deselectOption: function () {
+                deselectedValues.push(this.getOptionValue());
+            }
+        });
+
+        strictEqual(select.clearValue(), select, "should be chainable");
+        deepEqual(deselectedValues, ['bar'], "should deselect corresponding options");
+
+        $basicWidgets.Option.removeMocks();
+    });
+
+    test("Value getter", function () {
+        var select = $basicWidgets.Select.create()
+            .allowMultipleSelected()
+            .addItemWidget($basicWidgets.Option.create()
+                .setOptionValue('foo'))
+            .addItemWidget($basicWidgets.Option.create()
+                .setOptionValue('bar')),
+            deselectedValues = [];
+
+        select.selectedValues = $data.Collection.create({
+            bar: 'bar'
+        });
+
+        equal(select.getValue(), 'bar', "should return first selected item");
+    });
+
     test("Switching multiple on", function () {
         var select = $basicWidgets.Select.create();
 

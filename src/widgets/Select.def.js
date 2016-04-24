@@ -229,6 +229,40 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
             },
 
             /**
+             * @param {string} value
+             * @returns {$basicWidgets.Select}
+             */
+            setValue: function (value) {
+                var optionWidget = this.getOptionWidgetByValue(value);
+                if (optionWidget) {
+                    // matching option found
+                    // selecting specified option
+                    optionWidget.selectOption();
+                }
+                return this;
+            },
+
+            /**
+             * @returns {$basicWidgets.Select}
+             */
+            clearValue: function () {
+                // deselecting all currently selected options
+                this.selectedValues.toStringDictionary()
+                    .combineWith(this.optionWidgetsByValue.toDictionary())
+                    .toCollection()
+                    .callOnEachItem('deselectOption');
+
+                return this;
+            },
+
+            /**
+             * @returns {string}
+             */
+            getValue: function () {
+                return this.selectedValues.getFirstValue();
+            },
+
+            /**
              * Allows select to have multiple options selected.
              * @returns {$basicWidgets.Select}
              */
@@ -262,6 +296,8 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
              * @ignore
              */
             onChange: function (event) {
+                console.log("select value changed");
+
                 var link = $event.pushOriginalEvent(event);
 
                 var selectedOptionElements = this._selectedOptionsGetterProxy(this.getElement()),
