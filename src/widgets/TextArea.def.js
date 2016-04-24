@@ -20,31 +20,9 @@ $oop.postpone($basicWidgets, 'TextArea', function (ns, cn) {
             _updateDom: function () {
                 var element = this.getElement();
                 if (element) {
+                    // TODO: Use proxy
                     element.value = $utils.Stringifier.stringify(this.value);
                 }
-            },
-
-            /**
-             * @returns {string}
-             * @private
-             */
-            _getValue: function () {
-                return this.value;
-            },
-
-            /**
-             * @param {string} value
-             * @private
-             */
-            _setValue: function (value) {
-                this.value = value;
-                this._updateDom();
-            },
-
-            /** @private */
-            _clearValue: function () {
-                this.value = undefined;
-                this._updateDom();
             }
         })
         .addMethods(/** @lends $basicWidgets.TextArea# */{
@@ -72,6 +50,47 @@ $oop.postpone($basicWidgets, 'TextArea', function (ns, cn) {
              */
             contentMarkup: function () {
                 return $utils.Stringifier.stringify(this.value).toHtml();
+            },
+
+            /**
+             * @param {string} value
+             * @returns {$basicWidgets.TextArea}
+             */
+            setValue: function (value) {
+                var oldValue = this.value;
+                if (value !== oldValue) {
+                    this.value = value;
+                    this._updateDom();
+
+                    this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
+                        .setBeforeValue(oldValue)
+                        .setAfterValue(value)
+                        .triggerSync();
+                }
+                return this;
+            },
+
+            /**
+             * @returns {$basicWidgets.TextArea}
+             */
+            clearValue: function () {
+                var oldValue = this.value;
+                if (oldValue) {
+                    this.value = undefined;
+                    this._updateDom();
+
+                    this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
+                        .setBeforeValue(oldValue)
+                        .triggerSync();
+                }
+                return this;
+            },
+
+            /**
+             * @returns {string}
+             */
+            getValue: function () {
+                return this.value;
             }
         });
 });

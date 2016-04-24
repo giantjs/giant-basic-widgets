@@ -26,7 +26,8 @@
     test("Input value clear", function () {
         expect(1);
 
-        var textarea = $basicWidgets.TextArea.create();
+        var textarea = $basicWidgets.TextArea.create()
+            .setValue('foo');
 
         textarea.addMocks({
             _updateDom: function () {

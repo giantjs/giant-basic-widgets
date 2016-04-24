@@ -73,24 +73,6 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
              */
             _blurProxy: function (element) {
                 return element.blur();
-            },
-
-            /** @private */
-            _getValue: function () {
-                return this.htmlAttributes.getItem('value');
-            },
-
-            /**
-             * @param {*} value
-             * @private
-             */
-            _setValue: function (value) {
-                this.addAttribute('value', value);
-            },
-
-            /** @private */
-            _clearValue: function () {
-                this.removeAttribute('value');
             }
         })
         .addMethods(/** @lends $basicWidgets.Input# */{
@@ -152,52 +134,53 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
             },
 
             /**
-             * @param {string} attributeName
-             * @param {*} attributeValue
-             * @returns {$basicWidgets.Input}
-             */
-            addAttribute: function (attributeName, attributeValue) {
-                base.addAttribute.call(this, attributeName, attributeValue);
-                var element = this.getElement();
-                if (element && attributeName === 'value' &&
-                    attributeValue !== this._getValueProxy(element)
-                ) {
-                    this._setValueProxy(element, attributeValue);
-                }
-                return this;
-            },
-
-            /**
-             * @param {string} attributeName
-             * @returns {$basicWidgets.Input}
-             */
-            removeAttribute: function (attributeName) {
-                base.removeAttribute.call(this, attributeName);
-                var element = this.getElement();
-                if (element && attributeName === 'value' &&
-                    this._getValueProxy(element)
-                ) {
-                    this._setValueProxy(element, '');
-                }
-                return this;
-            },
-
-            /**
              * Sets input value.
              * @param {*} value
-             * @returns {$basicWidgets.Controllable}
+             * @returns {$basicWidgets.Input}
              */
             setValue: function (value) {
-                this._setValue(value);
+                var element = this.getElement(),
+                    markupValue = this.htmlAttributes.getItem('value'),
+                    domValue;
+
+                // updating value attribute in markup
+                if (markupValue !== value) {
+                    this.addAttribute('value', value);
+                }
+
+                // updating value property in DOM
+                if (element) {
+                    domValue = this._getValueProxy(element);
+                    if (domValue !== value) {
+                        this._setValueProxy(element, value);
+                    }
+                }
+
                 return this;
             },
 
             /**
              * Clears input value and triggers events.
-             * @returns {$basicWidgets.Controllable}
+             * @returns {$basicWidgets.Input}
              */
             clearValue: function () {
-                this._clearValue();
+                var element = this.getElement(),
+                    markupValue = this.htmlAttributes.getItem('value'),
+                    domValue;
+
+                // updating value attribute in markup
+                if (markupValue) {
+                    this.removeAttribute('value');
+                }
+
+                // updating value property in DOM
+                if (element) {
+                    domValue = this._getValueProxy(element);
+                    if (domValue) {
+                        this._setValueProxy(element, undefined);
+                    }
+                }
+
                 return this;
             },
 
@@ -206,7 +189,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
              * @returns {*}
              */
             getValue: function () {
-                return this._getValue();
+                return this.htmlAttributes.getItem('value');
             },
 
             /**
