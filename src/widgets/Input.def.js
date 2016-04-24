@@ -5,7 +5,8 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
         self = base.extend(cn)
             .addTraitAndExtend($basicWidgets.BinaryStateful)
             .addTraitAndExtend($basicWidgets.Disableable, 'Disableable')
-            .addTraitAndExtend($basicWidgets.Controllable, 'Controllable');
+            .addTraitAndExtend($basicWidgets.Controllable, 'Controllable')
+            .addTraitAndExtend($basicWidgets.Focusable, 'Focusable');
 
     /**
      * Creates an Input instance.
@@ -20,6 +21,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
      * @extends $widget.Widget
      * @extends $basicWidgets.BinaryStateful
      * @extends $basicWidgets.Disableable
+     * @extends $basicWidgets.Focusable
      */
     $basicWidgets.Input = self
         .addPrivateMethods(/** @lends $basicWidgets.Input# */{
@@ -39,40 +41,6 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
              */
             _setValueProxy: function (element, value) {
                 element.value = value;
-            },
-
-            /**
-             * @param {HTMLElement} element
-             * @param {string} type
-             * @param {function} callback
-             * @private
-             */
-            _addEventListenerProxy: function (element, type, callback) {
-                return element.addEventListener(type, callback);
-            },
-
-            /**
-             * @returns {DocumentView}
-             * @private
-             */
-            _activeElementGetterProxy: function () {
-                return document.activeElement;
-            },
-
-            /**
-             * @param {HTMLInputElement} element
-             * @private
-             */
-            _focusProxy: function (element) {
-                return element.focus();
-            },
-
-            /**
-             * @param {HTMLInputElement} element
-             * @private
-             */
-            _blurProxy: function (element) {
-                return element.blur();
             }
         })
         .addMethods(/** @lends $basicWidgets.Input# */{
@@ -87,12 +55,9 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
                 base.init.call(this);
                 $basicWidgets.BinaryStateful.init.call(this);
                 $basicWidgets.Disableable.init.call(this);
+                $basicWidgets.Focusable.init.call(this);
 
                 this.setTagName('input');
-
-                this.elevateMethods(
-                    'onFocusIn',
-                    'onFocusOut');
 
                 if (inputType) {
                     this.addAttribute('type', inputType);
@@ -115,10 +80,7 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
             /** @ignore */
             afterRender: function () {
                 base.afterRender.call(this);
-
-                var element = this.getElement();
-                this._addEventListenerProxy(element, 'focusin', this.onFocusIn);
-                this._addEventListenerProxy(element, 'focusout', this.onFocusOut);
+                $basicWidgets.Focusable.afterRender.call(this);
             },
 
             /** Call from host's .afterStateOn */
@@ -197,59 +159,6 @@ $oop.postpone($basicWidgets, 'Input', function (ns, cn) {
              */
             getType: function () {
                 return this.htmlAttributes.getItem('type');
-            },
-
-            /**
-             * Focuses on the current input.
-             * @returns {$basicWidgets.Input}
-             */
-            focus: function () {
-                var element = this.getElement();
-                if (element) {
-                    this._focusProxy(element);
-                }
-                return this;
-            },
-
-            /**
-             * Removes focus from the current input.
-             * @returns {$basicWidgets.Input}
-             */
-            blur: function () {
-                var element = this.getElement();
-                if (element) {
-                    this._blurProxy(element);
-                }
-                return this;
-            },
-
-            /**
-             * Tells whether current input has the focus.
-             * @returns {boolean}
-             */
-            isFocused: function () {
-                var element = this.getElement();
-                return element && element === this._activeElementGetterProxy();
-            },
-
-            /**
-             * @param {Event} event
-             * @ignore
-             */
-            onFocusIn: function (event) {
-                var link = $event.pushOriginalEvent(event);
-                this.triggerSync($basicWidgets.EVENT_INPUT_FOCUS);
-                link.unlink();
-            },
-
-            /**
-             * @param {Event} event
-             * @ignore
-             */
-            onFocusOut: function (event) {
-                var link = $event.pushOriginalEvent(event);
-                this.triggerSync($basicWidgets.EVENT_INPUT_BLUR);
-                link.unlink();
             }
         });
 });

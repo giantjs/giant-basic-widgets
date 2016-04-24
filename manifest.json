@@ -22,6 +22,7 @@
         "src/behaviors/EntityInput.def.js",
         "src/behaviors/EntityList.def.js",
         "src/behaviors/EntityWidget.def.js",
+        "src/behaviors/Focusable.def.js",
         "src/widgets/Application.def.js",
         "src/widgets/BinaryInput.def.js",
         "src/widgets/ClickArea.def.js",
