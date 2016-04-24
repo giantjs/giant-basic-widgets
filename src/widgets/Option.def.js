@@ -15,6 +15,7 @@ $oop.postpone($basicWidgets, 'Option', function (ns, cn) {
 
     /**
      * Represents a single option among multiple choices, based on the <option> element.
+     * TODO: Should be able to use LocaleText or any other text override.
      * @class
      * @extends $basicWidgets.Text
      * @extends $basicWidgets.Disableable
