@@ -9,7 +9,6 @@ $oop.postpone($basicWidgets, 'EntityInput', function () {
      * TODO: Eliminate. Value and validity don't apply to all inputs.
      * @class
      * @extends $oop.Base
-     * @extends $basicWidgets.Input
      * @extends $basicWidgets.EntityWidget
      */
     $basicWidgets.EntityInput = self

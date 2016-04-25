@@ -36,7 +36,6 @@
         "src/widgets/DirectInput.def.js",
         "src/widgets/Hyperlink.def.js",
         "src/widgets/Image.def.js",
-        "src/widgets/Input.def.js",
         "src/widgets/List.def.js",
         "src/widgets/LocaleText.def.js",
         "src/widgets/Option.def.js",

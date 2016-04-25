@@ -7,7 +7,7 @@ $oop.postpone($basicWidgets, 'Controllable', function () {
 
     /**
      * Assignable to any input-like widget, such as input, select, button, etc.
-     * Controllable widgets have a name, value, disabled HTML attribute, and may be associated with labels.
+     * Controllable widgets have a name, disabled HTML attribute, and may be associated with labels.
      * Expects to be added to widgets bearing the Disableable trait.
      * TODO: Think of a more descriptive name.
      * @class
@@ -125,3 +125,13 @@ $oop.postpone($basicWidgets, 'Controllable', function () {
      * @returns {string}
      */
 });
+
+(function () {
+    "use strict";
+
+    // TODO: Move to an appropriate trait / interface. (Eg. "Inputable")
+    $oop.addGlobalConstants.call($basicWidgets, /** @lends $basicWidgets */{
+        /** @constant */
+        EVENT_INPUT_STATE_CHANGE: 'widget.change.input.state'
+    });
+}());

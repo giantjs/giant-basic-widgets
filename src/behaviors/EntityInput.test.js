@@ -3,20 +3,20 @@
 
     module("EntityInput");
 
-    var EntityInput = $basicWidgets.Input.extend('EntityInput')
+    var EntityInput = $basicWidgets.DirectInput.extend('EntityInput')
         .addTrait($basicWidgets.EntityWidget)
         .addTraitAndExtend($basicWidgets.EntityInput)
         .addMethods({
             init: function (inputKey) {
-                $basicWidgets.Input.init.call(this);
+                $basicWidgets.DirectInput.init.call(this);
                 $basicWidgets.EntityWidget.init.call(this, inputKey);
             },
             afterAdd: function () {
-                $basicWidgets.Input.afterAdd.call(this);
+                $basicWidgets.DirectInput.afterAdd.call(this);
                 $basicWidgets.EntityInput.afterAdd.call(this);
             },
             afterRemove: function () {
-                $basicWidgets.Input.afterRemove.call(this);
+                $basicWidgets.DirectInput.afterRemove.call(this);
                 $basicWidgets.EntityInput.afterRemove.call(this);
             }
         });

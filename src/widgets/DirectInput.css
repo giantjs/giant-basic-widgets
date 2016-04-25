@@ -1,0 +1,14 @@
+.DirectInput {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.DirectInput.widget-disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.DirectInput:focus {
+    outline: 0;
+}

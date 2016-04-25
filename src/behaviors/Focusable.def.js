@@ -116,3 +116,15 @@ $oop.postpone($basicWidgets, 'Focusable', function () {
             }
         });
 });
+
+(function () {
+    "use strict";
+
+    $oop.addGlobalConstants.call($basicWidgets, /** @lends $basicWidgets */{
+        /** @constant */
+        EVENT_INPUT_FOCUS: 'widget.focus.input',
+
+        /** @constant */
+        EVENT_INPUT_BLUR: 'widget.blur.input'
+    });
+}());

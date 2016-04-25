@@ -1,15 +1,14 @@
-/* TODO: Distribute to appropriate classes */
-.Input {
+.BinaryInput {
     margin: 0;
     padding: 0;
     border: 0;
 }
 
-.Input.widget-disabled {
+.BinaryInput.widget-disabled {
     opacity: 0.5;
     cursor: default;
 }
 
-.Input:focus {
+.BinaryInput:focus {
     outline: 0;
 }
