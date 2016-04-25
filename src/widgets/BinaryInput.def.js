@@ -1,8 +1,12 @@
 $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
     "use strict";
 
-    var base = $basicWidgets.Input,
-        self = base.extend(cn);
+    var base = $widget.Widget,
+        self = base.extend(cn)
+            .addTraitAndExtend($basicWidgets.BinaryStateful)
+            .addTraitAndExtend($basicWidgets.Disableable, 'Disableable')
+            .addTraitAndExtend($basicWidgets.Controllable, 'Controllable')
+            .addTraitAndExtend($basicWidgets.Focusable, 'Focusable');
 
     /**
      * @name $basicWidgets.BinaryInput.create
@@ -13,9 +17,11 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
 
     /**
      * Implements checkbox or radio button.
-     * TODO: Add surrogate?
      * @class
-     * @extends $basicWidgets.Input
+     * @extends $widget.Widget
+     * @extends $basicWidgets.BinaryStateful
+     * @extends $basicWidgets.Disableable
+     * @extends $basicWidgets.Focusable
      */
     $basicWidgets.BinaryInput = self
         .addPrivateMethods(/** @lends $basicWidgets.BinaryInput# */{
@@ -40,104 +46,191 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
             /** @private */
             _updateChecked: function () {
                 var element = this.getElement(),
-                    newChecked = this._getCheckedProxy(element),
-                    oldChecked = this.getChecked();
+                    checked;
 
-                if (element && oldChecked !== newChecked) {
-                    this.setChecked(newChecked);
+                if (element) {
+                    checked = this._getCheckedProxy(element);
+                    if (this.checked !== checked) {
+                        this.setChecked(checked);
+                    }
+                }
+            },
+
+            /** @private */
+            _updateDomChecked: function () {
+                var element = this.getElement(),
+                    checked = this.checked;
+
+                if (element) {
+                    checked = this._getCheckedProxy(element);
+                    if (this.checked !== checked) {
+                        this._setCheckedProxy(element, checked);
+                    }
                 }
             }
         })
         .addMethods(/** @lends $basicWidgets.BinaryInput# */{
             /**
+             * TODO: Either checkbox or radio.
              * @param {string} [inputType='checkbox']
              * @ignore
              */
             init: function (inputType) {
                 inputType = inputType || 'checkbox';
 
-                base.init.call(this, inputType);
+                base.init.call(this);
+                $basicWidgets.BinaryStateful.init.call(this);
+                $basicWidgets.Disableable.init.call(this);
+                $basicWidgets.Focusable.init.call(this);
 
                 this.elevateMethods(
                     'onInput',
                     'onChange');
+
+                /**
+                 * Whether the input is checked.
+                 * @type {boolean}
+                 */
+                this.checked = undefined;
+
+                this.setTagName('input');
+                this.addAttribute('type', inputType);
+            },
+
+            /** @ignore */
+            afterAdd: function () {
+                base.afterAdd.call(this);
+                $basicWidgets.BinaryStateful.afterAdd.call(this);
+                $basicWidgets.Controllable.afterAdd.call(this);
+            },
+
+            /** @ignore */
+            afterRemove: function () {
+                base.afterRemove.call(this);
+                $basicWidgets.BinaryStateful.afterRemove.call(this);
             },
 
             /** @ignore */
             afterRender: function () {
                 base.afterRender.call(this);
+                $basicWidgets.Focusable.afterRender.call(this);
 
                 var element = this.getElement();
                 this._addEventListenerProxy(element, 'input', this.onInput);
                 this._addEventListenerProxy(element, 'change', this.onChange);
             },
 
+            /** Call from host's .afterStateOn */
+            afterStateOn: function (stateName) {
+                $basicWidgets.Disableable.afterStateOn.call(this, stateName);
+                $basicWidgets.Controllable.afterStateOn.call(this, stateName);
+            },
+
+            /** Call from host's .afterStateOff */
+            afterStateOff: function (stateName) {
+                $basicWidgets.Disableable.afterStateOff.call(this, stateName);
+                $basicWidgets.Controllable.afterStateOff.call(this, stateName);
+            },
+
             /**
-             * @param {string} attributeName
-             * @param {*} attributeValue
-             * @returns {$basicWidgets.Input}
+             * Sets value for the input.
+             * TODO: Explain how values are different for radios / checkboxes and text inputs.
+             * @param {string} value
+             * @returns {$basicWidgets.BinaryInput}
              */
-            addAttribute: function (attributeName, attributeValue) {
-                base.addAttribute.call(this, attributeName, attributeValue);
-                var element = this.getElement();
-                if (element && attributeName === 'checked') {
-                    this._setCheckedProxy(element, attributeValue);
+            setValue: function (value) {
+                var isChecked = this.checked,
+                    oldValue = this.getValue();
+
+                if (value !== oldValue) {
+                    this.addAttribute('value', value);
+
+                    if (isChecked) {
+                        this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
+                            .setBeforeValue(oldValue)
+                            .setAfterValue(value)
+                            .triggerSync();
+                    }
                 }
+
                 return this;
             },
 
             /**
-             * @param {string} attributeName
-             * @returns {$basicWidgets.Input}
+             * Clears input value.
+             * @returns {$basicWidgets.BinaryInput}
              */
-            removeAttribute: function (attributeName) {
-                base.removeAttribute.call(this, attributeName);
-                var element = this.getElement();
-                if (element && attributeName === 'checked') {
-                    this._setCheckedProxy(element, false);
+            clearValue: function () {
+                var oldValue = this.getValue();
+
+                if (oldValue) {
+                    this.removeAttribute('value');
+
+                    if (this.checked) {
+                        this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
+                            .setBeforeValue(oldValue)
+                            .triggerSync();
+                    }
                 }
+
                 return this;
+            },
+
+            /**
+             * Retrieves value HTML attribute.
+             * @returns {string}
+             */
+            getValue: function () {
+                return this.htmlAttributes.getItem('value');
             },
 
             /**
              * Sets input value.
+             * TODO: Refactor into check / uncheck;
              * @param {*} checked
-             * @returns {$basicWidgets.Input}
+             * @returns {$basicWidgets.BinaryInput}
              */
             setChecked: function (checked) {
-                var oldChecked = this.getChecked(),
+                var wasChecked = this.checked,
                     value = this.getValue();
-                if (checked !== oldChecked) {
-                    this.addAttribute('checked', checked);
-                    this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
-                        .setBeforeValue(oldChecked ? value : undefined)
-                        .setAfterValue(checked ? value : undefined)
-                        .triggerSync();
+
+                if (checked !== wasChecked) {
+                    this.checked = checked;
+
+                    this._updateDomChecked();
+
+                    if (value !== undefined) {
+                        this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
+                            .setBeforeValue(wasChecked ? value : undefined)
+                            .setAfterValue(checked ? value : undefined)
+                            .triggerSync();
+                    }
                 }
+
                 return this;
             },
 
             /**
              * Clears input value and triggers events.
-             * @returns {$basicWidgets.Input}
+             * @returns {$basicWidgets.BinaryInput}
              */
             clearChecked: function () {
-                var oldChecked = this.getChecked();
-                if (oldChecked !== undefined) {
-                    this.removeAttribute('checked');
-                    this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
-                        .setBeforeValue(this.getValue())
-                        .triggerSync();
-                }
-                return this;
-            },
+                var wasChecked = this.checked,
+                    value = this.getValue();
 
-            /**
-             * Retrieves value associated with input.
-             * @returns {*}
-             */
-            getChecked: function () {
-                return this.htmlAttributes.getItem('checked');
+                if (wasChecked !== undefined) {
+                    this.checked = undefined;
+
+                    this._updateDomChecked();
+
+                    if (value !== undefined) {
+                        this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
+                            .setBeforeValue(value)
+                            .triggerSync();
+                    }
+                }
+
+                return this;
             },
 
             /**

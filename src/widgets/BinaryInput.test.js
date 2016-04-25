@@ -3,67 +3,82 @@
 
     module("BinaryInput");
 
-    test("Attribute addition override", function () {
-        expect(6);
+    test("Instantiation", function () {
+        var input = $basicWidgets.BinaryInput.create('text');
 
-        var input = $basicWidgets.BinaryInput.create(),
-            inputElement = document.createElement('input');
-
-        input.addMocks({
-            getElement: function () {
-                return inputElement;
-            },
-
-            _setCheckedProxy: function (element, attrValue) {
-                strictEqual(element, inputElement, "should call value setter proxy");
-                equal(attrValue, true, "should pass attribute value to proxy");
-            }
-        });
-
-        $basicWidgets.Input.addMocks({
-            addAttribute: function (attrName, attrValue) {
-                strictEqual(this, input, "should add attribute to input");
-                equal(attrName, 'checked', "should pass attribute name to setter");
-                equal(attrValue, true, "should pass attribute value to setter");
-            }
-        });
-
-        strictEqual(input.addAttribute('checked', true), input, "should be chainable");
-
-        $basicWidgets.Input.removeMocks();
+        ok(input.hasOwnProperty('checked'), "should add checked property");
+        equal(input.tagName, 'input', "should set tagName property");
+        equal(input.htmlAttributes.getItem('type'), 'text', "should set type HTML attribute");
     });
 
-    test("Attribute removal override", function () {
+    test("Value setter", function () {
         expect(5);
 
-        var input = $basicWidgets.BinaryInput.create(),
-            inputElement = document.createElement('input');
+        var input = $basicWidgets.BinaryInput.create();
 
-        input.addMocks({
-            getElement: function () {
-                return inputElement;
-            },
+        function onStateChange(event) {
+            ok(true, "should trigger value change event");
+            equal(event.beforeValue, 'foo', "should set beforeValue property");
+            equal(event.afterValue, 'bar', "should set afterValue property");
+        }
 
-            _setCheckedProxy: function (element, attrValue) {
-                strictEqual(element, inputElement, "should call value setter proxy");
-                equal(attrValue, false, "should pass false as value to proxy");
-            }
-        });
+        input.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
 
-        $basicWidgets.Input.addMocks({
-            removeAttribute: function (attrName) {
-                strictEqual(this, input, "should add attribute to input");
-                equal(attrName, 'checked', "should pass attribute name to setter");
-            }
-        });
+        strictEqual(input.setValue('foo'), input, "should be chainable");
 
-        strictEqual(input.removeAttribute('checked'), input, "should be chainable");
+        input.unsubscribeFrom($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
 
-        $basicWidgets.Input.removeMocks();
+        equal(input.htmlAttributes.getItem('value'), 'foo', "should set value attribute");
+
+        input.setChecked(true);
+
+        input.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
+
+        input.setValue('bar');
+
+        input.unsubscribeFrom($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
+    });
+
+    test("Value clearing", function () {
+        expect(5);
+
+        var input = $basicWidgets.BinaryInput.create()
+            .setValue('foo');
+
+        function onStateChange(event) {
+            ok(true, "should trigger value change event");
+            equal(event.beforeValue, 'foo', "should set beforeValue property");
+            equal(event.afterValue, undefined, "should set afterValue property");
+        }
+
+        input.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
+
+        strictEqual(input.clearValue(), input, "should be chainable");
+
+        input.unsubscribeFrom($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
+
+        equal(input.htmlAttributes.getItem('value'), undefined, "should set value attribute");
+
+        input
+            .setChecked(true)
+            .setValue('foo');
+
+        input.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
+
+        input.clearValue();
+
+        input.unsubscribeFrom($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
+    });
+
+    test("Value getter", function () {
+        var input = $basicWidgets.BinaryInput.create()
+            .setValue('foo');
+
+        equal(input.getValue(), 'foo', "should return value attribute");
     });
 
     test("Checked state setter", function () {
-        expect(5);
+        expect(6);
 
         var input = $basicWidgets.BinaryInput.create()
             .setValue('foo');
@@ -74,25 +89,27 @@
             equal(event.afterValue, 'foo', "should set afterValue property");
         }
 
-        input.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
-
         input.addMocks({
-            getChecked: function () {
-                ok(true, "should get current checked state");
-                return false;
+            _updateDomChecked: function () {
+                ok(true, "should update checked in DOM");
             }
         });
+
+        input.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
 
         strictEqual(input.setChecked(true), input, "should be chainable");
 
         input.unsubscribeFrom($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
+
+        equal(input.checked, true, "should set checked property");
     });
 
     test("Checked state removal", function () {
-        expect(5);
+        expect(6);
 
         var input = $basicWidgets.BinaryInput.create()
-            .setValue('foo');
+            .setValue('foo')
+            .setChecked(true);
 
         function onStateChange(event) {
             ok(true, "should trigger value change event");
@@ -100,34 +117,18 @@
             strictEqual(event.afterValue, undefined, "should set afterValue property");
         }
 
-        input.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
-
         input.addMocks({
-            getChecked: function () {
-                ok(true, "should get current checked state");
-                return true;
+            _updateDomChecked: function () {
+                ok(true, "should update checked in DOM");
             }
         });
+
+        input.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
 
         strictEqual(input.clearChecked(), input, "should be chainable");
 
         input.unsubscribeFrom($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
-    });
 
-    test("Checked state getter", function () {
-        expect(2);
-
-        var input = $basicWidgets.BinaryInput.create(),
-            attributeValue = {};
-
-        input.htmlAttributes.addMocks({
-            getItem: function (key) {
-                equal(key, 'checked', "should get checked attribute");
-                return attributeValue;
-            }
-        });
-
-        strictEqual(input.getChecked(), attributeValue,
-            "should forward value returned by htmlAttributes");
+        equal(input.checked, undefined, "should set checked property");
     });
 }());

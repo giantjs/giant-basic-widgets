@@ -9,7 +9,7 @@ $oop.postpone($basicWidgets, 'Focusable', function () {
      * Expects to be added to Widget hosts, the DOM of which support focus and blur events.
      * @class
      * @extends $oop.Base
-     * @extends $basicWidgets.Widget
+     * @extends $widget.Widget
      */
     $basicWidgets.Focusable = self
         .addPrivateMethods(/** @lends $basicWidgets.Focusable# */{

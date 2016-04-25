@@ -6,6 +6,7 @@ $oop.postpone($basicWidgets, 'EntityInput', function () {
 
     /**
      * Implements entity binding for the name, value, and validity attributes of an input.
+     * TODO: Eliminate. Value and validity don't apply to all inputs.
      * @class
      * @extends $oop.Base
      * @extends $basicWidgets.Input

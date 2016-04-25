@@ -39,7 +39,7 @@ $oop.postpone($basicWidgets, 'DataBinaryInput', function (ns, cn) {
             /** @private */
             _syncEntityToInputState: function () {
                 var inputDocument = this.entityKey.toDocument();
-                inputDocument.setState(this.getChecked());
+                inputDocument.setState(this.checked);
             }
         })
         .addMethods(/** @lends $basicWidgets.DataBinaryInput# */{
