@@ -253,6 +253,7 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
 
             /**
              * Prevents select to have multiple options selected.
+             * TODO: Make sure to trigger selected change events when necessary.
              * @returns {$basicWidgets.Select}
              */
             allowSingleSelectedOnly: function () {
