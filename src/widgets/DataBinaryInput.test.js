@@ -35,7 +35,7 @@
             }
         });
 
-        checkbox.setChecked(true);
+        checkbox.select();
 
         checkbox.afterRemove();
     });

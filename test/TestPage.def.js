@@ -400,7 +400,7 @@ _addSelect: function (itemWidget) {
 
                 this._addWidget(
                     this._addCheckboxInput,
-                    "widgetId.toWidget().setChecked(true)");
+                    "widgetId.toWidget().select(true)");
 
                 this._addWidget(
                     this._addDataCheckboxInput,

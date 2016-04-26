@@ -30,7 +30,7 @@
 
         equal(input.htmlAttributes.getItem('value'), 'foo', "should set value attribute");
 
-        input.setChecked(true);
+        input.select();
 
         input.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
 
@@ -60,7 +60,7 @@
         equal(input.htmlAttributes.getItem('value'), undefined, "should set value attribute");
 
         input
-            .setChecked(true)
+            .select()
             .setValue('foo');
 
         input.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
@@ -77,7 +77,7 @@
         equal(input.getValue(), 'foo', "should return value attribute");
     });
 
-    test("Checked state setter", function () {
+    test("Selecting", function () {
         expect(6);
 
         var input = $basicWidgets.BinaryInput.create()
@@ -97,7 +97,7 @@
 
         input.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
 
-        strictEqual(input.setChecked(true), input, "should be chainable");
+        strictEqual(input.select(), input, "should be chainable");
 
         input.unsubscribeFrom($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
 
@@ -109,7 +109,7 @@
 
         var input = $basicWidgets.BinaryInput.create()
             .setValue('foo')
-            .setChecked(true);
+            .select();
 
         function onStateChange(event) {
             ok(true, "should trigger value change event");
@@ -125,10 +125,10 @@
 
         input.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
 
-        strictEqual(input.clearChecked(), input, "should be chainable");
+        strictEqual(input.deselect(), input, "should be chainable");
 
         input.unsubscribeFrom($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
 
-        equal(input.checked, undefined, "should set checked property");
+        equal(input.checked, false, "should set checked property");
     });
 }());

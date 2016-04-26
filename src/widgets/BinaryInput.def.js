@@ -17,6 +17,7 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
 
     /**
      * Implements checkbox or radio button.
+     * TODO: What about mixed state? Use undefined? Address in Selectable.
      * @class
      * @extends $widget.Widget
      * @extends $basicWidgets.BinaryStateful
@@ -50,8 +51,10 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
 
                 if (element) {
                     checked = this._getCheckedProxy(element);
-                    if (this.checked !== checked) {
-                        this.setChecked(checked);
+                    if (checked) {
+                        this.select();
+                    } else {
+                        this.deselect();
                     }
                 }
             },
@@ -59,12 +62,12 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
             /** @private */
             _updateDomChecked: function () {
                 var element = this.getElement(),
-                    checked = this.checked;
+                    checked;
 
                 if (element) {
                     checked = this._getCheckedProxy(element);
                     if (this.checked !== checked) {
-                        this._setCheckedProxy(element, checked);
+                        this._setCheckedProxy(element, this.checked);
                     }
                 }
             }
@@ -89,6 +92,7 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
 
                 /**
                  * Whether the input is checked.
+                 * TODO: Might want to rename to selected. Depends on how Selectable interface turns out.
                  * @type {boolean}
                  */
                 this.checked = undefined;
@@ -114,6 +118,8 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
             afterRender: function () {
                 base.afterRender.call(this);
                 $basicWidgets.Focusable.afterRender.call(this);
+
+                this._updateDomChecked();
 
                 var element = this.getElement();
                 this._addEventListenerProxy(element, 'input', this.onInput);
@@ -185,24 +191,22 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
             },
 
             /**
-             * Sets input value.
-             * TODO: Refactor into check / uncheck;
-             * @param {*} checked
+             * Selects input and triggers appropriate events.
+             * TODO: Add to Selectable interface.
              * @returns {$basicWidgets.BinaryInput}
              */
-            setChecked: function (checked) {
+            select: function () {
                 var wasChecked = this.checked,
                     value = this.getValue();
 
-                if (checked !== wasChecked) {
-                    this.checked = checked;
+                if (wasChecked !== true) {
+                    this.checked = true;
 
                     this._updateDomChecked();
 
                     if (value !== undefined) {
                         this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
-                            .setBeforeValue(wasChecked ? value : undefined)
-                            .setAfterValue(checked ? value : undefined)
+                            .setAfterValue(value)
                             .triggerSync();
                     }
                 }
@@ -211,15 +215,16 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
             },
 
             /**
-             * Clears input value and triggers events.
+             * Deselects input and triggers appropriate events.
+             * TODO: Add to Selectable interface.
              * @returns {$basicWidgets.BinaryInput}
              */
-            clearChecked: function () {
+            deselect: function () {
                 var wasChecked = this.checked,
                     value = this.getValue();
 
-                if (wasChecked !== undefined) {
-                    this.checked = undefined;
+                if (wasChecked !== false) {
+                    this.checked = false;
 
                     this._updateDomChecked();
 

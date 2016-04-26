@@ -30,9 +30,9 @@ $oop.postpone($basicWidgets, 'DataBinaryInput', function (ns, cn) {
                 var inputDocument = this.entityKey.toDocument();
 
                 if (inputDocument.getState()) {
-                    this.setChecked(true);
+                    this.select();
                 } else {
-                    this.clearChecked();
+                    this.deselect();
                 }
             },
 
