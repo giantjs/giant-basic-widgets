@@ -6,10 +6,18 @@ $oop.postpone($basicWidgets, 'Controllable', function () {
             .addTraitAndExtend($basicWidgets.Disableable);
 
     /**
-     * Assignable to any input-like widget, such as input, select, button, etc.
-     * Controllable widgets have a name, disabled HTML attribute, and may be associated with labels.
+     * Assignable to common inputs, such as text, select, button, etc.
+     * Input widgets share the following properties:
+     * - have a name
+     * - have a value (state)
+     * - can be disabled
+     * - can be associated with labels
+     * - trigger events when properties change (name & value)
      * Expects to be added to widgets bearing the Disableable trait.
-     * TODO: Think of a more descriptive name.
+     * Remark: Common inputs just _happen_ to share name and disabled properties / attributes,
+     * they're not implementing a common interface within the DOM.
+     * Unfortunately the same doesn't apply to the value property / attribute,
+     * hence the corresponding virtual methods.
      * @class
      * @extends $oop.Base
      * @extends $basicWidgets.Disableable
@@ -17,7 +25,10 @@ $oop.postpone($basicWidgets, 'Controllable', function () {
      */
     $basicWidgets.Controllable = self
         .addPrivateMethods(/** @lends $basicWidgets.Controllable# */{
-            /** @private */
+            /**
+             * TODO: Perhaps control the DOM property rather than HTML attribute.
+             * @private
+             */
             _updateDisabledAttribute: function () {
                 if (this.isDisabled()) {
                     this.addAttribute('disabled', 'disabled');
