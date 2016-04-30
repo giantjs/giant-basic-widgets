@@ -276,8 +276,6 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
              * @ignore
              */
             onChange: function (event) {
-                console.log("select value changed");
-
                 var link = $event.pushOriginalEvent(event);
 
                 var selectedOptionElements = this._selectedOptionsGetterProxy(this.getElement()),
