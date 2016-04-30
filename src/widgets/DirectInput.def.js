@@ -6,7 +6,7 @@ $oop.postpone($basicWidgets, 'DirectInput', function (ns, cn) {
         // TODO: See where we could ditch ...AndExtend()
             .addTraitAndExtend($basicWidgets.BinaryStateful)
             .addTraitAndExtend($basicWidgets.Disableable, 'Disableable')
-            .addTraitAndExtend($basicWidgets.Controllable, 'Controllable')
+            .addTraitAndExtend($basicWidgets.Inputable, 'Inputable')
             .addTraitAndExtend($basicWidgets.Focusable, 'Focusable')
             .addTraitAndExtend($basicWidgets.Valuable, 'Valuable');
 
@@ -67,7 +67,7 @@ $oop.postpone($basicWidgets, 'DirectInput', function (ns, cn) {
             afterAdd: function () {
                 base.afterAdd.call(this);
                 $basicWidgets.BinaryStateful.afterAdd.call(this);
-                $basicWidgets.Controllable.afterAdd.call(this);
+                $basicWidgets.Inputable.afterAdd.call(this);
             },
 
             /** @ignore */
@@ -90,13 +90,13 @@ $oop.postpone($basicWidgets, 'DirectInput', function (ns, cn) {
             /** Call from host's .afterStateOn */
             afterStateOn: function (stateName) {
                 $basicWidgets.Disableable.afterStateOn.call(this, stateName);
-                $basicWidgets.Controllable.afterStateOn.call(this, stateName);
+                $basicWidgets.Inputable.afterStateOn.call(this, stateName);
             },
 
             /** Call from host's .afterStateOff */
             afterStateOff: function (stateName) {
                 $basicWidgets.Disableable.afterStateOff.call(this, stateName);
-                $basicWidgets.Controllable.afterStateOff.call(this, stateName);
+                $basicWidgets.Inputable.afterStateOff.call(this, stateName);
             },
 
             /**

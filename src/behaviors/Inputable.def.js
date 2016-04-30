@@ -1,4 +1,4 @@
-$oop.postpone($basicWidgets, 'Controllable', function () {
+$oop.postpone($basicWidgets, 'Inputable', function () {
     "use strict";
 
     var base = $oop.Base,
@@ -6,7 +6,7 @@ $oop.postpone($basicWidgets, 'Controllable', function () {
             .addTraitAndExtend($basicWidgets.Disableable);
 
     /**
-     * Assignable to common inputs, such as text, select, button, etc.
+     * To be used by common inputs, such as text, select, button, etc.
      * Input widgets share the following properties:
      * - have a name
      * - have a value (state)
@@ -23,8 +23,8 @@ $oop.postpone($basicWidgets, 'Controllable', function () {
      * @extends $basicWidgets.Disableable
      * @extends $basicWidgets.Widget
      */
-    $basicWidgets.Controllable = self
-        .addPrivateMethods(/** @lends $basicWidgets.Controllable# */{
+    $basicWidgets.Inputable = self
+        .addPrivateMethods(/** @lends $basicWidgets.Inputable# */{
             /**
              * TODO: Perhaps control the DOM property rather than HTML attribute.
              * @private
@@ -48,7 +48,7 @@ $oop.postpone($basicWidgets, 'Controllable', function () {
                 }
             }
         })
-        .addMethods(/** @lends $basicWidgets.Controllable# */{
+        .addMethods(/** @lends $basicWidgets.Inputable# */{
             /**
              * Call from host's afterAdd
              */
@@ -76,7 +76,7 @@ $oop.postpone($basicWidgets, 'Controllable', function () {
 
             /**
              * @param {$basicWidgets.Text} labelWidget
-             * @returns {$basicWidgets.Controllable}
+             * @returns {$basicWidgets.Inputable}
              */
             linkLabelWidget: function (labelWidget) {
                 $assertion.assert($basicWidgets.Text.isBaseOf(labelWidget),
@@ -91,7 +91,7 @@ $oop.postpone($basicWidgets, 'Controllable', function () {
 
             /**
              * @param {string} name
-             * @returns {$basicWidgets.Controllable}
+             * @returns {$basicWidgets.Inputable}
              */
             setName: function (name) {
                 this.addAttribute('name', name);
@@ -101,7 +101,7 @@ $oop.postpone($basicWidgets, 'Controllable', function () {
 
             /**
              * Clears input name attribute.
-             * @returns {$basicWidgets.Controllable}
+             * @returns {$basicWidgets.Inputable}
              */
             clearName: function () {
                 this.removeAttribute('name');
@@ -118,20 +118,20 @@ $oop.postpone($basicWidgets, 'Controllable', function () {
         });
 
     /**
-     * @name $basicWidgets.Controllable#setValue
+     * @name $basicWidgets.Inputable#setValue
      * @function
      * @param {string} value
-     * @returns {$basicWidgets.Controllable}
+     * @returns {$basicWidgets.Inputable}
      */
 
     /**
-     * @name $basicWidgets.Controllable#clearValue
+     * @name $basicWidgets.Inputable#clearValue
      * @function
-     * @returns {$basicWidgets.Controllable}
+     * @returns {$basicWidgets.Inputable}
      */
 
     /**
-     * @name $basicWidgets.Controllable#getValue
+     * @name $basicWidgets.Inputable#getValue
      * @function
      * @returns {string}
      */

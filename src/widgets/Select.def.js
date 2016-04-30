@@ -5,7 +5,7 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
         self = base.extend(cn)
             .addTraitAndExtend($basicWidgets.BinaryStateful)
             .addTraitAndExtend($basicWidgets.Disableable, 'Disableable')
-            .addTraitAndExtend($basicWidgets.Controllable, 'Controllable'),
+            .addTraitAndExtend($basicWidgets.Inputable, 'Inputable'),
         slice = Array.prototype.slice;
 
     /**
@@ -20,7 +20,7 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
      * @extends $basicWidgets.List
      * @extends $basicWidgets.BinaryStateful
      * @extends $basicWidgets.Disableable
-     * @extends $basicWidgets.Controllable
+     * @extends $basicWidgets.Inputable
      */
     $basicWidgets.Select = self
         .addPrivateMethods(/** @lends $basicWidgets.Select# */{
@@ -153,7 +153,7 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
             afterAdd: function () {
                 base.afterAdd.call(this);
                 $basicWidgets.BinaryStateful.afterAdd.call(this);
-                $basicWidgets.Controllable.afterAdd.call(this);
+                $basicWidgets.Inputable.afterAdd.call(this);
 
                 this._updateMultiplicity();
 
@@ -178,13 +178,13 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
             /** Call from host's .afterStateOn */
             afterStateOn: function (stateName) {
                 $basicWidgets.Disableable.afterStateOn.call(this, stateName);
-                $basicWidgets.Controllable.afterStateOn.call(this, stateName);
+                $basicWidgets.Inputable.afterStateOn.call(this, stateName);
             },
 
             /** Call from host's .afterStateOff */
             afterStateOff: function (stateName) {
                 $basicWidgets.Disableable.afterStateOff.call(this, stateName);
-                $basicWidgets.Controllable.afterStateOff.call(this, stateName);
+                $basicWidgets.Inputable.afterStateOff.call(this, stateName);
             },
 
             /**
