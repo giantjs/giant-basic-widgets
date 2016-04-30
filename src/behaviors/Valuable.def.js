@@ -35,7 +35,7 @@ $oop.postpone($basicWidgets, 'Valuable', function () {
             _updateDomValue: function () {
                 var element = this.getElement(),
                     oldValue,
-                    newValue = this.value;
+                    newValue = $utils.Stringifier.stringify(this.value);
 
                 if (element) {
                     oldValue = this._getValueProxy(element);
@@ -57,8 +57,7 @@ $oop.postpone($basicWidgets, 'Valuable', function () {
 
             /** Call from host's .afterRender() */
             afterRender: function () {
-                var element = this.getElement();
-                this._setValueProxy(element, this.value);
+                this._updateDomValue();
             },
 
             /**
