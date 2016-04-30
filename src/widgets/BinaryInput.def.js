@@ -23,6 +23,7 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
      * @extends $basicWidgets.BinaryStateful
      * @extends $basicWidgets.Disableable
      * @extends $basicWidgets.Focusable
+     * @extends $basicWidgets.Inputable
      */
     $basicWidgets.BinaryInput = self
         .addPrivateMethods(/** @lends $basicWidgets.BinaryInput# */{
@@ -126,27 +127,59 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
                 this._addEventListenerProxy(element, 'change', this.onChange);
             },
 
-            /** Call from host's .afterStateOn */
+            /** @ignore */
             afterStateOn: function (stateName) {
                 $basicWidgets.Disableable.afterStateOn.call(this, stateName);
                 $basicWidgets.Inputable.afterStateOn.call(this, stateName);
             },
 
-            /** Call from host's .afterStateOff */
+            /** @ignore */
             afterStateOff: function (stateName) {
                 $basicWidgets.Disableable.afterStateOff.call(this, stateName);
                 $basicWidgets.Inputable.afterStateOff.call(this, stateName);
             },
 
             /**
-             * Sets value for the input.
-             * TODO: Explain how values are different for radios / checkboxes and text inputs.
+             * @param {boolean|undefined} checked
+             * @returns {$basicWidgets.BinaryInput}
+             */
+            setValue: function (checked) {
+                var wasChecked = this.checked,
+                    baseValue = this.getBaseValue();
+
+                if (wasChecked !== checked) {
+                    this.checked = checked;
+
+                    this._updateDomChecked();
+
+                    if (baseValue !== undefined) {
+                        this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
+                            .setBeforeValue(wasChecked ? baseValue : undefined)
+                            .setAfterValue(checked ? baseValue : undefined)
+                            .triggerSync();
+                    }
+                }
+
+                return this;
+            },
+
+            /**
+             * @returns {$basicWidgets.BinaryInput}
+             */
+            clearValue: function () {
+                this.setValue(undefined);
+                return this;
+            },
+
+            /**
+             * Sets base value for the input.
+             * Base value used as the input's value when it's checked.
              * @param {string} value
              * @returns {$basicWidgets.BinaryInput}
              */
-            setValue: function (value) {
+            setBaseValue: function (value) {
                 var isChecked = this.checked,
-                    oldValue = this.getValue();
+                    oldValue = this.getBaseValue();
 
                 if (value !== oldValue) {
                     this.addAttribute('value', value);
@@ -163,30 +196,10 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
             },
 
             /**
-             * Clears input value.
-             * @returns {$basicWidgets.BinaryInput}
-             */
-            clearValue: function () {
-                var oldValue = this.getValue();
-
-                if (oldValue) {
-                    this.removeAttribute('value');
-
-                    if (this.checked) {
-                        this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
-                            .setBeforeValue(oldValue)
-                            .triggerSync();
-                    }
-                }
-
-                return this;
-            },
-
-            /**
              * Retrieves value HTML attribute.
              * @returns {string}
              */
-            getValue: function () {
+            getBaseValue: function () {
                 return this.htmlAttributes.getItem('value');
             },
 
@@ -196,21 +209,7 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
              * @returns {$basicWidgets.BinaryInput}
              */
             select: function () {
-                var wasChecked = this.checked,
-                    value = this.getValue();
-
-                if (wasChecked !== true) {
-                    this.checked = true;
-
-                    this._updateDomChecked();
-
-                    if (value !== undefined) {
-                        this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
-                            .setAfterValue(value)
-                            .triggerSync();
-                    }
-                }
-
+                this.setValue(true);
                 return this;
             },
 
@@ -220,21 +219,7 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
              * @returns {$basicWidgets.BinaryInput}
              */
             deselect: function () {
-                var wasChecked = this.checked,
-                    value = this.getValue();
-
-                if (wasChecked !== false) {
-                    this.checked = false;
-
-                    this._updateDomChecked();
-
-                    if (value !== undefined) {
-                        this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
-                            .setBeforeValue(value)
-                            .triggerSync();
-                    }
-                }
-
+                this.setValue(false);
                 return this;
             },
 

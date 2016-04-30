@@ -181,7 +181,7 @@ _addCheckboxInput: function (itemWidget) {
 
     return $basicWidgets.BinaryInput.create('checkbox')
         .setName('meows')
-        .setValue('Yes')
+        .setBaseValue('Yes')
         .linkLabelWidget(label);
 },
 

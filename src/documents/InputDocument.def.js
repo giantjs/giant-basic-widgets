@@ -111,7 +111,7 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
              * Sets current state value associated with the input.
              * Input state may be controlled independently from value,
              * but they may contribute to the form together.
-             * TODO: Revisit from a validation POV.
+             * TODO: Use value for storing state & introduce baseValue as optional field.
              * @param {*} state
              * @returns {$basicWidgets.InputDocument}
              */

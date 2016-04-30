@@ -11,7 +11,7 @@
         equal(input.htmlAttributes.getItem('type'), 'text', "should set type HTML attribute");
     });
 
-    test("Value setter", function () {
+    test("Base value setter", function () {
         expect(5);
 
         var input = $basicWidgets.BinaryInput.create();
@@ -24,7 +24,7 @@
 
         input.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
 
-        strictEqual(input.setValue('foo'), input, "should be chainable");
+        strictEqual(input.setBaseValue('foo'), input, "should be chainable");
 
         input.unsubscribeFrom($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
 
@@ -34,54 +34,23 @@
 
         input.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
 
-        input.setValue('bar');
-
-        input.unsubscribeFrom($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
-    });
-
-    test("Value clearing", function () {
-        expect(5);
-
-        var input = $basicWidgets.BinaryInput.create()
-            .setValue('foo');
-
-        function onStateChange(event) {
-            ok(true, "should trigger value change event");
-            equal(event.beforeValue, 'foo', "should set beforeValue property");
-            equal(event.afterValue, undefined, "should set afterValue property");
-        }
-
-        input.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
-
-        strictEqual(input.clearValue(), input, "should be chainable");
-
-        input.unsubscribeFrom($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
-
-        equal(input.htmlAttributes.getItem('value'), undefined, "should set value attribute");
-
-        input
-            .select()
-            .setValue('foo');
-
-        input.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
-
-        input.clearValue();
+        input.setBaseValue('bar');
 
         input.unsubscribeFrom($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
     });
 
     test("Value getter", function () {
         var input = $basicWidgets.BinaryInput.create()
-            .setValue('foo');
+            .setBaseValue('foo');
 
-        equal(input.getValue(), 'foo', "should return value attribute");
+        equal(input.getBaseValue(), 'foo', "should return value attribute");
     });
 
     test("Selecting", function () {
         expect(6);
 
         var input = $basicWidgets.BinaryInput.create()
-            .setValue('foo');
+            .setBaseValue('foo');
 
         function onStateChange(event) {
             ok(true, "should trigger value change event");
@@ -108,7 +77,7 @@
         expect(6);
 
         var input = $basicWidgets.BinaryInput.create()
-            .setValue('foo')
+            .setBaseValue('foo')
             .select();
 
         function onStateChange(event) {

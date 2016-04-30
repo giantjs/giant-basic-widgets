@@ -37,6 +37,17 @@ $oop.postpone($basicWidgets, 'DataBinaryInput', function (ns, cn) {
             },
 
             /** @private */
+            _syncBaseValueToEntity: function () {
+                var inputDocument = this.entityKey.toDocument(),
+                    oldBaseValue = this.getBaseValue(),
+                    newBaseValue = inputDocument.getValue();
+
+                if (newBaseValue !== oldBaseValue) {
+                    this.setBaseValue(newBaseValue);
+                }
+            },
+
+            /** @private */
             _syncEntityToInputState: function () {
                 var inputDocument = this.entityKey.toDocument();
                 inputDocument.setState(this.checked);
@@ -63,8 +74,10 @@ $oop.postpone($basicWidgets, 'DataBinaryInput', function (ns, cn) {
                 base.afterAdd.call(this);
                 $basicWidgets.EntityInput.afterAdd.call(this);
 
+                this._syncBaseValueToEntity();
                 this._syncInputStateToEntity();
 
+                // TODO: Also subscribe to base value changes?
                 this
                     .subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, this.onInputStateChange)
                     .bindToDelegatedEntityChange(this.entityKey.getFieldKey('state'), 'onStateFieldChange');
