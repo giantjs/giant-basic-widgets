@@ -7,6 +7,7 @@ $oop.postpone($basicWidgets, 'Focusable', function () {
     /**
      * For widgets that may be focused and blurred.
      * Expects to be added to Widget hosts, the DOM of which support focus and blur events.
+     * TODO: Rename to DomFocusable?
      * @class
      * @extends $oop.Base
      * @extends $widget.Widget

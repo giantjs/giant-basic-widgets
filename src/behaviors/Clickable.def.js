@@ -7,6 +7,7 @@ $oop.postpone($basicWidgets, 'Clickable', function () {
     /**
      * Makes host class a target for mouse clicks / taps.
      * Expects to be added to Widget instances.
+     * TODO: Rename to DomClickable?
      * @class
      * @extends $oop.Base
      * @extends $widget.Widget

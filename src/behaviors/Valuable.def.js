@@ -7,6 +7,7 @@ $oop.postpone($basicWidgets, 'Valuable', function () {
     /**
      * For widgets that may have a value assigned to them.
      * Expects to be added to Widget hosts, the DOM element of which support value property.
+     * TODO: Rename to DomValuable?
      * @class
      * @extends $oop.Base
      * @extends $widget.Widget
