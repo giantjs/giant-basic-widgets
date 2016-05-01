@@ -17,13 +17,14 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
 
     /**
      * Implements checkbox or radio button.
-     * TODO: What about mixed state? Use undefined? Address in Selectable.
+     * TODO: What about mixed state? Use undefined?
      * @class
      * @extends $widget.Widget
      * @extends $basicWidgets.BinaryStateful
      * @extends $basicWidgets.Disableable
      * @extends $basicWidgets.Focusable
      * @extends $basicWidgets.Inputable
+     * @implements $basicWidgets.Selectable
      */
     $basicWidgets.BinaryInput = self
         .addPrivateMethods(/** @lends $basicWidgets.BinaryInput# */{
@@ -67,8 +68,8 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
 
                 if (element) {
                     checked = this._getCheckedProxy(element);
-                    if (this.checked !== checked) {
-                        this._setCheckedProxy(element, this.checked);
+                    if (this.selected !== checked) {
+                        this._setCheckedProxy(element, this.selected);
                     }
                 }
             }
@@ -93,10 +94,9 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
 
                 /**
                  * Whether the input is checked.
-                 * TODO: Might want to rename to selected. Depends on how Selectable interface turns out.
                  * @type {boolean}
                  */
-                this.checked = undefined;
+                this.selected = undefined;
 
                 this.setTagName('input');
                 this.addAttribute('type', inputType);
@@ -140,22 +140,22 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
             },
 
             /**
-             * @param {boolean|undefined} checked
+             * @param {boolean|undefined} selected
              * @returns {$basicWidgets.BinaryInput}
              */
-            setValue: function (checked) {
-                var wasChecked = this.checked,
+            setValue: function (selected) {
+                var wasChecked = this.selected,
                     baseValue = this.getBaseValue();
 
-                if (wasChecked !== checked) {
-                    this.checked = checked;
+                if (wasChecked !== selected) {
+                    this.selected = selected;
 
                     this._updateDomChecked();
 
                     if (baseValue !== undefined) {
                         this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
                             .setBeforeValue(wasChecked ? baseValue : undefined)
-                            .setAfterValue(checked ? baseValue : undefined)
+                            .setAfterValue(selected ? baseValue : undefined)
                             .triggerSync();
                     }
                 }
@@ -178,7 +178,7 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
              * @returns {$basicWidgets.BinaryInput}
              */
             setBaseValue: function (value) {
-                var isChecked = this.checked,
+                var isChecked = this.selected,
                     oldValue = this.getBaseValue();
 
                 if (value !== oldValue) {
@@ -205,7 +205,6 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
 
             /**
              * Selects input and triggers appropriate events.
-             * TODO: Add to Selectable interface.
              * @returns {$basicWidgets.BinaryInput}
              */
             select: function () {
@@ -215,7 +214,6 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
 
             /**
              * Deselects input and triggers appropriate events.
-             * TODO: Add to Selectable interface.
              * @returns {$basicWidgets.BinaryInput}
              */
             deselect: function () {

@@ -141,7 +141,6 @@ $oop.postpone($basicWidgets, 'Inputable', function () {
 (function () {
     "use strict";
 
-    // TODO: Move to an appropriate trait / interface. (Eg. "Inputable")
     $oop.addGlobalConstants.call($basicWidgets, /** @lends $basicWidgets */{
         /** @constant */
         EVENT_INPUT_STATE_CHANGE: 'widget.change.input.state'

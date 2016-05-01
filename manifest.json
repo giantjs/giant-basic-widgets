@@ -23,6 +23,7 @@
         "src/behaviors/EntityWidget.def.js",
         "src/behaviors/Focusable.def.js",
         "src/behaviors/Inputable.def.js",
+        "src/behaviors/Selectable.def.js",
         "src/behaviors/Valuable.def.js",
         "src/widgets/Application.def.js",
         "src/widgets/BinaryInput.def.js",

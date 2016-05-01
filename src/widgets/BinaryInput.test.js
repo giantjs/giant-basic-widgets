@@ -6,7 +6,7 @@
     test("Instantiation", function () {
         var input = $basicWidgets.BinaryInput.create('text');
 
-        ok(input.hasOwnProperty('checked'), "should add checked property");
+        ok(input.hasOwnProperty('selected'), "should add selected property");
         equal(input.tagName, 'input', "should set tagName property");
         equal(input.htmlAttributes.getItem('type'), 'text', "should set type HTML attribute");
     });
@@ -70,7 +70,7 @@
 
         input.unsubscribeFrom($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
 
-        equal(input.checked, true, "should set checked property");
+        equal(input.selected, true, "should set selected property");
     });
 
     test("Checked state removal", function () {
@@ -98,6 +98,6 @@
 
         input.unsubscribeFrom($basicWidgets.EVENT_INPUT_STATE_CHANGE, onStateChange);
 
-        equal(input.checked, false, "should set checked property");
+        equal(input.selected, false, "should set selected property");
     });
 }());

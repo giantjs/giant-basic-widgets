@@ -7,7 +7,6 @@ $oop.postpone($basicWidgets, 'EntityWidget', function () {
     /**
      * Provides means to link a widget to an entity.
      * Expects to be added to widget classes.
-     * TODO: Add automatic binding? (We don't necessarily know where we want to capture.)
      * @class
      * @extends $entity.EntityBound
      * @extends $widget.Widget
