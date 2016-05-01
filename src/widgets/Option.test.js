@@ -65,7 +65,7 @@
             select = $basicWidgets.Select.create();
 
         throws(function () {
-            option.selectOption();
+            option.select();
         }, "should throw exception when not added to select");
 
         select.addItemWidget(option);
@@ -77,8 +77,8 @@
 
         option.subscribeTo($basicWidgets.EVENT_OPTION_SELECTED_CHANGE, onSelectedChange);
 
-        strictEqual(option.selectOption(), option, "should be chainable");
-        ok(option.isSelected, "should add selected attribute");
+        strictEqual(option.select(), option, "should be chainable");
+        ok(option.selected, "should add selected attribute");
 
         option.unsubscribeFrom($basicWidgets.EVENT_OPTION_SELECTED_CHANGE, onSelectedChange);
     });
@@ -89,11 +89,11 @@
             select = $basicWidgets.Select.create();
 
         throws(function () {
-            option.deselectOption();
+            option.deselect();
         }, "should throw exception when not added to select");
 
         select.addItemWidget(option);
-        option.selectOption();
+        option.select();
 
         function onSelectedChange(event) {
             ok(event.payload.wasSelected, "should set wasSelected payload");
@@ -102,10 +102,10 @@
 
         option.subscribeTo($basicWidgets.EVENT_OPTION_SELECTED_CHANGE, onSelectedChange);
 
-        option.selectOption();
+        option.select();
 
-        strictEqual(option.deselectOption(), option, "should be chainable");
-        ok(!option.isSelected, "should remove selected attribute");
+        strictEqual(option.deselect(), option, "should be chainable");
+        ok(!option.selected, "should remove selected attribute");
 
         option.unsubscribeFrom($basicWidgets.EVENT_OPTION_SELECTED_CHANGE, onSelectedChange);
     });

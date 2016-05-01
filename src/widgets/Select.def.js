@@ -78,7 +78,7 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
                     // reducing number of selected values to 1
                     selectedOptionWidget = this.getOptionWidgetByValue(this.selectedValues.getFirstValue());
                     if (selectedOptionWidget) {
-                        selectedOptionWidget.selectOption();
+                        selectedOptionWidget.select();
                     }
                 }
             },
@@ -216,7 +216,7 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
                 if (optionWidget) {
                     // matching option found
                     // selecting specified option
-                    optionWidget.selectOption();
+                    optionWidget.select();
                 }
                 return this;
             },
@@ -229,7 +229,7 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
                 this.selectedValues.toStringDictionary()
                     .combineWith(this.optionWidgetsByValue.toDictionary())
                     .toCollection()
-                    .callOnEachItem('deselectOption');
+                    .callOnEachItem('deselect');
 
                 return this;
             },
@@ -291,11 +291,11 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
 
                 selectedValues
                     .mapValues(this.getOptionWidgetByValue)
-                    .callOnEachItem('selectOption');
+                    .callOnEachItem('select');
 
                 deselectedValues
                     .mapValues(this.getOptionWidgetByValue)
-                    .callOnEachItem('deselectOption');
+                    .callOnEachItem('deselect');
 
                 link.unlink();
             },
@@ -337,7 +337,7 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
                 var affectedOptionWidget = event.sender,
                     affectedValue = affectedOptionWidget.getOptionValue(),
                     selectedValues = this.selectedValues,
-                    isSelected = affectedOptionWidget.isSelected;
+                    isSelected = affectedOptionWidget.selected;
 
                 if (isSelected && !this.allowsMultipleOptions) {
                     // when option got selected in a single select
@@ -345,7 +345,7 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
                     selectedValues.toStringDictionary()
                         .combineWith(this.optionWidgetsByValue.toDictionary())
                         .toCollection()
-                        .callOnEachItem('deselectOption');
+                        .callOnEachItem('deselect');
                 }
 
                 // updating selected values

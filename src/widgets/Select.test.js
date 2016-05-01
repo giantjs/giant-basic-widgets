@@ -47,7 +47,7 @@
                 .setOptionValue('bar'));
 
         $basicWidgets.Option.addMocks({
-            selectOption: function () {
+            select: function () {
                 equal(this.getOptionValue(), 'foo', "should select corresponding option");
             }
         });
@@ -71,7 +71,7 @@
         });
 
         $basicWidgets.Option.addMocks({
-            deselectOption: function () {
+            deselect: function () {
                 deselectedValues.push(this.getOptionValue());
             }
         });
@@ -157,7 +157,7 @@
         });
 
         option.addMocks({
-            selectOption: function () {
+            select: function () {
                 equal(this.getOptionValue(), 'foo', "should select matching option widget");
             }
         });
@@ -175,7 +175,7 @@
                 .addItemWidget(option2)
                 .addToParent($basicWidgets.Application.create());
 
-        option1.selectOption();
+        option1.select();
 
         option1.setOptionValue('baz');
 
@@ -224,8 +224,8 @@
 
         select.subscribeTo($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, onSelectionChange);
 
-        option1.selectOption();
-        option2.selectOption();
+        option1.select();
+        option2.select();
     });
 
     test("Multiple option selected state change handler", function (assert) {
@@ -259,7 +259,7 @@
 
         select.subscribeTo($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, onSelectionChange);
 
-        option1.selectOption();
-        option2.selectOption();
+        option1.select();
+        option2.select();
     });
 }());

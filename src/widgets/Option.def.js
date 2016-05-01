@@ -19,6 +19,7 @@ $oop.postpone($basicWidgets, 'Option', function (ns, cn) {
      * @class
      * @extends $basicWidgets.Text
      * @extends $basicWidgets.Disableable
+     * @implements $basicWidgets.Selectable
      */
     $basicWidgets.Option = self
         .addPrivateMethods(/** @lends $basicWidgets.Option# */{
@@ -72,7 +73,7 @@ $oop.postpone($basicWidgets, 'Option', function (ns, cn) {
                  * Whether the option is currently selected.
                  * @type {boolean}
                  */
-                this.isSelected = false;
+                this.selected = false;
             },
 
             /** @ignore */
@@ -81,7 +82,7 @@ $oop.postpone($basicWidgets, 'Option', function (ns, cn) {
 
                 // syncing selected state to 'selected' attribute
                 if (this._getSelectedProxy(this.getElement())) {
-                    this.selectOption();
+                    this.select();
                 }
             },
 
@@ -137,13 +138,13 @@ $oop.postpone($basicWidgets, 'Option', function (ns, cn) {
              * Selects the current option if it's added to a select.
              * @returns {$basicWidgets.Option}
              */
-            selectOption: function () {
+            select: function () {
                 $assertion.assert(this._isAddedToSelect(), "Orphan options are not selectable");
 
                 var element = this.getElement();
 
-                if (!this.isSelected) {
-                    this.isSelected = true;
+                if (!this.selected) {
+                    this.selected = true;
 
                     if (element) {
                         this._setSelectedProxy(element, true);
@@ -164,13 +165,13 @@ $oop.postpone($basicWidgets, 'Option', function (ns, cn) {
              * Selects the current option if it's added to a select.
              * @returns {$basicWidgets.Option}
              */
-            deselectOption: function () {
+            deselect: function () {
                 $assertion.assert(this._isAddedToSelect(), "Orphan options are not selectable");
 
                 var element = this.getElement();
 
-                if (this.isSelected) {
-                    this.isSelected = false;
+                if (this.selected) {
+                    this.selected = false;
 
                     if (element) {
                         this._setSelectedProxy(element, false);
