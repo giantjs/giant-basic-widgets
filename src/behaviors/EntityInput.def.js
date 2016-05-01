@@ -10,6 +10,7 @@ $oop.postpone($basicWidgets, 'EntityInput', function () {
      * @class
      * @extends $oop.Base
      * @extends $basicWidgets.EntityWidget
+     * @extends $basicWidgets.Inputable
      */
     $basicWidgets.EntityInput = self
         .addPrivateMethods(/** @lends $basicWidgets.EntityInput# */{

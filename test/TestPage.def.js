@@ -190,8 +190,8 @@ _addDataCheckboxInput: function (itemWidget) {
     // setting input properties
     'input/2'.toDocument().setNode({
         name: 'abilities',
-        value: 'jumps',
-        state: true
+        baseValue: 'jumps',
+        value: true
     });
 
     // creating a label for the input
@@ -404,7 +404,7 @@ _addSelect: function (itemWidget) {
 
                 this._addWidget(
                     this._addDataCheckboxInput,
-                    "'input/2/state'.toField().setValue(false)");
+                    "'input/2/value'.toField().setValue(false)");
 
                 this._addWidget(
                     this._addList,

@@ -10,7 +10,7 @@ $oop.amendPostponed($entity, 'config', function () {
 
         'input/name'     : {fieldType: 'string'},
         'input/value'    : {},
-        'input/state'    : {},
+        'input/baseValue': {},
         'input/validator': {fieldType: 'reference'},
         'input/_reasons' : {fieldType: 'collection'},
 

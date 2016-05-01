@@ -22,25 +22,11 @@ $oop.postpone($basicWidgets, 'DataBinaryInput', function (ns, cn) {
      */
     $basicWidgets.DataBinaryInput = self
         .addPrivateMethods(/** @lends $basicWidgets.DataBinaryInput# */{
-            /**
-             * Syncs input value to value entity.
-             * @private
-             */
-            _syncInputStateToEntity: function () {
-                var inputDocument = this.entityKey.toDocument();
-
-                if (inputDocument.getState()) {
-                    this.select();
-                } else {
-                    this.deselect();
-                }
-            },
-
             /** @private */
             _syncBaseValueToEntity: function () {
                 var inputDocument = this.entityKey.toDocument(),
                     oldBaseValue = this.getBaseValue(),
-                    newBaseValue = inputDocument.getValue();
+                    newBaseValue = inputDocument.getBaseValue();
 
                 if (newBaseValue !== oldBaseValue) {
                     this.setBaseValue(newBaseValue);
@@ -50,7 +36,7 @@ $oop.postpone($basicWidgets, 'DataBinaryInput', function (ns, cn) {
             /** @private */
             _syncEntityToInputState: function () {
                 var inputDocument = this.entityKey.toDocument();
-                inputDocument.setState(this.checked);
+                inputDocument.setValue(this.checked);
             }
         })
         .addMethods(/** @lends $basicWidgets.DataBinaryInput# */{
@@ -75,30 +61,20 @@ $oop.postpone($basicWidgets, 'DataBinaryInput', function (ns, cn) {
                 $basicWidgets.EntityInput.afterAdd.call(this);
 
                 this._syncBaseValueToEntity();
-                this._syncInputStateToEntity();
 
                 // TODO: Also subscribe to base value changes?
-                this
-                    .subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, this.onInputStateChange)
-                    .bindToDelegatedEntityChange(this.entityKey.getFieldKey('state'), 'onStateFieldChange');
+                this.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, this.onInputStateChange);
             },
 
             /** @ignore */
             afterRemove: function () {
                 base.afterRemove.call(this);
                 $basicWidgets.EntityInput.afterRemove.call(this);
-
-                this.unbindFromDelegatedEntityChange(this.entityKey.getFieldKey('state'), 'onStateFieldChange');
             },
 
             /** @ignore */
             onInputStateChange: function () {
                 this._syncEntityToInputState();
-            },
-
-            /** @ignore */
-            onStateFieldChange: function () {
-                this._syncInputStateToEntity();
             }
         });
 });

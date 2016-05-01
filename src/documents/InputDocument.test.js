@@ -38,19 +38,19 @@
         equal(document.getValue(), "foo", "should retrieve value field");
     });
 
-    test("State setter", function () {
+    test("Base value setter", function () {
         var document = 'input/1'.toDocument().unsetNode();
 
-        strictEqual(document.setState(true), document, "should be chainable");
-        equal(document.getField('state').getValue(), true, "should set state field");
+        strictEqual(document.setBaseValue('foo'), document, "should be chainable");
+        equal(document.getField('baseValue').getValue(), 'foo', "should set baseValue field");
     });
 
-    test("State getter", function () {
+    test("Base value getter", function () {
         var document = 'input/1'.toDocument()
             .unsetNode()
-            .setState(true);
+            .setBaseValue('foo');
 
-        equal(document.getState(), true, "should retrieve state field");
+        equal(document.getBaseValue(), 'foo', "should retrieve state field");
     });
 
     test("Validator setter", function () {

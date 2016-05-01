@@ -24,7 +24,7 @@
         var checkbox = $basicWidgets.DataBinaryInput.create('checkbox', 'input/1'.toDocumentKey());
 
         'input/1'.toDocument().setNode({
-            value: 'foo'
+            baseValue: 'foo'
         });
 
         checkbox.afterAdd();
@@ -50,14 +50,14 @@
         checkbox.afterAdd();
 
         checkbox.addMocks({
-            _syncInputStateToEntity: function () {
+            _syncInputValueToEntity: function () {
                 ok(true, "should sync state in entity to input");
             }
         });
 
         'input/1'.toDocument()
             .setNode({
-                state: true
+                value: true
             });
 
         checkbox.afterRemove();

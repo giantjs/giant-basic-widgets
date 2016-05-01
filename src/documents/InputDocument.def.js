@@ -111,12 +111,11 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
              * Sets current state value associated with the input.
              * Input state may be controlled independently from value,
              * but they may contribute to the form together.
-             * TODO: Use value for storing state & introduce baseValue as optional field.
-             * @param {*} state
+             * @param {*} baseValue
              * @returns {$basicWidgets.InputDocument}
              */
-            setState: function (state) {
-                this.getField('state').setValue(state);
+            setBaseValue: function (baseValue) {
+                this.getField('baseValue').setValue(baseValue);
                 return this;
             },
 
@@ -157,8 +156,8 @@ $oop.postpone($basicWidgets, 'InputDocument', function () {
              * TODO: Move to binary input document subclass
              * @returns {*}
              */
-            getState: function () {
-                return this.getField('state').getValue();
+            getBaseValue: function () {
+                return this.getField('baseValue').getValue();
             },
 
             /**
