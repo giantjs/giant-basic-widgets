@@ -416,7 +416,7 @@ _addSelect: function (itemWidget) {
 
                 this._addWidget(
                     this._addSelect,
-                    "widgetId.toWidget().getOptionWidgetByValue('february').selectOption()");
+                    "widgetId.toWidget().getOptionWidgetByValue('wed').selectOption()");
             },
 
             /** @ignore */
