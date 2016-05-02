@@ -273,7 +273,7 @@ _addSelect: function (itemWidget) {
     // creating a label for the select
     var label = $basicWidgets.Text.create()
         .setChildName('A-label')
-        .setContentString("Weekday")
+        .setContentString("Day")
         .setContainerCssClass('widget-container')
         .addToParent(itemWidget);
 
@@ -308,6 +308,33 @@ _addSelect: function (itemWidget) {
             .setChildName('day-07')
             .setOptionValue('sun')
             .setContentString("Sunday"))
+        .linkLabelWidget(label);
+},
+
+/** @private */
+_addDataSelect: function (itemWidget) {
+    // creating a label for the select
+    var label = $basicWidgets.Text.create()
+        .setChildName('A-label')
+        .setContentString("Day")
+        .setContainerCssClass('widget-container')
+        .addToParent(itemWidget);
+
+    'select/1'.toDocument().setNode({
+        options: {
+            0: 'Monday',
+            1: 'Tuesday',
+            2: 'Wednesday',
+            3: 'Thursday',
+            4: 'Friday',
+            5: 'Saturday',
+            6: 'Sunday'
+        }
+    });
+
+    return $basicWidgets.DataSelect.create('select/1/options'.toFieldKey())
+        .setChildName('B-select')
+        .setName('weekday')
         .linkLabelWidget(label);
 },
             //@formatter:on
@@ -417,6 +444,10 @@ _addSelect: function (itemWidget) {
                 this._addWidget(
                     this._addSelect,
                     "widgetId.toWidget().getOptionWidgetByValue('wed').select()");
+
+                this._addWidget(
+                    this._addDataSelect,
+                    "");
             },
 
             /** @ignore */
