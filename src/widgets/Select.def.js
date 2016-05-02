@@ -190,12 +190,12 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
             /**
              * Adds option widget to the select.
              * Only allows Option instances the value on which are not yet present in the Select.
-             * @param {$basicWidgets.Option} itemWidget
+             * @param {$basicWidgets.Optionable} itemWidget
              * @returns {$basicWidgets.Select}
              */
             addItemWidget: function (itemWidget) {
                 $assertion
-                    .assert($basicWidgets.Option.isBaseOf(itemWidget), "Invalid option widget")
+                    .assert(itemWidget && itemWidget.tagName === 'option', "Invalid option widget")
                     .assert(!this.getOptionWidgetByValue(itemWidget.getOptionValue()),
                         "Duplicate option value");
 
@@ -265,7 +265,7 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
             /**
              * Retrieves the Option instance associated with the specified value.
              * @param {string} optionValue
-             * @returns {$basicWidgets.Option}
+             * @returns {$basicWidgets.Optionable}
              */
             getOptionWidgetByValue: function (optionValue) {
                 return this.optionWidgetsByValue.getItem(optionValue);

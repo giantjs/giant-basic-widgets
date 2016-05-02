@@ -23,7 +23,7 @@
             select.addItemWidget($widget.Widget.create());
         }, "should throw exception on invalid option argument");
 
-        var option = $basicWidgets.Option.create()
+        var option = $basicWidgets.TextOption.create()
             .setOptionValue('foo');
 
         strictEqual(select.addItemWidget(option), select, "should be chainable");
@@ -32,7 +32,7 @@
         }, "should add item widget to lookup");
 
         throws(function () {
-            select.addItemWidget($basicWidgets.Option.create()
+            select.addItemWidget($basicWidgets.TextOption.create()
                 .setOptionValue('foo'));
         }, "should throw exception on adding duplicate");
     });
@@ -41,12 +41,12 @@
         expect(2);
 
         var select = $basicWidgets.Select.create()
-            .addItemWidget($basicWidgets.Option.create()
+            .addItemWidget($basicWidgets.TextOption.create()
                 .setOptionValue('foo'))
-            .addItemWidget($basicWidgets.Option.create()
+            .addItemWidget($basicWidgets.TextOption.create()
                 .setOptionValue('bar'));
 
-        $basicWidgets.Option.addMocks({
+        $basicWidgets.TextOption.addMocks({
             select: function () {
                 equal(this.getOptionValue(), 'foo', "should select corresponding option");
             }
@@ -54,15 +54,15 @@
 
         strictEqual(select.setValue('foo'), select, "should be chainable");
 
-        $basicWidgets.Option.removeMocks();
+        $basicWidgets.TextOption.removeMocks();
     });
 
     test("Value clear", function () {
         var select = $basicWidgets.Select.create()
             .allowMultipleSelected()
-            .addItemWidget($basicWidgets.Option.create()
+            .addItemWidget($basicWidgets.TextOption.create()
                 .setOptionValue('foo'))
-            .addItemWidget($basicWidgets.Option.create()
+            .addItemWidget($basicWidgets.TextOption.create()
                 .setOptionValue('bar')),
             deselectedValues = [];
 
@@ -70,7 +70,7 @@
             bar: 'bar'
         });
 
-        $basicWidgets.Option.addMocks({
+        $basicWidgets.TextOption.addMocks({
             deselect: function () {
                 deselectedValues.push(this.getOptionValue());
             }
@@ -79,15 +79,15 @@
         strictEqual(select.clearValue(), select, "should be chainable");
         deepEqual(deselectedValues, ['bar'], "should deselect corresponding options");
 
-        $basicWidgets.Option.removeMocks();
+        $basicWidgets.TextOption.removeMocks();
     });
 
     test("Value getter", function () {
         var select = $basicWidgets.Select.create()
             .allowMultipleSelected()
-            .addItemWidget($basicWidgets.Option.create()
+            .addItemWidget($basicWidgets.TextOption.create()
                 .setOptionValue('foo'))
-            .addItemWidget($basicWidgets.Option.create()
+            .addItemWidget($basicWidgets.TextOption.create()
                 .setOptionValue('bar')),
             deselectedValues = [];
 
@@ -125,9 +125,9 @@
     });
 
     test("Option widget getter", function () {
-        var option1 = $basicWidgets.Option.create()
+        var option1 = $basicWidgets.TextOption.create()
             .setOptionValue('foo'),
-            option2 = $basicWidgets.Option.create()
+            option2 = $basicWidgets.TextOption.create()
                 .setOptionValue('bar'),
             select = $basicWidgets.Select.create()
                 .addItemWidget(option1)
@@ -141,7 +141,7 @@
         expect(1);
 
         var element = {},
-            option = $basicWidgets.Option.create()
+            option = $basicWidgets.TextOption.create()
                 .setOptionValue('foo'),
             select = $basicWidgets.Select.create()
                 .addItemWidget(option);
@@ -166,9 +166,9 @@
     });
 
     test("Option value change handler", function () {
-        var option1 = $basicWidgets.Option.create()
+        var option1 = $basicWidgets.TextOption.create()
             .setOptionValue('foo'),
-            option2 = $basicWidgets.Option.create()
+            option2 = $basicWidgets.TextOption.create()
                 .setOptionValue('bar'),
             select = $basicWidgets.Select.create()
                 .addItemWidget(option1)
@@ -199,9 +199,9 @@
         expect(3);
 
         var done = assert.async(),
-            option1 = $basicWidgets.Option.create()
+            option1 = $basicWidgets.TextOption.create()
                 .setOptionValue('foo'),
-            option2 = $basicWidgets.Option.create()
+            option2 = $basicWidgets.TextOption.create()
                 .setOptionValue('bar'),
             select = $basicWidgets.Select.create()
                 .addItemWidget(option1)
@@ -232,9 +232,9 @@
         expect(3);
 
         var done = assert.async(),
-            option1 = $basicWidgets.Option.create()
+            option1 = $basicWidgets.TextOption.create()
                 .setOptionValue('foo'),
-            option2 = $basicWidgets.Option.create()
+            option2 = $basicWidgets.TextOption.create()
                 .setOptionValue('bar'),
             select = $basicWidgets.Select.create()
                 .allowMultipleSelected()

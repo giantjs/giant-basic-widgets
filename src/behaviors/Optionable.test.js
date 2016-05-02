@@ -1,16 +1,44 @@
 (function () {
     "use strict";
 
-    module("Option");
+    module("Optionable");
+
+    var Optionable = $widget.Widget.extend('Optionable')
+        .addTrait($basicWidgets.BinaryStateful)
+        .addTraitAndExtend($basicWidgets.Disableable, 'Disableable')
+        .addTraitAndExtend($basicWidgets.Optionable)
+        .addMethods({
+            init: function () {
+                $widget.Widget.init.call(this);
+                $basicWidgets.BinaryStateful.init.call(this);
+                $basicWidgets.Disableable.init.call(this);
+                $basicWidgets.Optionable.init.call(this);
+            },
+
+            afterRender: function () {
+                $widget.Widget.afterRender.call(this);
+                $basicWidgets.Optionable.afterRender.call(this);
+            },
+
+            afterStateOn: function () {
+                $basicWidgets.Disableable.afterStateOn.call(this);
+                $basicWidgets.Optionable.afterStateOn.call(this);
+            },
+
+            afterStateOff: function () {
+                $basicWidgets.Disableable.afterStateOff.call(this);
+                $basicWidgets.Optionable.afterStateOff.call(this);
+            }
+        });
 
     test("Instantiation", function () {
-        var option = $basicWidgets.Option.create();
+        var option = Optionable.create();
 
         equal(option.tagName, 'option', "should set tagName property");
     });
 
     test("Disabling", function () {
-        var option = $basicWidgets.Option.create();
+        var option = Optionable.create();
 
         option.disableBy('foo');
 
@@ -18,7 +46,7 @@
     });
 
     test("Enabling", function () {
-        var option = $basicWidgets.Option.create()
+        var option = Optionable.create()
             .disableBy('foo');
 
         option.enableBy('foo');
@@ -27,7 +55,7 @@
     });
 
     test("Option value getter", function () {
-        var option = $basicWidgets.Option.create();
+        var option = Optionable.create();
 
         option.addAttribute('value', 'foo');
 
@@ -37,7 +65,7 @@
     test("Option value setter", function () {
         expect(5);
 
-        var option = $basicWidgets.Option.create();
+        var option = Optionable.create();
 
         function onValueChange(event) {
             ok(true, "should trigger value change event");
@@ -61,7 +89,7 @@
     test("Selecting option", function () {
         expect(5);
 
-        var option = $basicWidgets.Option.create(),
+        var option = Optionable.create(),
             select = $basicWidgets.Select.create();
 
         throws(function () {
@@ -85,7 +113,7 @@
 
     // TODO: Extend with events
     test("Deselecting option", function () {
-        var option = $basicWidgets.Option.create(),
+        var option = Optionable.create(),
             select = $basicWidgets.Select.create();
 
         throws(function () {

@@ -1,28 +1,21 @@
-$oop.postpone($basicWidgets, 'Option', function (ns, cn) {
+$oop.postpone($basicWidgets, 'Optionable', function () {
     "use strict";
 
-    var base = $basicWidgets.Text,
-        self = base.extend(cn)
-            .addTraitAndExtend($basicWidgets.BinaryStateful)
-            .addTraitAndExtend($basicWidgets.Disableable, 'Disableable');
+    var base = $oop.Base,
+        self = base.extend();
 
     /**
-     * Creates a Option instance.
-     * @name $basicWidgets.Option.create
-     * @function
-     * @returns {$basicWidgets.Option}
-     */
-
-    /**
-     * Represents a single option among multiple choices, based on the <option> element.
-     * TODO: Should be able to use LocaleText or any other text override.
+     * Applicable to widgets that implement the <option> element.
+     * Expects the host to have the Disableable trait.
+     * TODO: Rename to DomOptionable?
      * @class
      * @extends $basicWidgets.Text
+     * @extends $basicWidgets.BinaryStateful
      * @extends $basicWidgets.Disableable
      * @implements $basicWidgets.Selectable
      */
-    $basicWidgets.Option = self
-        .addPrivateMethods(/** @lends $basicWidgets.Option# */{
+    $basicWidgets.Optionable = self
+        .addPrivateMethods(/** @lends $basicWidgets.Optionable# */{
             /** @private */
             _updateDisabledAttribute: function () {
                 if (this.isDisabled()) {
@@ -60,13 +53,9 @@ $oop.postpone($basicWidgets, 'Option', function (ns, cn) {
                 element.selected = selected;
             }
         })
-        .addMethods(/** @lends $basicWidgets.Option# */{
-            /** @ignore */
+        .addMethods(/** @lends $basicWidgets.Optionable# */{
+            /** Call from host's .init() */
             init: function () {
-                base.init.call(this);
-                $basicWidgets.BinaryStateful.init.call(this);
-                $basicWidgets.Disableable.init.call(this);
-
                 this.setTagName('option');
 
                 /**
@@ -76,27 +65,23 @@ $oop.postpone($basicWidgets, 'Option', function (ns, cn) {
                 this.selected = false;
             },
 
-            /** @ignore */
+            /** Call from host's .afterRender() */
             afterRender: function () {
-                base.afterRender.call(this);
-
                 // syncing selected state to 'selected' attribute
                 if (this._getSelectedProxy(this.getElement())) {
                     this.select();
                 }
             },
 
-            /** @ignore */
+            /** Call from host's .afterStateOn() */
             afterStateOn: function (stateName) {
-                $basicWidgets.Disableable.afterStateOn.call(this, stateName);
                 if (stateName === self.STATE_NAME_DISABLED) {
                     this._updateDisabledAttribute();
                 }
             },
 
-            /** @ignore */
+            /** Call from host's .afterStateOff() */
             afterStateOff: function (stateName) {
-                $basicWidgets.Disableable.afterStateOff.call(this, stateName);
                 if (stateName === self.STATE_NAME_DISABLED) {
                     this._updateDisabledAttribute();
                 }
@@ -113,7 +98,7 @@ $oop.postpone($basicWidgets, 'Option', function (ns, cn) {
             /**
              * Associates value with option.
              * @param {string} optionValue
-             * @returns {$basicWidgets.Option}
+             * @returns {$basicWidgets.Optionable}
              */
             setOptionValue: function (optionValue) {
                 var beforeValue = this.getOptionValue();
@@ -136,7 +121,7 @@ $oop.postpone($basicWidgets, 'Option', function (ns, cn) {
 
             /**
              * Selects the current option if it's added to a select.
-             * @returns {$basicWidgets.Option}
+             * @returns {$basicWidgets.Optionable}
              */
             select: function () {
                 $assertion.assert(this._isAddedToSelect(), "Orphan options are not selectable");
@@ -163,7 +148,7 @@ $oop.postpone($basicWidgets, 'Option', function (ns, cn) {
 
             /**
              * Selects the current option if it's added to a select.
-             * @returns {$basicWidgets.Option}
+             * @returns {$basicWidgets.Optionable}
              */
             deselect: function () {
                 $assertion.assert(this._isAddedToSelect(), "Orphan options are not selectable");
