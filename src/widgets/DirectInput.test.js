@@ -27,23 +27,4 @@
 
         input.unsubscribeFrom($basicWidgets.EVENT_INPUT_STATE_CHANGE, onValueChange);
     });
-
-    test("Input value removal", function () {
-        expect(4);
-
-        var input = $basicWidgets.DirectInput.create()
-            .setValue('bar');
-
-        function onValueChange(event) {
-            ok(true, "should trigger value change event");
-            equal(event.beforeValue, 'bar', "should set beforeValue property");
-            strictEqual(event.afterValue, undefined, "should set afterValue property");
-        }
-
-        input.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, onValueChange);
-
-        strictEqual(input.clearValue(), input, "should be chainable");
-
-        input.unsubscribeFrom($basicWidgets.EVENT_INPUT_STATE_CHANGE, onValueChange);
-    });
 }());

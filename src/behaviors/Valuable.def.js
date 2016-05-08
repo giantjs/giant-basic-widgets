@@ -72,18 +72,6 @@ $oop.postpone($basicWidgets, 'Valuable', function () {
                     this._updateDomValue();
                 }
                 return this;
-            },
-
-            /**
-             * Clears input value and triggers events.
-             * @returns {$basicWidgets.Valuable}
-             */
-            clearValue: function () {
-                if (this.value) {
-                    this.value = undefined;
-                    this._updateDomValue();
-                }
-                return this;
             }
         });
 });

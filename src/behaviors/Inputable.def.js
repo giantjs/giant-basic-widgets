@@ -126,12 +126,6 @@ $oop.postpone($basicWidgets, 'Inputable', function () {
      */
 
     /**
-     * @name $basicWidgets.Inputable#clearValue
-     * @function
-     * @returns {$basicWidgets.Inputable}
-     */
-
-    /**
      * @name $basicWidgets.Inputable#getValue
      * @function
      * @returns {string}

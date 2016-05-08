@@ -35,20 +35,4 @@
         strictEqual(valuable.setValue('foo'), valuable, "should be chainable");
         equal(valuable.value, 'foo', "should set value property");
     });
-
-    test("Value removal", function () {
-        expect(3);
-
-        var valuable = Valuable.create()
-            .setValue('foo');
-
-        valuable.addMocks({
-            _updateDomValue: function () {
-                ok(true, "should update value in DOM");
-            }
-        });
-
-        strictEqual(valuable.clearValue(), valuable, "should be chainable");
-        equal(valuable.value, undefined, "should set value property");
-    });
 }());

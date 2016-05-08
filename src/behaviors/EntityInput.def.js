@@ -30,11 +30,7 @@ $oop.postpone($basicWidgets, 'EntityInput', function () {
                 var inputDocument = this.entityKey.toDocument(),
                     value = inputDocument.getValue();
 
-                if (typeof value !== 'undefined') {
-                    this.setValue(value);
-                } else {
-                    this.clearValue();
-                }
+                this.setValue(value);
             },
 
             /** @private */

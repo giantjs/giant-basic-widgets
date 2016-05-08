@@ -57,31 +57,6 @@
         $basicWidgets.TextOption.removeMocks();
     });
 
-    test("Value clear", function () {
-        var select = $basicWidgets.Select.create()
-            .allowMultipleSelected()
-            .addItemWidget($basicWidgets.TextOption.create()
-                .setOptionValue('foo'))
-            .addItemWidget($basicWidgets.TextOption.create()
-                .setOptionValue('bar')),
-            deselectedValues = [];
-
-        select.selectedValues = $data.Collection.create({
-            bar: 'bar'
-        });
-
-        $basicWidgets.TextOption.addMocks({
-            deselect: function () {
-                deselectedValues.push(this.getOptionValue());
-            }
-        });
-
-        strictEqual(select.clearValue(), select, "should be chainable");
-        deepEqual(deselectedValues, ['bar'], "should deselect corresponding options");
-
-        $basicWidgets.TextOption.removeMocks();
-    });
-
     test("Value getter", function () {
         var select = $basicWidgets.Select.create()
             .allowMultipleSelected()

@@ -117,21 +117,6 @@ $oop.postpone($basicWidgets, 'DirectInput', function (ns, cn) {
             },
 
             /**
-             * Clears input value and triggers events.
-             * @returns {$basicWidgets.DirectInput}
-             */
-            clearValue: function () {
-                var oldValue = this.value;
-                $basicWidgets.Valuable.clearValue.call(this);
-                if (oldValue !== undefined) {
-                    this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
-                        .setBeforeValue(oldValue)
-                        .triggerSync();
-                }
-                return this;
-            },
-
-            /**
              * @param {Event} event
              * @ignore
              */

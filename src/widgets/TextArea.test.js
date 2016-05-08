@@ -22,19 +22,4 @@
 
         textarea.setValue("foo");
     });
-
-    test("Input value clear", function () {
-        expect(1);
-
-        var textarea = $basicWidgets.TextArea.create()
-            .setValue('foo');
-
-        textarea.addMocks({
-            _updateDom: function () {
-                equal(typeof this.value, 'undefined', "should clear value property");
-            }
-        });
-
-        textarea.clearValue();
-    });
 }());

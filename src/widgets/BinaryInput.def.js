@@ -164,14 +164,6 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
             },
 
             /**
-             * @returns {$basicWidgets.BinaryInput}
-             */
-            clearValue: function () {
-                this.setValue(undefined);
-                return this;
-            },
-
-            /**
              * Sets base value for the input.
              * Base value used as the input's value when it's checked.
              * @param {string} value

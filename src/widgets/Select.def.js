@@ -222,19 +222,6 @@ $oop.postpone($basicWidgets, 'Select', function (ns, cn) {
             },
 
             /**
-             * @returns {$basicWidgets.Select}
-             */
-            clearValue: function () {
-                // deselecting all currently selected options
-                this.selectedValues.toStringDictionary()
-                    .combineWith(this.optionWidgetsByValue.toDictionary())
-                    .toCollection()
-                    .callOnEachItem('deselect');
-
-                return this;
-            },
-
-            /**
              * @returns {string}
              */
             getValue: function () {

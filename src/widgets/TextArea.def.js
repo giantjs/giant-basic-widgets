@@ -71,22 +71,6 @@ $oop.postpone($basicWidgets, 'TextArea', function (ns, cn) {
             },
 
             /**
-             * @returns {$basicWidgets.TextArea}
-             */
-            clearValue: function () {
-                var oldValue = this.value;
-                if (oldValue) {
-                    this.value = undefined;
-                    this._updateDom();
-
-                    this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
-                        .setBeforeValue(oldValue)
-                        .triggerSync();
-                }
-                return this;
-            },
-
-            /**
              * @returns {string}
              */
             getValue: function () {
