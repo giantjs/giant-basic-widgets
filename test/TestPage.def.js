@@ -410,44 +410,8 @@ _addDataSelect: function (itemWidget) {
                     "entityKey.toField().setValue('https://placekitten.com/g/512/320')");
 
                 this._addWidget(
-                    this._addTextInput,
-                    "widgetId.toWidget().setValue('foo')");
-
-                this._addWidget(
-                    this._addDataTextInput,
-                    "'input/1/value'.toField().setValue('Hello World!')");
-
-                this._addWidget(
-                    this._addTextArea,
-                    "widgetId.toWidget().setValue('foo')");
-
-                this._addWidget(
-                    this._addDataTextArea,
-                    "'input/3/value'.toField().setValue('Hello World!')");
-
-                this._addWidget(
-                    this._addCheckboxInput,
-                    "widgetId.toWidget().select(true)");
-
-                this._addWidget(
-                    this._addDataCheckboxInput,
-                    "'input/2/value'.toField().setValue(false)");
-
-                this._addWidget(
                     this._addList,
                     "widgetId.toWidget().getChild('month-02').removeFromParent()");
-
-//                this._addWidget(
-//                    this._addEntityList,
-//                    "'week/1/days/3'.toItem().unsetKey()");
-
-                this._addWidget(
-                    this._addSelect,
-                    "widgetId.toWidget().getOptionWidgetByValue('wed').select()");
-
-                this._addWidget(
-                    this._addDataSelect,
-                    "");
             },
 
             /** @ignore */
