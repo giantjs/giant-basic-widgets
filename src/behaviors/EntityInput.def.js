@@ -11,7 +11,7 @@ $oop.postpone($basicWidgets, 'EntityInput', function () {
      * @class
      * @extends $oop.Base
      * @extends $entity.EntityBound
-     * @extends $basicWidgets.Inputable
+     * @extends $basicWidgets.DomInputable
      */
     $basicWidgets.EntityInput = self
         .addPrivateMethods(/** @lends $basicWidgets.EntityInput# */{

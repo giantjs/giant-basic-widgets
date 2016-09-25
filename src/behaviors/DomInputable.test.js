@@ -1,12 +1,12 @@
 (function () {
     "use strict";
 
-    module("Inputable");
+    module("DomInputable");
 
-    var Inputable = $widget.Widget.extend('Inputable')
+    var DomInputable = $widget.Widget.extend('DomInputable')
         .addTraitAndExtend($basicWidgets.BinaryStateful)
         .addTraitAndExtend($basicWidgets.Disableable, 'Disableable')
-        .addTraitAndExtend($basicWidgets.Inputable)
+        .addTraitAndExtend($basicWidgets.DomInputable)
         .addMethods({
             init           : function (inputType) {
                 $widget.Widget.init.call(this);
@@ -16,7 +16,7 @@
             afterAdd       : function () {
                 $widget.Widget.afterAdd.call(this);
                 $basicWidgets.BinaryStateful.afterAdd.call(this);
-                $basicWidgets.Inputable.afterAdd.call(this);
+                $basicWidgets.DomInputable.afterAdd.call(this);
             },
             afterRemove    : function () {
                 $widget.Widget.afterRemove.call(this);
@@ -24,18 +24,18 @@
             },
             afterStateOn   : function (stateName) {
                 $basicWidgets.Disableable.afterStateOn.call(this, stateName);
-                $basicWidgets.Inputable.afterStateOn.call(this, stateName);
+                $basicWidgets.DomInputable.afterStateOn.call(this, stateName);
             },
             afterStateOff  : function (stateName) {
                 $basicWidgets.Disableable.afterStateOff.call(this, stateName);
-                $basicWidgets.Inputable.afterStateOff.call(this, stateName);
+                $basicWidgets.DomInputable.afterStateOff.call(this, stateName);
             }
         });
 
     test("State-on handler override", function () {
         expect(1);
 
-        var input = Inputable.create();
+        var input = DomInputable.create();
 
         input.addMocks({
             _updateDisabledAttribute: function () {
@@ -49,7 +49,7 @@
     test("State-off handler override", function () {
         expect(1);
 
-        var input = Inputable.create()
+        var input = DomInputable.create()
             .disableBy('foo');
 
         input.addMocks({
@@ -61,7 +61,7 @@
         input.enableBy('foo');
     });
     test("Label widget setter", function () {
-        var input = Inputable.create(),
+        var input = DomInputable.create(),
             label = $basicWidgets.Text.create();
 
         strictEqual(input.linkLabelWidget(label), input, "should be chainable");
@@ -69,10 +69,10 @@
         equal(label.htmlAttributes.getItem('for'), input.htmlAttributes.idAttribute,
             "should set 'for' attribute to input ID");
     });
-    test("Inputable name setter", function () {
+    test("DomInputable name setter", function () {
         expect(3);
 
-        var input = Inputable.create();
+        var input = DomInputable.create();
 
         input.addMocks({
             _updateDisabledState: function () {
@@ -84,10 +84,10 @@
         equal(input.htmlAttributes.getItem('name'), 'foo', "should set name attribute");
     });
 
-    test("Inputable name removal", function () {
+    test("DomInputable name removal", function () {
         expect(3);
 
-        var input = Inputable.create();
+        var input = DomInputable.create();
 
         input.addMocks({
             _updateDisabledState: function () {
@@ -102,8 +102,8 @@
         strictEqual(input.clearName(), input, "should be chainable");
     });
 
-    test("Inputable name getter", function () {
-        var input = Inputable.create()
+    test("DomInputable name getter", function () {
+        var input = DomInputable.create()
             .setName('foo');
 
         equal(input.getName(), 'foo', "should return name attribute");

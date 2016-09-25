@@ -1,4 +1,4 @@
-$oop.postpone($basicWidgets, 'Valuable', function () {
+$oop.postpone($basicWidgets, 'DomValuable', function () {
     "use strict";
 
     var base = $oop.Base,
@@ -7,13 +7,12 @@ $oop.postpone($basicWidgets, 'Valuable', function () {
     /**
      * For widgets that may have a value assigned to them.
      * Expects to be added to Widget hosts, the DOM element of which support value property.
-     * TODO: Rename to DomValuable?
      * @class
      * @extends $oop.Base
      * @extends $widget.Widget
      */
-    $basicWidgets.Valuable = self
-        .addPrivateMethods(/** @lends $basicWidgets.Valuable# */{
+    $basicWidgets.DomValuable = self
+        .addPrivateMethods(/** @lends $basicWidgets.DomValuable# */{
             /**
              * @param {HTMLInputElement} element
              * @returns {string}
@@ -46,11 +45,11 @@ $oop.postpone($basicWidgets, 'Valuable', function () {
                 }
             }
         })
-        .addMethods(/** @lends $basicWidgets.Valuable# */{
+        .addMethods(/** @lends $basicWidgets.DomValuable# */{
             /** Call from host's .init() */
             init: function () {
                 /**
-                 * Value associated with the Valuable.
+                 * Value associated with the DomValuable.
                  * @type {string}
                  */
                 this.value = undefined;
@@ -64,7 +63,7 @@ $oop.postpone($basicWidgets, 'Valuable', function () {
             /**
              * Sets input value.
              * @param {*} value
-             * @returns {$basicWidgets.Valuable}
+             * @returns {$basicWidgets.DomValuable}
              */
             setValue: function (value) {
                 if (this.value !== value) {

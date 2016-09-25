@@ -1,25 +1,25 @@
 (function () {
     "use strict";
 
-    module("Focusable");
+    module("DomFocusable");
 
-    var Focusable = $widget.Widget.extend('Focusable')
-        .addTraitAndExtend($basicWidgets.Focusable)
+    var DomFocusable = $widget.Widget.extend('DomFocusable')
+        .addTraitAndExtend($basicWidgets.DomFocusable)
         .addMethods({
             init: function () {
                 $widget.Widget.init.call(this);
-                $basicWidgets.Focusable.init.call(this);
+                $basicWidgets.DomFocusable.init.call(this);
             },
             afterRender: function () {
                 $widget.Widget.afterRender.call(this);
-                $basicWidgets.Focusable.afterRender.call(this);
+                $basicWidgets.DomFocusable.afterRender.call(this);
             }
         });
 
     test("Focusing", function () {
         expect(2);
 
-        var input = Focusable.create(),
+        var input = DomFocusable.create(),
             inputElement = document.createElement('input');
 
         input.addMocks({
@@ -38,7 +38,7 @@
     test("Blurring", function () {
         expect(2);
 
-        var input = Focusable.create(),
+        var input = DomFocusable.create(),
             inputElement = document.createElement('input');
 
         input.addMocks({
@@ -55,7 +55,7 @@
     });
 
     test("Focus getter", function () {
-        var input = Focusable.create(),
+        var input = DomFocusable.create(),
             inputElement = document.createElement('input');
 
         input.addMocks({

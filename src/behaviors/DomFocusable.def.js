@@ -1,4 +1,4 @@
-$oop.postpone($basicWidgets, 'Focusable', function () {
+$oop.postpone($basicWidgets, 'DomFocusable', function () {
     "use strict";
 
     var base = $oop.Base,
@@ -7,13 +7,12 @@ $oop.postpone($basicWidgets, 'Focusable', function () {
     /**
      * For widgets that may be focused and blurred.
      * Expects to be added to Widget hosts, the DOM of which support focus and blur events.
-     * TODO: Rename to DomFocusable?
      * @class
      * @extends $oop.Base
      * @extends $widget.Widget
      */
-    $basicWidgets.Focusable = self
-        .addPrivateMethods(/** @lends $basicWidgets.Focusable# */{
+    $basicWidgets.DomFocusable = self
+        .addPrivateMethods(/** @lends $basicWidgets.DomFocusable# */{
             /**
              * @param {HTMLElement} element
              * @param {string} type
@@ -48,7 +47,7 @@ $oop.postpone($basicWidgets, 'Focusable', function () {
                 return element.blur();
             }
         })
-        .addMethods(/** @lends $basicWidgets.Focusable# */{
+        .addMethods(/** @lends $basicWidgets.DomFocusable# */{
             /** Call from host's .init() */
             init: function () {
                 this.elevateMethods(
@@ -65,7 +64,7 @@ $oop.postpone($basicWidgets, 'Focusable', function () {
 
             /**
              * Focuses on the current input.
-             * @returns {$basicWidgets.Focusable}
+             * @returns {$basicWidgets.DomFocusable}
              */
             focus: function () {
                 var element = this.getElement();
@@ -77,7 +76,7 @@ $oop.postpone($basicWidgets, 'Focusable', function () {
 
             /**
              * Removes focus from the current input.
-             * @returns {$basicWidgets.Focusable}
+             * @returns {$basicWidgets.DomFocusable}
              */
             blur: function () {
                 var element = this.getElement();

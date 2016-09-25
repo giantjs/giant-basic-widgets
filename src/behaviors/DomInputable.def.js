@@ -1,4 +1,4 @@
-$oop.postpone($basicWidgets, 'Inputable', function () {
+$oop.postpone($basicWidgets, 'DomInputable', function () {
     "use strict";
 
     var base = $oop.Base,
@@ -18,14 +18,13 @@ $oop.postpone($basicWidgets, 'Inputable', function () {
      * they're not implementing a common interface within the DOM.
      * Unfortunately the same doesn't apply to the value property / attribute,
      * hence the corresponding virtual methods.
-     * TODO: Rename to DomInputable?
      * @class
      * @extends $oop.Base
      * @extends $basicWidgets.Disableable
      * @extends $basicWidgets.Widget
      */
-    $basicWidgets.Inputable = self
-        .addPrivateMethods(/** @lends $basicWidgets.Inputable# */{
+    $basicWidgets.DomInputable = self
+        .addPrivateMethods(/** @lends $basicWidgets.DomInputable# */{
             /**
              * TODO: Perhaps control the DOM property rather than HTML attribute.
              * @private
@@ -49,7 +48,7 @@ $oop.postpone($basicWidgets, 'Inputable', function () {
                 }
             }
         })
-        .addMethods(/** @lends $basicWidgets.Inputable# */{
+        .addMethods(/** @lends $basicWidgets.DomInputable# */{
             /**
              * Call from host's afterAdd
              */
@@ -77,7 +76,7 @@ $oop.postpone($basicWidgets, 'Inputable', function () {
 
             /**
              * @param {$basicWidgets.Text} labelWidget
-             * @returns {$basicWidgets.Inputable}
+             * @returns {$basicWidgets.DomInputable}
              */
             linkLabelWidget: function (labelWidget) {
                 $assertion.assert($basicWidgets.Text.isBaseOf(labelWidget),
@@ -92,7 +91,7 @@ $oop.postpone($basicWidgets, 'Inputable', function () {
 
             /**
              * @param {string} name
-             * @returns {$basicWidgets.Inputable}
+             * @returns {$basicWidgets.DomInputable}
              */
             setName: function (name) {
                 this.addAttribute('name', name);
@@ -102,7 +101,7 @@ $oop.postpone($basicWidgets, 'Inputable', function () {
 
             /**
              * Clears input name attribute.
-             * @returns {$basicWidgets.Inputable}
+             * @returns {$basicWidgets.DomInputable}
              * @deprecated Necessary?
              */
             clearName: function () {
@@ -120,14 +119,14 @@ $oop.postpone($basicWidgets, 'Inputable', function () {
         });
 
     /**
-     * @name $basicWidgets.Inputable#setValue
+     * @name $basicWidgets.DomInputable#setValue
      * @function
      * @param {string} value
-     * @returns {$basicWidgets.Inputable}
+     * @returns {$basicWidgets.DomInputable}
      */
 
     /**
-     * @name $basicWidgets.Inputable#getValue
+     * @name $basicWidgets.DomInputable#getValue
      * @function
      * @returns {string}
      */

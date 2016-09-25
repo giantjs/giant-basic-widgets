@@ -6,9 +6,9 @@ $oop.postpone($basicWidgets, 'TextInput', function (ns, cn) {
         // TODO: See where we could ditch ...AndExtend()
             .addTraitAndExtend($basicWidgets.BinaryStateful)
             .addTraitAndExtend($basicWidgets.Disableable, 'Disableable')
-            .addTraitAndExtend($basicWidgets.Inputable, 'Inputable')
-            .addTraitAndExtend($basicWidgets.Focusable, 'Focusable')
-            .addTraitAndExtend($basicWidgets.Valuable, 'Valuable');
+            .addTraitAndExtend($basicWidgets.DomInputable, 'DomInputable')
+            .addTraitAndExtend($basicWidgets.DomFocusable, 'DomFocusable')
+            .addTraitAndExtend($basicWidgets.DomValuable, 'DomValuable');
 
     /**
      * @name $basicWidgets.TextInput.create
@@ -24,8 +24,8 @@ $oop.postpone($basicWidgets, 'TextInput', function (ns, cn) {
      * @extends $widget.Widget
      * @extends $basicWidgets.BinaryStateful
      * @extends $basicWidgets.Disableable
-     * @extends $basicWidgets.Focusable
-     * @extends $basicWidgets.Valuable
+     * @extends $basicWidgets.DomFocusable
+     * @extends $basicWidgets.DomValuable
      */
     $basicWidgets.TextInput = self
         .addPrivateMethods(/** @lends $basicWidgets.TextInput# */{
@@ -52,8 +52,8 @@ $oop.postpone($basicWidgets, 'TextInput', function (ns, cn) {
                 base.init.call(this);
                 $basicWidgets.BinaryStateful.init.call(this);
                 $basicWidgets.Disableable.init.call(this);
-                $basicWidgets.Focusable.init.call(this);
-                $basicWidgets.Valuable.init.call(this);
+                $basicWidgets.DomFocusable.init.call(this);
+                $basicWidgets.DomValuable.init.call(this);
 
                 this.elevateMethods(
                     'onInput',
@@ -67,7 +67,7 @@ $oop.postpone($basicWidgets, 'TextInput', function (ns, cn) {
             afterAdd: function () {
                 base.afterAdd.call(this);
                 $basicWidgets.BinaryStateful.afterAdd.call(this);
-                $basicWidgets.Inputable.afterAdd.call(this);
+                $basicWidgets.DomInputable.afterAdd.call(this);
             },
 
             /** @ignore */
@@ -79,8 +79,8 @@ $oop.postpone($basicWidgets, 'TextInput', function (ns, cn) {
             /** @ignore */
             afterRender: function () {
                 base.afterRender.call(this);
-                $basicWidgets.Focusable.afterRender.call(this);
-                $basicWidgets.Valuable.afterRender.call(this);
+                $basicWidgets.DomFocusable.afterRender.call(this);
+                $basicWidgets.DomValuable.afterRender.call(this);
 
                 var element = this.getElement();
                 this._addEventListenerProxy(element, 'input', this.onInput);
@@ -90,13 +90,13 @@ $oop.postpone($basicWidgets, 'TextInput', function (ns, cn) {
             /** Call from host's .afterStateOn */
             afterStateOn: function (stateName) {
                 $basicWidgets.Disableable.afterStateOn.call(this, stateName);
-                $basicWidgets.Inputable.afterStateOn.call(this, stateName);
+                $basicWidgets.DomInputable.afterStateOn.call(this, stateName);
             },
 
             /** Call from host's .afterStateOff */
             afterStateOff: function (stateName) {
                 $basicWidgets.Disableable.afterStateOff.call(this, stateName);
-                $basicWidgets.Inputable.afterStateOff.call(this, stateName);
+                $basicWidgets.DomInputable.afterStateOff.call(this, stateName);
             },
 
             /**
@@ -106,7 +106,7 @@ $oop.postpone($basicWidgets, 'TextInput', function (ns, cn) {
              */
             setValue: function (value) {
                 var oldValue = this.value;
-                $basicWidgets.Valuable.setValue.call(this, value);
+                $basicWidgets.DomValuable.setValue.call(this, value);
                 if (value !== oldValue) {
                     this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
                         .setBeforeValue(oldValue)
