@@ -57,6 +57,6 @@
     margin: 0 0 0 0.5em;
 }
 
-.TestListItem .TextInput.input-invalid {
+.TestListItem .Validatable.input-invalid {
     color: red;
 }
