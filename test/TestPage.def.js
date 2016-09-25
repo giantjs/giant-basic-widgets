@@ -171,8 +171,9 @@ _addTextInput: function (itemWidget) {
 
     return $basicWidgets.TextInput.create('text')
         .setName('name')
+        .setValue("Fluffy")
         .setValidator(function (value) {
-            return !value || value.length <= 5;
+            return !value || value.length <= 6;
         })
         .linkLabelWidget(label);
 },
@@ -194,6 +195,24 @@ _addDataTextInput: function (itemWidget) {
 
     return $basicWidgets.DataTextInput.create(
         'text', 'input/1/value'.toFieldKey(), 'input/1/name'.toFieldKey())
+        .linkLabelWidget(label);
+},
+
+/** @private */
+_addTextArea: function (itemWidget) {
+    // creating a label for the input
+    var label = $basicWidgets.Text.create()
+        .setChildName('A-label')
+        .setContentString("Description")
+        .setContainerCssClass('widget-container')
+        .addToParent(itemWidget);
+
+    return $basicWidgets.TextInput.create('textarea')
+        .setName('description')
+        .setValue("Fluffy Meowington's cat toys")
+        .setValidator(function (value) {
+            return value && value.length >= 3;
+        })
         .linkLabelWidget(label);
 },
             //@formatter:on
@@ -267,6 +286,10 @@ _addDataTextInput: function (itemWidget) {
                     "entityKey.toField().setValue('https://placekitten.com/g/512/320')");
 
                 this._addWidget(
+                    this._addList,
+                    "widgetId.toWidget().getChild('month-02').removeFromParent()");
+
+                this._addWidget(
                     this._addTextInput,
                     "widgetId.toWidget().setValue('foo')");
 
@@ -275,8 +298,8 @@ _addDataTextInput: function (itemWidget) {
                     "'input/1/value'.toField().setValue('Hello World!')");
 
                 this._addWidget(
-                    this._addList,
-                    "widgetId.toWidget().getChild('month-02').removeFromParent()");
+                    this._addTextArea,
+                    "widgetId.toWidget().setValue('foo')");
             },
 
             /** @ignore */

@@ -4,6 +4,10 @@
     module("TextInput");
 
     test("Instantiation", function () {
+        throws(function () {
+            $basicWidgets.TextInput.create('foo');
+        }, "should throw exception on invalid input type");
+
         var input = $basicWidgets.TextInput.create('text');
 
         equal(input.tagName, 'input', "should set tagName property");

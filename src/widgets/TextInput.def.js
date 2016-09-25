@@ -32,6 +32,29 @@ $oop.postpone($basicWidgets, 'TextInput', function (ns, cn) {
     $basicWidgets.TextInput = self
         .addPrivateMethods(/** @lends $basicWidgets.TextInput# */{
             /**
+             * @param {string} inputType
+             * @private
+             */
+            _setInputType: function (inputType) {
+                switch (inputType) {
+                    case 'textarea':
+                        this.setTagName(inputType);
+                        break;
+
+                    default:
+                    case 'text':
+                    case 'password':
+                    case 'email':
+                    case 'search':
+                    case 'tel':
+                    case 'url':
+                        this.setTagName('input');
+                        this.addAttribute('type', inputType);
+                        break;
+                }
+            },
+
+            /**
              * Updates value property based on current DOM value.
              * @private
              */
@@ -47,11 +70,16 @@ $oop.postpone($basicWidgets, 'TextInput', function (ns, cn) {
         })
         .addMethods(/** @lends $basicWidgets.TextInput# */{
             /**
-             * TODO: Check inputType
              * @param {string} [inputType]
              * @ignore
              */
             init: function (inputType) {
+                $assertion.assert(
+                    $basicWidgets.INPUT_TYPES_TEXT[inputType] === inputType,
+                    "Invalid text input type");
+
+                inputType = inputType || 'text';
+
                 base.init.call(this);
                 $basicWidgets.BinaryStateful.init.call(this);
                 $basicWidgets.Disableable.init.call(this);
@@ -63,8 +91,7 @@ $oop.postpone($basicWidgets, 'TextInput', function (ns, cn) {
                     'onInput',
                     'onChange');
 
-                this.setTagName('input');
-                this.addAttribute('type', inputType);
+                this._setInputType(inputType);
             },
 
             /** @ignore */
@@ -151,4 +178,20 @@ $oop.postpone($basicWidgets, 'TextInput', function (ns, cn) {
      * @param {function} callback
      * @private
      */
+});
+
+$oop.addGlobalConstants.call($basicWidgets, /** @lends $basicWidgets */{
+    /**
+     * @type {object}
+     * @constant
+     */
+    INPUT_TYPES_TEXT: {
+        text: 'text',
+        password: 'password',
+        email: 'email',
+        search: 'search',
+        tel: 'tel',
+        url: 'url',
+        textarea: 'textarea'
+    }
 });
