@@ -49,6 +49,8 @@ $oop.postpone($basicWidgets, 'Validatable', function () {
 
                 /**
                  * Validator, run after value changes.
+                 * Takes two arguments: the value to be validated and the validatable instance.
+                 * (The latter allows access to native validity checkers, eg. email or url)
                  * @type {function}
                  */
                 this.validator = undefined;
@@ -87,7 +89,7 @@ $oop.postpone($basicWidgets, 'Validatable', function () {
              */
             getValidity: function () {
                 var validator = this.validator;
-                return !validator || validator(this.value);
+                return !validator || validator(this.value, this);
             },
 
             /** @ignore */
