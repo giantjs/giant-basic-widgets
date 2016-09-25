@@ -6,8 +6,26 @@
     font-size: 12px;
 }
 
+.TestListItem > :not(.widget-container) h2,
+.TestListItem > :not(.widget-container) h3 {
+    display: inline;
+}
+
 .TestListItem > :not(.widget-container) h2 {
     font-size: 18px;
+}
+
+.TestListItem > :not(.widget-container) h3 {
+    font-size: 16px;
+    margin-left: 0.5em;
+}
+
+.TestListItem > :not(.widget-container) h3.text-has-content:before {
+    content: '(';
+}
+
+.TestListItem > :not(.widget-container) h3.text-has-content:after {
+    content: ')';
 }
 
 .TestListItem > :not(.widget-container) code {

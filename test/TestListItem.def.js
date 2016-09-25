@@ -40,6 +40,12 @@ $oop.postpone(window, 'TestListItem', function (ns, cn) {
                     .setContainerCssClass('name-container')
                     .addToParent(this);
 
+                $basicWidgets.Text.create()
+                    .setChildName('widget-class-note')
+                    .setTagName('h3')
+                    .setContainerCssClass('name-container')
+                    .addToParent(this);
+
                 $widget.Widget.create()
                     .setChildName('widget-attributes')
                     .addChild($basicWidgets.Text.create()
@@ -82,6 +88,16 @@ $oop.postpone(window, 'TestListItem', function (ns, cn) {
                     .getChild('widget-entity-key')
                     .setContentString($utils.Stringifier.stringify(contentWidget.entityKey));
 
+                return this;
+            },
+
+            /**
+             * @param {string|$utils.Stringifiable} noteString
+             * @returns {TestListItem}
+             */
+            setNoteString: function (noteString) {
+                this.getChild('widget-class-note')
+                    .setContentString(noteString);
                 return this;
             },
 

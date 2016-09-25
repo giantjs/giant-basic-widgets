@@ -239,11 +239,12 @@ _addEmail: function (itemWidget) {
             /**
              * @param {function} widgetSpawner
              * @param {string|$utils.Stringifiable} hintString
+             * @param {string|$utils.Stringifiable} noteString
              * @private
              */
-            _addWidget: function (widgetSpawner, hintString) {
+            _addWidget: function (widgetSpawner, hintString, noteString) {
                 this.getChild('widget-list')
-                    .addTestItem(widgetSpawner, hintString);
+                    .addTestItem(widgetSpawner, hintString, noteString);
             }
         })
         .addMethods(/** @lends window.TestPage# */{
@@ -318,11 +319,13 @@ _addEmail: function (itemWidget) {
 
                 this._addWidget(
                     this._addTextArea,
-                    "widgetId.toWidget().setValue('foo')");
+                    "widgetId.toWidget().setValue('foo')",
+                "Text Area");
 
                 this._addWidget(
                     this._addEmail,
-                    "widgetId.toWidget().setValue('foo')");
+                    "widgetId.toWidget().setValue('foo')",
+                    "Email");
             },
 
             /** @ignore */

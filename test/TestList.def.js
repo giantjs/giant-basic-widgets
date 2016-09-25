@@ -28,11 +28,13 @@ $oop.postpone(window, 'TestList', function (ns, cn) {
             /**
              * @param {function} widgetSpawner
              * @param {string|$utils.Stringifiable} hintString
+             * @param {string|$utils.Stringifiable} noteString
              * @returns {window.TestList}
              */
-            addTestItem: function (widgetSpawner, hintString) {
+            addTestItem: function (widgetSpawner, hintString, noteString) {
                 var itemWidget = TestListItem.create()
                     .setChildName('item-' + $utils.StringUtils.padLeft(this.itemCount++, 3))
+                    .setNoteString(noteString)
                     .setHintString(hintString)
                     .setCodeString(widgetSpawner.toString()),
                     sampleWidget = widgetSpawner(itemWidget)
