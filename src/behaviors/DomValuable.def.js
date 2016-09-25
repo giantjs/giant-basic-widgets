@@ -66,11 +66,25 @@ $oop.postpone($basicWidgets, 'DomValuable', function () {
              * @returns {$basicWidgets.DomValuable}
              */
             setValue: function (value) {
-                if (this.value !== value) {
+                var oldValue = this.value;
+                if (oldValue !== value) {
                     this.value = value;
                     this._updateDomValue();
+                    this.spawnEvent($basicWidgets.EVENT_INPUT_VALUE_CHANGE)
+                        .setBeforeValue(oldValue)
+                        .setAfterValue(value)
+                        .triggerSync();
                 }
                 return this;
             }
         });
 });
+
+(function () {
+    "use strict";
+
+    $oop.addGlobalConstants.call($basicWidgets, /** @lends $basicWidgets */{
+        /** @constant */
+        EVENT_INPUT_VALUE_CHANGE: 'widget.change.input.value'
+    });
+}());

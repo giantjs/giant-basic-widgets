@@ -131,12 +131,3 @@ $oop.postpone($basicWidgets, 'DomInputable', function () {
      * @returns {string}
      */
 });
-
-(function () {
-    "use strict";
-
-    $oop.addGlobalConstants.call($basicWidgets, /** @lends $basicWidgets */{
-        /** @constant */
-        EVENT_INPUT_STATE_CHANGE: 'widget.change.input.state'
-    });
-}());

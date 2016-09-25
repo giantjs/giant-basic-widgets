@@ -57,6 +57,6 @@
     margin: 0 0 0 0.5em;
 }
 
-.TestListItem .DataTextInput.input-invalid {
+.TestListItem .TextInput.input-invalid {
     color: red;
 }

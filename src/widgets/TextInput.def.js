@@ -3,7 +3,7 @@ $oop.postpone($basicWidgets, 'TextInput', function (ns, cn) {
 
     var base = $widget.Widget,
         self = base.extend(cn)
-        // TODO: See where we could ditch ...AndExtend()
+            // TODO: See where we could ditch ...AndExtend()
             .addTraitAndExtend($basicWidgets.BinaryStateful)
             .addTraitAndExtend($basicWidgets.Disableable, 'Disableable')
             .addTraitAndExtend($basicWidgets.DomInputable, 'DomInputable')
@@ -18,7 +18,7 @@ $oop.postpone($basicWidgets, 'TextInput', function (ns, cn) {
      */
 
     /**
-     * Implements text-based inputs such as text, password, email, etc.
+     * Simple text-based input field, such as text, password, email, etc.
      * TODO: Handle TAB.
      * @class
      * @extends $widget.Widget
@@ -41,10 +41,42 @@ $oop.postpone($basicWidgets, 'TextInput', function (ns, cn) {
                 if (element && oldValue !== newValue) {
                     this.setValue(newValue);
                 }
+            },
+
+            /**
+             * @private
+             */
+            _updateValidity: function () {
+                var wasValid = this.isValid,
+                    isValid = this.getValidity();
+
+                if (isValid !== wasValid) {
+                    this.isValid = isValid;
+
+                    // TODO: in event handler
+                    this._syncCssToValidity();
+
+                    // TODO: Add an event class and spawn.
+                    this.triggerSync($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE);
+                }
+            },
+
+            /**
+             * @private
+             */
+            _syncCssToValidity: function () {
+                if (this.isValid) {
+                    this.addCssClass('input-valid')
+                        .removeCssClass('input-invalid');
+                } else {
+                    this.addCssClass('input-invalid')
+                        .removeCssClass('input-valid');
+                }
             }
         })
         .addMethods(/** @lends $basicWidgets.TextInput# */{
             /**
+             * TODO: Check inputType
              * @param {string} [inputType]
              * @ignore
              */
@@ -58,6 +90,17 @@ $oop.postpone($basicWidgets, 'TextInput', function (ns, cn) {
                 this.elevateMethods(
                     'onInput',
                     'onChange');
+
+                /**
+                 * Validator, run after value changes.
+                 * @type {function}
+                 */
+                this.validator = undefined;
+
+                /**
+                 * @type {boolean}
+                 */
+                this.isValid = true;
 
                 this.setTagName('input');
                 this.addAttribute('type', inputType);
@@ -105,15 +148,31 @@ $oop.postpone($basicWidgets, 'TextInput', function (ns, cn) {
              * @returns {$basicWidgets.TextInput}
              */
             setValue: function (value) {
-                var oldValue = this.value;
                 $basicWidgets.DomValuable.setValue.call(this, value);
-                if (value !== oldValue) {
-                    this.spawnEvent($basicWidgets.EVENT_INPUT_STATE_CHANGE)
-                        .setBeforeValue(oldValue)
-                        .setAfterValue(value)
-                        .triggerSync();
-                }
+                this._updateValidity();
                 return this;
+            },
+
+            /**
+             * TODO: Move to 'Validatable'?
+             * @param {function} validator
+             * @returns {$basicWidgets.TextInput}
+             */
+            setValidator: function (validator) {
+                $assertion.isFunctionOptional(validator);
+                this.validator = validator;
+                this._updateValidity();
+                return this;
+            },
+
+            /**
+             * Determinnes whether the current validatable instance is valid.
+             * When there is no validator specified, default is valid.
+             * @returns {boolean}
+             */
+            getValidity: function () {
+                var validator = this.validator;
+                return !validator || validator(this.value);
             },
 
             /**
@@ -153,4 +212,9 @@ $oop.postpone($basicWidgets, 'TextInput', function (ns, cn) {
      * @param {function} callback
      * @private
      */
+});
+
+$oop.addGlobalConstants.call($basicWidgets, /** @lends $basicWidgets */{
+    /** @constant */
+    EVENT_INPUT_VALIDITY_CHANGE: 'widget.change.input.validity'
 });

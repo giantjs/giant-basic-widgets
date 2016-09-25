@@ -171,6 +171,9 @@ _addTextInput: function (itemWidget) {
 
     return $basicWidgets.TextInput.create('text')
         .setName('name')
+        .setValidator(function (value) {
+            return !value || value.length <= 5;
+        })
         .linkLabelWidget(label);
 },
 
@@ -219,7 +222,8 @@ _addDataTextInput: function (itemWidget) {
                     'onClickableClick',
                     'onInputFocus',
                     'onInputBlur',
-                    'onInputStateChange');
+                    'onInputValueChange',
+                    'onInputValidityChange');
 
                 $basicWidgets.Text.create()
                     .setTagName('h1')
@@ -282,7 +286,8 @@ _addDataTextInput: function (itemWidget) {
                     .subscribeTo($basicWidgets.EVENT_CLICKABLE_CLICK, this.onClickableClick)
                     .subscribeTo($basicWidgets.EVENT_INPUT_FOCUS, this.onInputFocus)
                     .subscribeTo($basicWidgets.EVENT_INPUT_BLUR, this.onInputBlur)
-                    .subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, this.onInputStateChange);
+                    .subscribeTo($basicWidgets.EVENT_INPUT_VALUE_CHANGE, this.onInputValueChange)
+                    .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, this.onInputValidityChange);
             },
 
             /**
@@ -310,14 +315,25 @@ _addDataTextInput: function (itemWidget) {
             },
 
             /**
-             * @param {$basicWidgets.InputStateChangeEvent} event
+             * @param {$basicWidgets.InputValueChangeEvent} event
              * @ignore
              */
-            onInputStateChange: function (event) {
+            onInputValueChange: function (event) {
                 console.info(
-                    "input state changed", event.sender.instanceId,
+                    "input value changed", event.sender.instanceId,
                     "from", event.beforeValue,
                     "to", event.afterValue);
+            },
+
+            /**
+             * @param {$event.Event} event
+             * @ignore
+             */
+            onInputValidityChange: function (event) {
+                console.info(
+                    "input validity changed", event.sender.instanceId,
+                    "from", !event.sender.isValid,
+                    "to", event.sender.isValid);
             }
         });
 });

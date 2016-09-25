@@ -1,23 +1,23 @@
-$oop.postpone($basicWidgets, 'InputStateChangeEvent', function () {
+$oop.postpone($basicWidgets, 'InputValueChangeEvent', function () {
     "use strict";
 
     var base = $widget.WidgetEvent,
         self = base.extend();
 
     /**
-     * @name $basicWidgets.InputStateChangeEvent.create
+     * @name $basicWidgets.InputValueChangeEvent.create
      * @function
      * @param {string} eventName
      * @param {$event.EventSpace} eventSpace
-     * @returns {$basicWidgets.InputStateChangeEvent}
+     * @returns {$basicWidgets.InputValueChangeEvent}
      */
 
     /**
      * @class
      * @extends $widget.WidgetEvent
      */
-    $basicWidgets.InputStateChangeEvent = self
-        .addMethods(/** @lends $basicWidgets.InputStateChangeEvent# */{
+    $basicWidgets.InputValueChangeEvent = self
+        .addMethods(/** @lends $basicWidgets.InputValueChangeEvent# */{
             /**
              * @param {string} eventName
              * @param {$event.EventSpace} eventSpace
@@ -39,7 +39,7 @@ $oop.postpone($basicWidgets, 'InputStateChangeEvent', function () {
 
             /**
              * @param {*} beforeValue
-             * @returns {$basicWidgets.InputStateChangeEvent}
+             * @returns {$basicWidgets.InputValueChangeEvent}
              */
             setBeforeValue: function (beforeValue) {
                 this.beforeValue = beforeValue;
@@ -48,7 +48,7 @@ $oop.postpone($basicWidgets, 'InputStateChangeEvent', function () {
 
             /**
              * @param {*} afterValue
-             * @returns {$basicWidgets.InputStateChangeEvent}
+             * @returns {$basicWidgets.InputValueChangeEvent}
              */
             setAfterValue: function (afterValue) {
                 this.afterValue = afterValue;
@@ -57,7 +57,7 @@ $oop.postpone($basicWidgets, 'InputStateChangeEvent', function () {
 
             /**
              * @param {$data.Path} currentPath
-             * @returns {$basicWidgets.InputStateChangeEvent}
+             * @returns {$basicWidgets.InputValueChangeEvent}
              */
             clone: function (currentPath) {
                 var result = base.clone.call(this, currentPath);
@@ -74,7 +74,7 @@ $oop.amendPostponed($event, 'Event', function () {
     "use strict";
 
     $event.Event
-        .addSurrogate($basicWidgets, 'InputStateChangeEvent', function (eventName) {
-            return eventName === 'widget.change.input.state';
+        .addSurrogate($basicWidgets, 'InputValueChangeEvent', function (eventName) {
+            return eventName === 'widget.change.input.value';
         }, 1);
 });

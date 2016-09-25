@@ -15,6 +15,9 @@ $oop.postpone($basicWidgets, 'DataTextInput', function (ns, cn) {
      */
 
     /**
+     * Entity-bound text input field.
+     * TODO: Add setter for nameKey?
+     * TODO: Make valueKey optional, too?
      * @class
      * @extends $basicWidgets.TextInput
      * @extends $basicWidgets.EntityWidget
@@ -30,8 +33,8 @@ $oop.postpone($basicWidgets, 'DataTextInput', function (ns, cn) {
         .addMethods(/** @lends $basicWidgets.DataTextInput# */{
             /**
              * @param {string} [inputType]
-             * @param {$entity.FieldKey} nameKey
              * @param {$entity.FieldKey} valueKey
+             * @param {$entity.FieldKey} [nameKey]
              * @ignore
              */
             init: function (inputType, valueKey, nameKey) {
@@ -43,7 +46,7 @@ $oop.postpone($basicWidgets, 'DataTextInput', function (ns, cn) {
                 $basicWidgets.EntityWidget.init.call(this, valueKey);
                 $basicWidgets.EntityInput.init.call(this, valueKey, nameKey);
 
-                this.elevateMethod('onInputStateChange');
+                this.elevateMethod('onInputValueChange');
             },
 
             /** @ignore */
@@ -51,7 +54,7 @@ $oop.postpone($basicWidgets, 'DataTextInput', function (ns, cn) {
                 base.afterAdd.call(this);
                 $basicWidgets.EntityInput.afterAdd.call(this);
 
-                this.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, this.onInputStateChange);
+                this.subscribeTo($basicWidgets.EVENT_INPUT_VALUE_CHANGE, this.onInputValueChange);
             },
 
             /** @ignore */
@@ -61,7 +64,7 @@ $oop.postpone($basicWidgets, 'DataTextInput', function (ns, cn) {
             },
 
             /** @ignore */
-            onInputStateChange: function () {
+            onInputValueChange: function () {
                 this._syncEntityToInputValue();
             }
         });

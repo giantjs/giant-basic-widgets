@@ -3,9 +3,7 @@
     "assets": {
       "js": [
         "src/namespace.js",
-        "src/utils/InputStateChangeEvent.def.js",
-        "src/utils/ValidationFailureChangeEvent.def.js",
-        "src/utils/ValidityChangeEvent.def.js",
+        "src/utils/InputValueChangeEvent.def.js",
         "src/documents/config.def.js",
         "src/documents/FormDocument.def.js",
         "src/documents/InputDocument.def.js",

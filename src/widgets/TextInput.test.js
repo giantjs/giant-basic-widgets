@@ -21,10 +21,10 @@
             equal(event.afterValue, 'foo', "should set afterValue property");
         }
 
-        input.subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, onValueChange);
+        input.subscribeTo($basicWidgets.EVENT_INPUT_VALUE_CHANGE, onValueChange);
 
         strictEqual(input.setValue('foo'), input, "should be chainable");
 
-        input.unsubscribeFrom($basicWidgets.EVENT_INPUT_STATE_CHANGE, onValueChange);
+        input.unsubscribeFrom($basicWidgets.EVENT_INPUT_VALUE_CHANGE, onValueChange);
     });
 }());
