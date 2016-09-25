@@ -3,6 +3,7 @@
     "assets": {
       "js": [
         "src/namespace.js",
+        "src/utils/InputValidityChangeEvent.def.js",
         "src/utils/InputValueChangeEvent.def.js",
         "src/documents/config.def.js",
         "src/documents/FormDocument.def.js",
@@ -22,6 +23,7 @@
         "src/behaviors/EntityInput.def.js",
         "src/behaviors/EntityList.def.js",
         "src/behaviors/EntityWidget.def.js",
+        "src/behaviors/Validatable.def.js",
         "src/widgets/Application.def.js",
         "src/widgets/ClickArea.def.js",
         "src/widgets/DataHyperlink.def.js",

@@ -5,7 +5,7 @@
 
     test("Instantiation", function () {
         var event = $basicWidgets.InputValueChangeEvent.create(
-            'widget.change.input.state',
+            'widget.change.input.value',
             $widget.widgetEventSpace);
 
         ok(event.hasOwnProperty('beforeValue'), "should add beforeValue property");

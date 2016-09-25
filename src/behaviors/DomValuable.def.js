@@ -80,11 +80,7 @@ $oop.postpone($basicWidgets, 'DomValuable', function () {
         });
 });
 
-(function () {
-    "use strict";
-
-    $oop.addGlobalConstants.call($basicWidgets, /** @lends $basicWidgets */{
-        /** @constant */
-        EVENT_INPUT_VALUE_CHANGE: 'widget.change.input.value'
-    });
-}());
+$oop.addGlobalConstants.call($basicWidgets, /** @lends $basicWidgets */{
+    /** @constant */
+    EVENT_INPUT_VALUE_CHANGE: 'widget.change.input.value'
+});

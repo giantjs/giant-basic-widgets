@@ -22,23 +22,4 @@
         ok(input.nameKey.equals('input/1/name'.toFieldKey()),
             "should set nameKey property");
     });
-
-    test("Input state handler", function () {
-        expect(1);
-
-        var input = $basicWidgets.DataTextInput.create('text', 'input/1/value'.toFieldKey())
-            .setName('foo');
-
-        input.afterAdd();
-
-        input.addMocks({
-            _syncEntityToInputValue: function () {
-                ok(true, "should sync entity to input value");
-            }
-        });
-
-        input.setValue('bar');
-
-        input.afterRemove();
-    });
 }());

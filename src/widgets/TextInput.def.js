@@ -8,7 +8,8 @@ $oop.postpone($basicWidgets, 'TextInput', function (ns, cn) {
             .addTraitAndExtend($basicWidgets.Disableable, 'Disableable')
             .addTraitAndExtend($basicWidgets.DomInputable, 'DomInputable')
             .addTraitAndExtend($basicWidgets.DomFocusable, 'DomFocusable')
-            .addTraitAndExtend($basicWidgets.DomValuable, 'DomValuable');
+            .addTraitAndExtend($basicWidgets.DomValuable, 'DomValuable')
+            .addTraitAndExtend($basicWidgets.Validatable, 'Validatable');
 
     /**
      * @name $basicWidgets.TextInput.create
@@ -26,6 +27,7 @@ $oop.postpone($basicWidgets, 'TextInput', function (ns, cn) {
      * @extends $basicWidgets.Disableable
      * @extends $basicWidgets.DomFocusable
      * @extends $basicWidgets.DomValuable
+     * @extends $basicWidgets.Validatable
      */
     $basicWidgets.TextInput = self
         .addPrivateMethods(/** @lends $basicWidgets.TextInput# */{
@@ -41,37 +43,6 @@ $oop.postpone($basicWidgets, 'TextInput', function (ns, cn) {
                 if (element && oldValue !== newValue) {
                     this.setValue(newValue);
                 }
-            },
-
-            /**
-             * @private
-             */
-            _updateValidity: function () {
-                var wasValid = this.isValid,
-                    isValid = this.getValidity();
-
-                if (isValid !== wasValid) {
-                    this.isValid = isValid;
-
-                    // TODO: in event handler
-                    this._syncCssToValidity();
-
-                    // TODO: Add an event class and spawn.
-                    this.triggerSync($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE);
-                }
-            },
-
-            /**
-             * @private
-             */
-            _syncCssToValidity: function () {
-                if (this.isValid) {
-                    this.addCssClass('input-valid')
-                        .removeCssClass('input-invalid');
-                } else {
-                    this.addCssClass('input-invalid')
-                        .removeCssClass('input-valid');
-                }
             }
         })
         .addMethods(/** @lends $basicWidgets.TextInput# */{
@@ -86,21 +57,11 @@ $oop.postpone($basicWidgets, 'TextInput', function (ns, cn) {
                 $basicWidgets.Disableable.init.call(this);
                 $basicWidgets.DomFocusable.init.call(this);
                 $basicWidgets.DomValuable.init.call(this);
+                $basicWidgets.Validatable.init.call(this);
 
                 this.elevateMethods(
                     'onInput',
                     'onChange');
-
-                /**
-                 * Validator, run after value changes.
-                 * @type {function}
-                 */
-                this.validator = undefined;
-
-                /**
-                 * @type {boolean}
-                 */
-                this.isValid = true;
 
                 this.setTagName('input');
                 this.addAttribute('type', inputType);
@@ -111,6 +72,7 @@ $oop.postpone($basicWidgets, 'TextInput', function (ns, cn) {
                 base.afterAdd.call(this);
                 $basicWidgets.BinaryStateful.afterAdd.call(this);
                 $basicWidgets.DomInputable.afterAdd.call(this);
+                $basicWidgets.Validatable.afterAdd.call(this);
             },
 
             /** @ignore */
@@ -149,30 +111,7 @@ $oop.postpone($basicWidgets, 'TextInput', function (ns, cn) {
              */
             setValue: function (value) {
                 $basicWidgets.DomValuable.setValue.call(this, value);
-                this._updateValidity();
                 return this;
-            },
-
-            /**
-             * TODO: Move to 'Validatable'?
-             * @param {function} validator
-             * @returns {$basicWidgets.TextInput}
-             */
-            setValidator: function (validator) {
-                $assertion.isFunctionOptional(validator);
-                this.validator = validator;
-                this._updateValidity();
-                return this;
-            },
-
-            /**
-             * Determinnes whether the current validatable instance is valid.
-             * When there is no validator specified, default is valid.
-             * @returns {boolean}
-             */
-            getValidity: function () {
-                var validator = this.validator;
-                return !validator || validator(this.value);
             },
 
             /**
@@ -212,9 +151,4 @@ $oop.postpone($basicWidgets, 'TextInput', function (ns, cn) {
      * @param {function} callback
      * @private
      */
-});
-
-$oop.addGlobalConstants.call($basicWidgets, /** @lends $basicWidgets */{
-    /** @constant */
-    EVENT_INPUT_VALIDITY_CHANGE: 'widget.change.input.validity'
 });

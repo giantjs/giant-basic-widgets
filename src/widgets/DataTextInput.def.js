@@ -45,16 +45,12 @@ $oop.postpone($basicWidgets, 'DataTextInput', function (ns, cn) {
                 base.init.call(this, inputType);
                 $basicWidgets.EntityWidget.init.call(this, valueKey);
                 $basicWidgets.EntityInput.init.call(this, valueKey, nameKey);
-
-                this.elevateMethod('onInputValueChange');
             },
 
             /** @ignore */
             afterAdd: function () {
                 base.afterAdd.call(this);
                 $basicWidgets.EntityInput.afterAdd.call(this);
-
-                this.subscribeTo($basicWidgets.EVENT_INPUT_VALUE_CHANGE, this.onInputValueChange);
             },
 
             /** @ignore */
@@ -63,8 +59,12 @@ $oop.postpone($basicWidgets, 'DataTextInput', function (ns, cn) {
                 $basicWidgets.EntityInput.afterRemove.call(this);
             },
 
-            /** @ignore */
-            onInputValueChange: function () {
+            /**
+             * @param {$basicWidgets.InputValueChangeEvent} event
+             * @ignore
+             */
+            onInputValueChange: function (event) {
+                base.onInputValueChange.call(this, event);
                 this._syncEntityToInputValue();
             }
         });
