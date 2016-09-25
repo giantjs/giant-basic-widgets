@@ -98,114 +98,6 @@ _addDataImage: function () {
 },
 
 /** @private */
-_addTextInput: function (itemWidget) {
-    // creating a label for the input
-    var label = $basicWidgets.Text.create()
-        .setChildName('A-label')
-        .setContentString("Name")
-        .setContainerCssClass('widget-container')
-        .addToParent(itemWidget);
-
-    return $basicWidgets.DirectInput.create('text')
-        .setName('name')
-        .linkLabelWidget(label);
-},
-
-/** @private */
-_addDataTextInput: function (itemWidget) {
-    // setting up validator
-    'numberValidator/1'.toDocument().setNode({
-        minValue: 1,
-        maxValue: 10
-    });
-
-    // setting input properties
-    'input/1'.toDocument().setNode({
-        name: 'lives',
-        value: '9',
-        validator: 'numberValidator/1'
-    });
-
-    // creating a label for the input
-    var label = $basicWidgets.Text.create()
-        .setChildName('A-label')
-        .setContentString("Lives")
-        .setContainerCssClass('widget-container')
-        .addToParent(itemWidget);
-
-    return $basicWidgets.DataDirectInput.create('text', 'input/1'.toDocumentKey())
-        .linkLabelWidget(label);
-},
-
-/** @private */
-_addTextArea: function (itemWidget) {
-    // creating a label for the input
-    var label = $basicWidgets.Text.create()
-        .setChildName('A-label')
-        .setContentString("Description")
-        .setContainerCssClass('widget-container')
-        .addToParent(itemWidget);
-
-    return $basicWidgets.TextArea.create()
-        .setName('description')
-        .linkLabelWidget(label);
-},
-
-/** @private */
-_addDataTextArea: function (itemWidget) {
-    // setting input properties
-    'input/3'.toDocument().setNode({
-        name: 'synopsis',
-        value: "This is an entity bound textarea"
-    });
-
-    // creating a label for the input
-    var label = $basicWidgets.Text.create()
-        .setChildName('A-label')
-        .setContentString("Synopsis")
-        .setContainerCssClass('widget-container')
-        .addToParent(itemWidget);
-
-    return $basicWidgets.DataTextArea.create('input/3'.toDocumentKey())
-        .linkLabelWidget(label);
-},
-
-/** @private */
-_addCheckboxInput: function (itemWidget) {
-    // creating a label for the input
-    var label = $basicWidgets.Text.create()
-        .setChildName('z-label')
-        .setContentString("Meows")
-        .setContainerCssClass('widget-container')
-        .addToParent(itemWidget);
-
-    return $basicWidgets.BinaryInput.create('checkbox')
-        .setName('meows')
-        .setBaseValue('Yes')
-        .linkLabelWidget(label);
-},
-
-/** @private */
-_addDataCheckboxInput: function (itemWidget) {
-    // setting input properties
-    'input/2'.toDocument().setNode({
-        name: 'abilities',
-        baseValue: 'jumps',
-        value: true
-    });
-
-    // creating a label for the input
-    var label = $basicWidgets.Text.create()
-        .setChildName('z-label')
-        .setContentString("Jumps")
-        .setContainerCssClass('widget-container')
-        .addToParent(itemWidget);
-
-    return $basicWidgets.DataBinaryInput.create('checkbox', 'input/2'.toDocumentKey())
-        .linkLabelWidget(label);
-},
-
-/** @private */
 _addList: function () {
     return $basicWidgets.List.create()
         .addItemWidget($basicWidgets.Text.create()
@@ -269,72 +161,36 @@ _addEntityList: function () {
 },
 
 /** @private */
-_addSelect: function (itemWidget) {
-    // creating a label for the select
+_addTextInput: function (itemWidget) {
+    // creating a label for the input
     var label = $basicWidgets.Text.create()
         .setChildName('A-label')
-        .setContentString("Day")
+        .setContentString("Name")
         .setContainerCssClass('widget-container')
         .addToParent(itemWidget);
 
-    return $basicWidgets.Select.create()
-        .setChildName('B-select')
-        .setName('weekday')
-        .addItemWidget($basicWidgets.TextOption.create()
-            .setChildName('day-01')
-            .setOptionValue('mon')
-            .setContentString("Monday"))
-        .addItemWidget($basicWidgets.TextOption.create()
-            .setChildName('day-02')
-            .setOptionValue('tue')
-            .setContentString("Tuesday"))
-        .addItemWidget($basicWidgets.TextOption.create()
-            .setChildName('day-03')
-            .setOptionValue('wed')
-            .setContentString("Wednesday"))
-        .addItemWidget($basicWidgets.TextOption.create()
-            .setChildName('day-04')
-            .setOptionValue('thu')
-            .setContentString("Thursday"))
-        .addItemWidget($basicWidgets.TextOption.create()
-            .setChildName('day-05')
-            .setOptionValue('fri')
-            .setContentString("Friday"))
-        .addItemWidget($basicWidgets.TextOption.create()
-            .setChildName('day-06')
-            .setOptionValue('sat')
-            .setContentString("Saturday"))
-        .addItemWidget($basicWidgets.TextOption.create()
-            .setChildName('day-07')
-            .setOptionValue('sun')
-            .setContentString("Sunday"))
+    return $basicWidgets.TextInput.create('text')
+        .setName('name')
         .linkLabelWidget(label);
 },
 
 /** @private */
-_addDataSelect: function (itemWidget) {
-    // creating a label for the select
+_addDataTextInput: function (itemWidget) {
+    // setting input properties
+    'input/1'.toDocument().setNode({
+        name: 'lives',
+        value: '9'
+    });
+
+    // creating a label for the input
     var label = $basicWidgets.Text.create()
         .setChildName('A-label')
-        .setContentString("Day")
+        .setContentString("Lives")
         .setContainerCssClass('widget-container')
         .addToParent(itemWidget);
 
-    'select/1'.toDocument().setNode({
-        options: {
-            0: 'Monday',
-            1: 'Tuesday',
-            2: 'Wednesday',
-            3: 'Thursday',
-            4: 'Friday',
-            5: 'Saturday',
-            6: 'Sunday'
-        }
-    });
-
-    return $basicWidgets.DataSelect.create('select/1/options'.toFieldKey())
-        .setChildName('B-select')
-        .setName('weekday')
+    return $basicWidgets.DataTextInput.create(
+        'text', 'input/1/value'.toFieldKey(), 'input/1/name'.toFieldKey())
         .linkLabelWidget(label);
 },
             //@formatter:on
@@ -363,10 +219,7 @@ _addDataSelect: function (itemWidget) {
                     'onClickableClick',
                     'onInputFocus',
                     'onInputBlur',
-                    'onInputStateChange',
-                    'onOptionValueChange',
-                    'onOptionSelectedChange',
-                    'onSelectSelectionChange');
+                    'onInputStateChange');
 
                 $basicWidgets.Text.create()
                     .setTagName('h1')
@@ -410,6 +263,14 @@ _addDataSelect: function (itemWidget) {
                     "entityKey.toField().setValue('https://placekitten.com/g/512/320')");
 
                 this._addWidget(
+                    this._addTextInput,
+                    "widgetId.toWidget().setValue('foo')");
+
+                this._addWidget(
+                    this._addDataTextInput,
+                    "'input/1/value'.toField().setValue('Hello World!')");
+
+                this._addWidget(
                     this._addList,
                     "widgetId.toWidget().getChild('month-02').removeFromParent()");
             },
@@ -421,10 +282,7 @@ _addDataSelect: function (itemWidget) {
                     .subscribeTo($basicWidgets.EVENT_CLICKABLE_CLICK, this.onClickableClick)
                     .subscribeTo($basicWidgets.EVENT_INPUT_FOCUS, this.onInputFocus)
                     .subscribeTo($basicWidgets.EVENT_INPUT_BLUR, this.onInputBlur)
-                    .subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, this.onInputStateChange)
-                    .subscribeTo($basicWidgets.EVENT_OPTION_VALUE_CHANGE, this.onOptionValueChange)
-                    .subscribeTo($basicWidgets.EVENT_OPTION_SELECTED_CHANGE, this.onOptionSelectedChange)
-                    .subscribeTo($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, this.onSelectSelectionChange);
+                    .subscribeTo($basicWidgets.EVENT_INPUT_STATE_CHANGE, this.onInputStateChange);
             },
 
             /**
@@ -460,39 +318,6 @@ _addDataSelect: function (itemWidget) {
                     "input state changed", event.sender.instanceId,
                     "from", event.beforeValue,
                     "to", event.afterValue);
-            },
-
-            /**
-             * @param {$event.Event} event
-             * @ignore
-             */
-            onOptionValueChange: function (event) {
-                console.info(
-                    "option value changed", event.sender.instanceId,
-                    "from", event.payload.beforeValue,
-                    "to", event.payload.afterValue);
-            },
-
-            /**
-             * @param {$event.Event} event
-             * @ignore
-             */
-            onOptionSelectedChange: function (event) {
-                console.info(
-                    "option selected state changed", event.sender.instanceId,
-                    "from", event.payload.wasSelected,
-                    "to", event.payload.isSelected);
-            },
-
-            /**
-             * @param {$event.Event} event
-             * @ignore
-             */
-            onSelectSelectionChange: function (event) {
-                console.info(
-                    "select selection changed", event.sender.instanceId,
-                    "from", Object.keys(event.payload.beforeValues),
-                    "to", Object.keys(event.payload.afterValues));
             }
         });
 });
