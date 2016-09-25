@@ -215,6 +215,25 @@ _addTextArea: function (itemWidget) {
         })
         .linkLabelWidget(label);
 },
+
+/** @private */
+_addEmail: function (itemWidget) {
+    // creating a label for the input
+    var label = $basicWidgets.Text.create()
+        .setChildName('A-label')
+        .setContentString("Email")
+        .setContainerCssClass('widget-container')
+        .addToParent(itemWidget);
+
+    return $basicWidgets.TextInput.create('email')
+        .setName('email')
+        .setValue("fluffy@cats.com")
+        .setValidator(function (value, inputWidget) {
+            var element = inputWidget.getElement();
+            return !element || element.checkValidity();
+        })
+        .linkLabelWidget(label);
+},
             //@formatter:on
 
             /**
@@ -299,6 +318,10 @@ _addTextArea: function (itemWidget) {
 
                 this._addWidget(
                     this._addTextArea,
+                    "widgetId.toWidget().setValue('foo')");
+
+                this._addWidget(
+                    this._addEmail,
                     "widgetId.toWidget().setValue('foo')");
             },
 
