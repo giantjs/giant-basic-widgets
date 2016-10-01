@@ -3,6 +3,7 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
 
     var base = $basicWidgets.List,
         self = base.extend(cn)
+            .addTrait($basicWidgets.SelectPartial)
             .addTraitAndExtend($basicWidgets.BinaryStateful)
             .addTraitAndExtend($basicWidgets.Disableable, 'Disableable')
             .addTraitAndExtend($basicWidgets.DomInputable, 'DomInputable'),
@@ -18,6 +19,7 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
      * Dom-native select dropdown with multiple selections.
      * @class
      * @extends $basicWidgets.List
+     * @extends $basicWidgets.SelectPartial
      * @extends $basicWidgets.BinaryStateful
      * @extends $basicWidgets.Disableable
      * @extends $basicWidgets.DomInputable
@@ -74,6 +76,7 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
             /** @ignore */
             init: function () {
                 base.init.call(this);
+                $basicWidgets.SelectPartial.init.call(this);
                 $basicWidgets.BinaryStateful.init.call(this);
                 $basicWidgets.Disableable.init.call(this);
 
@@ -85,9 +88,7 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
                     'onOptionValueChange',
                     'onOptionSelectedChange');
 
-                this
-                    .setTagName('select')
-                    .addAttribute('multiple', 'true');
+                this.addAttribute('multiple', 'true');
 
                 /**
                  * Selected values before the last option select event.
@@ -102,12 +103,6 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
                  * @private
                  */
                 this._updateLastSelectedValuesDebouncer = this._updateLastSelectedValues.toDebouncer();
-
-                /**
-                 * All option widgets indexed by their values.
-                 * @type {$data.Collection}
-                 */
-                this.optionWidgetsByValue = $data.Collection.create();
 
                 /**
                  * Values that are currently selected.
@@ -154,53 +149,13 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
             },
 
             /**
-             * Adds option widget to the select.
-             * Only allows Option instances the value on which are not yet present in the MultiSelect.
              * @param {$basicWidgets.OptionPartial} itemWidget
              * @returns {$basicWidgets.MultiSelect}
              */
             addItemWidget: function (itemWidget) {
-                $assertion
-                    .assert(itemWidget && itemWidget.tagName === 'option', "Invalid option widget")
-                    .assert(!this.getOptionWidgetByValue(itemWidget.getOptionValue()),
-                        "Duplicate option value");
-
                 base.addItemWidget.call(this, itemWidget);
-
-                // adding option to lookup
-                this.optionWidgetsByValue.setItem(itemWidget.getOptionValue(), itemWidget);
-
+                $basicWidgets.SelectPartial.addItemWidget.call(this, itemWidget);
                 return this;
-            },
-
-            /**
-             * @param {string} value
-             * @returns {$basicWidgets.MultiSelect}
-             */
-            setValue: function (value) {
-                var optionWidget = this.getOptionWidgetByValue(value);
-                if (optionWidget) {
-                    // matching option found
-                    // selecting specified option
-                    optionWidget.select();
-                }
-                return this;
-            },
-
-            /**
-             * @returns {string}
-             */
-            getValue: function () {
-                return this.selectedValues.getFirstValue();
-            },
-
-            /**
-             * Retrieves the Option instance associated with the specified value.
-             * @param {string} optionValue
-             * @returns {$basicWidgets.OptionPartial}
-             */
-            getOptionWidgetByValue: function (optionValue) {
-                return this.optionWidgetsByValue.getItem(optionValue);
             },
 
             /**

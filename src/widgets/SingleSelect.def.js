@@ -3,6 +3,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
 
     var base = $basicWidgets.List,
         self = base.extend(cn)
+            .addTrait($basicWidgets.SelectPartial)
             .addTraitAndExtend($basicWidgets.BinaryStateful)
             .addTraitAndExtend($basicWidgets.Disableable, 'Disableable')
             .addTraitAndExtend($basicWidgets.DomInputable, 'DomInputable');
@@ -17,6 +18,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
      * Dom-native select dropdown.
      * @class
      * @extends $basicWidgets.List
+     * @extends $basicWidgets.SelectPartial
      * @extends $basicWidgets.BinaryStateful
      * @extends $basicWidgets.Disableable
      * @extends $basicWidgets.DomInputable
@@ -54,11 +56,12 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
             },
 
             /** @private */
-            _setSelectedValue: function (selectedValueAfter) {
-                var selectedValueBefore = this.selectedValue;
+            _updateLastSelectedValue: function () {
+                var selectedValueBefore = this._lastSelectedValue,
+                    selectedValueAfter = this.selectedValue;
 
                 if (selectedValueAfter !== selectedValueBefore) {
-                    this.selectedValue = selectedValueAfter;
+                    this._lastSelectedValue = selectedValueAfter;
 
                     // notifying subscribers
                     // TODO: Use specific event class
@@ -75,34 +78,34 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
             /** @ignore */
             init: function () {
                 base.init.call(this);
+                $basicWidgets.SelectPartial.init.call(this);
                 $basicWidgets.BinaryStateful.init.call(this);
                 $basicWidgets.Disableable.init.call(this);
 
-                this.setTagName('select');
-
                 this.elevateMethods(
-                    '_setSelectedValue',
+                    '_updateLastSelectedValue',
                     'onChange',
                     'onOptionValueChange',
                     'onOptionSelectedChange');
 
                 /**
-                 * All option widgets indexed by their values.
-                 * @type {$data.Collection}
+                 * Selected value before the last option select event.
+                 * @type {string}
+                 * @private
                  */
-                this.optionWidgetsByValue = $data.Collection.create();
+                this._lastSelectedValue = undefined;
+
+                /**
+                 * @type {$utils.Debouncer}
+                 * @private
+                 */
+                this._updateLastValueDebouncer = this._updateLastSelectedValue.toDebouncer();
 
                 /**
                  * Currently selected value.
                  * @type {string}
                  */
                 this.selectedValue = undefined;
-
-                /**
-                 * @type {$utils.Debouncer}
-                 * @private
-                 */
-                this._setSelectedValueDebouncer = this._setSelectedValue.toDebouncer();
             },
 
             /** @ignore */
@@ -142,22 +145,12 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
             },
 
             /**
-             * Adds option widget to the select.
-             * Only allows Option instances the value on which are not yet present in the SingleSelect.
              * @param {$basicWidgets.OptionPartial} itemWidget
              * @returns {$basicWidgets.SingleSelect}
              */
             addItemWidget: function (itemWidget) {
-                $assertion
-                    .assert(itemWidget && itemWidget.tagName === 'option', "Invalid option widget")
-                    .assert(!this.getOptionWidgetByValue(itemWidget.getOptionValue()),
-                        "Duplicate option value");
-
                 base.addItemWidget.call(this, itemWidget);
-
-                // adding option to lookup
-                this.optionWidgetsByValue.setItem(itemWidget.getOptionValue(), itemWidget);
-
+                $basicWidgets.SelectPartial.addItemWidget.call(this, itemWidget);
                 return this;
             },
 
@@ -180,15 +173,6 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
              */
             getValue: function () {
                 return this.selectedValue;
-            },
-
-            /**
-             * Retrieves the Option instance associated with the specified value.
-             * @param {string} optionValue
-             * @returns {$basicWidgets.OptionPartial}
-             */
-            getOptionWidgetByValue: function (optionValue) {
-                return this.optionWidgetsByValue.getItem(optionValue);
             },
 
             /**
@@ -240,12 +224,12 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
 
                 // replacing selected value
                 if (selectedValueBefore === beforeValue) {
-                    this._setSelectedValueDebouncer.schedule(0, afterValue);
+                    this.selectedValue = afterValue;
+                    this._updateLastValueDebouncer.schedule(0, afterValue);
                 }
             },
 
             /**
-             * TODO: Restore debouncing
              * @param {$event.Event} event
              * @ignore
              */
@@ -263,17 +247,11 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
                         .deselect();
                 }
 
+                // updating selected value
+                this.selectedValue = selectedValueAfter;
+
                 // setting selected value debounced
-                this._setSelectedValueDebouncer.schedule(0, selectedValueAfter);
+                this._updateLastValueDebouncer.schedule(0);
             }
         });
-});
-
-// TODO: Move to partial class (shared by single/multi select)
-$oop.addGlobalConstants.call($basicWidgets, /** @lends $basicWidgets */{
-    /**
-     * Signals that the selected value(s) in a select have changed.
-     * @constants
-     */
-    EVENT_SELECT_SELECTION_CHANGE: 'widget.change.select.selection'
 });
