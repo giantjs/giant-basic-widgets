@@ -13,6 +13,7 @@ $oop.postpone($basicWidgets, 'Text', function (ns, cn) {
 
     /**
      * Displays text, optionally HTML escaped, based on a string literal or Stringifiable object.
+     * TODO: Move functionality to a partial class.
      * @class
      * @extends $widget.Widget
      */

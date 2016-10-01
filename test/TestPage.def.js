@@ -234,6 +234,87 @@ _addEmail: function (itemWidget) {
         })
         .linkLabelWidget(label);
 },
+
+/** @private */
+_addSingleSelect: function (itemWidget) {
+    // creating a label for the select
+    var label = $basicWidgets.Text.create()
+        .setChildName('A-label')
+        .setContentString("Day")
+        .setContainerCssClass('widget-container')
+        .addToParent(itemWidget);
+
+    return $basicWidgets.SingleSelect.create()
+        .setChildName('B-select')
+        .setName('weekday')
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-01')
+            .setOptionValue('mon')
+            .setContentString("Monday"))
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-02')
+            .setOptionValue('tue')
+            .setContentString("Tuesday"))
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-03')
+            .setOptionValue('wed')
+            .setContentString("Wednesday"))
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-04')
+            .setOptionValue('thu')
+            .setContentString("Thursday"))
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-05')
+            .setOptionValue('fri')
+            .setContentString("Friday"))
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-06')
+            .setOptionValue('sat')
+            .setContentString("Saturday"))
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-07')
+            .setOptionValue('sun')
+            .setContentString("Sunday"))
+        .linkLabelWidget(label);
+},
+
+/** @private */
+_addDataSelect: function (itemWidget) {
+    $entity.config.appendNode('document>field'.toPath(), {
+        'select/options': {
+            fieldType: 'collection'
+        },
+        'select/selected': {
+            fieldType: 'collection'
+        }
+    });
+
+    // creating a label for the select
+    var label = $basicWidgets.Text.create()
+        .setChildName('A-label')
+        .setContentString("Day")
+        .setContainerCssClass('widget-container')
+        .addToParent(itemWidget);
+
+    'select/1'.toDocument().setNode({
+        options: {
+            0: 'Monday',
+            1: 'Tuesday',
+            2: 'Wednesday',
+            3: 'Thursday',
+            4: 'Friday',
+            5: 'Saturday',
+            6: 'Sunday'
+        }
+    });
+
+    return $basicWidgets.DataSelect.create(
+            'select/1/options'.toFieldKey(),
+            'select/1/selected'.toFieldKey())
+        .setChildName('B-select')
+        .setName('weekday')
+        .linkLabelWidget(label);
+},
             //@formatter:on
 
             /**
@@ -262,7 +343,10 @@ _addEmail: function (itemWidget) {
                     'onInputFocus',
                     'onInputBlur',
                     'onInputValueChange',
-                    'onInputValidityChange');
+                    'onInputValidityChange',
+                    'onOptionValueChange',
+                    'onOptionSelectedChange',
+                    'onSelectSelectionChange');
 
                 $basicWidgets.Text.create()
                     .setTagName('h1')
@@ -320,12 +404,15 @@ _addEmail: function (itemWidget) {
                 this._addWidget(
                     this._addTextArea,
                     "widgetId.toWidget().setValue('foo')",
-                "Text Area");
+                    "Text Area");
 
                 this._addWidget(
-                    this._addEmail,
-                    "widgetId.toWidget().setValue('foo')",
-                    "Email");
+                    this._addSingleSelect,
+                    "widgetId.toWidget().getOptionWidgetByValue('wed').select()");
+
+                //this._addWidget(
+                //    this._addDataSelect,
+                //    "");
             },
 
             /** @ignore */
@@ -336,7 +423,10 @@ _addEmail: function (itemWidget) {
                     .subscribeTo($basicWidgets.EVENT_INPUT_FOCUS, this.onInputFocus)
                     .subscribeTo($basicWidgets.EVENT_INPUT_BLUR, this.onInputBlur)
                     .subscribeTo($basicWidgets.EVENT_INPUT_VALUE_CHANGE, this.onInputValueChange)
-                    .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, this.onInputValidityChange);
+                    .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, this.onInputValidityChange)
+                    .subscribeTo($basicWidgets.EVENT_OPTION_VALUE_CHANGE, this.onOptionValueChange)
+                    .subscribeTo($basicWidgets.EVENT_OPTION_SELECTED_CHANGE, this.onOptionSelectedChange)
+                    .subscribeTo($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, this.onSelectSelectionChange);
             },
 
             /**
@@ -383,6 +473,46 @@ _addEmail: function (itemWidget) {
                     "input validity changed", event.sender.instanceId,
                     "from", !event.sender.isValid,
                     "to", event.sender.isValid);
+            },
+
+            /**
+             * @param {$event.Event} event
+             * @ignore
+             */
+            onOptionValueChange: function (event) {
+                console.info(
+                    "option value changed", event.sender.instanceId,
+                    "from", event.payload.beforeValue,
+                    "to", event.payload.afterValue);
+            },
+
+            /**
+             * @param {$event.Event} event
+             * @ignore
+             */
+            onOptionSelectedChange: function (event) {
+                console.info(
+                    "option selected state changed", event.sender.instanceId,
+                    "from", event.payload.wasSelected,
+                    "to", event.payload.isSelected);
+            },
+
+            /**
+             * @param {$event.Event} event
+             * @ignore
+             */
+            onSelectSelectionChange: function (event) {
+                var beforeValues = event.payload.beforeValues,
+                    afterValues = event.payload.afterValues;
+
+                console.info(
+                    "select selection changed", event.sender.instanceId,
+                    "from", typeof beforeValues === 'object' ?
+                        Object.keys(beforeValues) :
+                        beforeValues,
+                    "to", typeof afterValues === 'object' ?
+                        Object.keys(afterValues) :
+                        afterValues);
             }
         });
 });
