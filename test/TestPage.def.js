@@ -279,6 +279,49 @@ _addSingleSelect: function (itemWidget) {
 },
 
 /** @private */
+_addMultiSelect: function (itemWidget) {
+    // creating a label for the select
+    var label = $basicWidgets.Text.create()
+        .setChildName('A-label')
+        .setContentString("Day")
+        .setContainerCssClass('widget-container')
+        .addToParent(itemWidget);
+
+    return $basicWidgets.MultiSelect.create()
+        .setChildName('B-select')
+        .setName('weekday')
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-01')
+            .setOptionValue('mon')
+            .setContentString("Monday"))
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-02')
+            .setOptionValue('tue')
+            .setContentString("Tuesday"))
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-03')
+            .setOptionValue('wed')
+            .setContentString("Wednesday"))
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-04')
+            .setOptionValue('thu')
+            .setContentString("Thursday"))
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-05')
+            .setOptionValue('fri')
+            .setContentString("Friday"))
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-06')
+            .setOptionValue('sat')
+            .setContentString("Saturday"))
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-07')
+            .setOptionValue('sun')
+            .setContentString("Sunday"))
+        .linkLabelWidget(label);
+},
+
+/** @private */
 _addDataSelect: function (itemWidget) {
     $entity.config.appendNode('document>field'.toPath(), {
         'select/options': {
@@ -408,6 +451,10 @@ _addDataSelect: function (itemWidget) {
 
                 this._addWidget(
                     this._addSingleSelect,
+                    "widgetId.toWidget().getOptionWidgetByValue('wed').select()");
+
+                this._addWidget(
+                    this._addMultiSelect,
                     "widgetId.toWidget().getOptionWidgetByValue('wed').select()");
 
                 //this._addWidget(
