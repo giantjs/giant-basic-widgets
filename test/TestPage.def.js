@@ -40,13 +40,9 @@ _addEntityBoundText: function () {
 _addLocaleBoundText: function () {
     // initializing translations
     'locale/en-uk'.toDocument()
-        .setTranslations({
-            "Hi!": "Hi!"
-        });
+        .setTranslation("Hi!", ["Hi!"]);
     'locale/de-de'.toDocument()
-        .setTranslations({
-            "Hi!": "Gruß dich!"
-        });
+        .setTranslation("Hi!", ["Gruß dich!"]);
     $i18n.LocaleEnvironment.create()
         .markLocaleAsReady('en-uk'.toLocale())
         .markLocaleAsReady('de-de'.toLocale());
@@ -279,6 +275,65 @@ _addSingleSelect: function (itemWidget) {
 },
 
 /** @private */
+_addLocaleSingleSelect: function (itemWidget) {
+    // initializing translations
+    'locale/de-de'.toDocument()
+        .setTranslation("Monday", ["Montag"])
+        .setTranslation("Tuesday", ["Dienstag"])
+        .setTranslation("Wednesday", ["Mittwoch"])
+        .setTranslation("Thursday", ["Donnerstag"])
+        .setTranslation("Friday", ["Freitag"])
+        .setTranslation("Saturday", ["Samstag"])
+        .setTranslation("Sunday", ["Sonntag"]);
+
+    $i18n.LocaleEnvironment.create()
+        .markLocaleAsReady('de-de'.toLocale());
+
+    // setting current locale to 'de-de'
+    'de-de'.toLocale().setAsCurrentLocale();
+
+    // creating a label for the select
+    var label = $basicWidgets.Text.create()
+        .setChildName('A-label')
+        .setContentString("Day")
+        .setContainerCssClass('widget-container')
+        .addToParent(itemWidget);
+
+    return $basicWidgets.SingleSelect.create()
+        .setChildName('B-select')
+        .setName('weekday')
+        .addItemWidget($basicWidgets.LocaleOption.create()
+            .setChildName('day-01')
+            .setOptionValue('mon')
+            .setOriginalContentString("Monday".toTranslatable()))
+        .addItemWidget($basicWidgets.LocaleOption.create()
+            .setChildName('day-02')
+            .setOptionValue('tue')
+            .setOriginalContentString("Tuesday".toTranslatable()))
+        .addItemWidget($basicWidgets.LocaleOption.create()
+            .setChildName('day-03')
+            .setOptionValue('wed')
+            .setOriginalContentString("Wednesday".toTranslatable()))
+        .addItemWidget($basicWidgets.LocaleOption.create()
+            .setChildName('day-04')
+            .setOptionValue('thu')
+            .setOriginalContentString("Thursday".toTranslatable()))
+        .addItemWidget($basicWidgets.LocaleOption.create()
+            .setChildName('day-05')
+            .setOptionValue('fri')
+            .setOriginalContentString("Friday".toTranslatable()))
+        .addItemWidget($basicWidgets.LocaleOption.create()
+            .setChildName('day-06')
+            .setOptionValue('sat')
+            .setOriginalContentString("Saturday".toTranslatable()))
+        .addItemWidget($basicWidgets.LocaleOption.create()
+            .setChildName('day-07')
+            .setOptionValue('sun')
+            .setOriginalContentString("Sunday".toTranslatable()))
+        .linkLabelWidget(label);
+},
+
+/** @private */
 _addMultiSelect: function (itemWidget) {
     // creating a label for the select
     var label = $basicWidgets.Text.create()
@@ -452,6 +507,11 @@ _addDataSelect: function (itemWidget) {
                 this._addWidget(
                     this._addSingleSelect,
                     "widgetId.toWidget().getOptionWidgetByValue('wed').select()");
+
+                this._addWidget(
+                    this._addLocaleSingleSelect,
+                    "'en-uk'.toLocale().setAsCurrentLocale()",
+                    "Locale");
 
                 this._addWidget(
                     this._addMultiSelect,

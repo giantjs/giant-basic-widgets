@@ -1,28 +1,28 @@
-$oop.postpone($basicWidgets, 'Option', function (ns, cn) {
+$oop.postpone($basicWidgets, 'LocaleOption', function (ns, cn) {
     "use strict";
 
-    var base = $basicWidgets.Text,
+    var base = $basicWidgets.LocaleText,
         self = base.extend(cn)
+            .addTraitAndExtend($basicWidgets.OptionPartial)
             .addTraitAndExtend($basicWidgets.BinaryStateful)
-            .addTraitAndExtend($basicWidgets.Disableable, 'Disableable')
-            .addTraitAndExtend($basicWidgets.OptionPartial);
+            .addTraitAndExtend($basicWidgets.Disableable, 'Disableable');
 
     /**
-     * Creates a Option instance.
+     * Creates a locale-sensitive Option instance.
      * @name $basicWidgets.Option.create
      * @function
      * @returns {$basicWidgets.Option}
      */
 
     /**
-     * A select option with static text inside.
+     * A select option with localized static text inside.
      * @class
-     * @extends $basicWidgets.Text
+     * @extends $basicWidgets.LocaleText
      * @extends $basicWidgets.BinaryStateful
      * @extends $basicWidgets.Disableable
      * @extends $basicWidgets.OptionPartial
      */
-    $basicWidgets.Option = self
+    $basicWidgets.LocaleOption = self
         .addMethods(/** @lends $basicWidgets.Option# */{
             /** @ignore */
             init: function () {

@@ -90,7 +90,7 @@
         expect(5);
 
         var option = OptionPartial.create(),
-            select = $basicWidgets.Select.create();
+            select = $basicWidgets.SingleSelect.create();
 
         throws(function () {
             option.select();
@@ -114,7 +114,7 @@
     // TODO: Extend with events
     test("Deselecting option", function () {
         var option = OptionPartial.create(),
-            select = $basicWidgets.Select.create();
+            select = $basicWidgets.SingleSelect.create();
 
         throws(function () {
             option.deselect();
