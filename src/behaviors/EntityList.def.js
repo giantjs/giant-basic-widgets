@@ -11,6 +11,7 @@ $oop.postpone($basicWidgets, 'EntityList', function () {
      * Expects to be bound to a field of field type 'collection',
      * and item ID type 'reference'.
      * TODO: Add single item value change handler. (Depends on change in $entity.)
+     * TODO: Move to partials
      * @class
      * @extends $basicWidgets.EntityWidget
      * @extends $basicWidgets.List

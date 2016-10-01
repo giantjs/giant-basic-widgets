@@ -377,13 +377,13 @@ _addMultiSelect: function (itemWidget) {
 },
 
 /** @private */
-_addDataSelect: function (itemWidget) {
+_addDataSingleSelect: function (itemWidget) {
     $entity.config.appendNode('document>field'.toPath(), {
         'select/options': {
             fieldType: 'collection'
         },
         'select/selected': {
-            fieldType: 'collection'
+            fieldType: 'string'
         }
     });
 
@@ -406,7 +406,7 @@ _addDataSelect: function (itemWidget) {
         }
     });
 
-    return $basicWidgets.DataSelect.create(
+    return $basicWidgets.DataSingleSelect.create(
             'select/1/options'.toFieldKey(),
             'select/1/selected'.toFieldKey())
         .setChildName('B-select')
@@ -517,9 +517,9 @@ _addDataSelect: function (itemWidget) {
                     this._addMultiSelect,
                     "widgetId.toWidget().getOptionWidgetByValue('wed').select()");
 
-                //this._addWidget(
-                //    this._addDataSelect,
-                //    "");
+                this._addWidget(
+                    this._addDataSingleSelect,
+                    "");
             },
 
             /** @ignore */
