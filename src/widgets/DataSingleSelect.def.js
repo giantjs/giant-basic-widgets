@@ -23,12 +23,28 @@ $oop.postpone($basicWidgets, 'DataSingleSelect', function (ns, cn) {
      */
     $basicWidgets.DataSingleSelect = self
         .addPrivateMethods(/** @lends $basicWidgets.DataSingleSelect# */{
-            /** @private */
+            /**
+             * TODO: Do this via changing selectedValue.
+             * @private
+             */
             _syncSelectedToEntity: function () {
-                var selectedKey = this.selectedKey,
-                    valueAfter = selectedKey.toEntity().getNode();
+                var selectedValueBefore = this.selectedValue,
+                    selectedValueAfter = this.selectedKey.toField().getValue(),
+                    selectedOption,
+                    deselectedOption;
 
-                this.setValue(valueAfter);
+                if (selectedValueAfter !== selectedValueBefore) {
+                    selectedOption = this.getOptionWidgetByValue(selectedValueAfter);
+                    deselectedOption = this.getOptionWidgetByValue(selectedValueBefore);
+
+                    if (selectedOption) {
+                        selectedOption.select();
+                    }
+
+                    if (deselectedOption) {
+                        deselectedOption.deselect();
+                    }
+                }
             }
         })
         .addMethods(/** @lends $basicWidgets.DataSingleSelect# */{
@@ -66,7 +82,7 @@ $oop.postpone($basicWidgets, 'DataSingleSelect', function (ns, cn) {
                 $basicWidgets.EntityList.afterRemove.call(this);
 
                 this.unbindFromDelegatedEntityChange(this.selectedKey, 'onSelectedFieldChange');
-           },
+            },
 
             /**
              * @param {$event.Event} event

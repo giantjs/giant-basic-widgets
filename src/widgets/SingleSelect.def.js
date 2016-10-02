@@ -57,7 +57,23 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
 
             /** @private */
             _syncOptionsToSelection: function () {
-                this.setValue(this.selectedValue);
+                var selectedValueBefore = this._lastSelectedValue,
+                    selectedValueAfter = this.selectedValue,
+                    selectedOption,
+                    deselectedOption;
+
+                if (selectedValueAfter !== selectedValueBefore) {
+                    selectedOption = this.getOptionWidgetByValue(selectedValueAfter);
+                    deselectedOption = this.getOptionWidgetByValue(selectedValueBefore);
+
+                    if (selectedOption) {
+                        selectedOption.select();
+                    }
+
+                    if (deselectedOption) {
+                        deselectedOption.deselect();
+                    }
+                }
             },
 
             /** @private */
@@ -173,20 +189,13 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
              * @returns {$basicWidgets.SingleSelect}
              */
             setValue: function (value) {
-                var selectedValue = this.selectedValue,
-                    optionWidget = this.getOptionWidgetByValue(value);
-
+                var selectedValue = this.selectedValue;
                 if (value !== selectedValue) {
+                    console.log(this.instanceId, "setting value", value);
                     this.selectedValue = value;
                     this._updateLastSelectedValueDebouncer.schedule(0);
-
-                    if (optionWidget) {
-                        // matching option found
-                        // selecting specified option
-                        optionWidget.select();
-                    }
+                    this._syncOptionsToSelection();
                 }
-
                 return this;
             },
 

@@ -10,7 +10,7 @@
     });
 
     test("Value setter", function () {
-        expect(2);
+        expect(3);
 
         var select = $basicWidgets.SingleSelect.create()
             .addItemWidget($basicWidgets.Option.create()
@@ -25,6 +25,7 @@
         });
 
         strictEqual(select.setValue('foo'), select, "should be chainable");
+        equal(select.selectedValue, 'foo', "should set selectedValue property");
 
         $basicWidgets.Option.removeMocks();
     });

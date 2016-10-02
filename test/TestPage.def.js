@@ -407,7 +407,7 @@ _addDataSingleSelect: function (itemWidget) {
             5: 'Saturday',
             6: 'Sunday'
         },
-        selected: 2
+        selected: '2'
     });
 
     return $basicWidgets.DataSingleSelect.create(
@@ -447,8 +447,8 @@ _addDataMultiSelect: function (itemWidget) {
             6: 'Sunday'
         },
         selected: {
-            0: 0,
-            2: 2
+            0: '0',
+            2: '2'
         }
     });
 
