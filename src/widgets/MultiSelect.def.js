@@ -122,6 +122,8 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
 
                 /**
                  * Debouncer for triggering selection change events.
+                 * Debouncing makes sure that a burst of synchronous option select/deselect events
+                 * does not trigger more than one selection change event.
                  * @type {$utils.Debouncer}
                  * @private
                  */
@@ -187,6 +189,7 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
                     // TODO: Add test
                     optionValue = itemWidget.getOptionValue();
                     this.selectedValues.setItem(optionValue, optionValue);
+                    this._updateLastSelectedValuesDebouncer.schedule(0);
                 }
 
                 return this;
@@ -248,6 +251,8 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
                         .deleteItem(beforeValue)
                         .setItem(afterValue, afterValue);
                 }
+
+                this._updateLastSelectedValuesDebouncer.schedule(0);
             },
 
             /**
@@ -268,9 +273,6 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
                     selectedValues.deleteItem(affectedValue);
                 }
 
-                // triggering selection changed event
-                // debouncing makes sure that a burst of synchronous option select/deselect events
-                // does not trigger a lot of selection change events
                 this._updateLastSelectedValuesDebouncer.schedule(0);
             }
         });

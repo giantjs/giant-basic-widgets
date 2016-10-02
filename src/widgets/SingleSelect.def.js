@@ -104,7 +104,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
                  * @type {$utils.Debouncer}
                  * @private
                  */
-                this._updateLastValueDebouncer = this._updateLastSelectedValue.toDebouncer();
+                this._updateLastSelectedValueDebouncer = this._updateLastSelectedValue.toDebouncer();
 
                 /**
                  * Currently selected value.
@@ -162,6 +162,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
                 if (itemWidget.selected) {
                     // TODO: Add test
                     this.selectedValue = itemWidget.getOptionValue();
+                    this._updateLastSelectedValueDebouncer.schedule(0);
                 }
 
                 return this;
@@ -172,12 +173,20 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
              * @returns {$basicWidgets.SingleSelect}
              */
             setValue: function (value) {
-                var optionWidget = this.getOptionWidgetByValue(value);
-                if (optionWidget) {
-                    // matching option found
-                    // selecting specified option
-                    optionWidget.select();
+                var selectedValue = this.selectedValue,
+                    optionWidget = this.getOptionWidgetByValue(value);
+
+                if (value !== selectedValue) {
+                    this.selectedValue = value;
+                    this._updateLastSelectedValueDebouncer.schedule(0);
+
+                    if (optionWidget) {
+                        // matching option found
+                        // selecting specified option
+                        optionWidget.select();
+                    }
                 }
+
                 return this;
             },
 
@@ -238,7 +247,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
                 // replacing selected value
                 if (selectedValueBefore === beforeValue) {
                     this.selectedValue = afterValue;
-                    this._updateLastValueDebouncer.schedule(0, afterValue);
+                    this._updateLastSelectedValueDebouncer.schedule(0, afterValue);
                 }
             },
 
@@ -262,9 +271,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
 
                 // updating selected value
                 this.selectedValue = selectedValueAfter;
-
-                // setting selected value debounced
-                this._updateLastValueDebouncer.schedule(0);
+                this._updateLastSelectedValueDebouncer.schedule(0);
             }
         });
 });
