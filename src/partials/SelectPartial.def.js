@@ -7,6 +7,7 @@ $oop.postpone($basicWidgets, 'SelectPartial', function () {
     /**
      * Maintains associations between option widgets and their values.
      * Expects to be added to List widgets.
+     * TODO: Rename to OptionWidgetLookupMaintainer?
      * @class
      * @extends $oop.Base
      * @extends $basicWidgets.List
