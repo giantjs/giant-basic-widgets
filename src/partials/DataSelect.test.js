@@ -36,30 +36,4 @@
 
         equal(itemName, '0', "should return item ID");
     });
-
-    test("Selection change handler", function (assert) {
-        expect(1);
-
-        var done = assert.async(),
-            select = DataSelect.create('foo/1/bar'.toFieldKey())
-                .addToParent($basicWidgets.Application.create());
-
-        $entity.Field.addMocks({
-            setValue: function (value) {
-                if (this.entityKey.equals('foo/1/bar'.toFieldKey())) {
-                    equal(value, 'hello', "should set value in selected field");
-                }
-
-                $entity.Field.removeMocks();
-                select.removeFromParent();
-                done();
-            }
-        });
-
-        select.spawnEvent($basicWidgets.EVENT_SELECT_SELECTION_CHANGE)
-            .setPayloadItems({
-                afterValues: 'hello'
-            })
-            .triggerSync();
-    });
 }());

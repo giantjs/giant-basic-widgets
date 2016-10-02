@@ -5,6 +5,7 @@ $oop.postpone($basicWidgets, 'DataSelect', function () {
         self = base.extend();
 
     /**
+     * Maintains selected field key, and provides default item widget & name spawners.
      * Expects to be added to widgets having the EntityList partial.
      * @class
      * @extends $oop.Base
@@ -18,18 +19,11 @@ $oop.postpone($basicWidgets, 'DataSelect', function () {
              * @ignore
              */
             init: function (selectedKey) {
-                this.elevateMethod('onSelectionChange');
-
                 /**
                  * Identifies collection where the selected values will be stored.
                  * @type {$entity.FieldKey}
                  */
                 this.selectedKey = selectedKey;
-            },
-
-            /** Call from host's afterAdd */
-            afterAdd: function () {
-                this.subscribeTo($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, this.onSelectionChange);
             },
 
             /**
@@ -50,21 +44,6 @@ $oop.postpone($basicWidgets, 'DataSelect', function () {
              */
             spawnItemName: function (itemKey) {
                 return itemKey.itemId;
-            },
-
-            /**
-             * @param {$event.Event} event
-             * @ignore
-             */
-            onSelectionChange: function (event) {
-                var selectedKey = this.selectedKey,
-                // TODO: Use domain-specific event class
-                    afterValue = event.payload.afterValues;
-
-                if (selectedKey) {
-                    selectedKey.toField()
-                        .setValue(afterValue);
-                }
             }
         });
 });

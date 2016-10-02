@@ -58,22 +58,41 @@ $oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
                 base.init.call(this);
                 $basicWidgets.EntityList.init.call(this, optionsKey);
                 $basicWidgets.DataSelect.init.call(this, selectedKey);
+
+                this.elevateMethod('onSelectionChange');
             },
 
             /** @ignore */
             afterAdd: function () {
                 base.afterAdd.call(this);
                 $basicWidgets.EntityList.afterAdd.call(this);
-                $basicWidgets.DataSelect.afterAdd.call(this);
 
                 this._syncSelectedToEntity();
-                this.bindToDelegatedEntityChange(this.selectedKey, 'onSelectedFieldChange');
+
+                this.subscribeTo($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, this.onSelectionChange)
+                    .bindToDelegatedEntityChange(this.selectedKey, 'onSelectedFieldChange');
             },
 
             /** @ignore */
             afterRemove: function () {
                 base.afterRemove.call(this);
                 $basicWidgets.EntityList.afterRemove.call(this);
+
+                this.unbindFromDelegatedEntityChange(this.selectedKey, 'onSelectedFieldChange');
+            },
+
+            /**
+             * @param {$event.Event} event
+             * @ignore
+             */
+            onSelectionChange: function (event) {
+                var selectedKey = this.selectedKey,
+                    afterValues = $data.Collection.create(event.payload.afterValues).clone();
+
+                if (selectedKey) {
+                    selectedKey.toField()
+                        .setValue(afterValues.items);
+                }
             },
 
             /** @ignore */
