@@ -1,37 +1,47 @@
-$oop.postpone($basicWidgets, 'DataSingleSelect', function (ns, cn) {
+$oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
     "use strict";
 
-    var base = $basicWidgets.SingleSelect,
+    var base = $basicWidgets.MultiSelect,
         self = base.extend(cn)
             .addTraitAndExtend($basicWidgets.DataSelect)
             .addTraitAndExtend($basicWidgets.EntityList);
 
     /**
-     * @name $basicWidgets.DataSingleSelect.create
+     * @name $basicWidgets.DataMultiSelect.create
      * @function
      * @param {$entity.FieldKey} optionsKey
      * @param {$entity.FieldKey} [selectedKey]
-     * @returns {$basicWidgets.DataSingleSelect}
+     * @returns {$basicWidgets.DataMultiSelect}
      */
 
     /**
      * Expects the value to be stored in the same document.
      * @class
-     * @extends $basicWidgets.SingleSelect
+     * @extends $basicWidgets.MultiSelect
      * @extends $basicWidgets.DataSelect
      * @extends $basicWidgets.EntityList
      */
-    $basicWidgets.DataSingleSelect = self
-        .addPrivateMethods(/** @lends $basicWidgets.DataSingleSelect# */{
+    $basicWidgets.DataMultiSelect = self
+        .addPrivateMethods(/** @lends $basicWidgets.DataMultiSelect# */{
             /** @private */
             _syncSelectedToEntity: function () {
                 var selectedKey = this.selectedKey,
-                    valueAfter = selectedKey.toEntity().getNode();
+                    selectedValuesBefore = this.selectedValues.toSet(),
+                    selectedValuesAfter = selectedKey.toField().getItemsAsCollection().toSet(),
+                    selectedValues = selectedValuesAfter.subtract(selectedValuesBefore).toCollection(),
+                    deselectedValues = selectedValuesBefore.subtract(selectedValuesAfter).toCollection();
 
-                this.setValue(valueAfter);
+                // getOptionWidgetByValue is elevated by base class
+                selectedValues
+                    .mapValues(this.getOptionWidgetByValue)
+                    .callOnEachItem('select');
+
+                deselectedValues
+                    .mapValues(this.getOptionWidgetByValue)
+                    .callOnEachItem('deselect');
             }
         })
-        .addMethods(/** @lends $basicWidgets.DataSingleSelect# */{
+        .addMethods(/** @lends $basicWidgets.DataMultiSelect# */{
             /**
              * @param {$entity.FieldKey} optionsKey
              * @param {$entity.FieldKey} [selectedKey]
@@ -40,7 +50,10 @@ $oop.postpone($basicWidgets, 'DataSingleSelect', function (ns, cn) {
             init: function (optionsKey, selectedKey) {
                 $assertion
                     .isFieldKey(optionsKey, "Invalid options key")
-                    .isFieldKeyOptional(selectedKey, "Invalid selected key");
+                    .isFieldKeyOptional(selectedKey, "Invalid selected key")
+                    .assert(
+                        !selectedKey || selectedKey.toField().isA($entity.CollectionField),
+                        "Invalid selected field type");
 
                 base.init.call(this);
                 $basicWidgets.EntityList.init.call(this, optionsKey);

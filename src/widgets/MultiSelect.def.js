@@ -59,10 +59,10 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
             /** @private */
             _updateLastSelectedValues: function () {
                 var selectedValuesBefore = this._lastSelectedValues,
-                    selectedValuesAfter = this.selectedValues;
+                    selectedValuesAfter;
 
                 // recording currently selected values for comparison
-                this._lastSelectedValues = this.selectedValues.clone();
+                this._lastSelectedValues = selectedValuesAfter = this.selectedValues.clone();
 
                 this.spawnEvent($basicWidgets.EVENT_SELECT_SELECTION_CHANGE)
                     .setPayloadItems({

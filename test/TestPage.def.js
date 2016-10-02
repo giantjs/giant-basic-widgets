@@ -379,10 +379,10 @@ _addMultiSelect: function (itemWidget) {
 /** @private */
 _addDataSingleSelect: function (itemWidget) {
     $entity.config.appendNode('document>field'.toPath(), {
-        'select/options': {
+        'single-select/options': {
             fieldType: 'collection'
         },
-        'select/selected': {
+        'single-select/selected': {
             fieldType: 'string'
         }
     });
@@ -394,7 +394,7 @@ _addDataSingleSelect: function (itemWidget) {
         .setContainerCssClass('widget-container')
         .addToParent(itemWidget);
 
-    'select/1'.toDocument().setNode({
+    'single-select/1'.toDocument().setNode({
         options: {
             0: 'Monday',
             1: 'Tuesday',
@@ -407,8 +407,46 @@ _addDataSingleSelect: function (itemWidget) {
     });
 
     return $basicWidgets.DataSingleSelect.create(
-            'select/1/options'.toFieldKey(),
-            'select/1/selected'.toFieldKey())
+            'single-select/1/options'.toFieldKey(),
+            'single-select/1/selected'.toFieldKey())
+        .setChildName('B-select')
+        .setName('weekday')
+        .linkLabelWidget(label);
+},
+
+/** @private */
+_addDataMultiSelect: function (itemWidget) {
+    $entity.config.appendNode('document>field'.toPath(), {
+        'multi-select/options': {
+            fieldType: 'collection'
+        },
+        'multi-select/selected': {
+            fieldType: 'collection'
+        }
+    });
+
+    // creating a label for the select
+    var label = $basicWidgets.Text.create()
+        .setChildName('A-label')
+        .setContentString("Day")
+        .setContainerCssClass('widget-container')
+        .addToParent(itemWidget);
+
+    'multi-select/1'.toDocument().setNode({
+        options: {
+            0: 'Monday',
+            1: 'Tuesday',
+            2: 'Wednesday',
+            3: 'Thursday',
+            4: 'Friday',
+            5: 'Saturday',
+            6: 'Sunday'
+        }
+    });
+
+    return $basicWidgets.DataMultiSelect.create(
+            'multi-select/1/options'.toFieldKey(),
+            'multi-select/1/selected'.toFieldKey())
         .setChildName('B-select')
         .setName('weekday')
         .linkLabelWidget(label);
@@ -519,6 +557,10 @@ _addDataSingleSelect: function (itemWidget) {
 
                 this._addWidget(
                     this._addDataSingleSelect,
+                    "");
+
+                this._addWidget(
+                    this._addDataMultiSelect,
                     "");
             },
 

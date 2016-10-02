@@ -32,6 +32,7 @@
         "src/widgets/ClickArea.def.js",
         "src/widgets/DataHyperlink.def.js",
         "src/widgets/DataImage.def.js",
+        "src/widgets/DataMultiSelect.def.js",
         "src/widgets/DataOption.def.js",
         "src/widgets/DataSingleSelect.def.js",
         "src/widgets/DataText.def.js",

@@ -17,17 +17,17 @@
         expect(1);
 
         $entity.config.appendNode('document>field'.toPath(), {
-            'select/options': {
+            'single-select/options': {
                 fieldType: 'collection'
             },
-            'select/selected': {
+            'single-select/selected': {
                 fieldType: 'string'
             }
         });
 
         var select = $basicWidgets.DataSingleSelect.create(
-            'select/1/options'.toFieldKey(),
-            'select/1/selected'.toFieldKey())
+            'single-select/1/options'.toFieldKey(),
+            'single-select/1/selected'.toFieldKey())
             .addToParent($basicWidgets.Application.create());
 
         select.addMocks({
@@ -36,7 +36,7 @@
             }
         });
 
-        'select/1/selected'.toField().setValue(1);
+        'single-select/1/selected'.toField().setValue(1);
 
         select.removeFromParent();
     });
