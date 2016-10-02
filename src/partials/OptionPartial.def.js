@@ -25,13 +25,21 @@ $oop.postpone($basicWidgets, 'OptionPartial', function () {
                 }
             },
 
-            /**
-             * @returns {boolean}
-             * @private
-             */
-            _isAddedToSelect: function () {
-                var parent = this.parent;
-                return parent && parent.tagName === 'select';
+            /** @private */
+            _updateSelectedAttribute: function () {
+                var element = this.getElement(),
+                    selected = this.selected;
+
+                if (element) {
+                    // element available, using element property
+                    this._setSelectedProxy(element, selected);
+                } else {
+                    if (selected) {
+                        this.addAttribute('selected', 'true');
+                    } else {
+                        this.removeAttribute('selected');
+                    }
+                }
             },
 
             /**
@@ -65,12 +73,15 @@ $oop.postpone($basicWidgets, 'OptionPartial', function () {
                 this.selected = false;
             },
 
-            /** Call from host's .afterRender() */
+            /** Call from host's afterAdd */
+            afterAdd: function () {
+                this._updateSelectedAttribute();
+            },
+
+            /** Call from host's afterRender */
             afterRender: function () {
-                // syncing selected state to 'selected' attribute
-                if (this._getSelectedProxy(this.getElement())) {
-                    this.select();
-                }
+                // in case selected property changed between adding widget to hierarchy
+                this._updateSelectedAttribute();
             },
 
             /** Call from host's .afterStateOn() */
@@ -111,7 +122,7 @@ $oop.postpone($basicWidgets, 'OptionPartial', function () {
                     this.spawnEvent($basicWidgets.EVENT_OPTION_VALUE_CHANGE)
                         .setPayloadItems({
                             beforeValue: beforeValue,
-                            afterValue : optionValue
+                            afterValue: optionValue
                         })
                         .triggerSync();
                 }
@@ -124,16 +135,9 @@ $oop.postpone($basicWidgets, 'OptionPartial', function () {
              * @returns {$basicWidgets.OptionPartial}
              */
             select: function () {
-                $assertion.assert(this._isAddedToSelect(), "Orphan options are not selectable");
-
-                var element = this.getElement();
-
                 if (!this.selected) {
                     this.selected = true;
-
-                    if (element) {
-                        this._setSelectedProxy(element, true);
-                    }
+                    this._updateSelectedAttribute();
 
                     this.spawnEvent($basicWidgets.EVENT_OPTION_SELECTED_CHANGE)
                         .setPayloadItems({
@@ -151,16 +155,9 @@ $oop.postpone($basicWidgets, 'OptionPartial', function () {
              * @returns {$basicWidgets.OptionPartial}
              */
             deselect: function () {
-                $assertion.assert(this._isAddedToSelect(), "Orphan options are not selectable");
-
-                var element = this.getElement();
-
                 if (this.selected) {
                     this.selected = false;
-
-                    if (element) {
-                        this._setSelectedProxy(element, false);
-                    }
+                    this._updateSelectedAttribute();
 
                     this.spawnEvent($basicWidgets.EVENT_OPTION_SELECTED_CHANGE)
                         .setPayloadItems({

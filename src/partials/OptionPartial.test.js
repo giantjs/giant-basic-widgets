@@ -87,14 +87,10 @@
 
     // TODO: Extend with events
     test("Selecting option", function () {
-        expect(5);
+        expect(4);
 
         var option = OptionPartial.create(),
             select = $basicWidgets.SingleSelect.create();
-
-        throws(function () {
-            option.select();
-        }, "should throw exception when not added to select");
 
         select.addItemWidget(option);
 
@@ -113,12 +109,10 @@
 
     // TODO: Extend with events
     test("Deselecting option", function () {
+        expect(4);
+
         var option = OptionPartial.create(),
             select = $basicWidgets.SingleSelect.create();
-
-        throws(function () {
-            option.deselect();
-        }, "should throw exception when not added to select");
 
         select.addItemWidget(option);
         option.select();

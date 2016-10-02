@@ -57,6 +57,29 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
             },
 
             /** @private */
+            _syncOptionsToSelection: function () {
+                var selectedValuesBefore = this.optionWidgetsByValue
+                        .filterBySelector(function (optionWidget) {
+                            return optionWidget.selected;
+                        })
+                        .mapValues(function (optionWidget, optionValue) {
+                            return optionValue;
+                        })
+                        .toSet(),
+                    selectedValuesAfter = this.selectedValues.toSet(),
+                    selectedValues = selectedValuesAfter.subtract(selectedValuesBefore).toCollection(),
+                    deselectedValues = selectedValuesBefore.subtract(selectedValuesAfter).toCollection();
+
+                selectedValues
+                    .mapValues(this.getOptionWidgetByValue)
+                    .callOnEachItem('select');
+
+                deselectedValues
+                    .mapValues(this.getOptionWidgetByValue)
+                    .callOnEachItem('deselect');
+            },
+
+            /** @private */
             _updateLastSelectedValues: function () {
                 var selectedValuesBefore = this._lastSelectedValues,
                     selectedValuesAfter;
@@ -118,6 +141,8 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
                 $basicWidgets.BinaryStateful.afterAdd.call(this);
                 $basicWidgets.DomInputable.afterAdd.call(this);
 
+                this._syncOptionsToSelection();
+
                 this.subscribeTo($basicWidgets.EVENT_OPTION_VALUE_CHANGE, this.onOptionValueChange)
                     .subscribeTo($basicWidgets.EVENT_OPTION_SELECTED_CHANGE, this.onOptionSelectedChange);
             },
@@ -155,6 +180,15 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
             addItemWidget: function (itemWidget) {
                 base.addItemWidget.call(this, itemWidget);
                 $basicWidgets.SelectPartial.addItemWidget.call(this, itemWidget);
+
+                var optionValue;
+
+                if (itemWidget.selected) {
+                    // TODO: Add test
+                    optionValue = itemWidget.getOptionValue();
+                    this.selectedValues.setItem(optionValue, optionValue);
+                }
+
                 return this;
             },
 

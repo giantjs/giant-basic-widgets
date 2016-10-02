@@ -56,6 +56,11 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
             },
 
             /** @private */
+            _syncOptionsToSelection: function () {
+                this.setValue(this.selectedValue);
+            },
+
+            /** @private */
             _updateLastSelectedValue: function () {
                 var selectedValueBefore = this._lastSelectedValue,
                     selectedValueAfter = this.selectedValue;
@@ -114,6 +119,8 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
                 $basicWidgets.BinaryStateful.afterAdd.call(this);
                 $basicWidgets.DomInputable.afterAdd.call(this);
 
+                this._syncOptionsToSelection();
+
                 this.subscribeTo($basicWidgets.EVENT_OPTION_VALUE_CHANGE, this.onOptionValueChange)
                     .subscribeTo($basicWidgets.EVENT_OPTION_SELECTED_CHANGE, this.onOptionSelectedChange);
             },
@@ -151,6 +158,12 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
             addItemWidget: function (itemWidget) {
                 base.addItemWidget.call(this, itemWidget);
                 $basicWidgets.SelectPartial.addItemWidget.call(this, itemWidget);
+
+                if (itemWidget.selected) {
+                    // TODO: Add test
+                    this.selectedValue = itemWidget.getOptionValue();
+                }
+
                 return this;
             },
 

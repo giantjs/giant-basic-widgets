@@ -62,6 +62,7 @@ $oop.postpone($basicWidgets, 'DataOption', function (ns, cn) {
             afterAdd: function () {
                 base.afterAdd.call(this);
                 $basicWidgets.BinaryStateful.afterAdd.call(this);
+                $basicWidgets.OptionPartial.afterAdd.call(this);
 
                 if (this.valueKey) {
                     this._syncValueToEntity();

@@ -271,7 +271,8 @@ _addSingleSelect: function (itemWidget) {
             .setChildName('day-07')
             .setOptionValue('sun')
             .setContentString("Sunday"))
-        .linkLabelWidget(label);
+        .linkLabelWidget(label)
+        .setValue('tue');
 },
 
 /** @private */
@@ -348,11 +349,13 @@ _addMultiSelect: function (itemWidget) {
         .addItemWidget($basicWidgets.Option.create()
             .setChildName('day-01')
             .setOptionValue('mon')
-            .setContentString("Monday"))
+            .setContentString("Monday")
+            .select())
         .addItemWidget($basicWidgets.Option.create()
             .setChildName('day-02')
             .setOptionValue('tue')
-            .setContentString("Tuesday"))
+            .setContentString("Tuesday")
+            .select())
         .addItemWidget($basicWidgets.Option.create()
             .setChildName('day-03')
             .setOptionValue('wed')
@@ -403,7 +406,8 @@ _addDataSingleSelect: function (itemWidget) {
             4: 'Friday',
             5: 'Saturday',
             6: 'Sunday'
-        }
+        },
+        selected: 2
     });
 
     return $basicWidgets.DataSingleSelect.create(
@@ -441,6 +445,10 @@ _addDataMultiSelect: function (itemWidget) {
             4: 'Friday',
             5: 'Saturday',
             6: 'Sunday'
+        },
+        selected: {
+            0: 0,
+            2: 2
         }
     });
 

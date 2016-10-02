@@ -36,6 +36,7 @@ $oop.postpone($basicWidgets, 'Option', function (ns, cn) {
             afterAdd: function () {
                 base.afterAdd.call(this);
                 $basicWidgets.BinaryStateful.afterAdd.call(this);
+                $basicWidgets.OptionPartial.afterAdd.call(this);
             },
 
             /** @ignore */
