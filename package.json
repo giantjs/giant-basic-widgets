@@ -3,16 +3,15 @@
   "version": "0.3.0",
   "description": "Basic widgets module for Giant",
   "keywords": [
-    "checkbox",
     "databound",
     "input",
-    "radio",
+    "select",
     "text",
     "validation",
     "widgets"
   ],
   "author": "Dan Stocker <dan@kwaia.com>",
-  "copyright": "Copyright (c) 2014-2015 Dan Stocker",
+  "copyright": "Copyright (c) 2014-2016 Dan Stocker",
   "license": "MIT",
   "repository": {
     "type": "git",
