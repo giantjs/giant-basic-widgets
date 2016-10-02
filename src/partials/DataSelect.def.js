@@ -11,6 +11,7 @@ $oop.postpone($basicWidgets, 'DataSelect', function () {
      * @extends $oop.Base
      * @extends $widget.Widget
      * @extends $basicWidgets.EntityList
+     * @ignore
      */
     $basicWidgets.DataSelect = self
         .addMethods(/** @lends $basicWidgets.DataSelect# */{

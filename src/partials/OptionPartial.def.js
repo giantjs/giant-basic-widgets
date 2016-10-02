@@ -13,6 +13,7 @@ $oop.postpone($basicWidgets, 'OptionPartial', function () {
      * @extends $basicWidgets.BinaryStateful
      * @extends $basicWidgets.Disableable
      * @implements $basicWidgets.Selectable
+     * @ignore
      */
     $basicWidgets.OptionPartial = self
         .addPrivateMethods(/** @lends $basicWidgets.OptionPartial# */{

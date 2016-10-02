@@ -11,6 +11,7 @@ $oop.postpone($basicWidgets, 'SelectPartial', function () {
      * @class
      * @extends $oop.Base
      * @extends $basicWidgets.List
+     * @ignore
      */
     $basicWidgets.SelectPartial = self
         .addMethods(/** @lends $basicWidgets.SelectPartial# */{
