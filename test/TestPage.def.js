@@ -633,25 +633,25 @@ _addDataMultiSelect: function (itemWidget) {
             },
 
             /**
-             * @param {$event.Event} event
+             * @param {$basicWidgets.OptionValueChangeEvent} event
              * @ignore
              */
             onOptionValueChange: function (event) {
                 console.info(
                     "option value changed", event.sender.instanceId,
-                    "from", event.payload.beforeValue,
-                    "to", event.payload.afterValue);
+                    "from", event.beforeValue,
+                    "to", event.afterValue);
             },
 
             /**
-             * @param {$event.Event} event
+             * @param {$basicWidgets.OptionSelectedChangeEvent} event
              * @ignore
              */
             onOptionSelectedChange: function (event) {
                 console.info(
                     "option selected state changed", event.sender.instanceId,
-                    "from", event.payload.wasSelected,
-                    "to", event.payload.isSelected);
+                    "from", event.wasSelected,
+                    "to", event.isSelected);
             },
 
             /**

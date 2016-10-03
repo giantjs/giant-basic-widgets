@@ -69,8 +69,8 @@
 
         function onValueChange(event) {
             ok(true, "should trigger value change event");
-            equal(event.payload.beforeValue, undefined, "should set beforeValue payload");
-            equal(event.payload.afterValue, 'foo', "should set afterValue payload");
+            equal(event.beforeValue, undefined, "should set beforeValue");
+            equal(event.afterValue, 'foo', "should set afterValue");
         }
 
         option.subscribeTo($basicWidgets.EVENT_OPTION_VALUE_CHANGE, onValueChange);
@@ -95,8 +95,8 @@
         select.addItemWidget(option);
 
         function onSelectedChange(event) {
-            ok(!event.payload.wasSelected, "should set wasSelected payload");
-            ok(event.payload.isSelected, "should set isSelected payload");
+            ok(!event.wasSelected, "should set wasSelected");
+            ok(event.isSelected, "should set isSelected");
         }
 
         option.subscribeTo($basicWidgets.EVENT_OPTION_SELECTED_CHANGE, onSelectedChange);
@@ -118,8 +118,8 @@
         option.select();
 
         function onSelectedChange(event) {
-            ok(event.payload.wasSelected, "should set wasSelected payload");
-            ok(!event.payload.isSelected, "should set isSelected payload");
+            ok(event.wasSelected, "should set wasSelected");
+            ok(!event.isSelected, "should set isSelected");
         }
 
         option.subscribeTo($basicWidgets.EVENT_OPTION_SELECTED_CHANGE, onSelectedChange);

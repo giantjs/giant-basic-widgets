@@ -229,13 +229,12 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
             },
 
             /**
-             * @param {$event.Event} event
+             * @param {$basicWidgets.OptionValueChangeEvent} event
              * @ignore
              */
             onOptionValueChange: function (event) {
-                var payload = event.payload,
-                    beforeValue = payload.beforeValue,
-                    afterValue = payload.afterValue,
+                var beforeValue = event.beforeValue,
+                    afterValue = event.afterValue,
                     optionWidgetsByValue = this.optionWidgetsByValue,
                     selectedValueBefore = this.selectedValue,
                     affectedOptionWidget = optionWidgetsByValue.getItem(beforeValue),

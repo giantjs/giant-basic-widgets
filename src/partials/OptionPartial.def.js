@@ -119,12 +119,9 @@ $oop.postpone($basicWidgets, 'OptionPartial', function () {
                     this.addAttribute('value', optionValue);
 
                     // triggering event about value change (on parent, non-bubbling)
-                    // TODO: Special option value change event?
                     this.spawnEvent($basicWidgets.EVENT_OPTION_VALUE_CHANGE)
-                        .setPayloadItems({
-                            beforeValue: beforeValue,
-                            afterValue: optionValue
-                        })
+                        .setBeforeValue(beforeValue)
+                        .setAfterValue(optionValue)
                         .triggerSync();
                 }
 
@@ -141,10 +138,8 @@ $oop.postpone($basicWidgets, 'OptionPartial', function () {
                     this._updateSelectedAttribute();
 
                     this.spawnEvent($basicWidgets.EVENT_OPTION_SELECTED_CHANGE)
-                        .setPayloadItems({
-                            wasSelected: false,
-                            isSelected: true
-                        })
+                        .setWasSelected(false)
+                        .setIsSelected(true)
                         .triggerSync();
                 }
 
@@ -161,10 +156,8 @@ $oop.postpone($basicWidgets, 'OptionPartial', function () {
                     this._updateSelectedAttribute();
 
                     this.spawnEvent($basicWidgets.EVENT_OPTION_SELECTED_CHANGE)
-                        .setPayloadItems({
-                            wasSelected: true,
-                            isSelected: false
-                        })
+                        .setWasSelected(true)
+                        .setIsSelected(false)
                         .triggerSync();
                 }
 
