@@ -82,12 +82,12 @@ $oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
             },
 
             /**
-             * @param {$event.Event} event
+             * @param {$basicWidgets.SelectSelectionChangeEvent} event
              * @ignore
              */
             onSelectionChange: function (event) {
                 var selectedKey = this.selectedKey,
-                    afterValues = $data.Collection.create(event.payload.afterValues).clone();
+                    afterValues = event.afterValues.clone();
 
                 if (selectedKey) {
                     selectedKey.toField()

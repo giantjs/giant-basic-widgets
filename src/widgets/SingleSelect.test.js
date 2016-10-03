@@ -83,8 +83,8 @@
 
         function onSelectionChange(event) {
             ok(true, "should trigger event about change");
-            equal(event.payload.beforeValues, undefined, "should send before values to event");
-            equal(event.payload.afterValues, 'baz', "should send after values to event");
+            deepEqual(event.beforeValues.items, [undefined], "should send before values to event");
+            deepEqual(event.afterValues.items, ['baz'], "should send after values to event");
 
             // cleaning up
             select.unsubscribeFrom($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, onSelectionChange);
@@ -117,8 +117,8 @@
 
         function onSelectionChange(event) {
             ok(true, "should trigger event about change");
-            equal(event.payload.beforeValues, undefined, "should send before values to event");
-            equal(event.payload.afterValues, 'bar', "should send after values to event");
+            deepEqual(event.beforeValues.items, [undefined], "should send before values to event");
+            deepEqual(event.afterValues.items, ['bar'], "should send after values to event");
 
             // cleaning up
             select.unsubscribeFrom($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, onSelectionChange);

@@ -655,21 +655,17 @@ _addDataMultiSelect: function (itemWidget) {
             },
 
             /**
-             * @param {$event.Event} event
+             * @param {$basicWidgets.SelectSelectionChangeEvent} event
              * @ignore
              */
             onSelectSelectionChange: function (event) {
-                var beforeValues = event.payload.beforeValues,
-                    afterValues = event.payload.afterValues;
+                var beforeValues = event.beforeValues,
+                    afterValues = event.afterValues;
 
                 console.info(
                     "select selection changed", event.sender.instanceId,
-                    "from", typeof beforeValues === 'object' ?
-                        Object.keys(beforeValues) :
-                        beforeValues,
-                    "to", typeof afterValues === 'object' ?
-                        Object.keys(afterValues) :
-                        afterValues);
+                    "from", beforeValues.getValues(),
+                    "to", afterValues.getValues());
             }
         });
 });

@@ -5,6 +5,7 @@
         "src/namespace.js",
         "src/utils/InputValidityChangeEvent.def.js",
         "src/utils/InputValueChangeEvent.def.js",
+        "src/utils/SelectSelectionChangeEvent.def.js",
         "src/documents/config.def.js",
         "src/documents/FormDocument.def.js",
         "src/documents/InputDocument.def.js",

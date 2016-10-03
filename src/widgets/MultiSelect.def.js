@@ -88,10 +88,8 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
                 this._lastSelectedValues = selectedValuesAfter.clone();
 
                 this.spawnEvent($basicWidgets.EVENT_SELECT_SELECTION_CHANGE)
-                    .setPayloadItems({
-                        beforeValues: selectedValuesBefore.items,
-                        afterValues : selectedValuesAfter.items
-                    })
+                    .setBeforeValues(selectedValuesBefore)
+                    .setAfterValues(selectedValuesAfter)
                     .triggerSync();
             }
         })

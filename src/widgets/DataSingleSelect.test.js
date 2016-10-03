@@ -44,9 +44,7 @@
         });
 
         select.spawnEvent($basicWidgets.EVENT_SELECT_SELECTION_CHANGE)
-            .setPayloadItems({
-                afterValues: 'hello'
-            })
+            .setAfterValues(['hello'].toCollection())
             .triggerSync();
     });
 

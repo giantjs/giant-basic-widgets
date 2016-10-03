@@ -85,12 +85,12 @@ $oop.postpone($basicWidgets, 'DataSingleSelect', function (ns, cn) {
             },
 
             /**
-             * @param {$event.Event} event
+             * @param {$basicWidgets.SelectSelectionChangeEvent} event
              * @ignore
              */
             onSelectionChange: function (event) {
                 var selectedKey = this.selectedKey,
-                    afterValue = event.payload.afterValues;
+                    afterValue = event.afterValues.getFirstValue();
 
                 if (selectedKey) {
                     selectedKey.toField()

@@ -51,8 +51,8 @@
 
         function onSelectionChange(event) {
             ok(true, "should trigger event about change");
-            deepEqual(event.payload.beforeValues, {}, "should send before values to event");
-            deepEqual(event.payload.afterValues, {
+            deepEqual(event.beforeValues.items, {}, "should send before values to event");
+            deepEqual(event.afterValues.items, {
                 foo: 'foo',
                 baz: 'baz'
             }, "should send before values to event");
@@ -90,8 +90,8 @@
 
         function onSelectionChange(event) {
             ok(true, "should trigger event about change");
-            deepEqual(event.payload.beforeValues, {}, "should send before values to event");
-            deepEqual(event.payload.afterValues, {
+            deepEqual(event.beforeValues.items, {}, "should send before values to event");
+            deepEqual(event.afterValues.items, {
                 foo: 'foo',
                 bar: 'bar'
             }, "should send before values to event");

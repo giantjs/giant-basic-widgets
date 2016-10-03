@@ -84,13 +84,9 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
                 if (selectedValueAfter !== selectedValueBefore) {
                     this._lastSelectedValue = selectedValueAfter;
 
-                    // notifying subscribers
-                    // TODO: Use specific event class
                     this.spawnEvent($basicWidgets.EVENT_SELECT_SELECTION_CHANGE)
-                        .setPayloadItems({
-                            beforeValues: selectedValueBefore,
-                            afterValues: selectedValueAfter
-                        })
+                        .setBeforeValues([selectedValueBefore].toCollection())
+                        .setAfterValues([selectedValueAfter].toCollection())
                         .triggerSync();
                 }
             }
@@ -191,7 +187,6 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
             setValue: function (value) {
                 var selectedValue = this.selectedValue;
                 if (value !== selectedValue) {
-                    console.log(this.instanceId, "setting value", value);
                     this.selectedValue = value;
                     this._updateLastSelectedValueDebouncer.schedule(0);
                     this._syncOptionsToSelection();

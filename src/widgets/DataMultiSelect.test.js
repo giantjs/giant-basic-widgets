@@ -38,7 +38,6 @@
         $entity.Field.addMocks({
             setValue: function (value) {
                 if (this.entityKey.equals('multi-select/1/selected'.toFieldKey())) {
-                    // TODO: Check that value is copy.
                     deepEqual(value, items, "should set items in selected collection field");
                     notStrictEqual(value, items, "should set cloned collection items");
                 }
@@ -50,9 +49,7 @@
         });
 
         select.spawnEvent($basicWidgets.EVENT_SELECT_SELECTION_CHANGE)
-            .setPayloadItems({
-                afterValues: items
-            })
+            .setAfterValues($data.Collection.create(items))
             .triggerSync();
     });
 
