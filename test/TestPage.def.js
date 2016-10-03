@@ -82,13 +82,13 @@ _addClickArea: function () {
 /** @private */
 _addImage: function () {
     return $basicWidgets.Image.create()
-        .setImageUrl('https://placekitten.com/g/512/256');
+        .setImageUrl('http://placekitten.com/g/512/256');
 },
 
 /** @private */
 _addDataImage: function () {
     // setting entity values
-    'photo/1/url'.toField().setValue('https://placekitten.com/g/512/384');
+    'photo/1/url'.toField().setValue('http://placekitten.com/g/512/384');
 
     return $basicWidgets.DataImage.create('photo/1/url'.toFieldKey());
 },
@@ -515,7 +515,7 @@ _addDataMultiSelect: function (itemWidget) {
 
                 this._addWidget(
                     this._addHyperlink,
-                    "widgetId.toWidget().setTargetUrl('https://http.cat/200')");
+                    "widgetId.toWidget().setTargetUrl('http://http.cat/200')");
 
                 this._addWidget(
                     this._addDataHyperlink,
@@ -527,11 +527,11 @@ _addDataMultiSelect: function (itemWidget) {
 
                 this._addWidget(
                     this._addImage,
-                    "widgetId.toWidget().setImageUrl('https://placekitten.com/g/512/320')");
+                    "widgetId.toWidget().setImageUrl('http://placekitten.com/g/512/320')");
 
                 this._addWidget(
                     this._addDataImage,
-                    "entityKey.toField().setValue('https://placekitten.com/g/512/320')");
+                    "entityKey.toField().setValue('http://placekitten.com/g/512/320')");
 
                 this._addWidget(
                     this._addList,
