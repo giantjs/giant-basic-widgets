@@ -411,10 +411,64 @@ _addDataSingleSelect: function (itemWidget) {
     });
 
     return $basicWidgets.DataSingleSelect.create(
-            'single-select/1/options'.toFieldKey(),
-            'single-select/1/selected'.toFieldKey())
+            'single-select/1/selected'.toFieldKey(),
+            'single-select/1/options'.toFieldKey())
         .setChildName('B-select')
         .setName('weekday')
+        .linkLabelWidget(label);
+},
+
+/** @private */
+_addHybridSingleSelect: function (itemWidget) {
+    $entity.config.appendNode('document>field'.toPath(), {
+        'single-select/selected': {
+            fieldType: 'string'
+        }
+    });
+
+    // creating a label for the select
+    var label = $basicWidgets.Text.create()
+        .setChildName('A-label')
+        .setContentString("Day")
+        .setContainerCssClass('widget-container')
+        .addToParent(itemWidget);
+
+    'single-select/2'.toDocument().setNode({
+        selected: 'thu'
+    });
+
+    return $basicWidgets.DataSingleSelect.create(
+            'single-select/2/selected'.toFieldKey())
+        .setChildName('B-select')
+        .setName('weekday')
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-01')
+            .setOptionValue('mon')
+            .setContentString("Monday"))
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-02')
+            .setOptionValue('tue')
+            .setContentString("Tuesday"))
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-03')
+            .setOptionValue('wed')
+            .setContentString("Wednesday"))
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-04')
+            .setOptionValue('thu')
+            .setContentString("Thursday"))
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-05')
+            .setOptionValue('fri')
+            .setContentString("Friday"))
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-06')
+            .setOptionValue('sat')
+            .setContentString("Saturday"))
+        .addItemWidget($basicWidgets.Option.create()
+            .setChildName('day-07')
+            .setOptionValue('sun')
+            .setContentString("Sunday"))
         .linkLabelWidget(label);
 },
 
@@ -566,6 +620,11 @@ _addDataMultiSelect: function (itemWidget) {
                 this._addWidget(
                     this._addDataSingleSelect,
                     "");
+
+                this._addWidget(
+                    this._addHybridSingleSelect,
+                    "",
+                    "Hybrid");
 
                 this._addWidget(
                     this._addDataMultiSelect,

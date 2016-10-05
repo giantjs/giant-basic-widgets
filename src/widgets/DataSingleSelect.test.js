@@ -27,8 +27,8 @@
 
         var done = assert.async(),
             select = $basicWidgets.DataSingleSelect.create(
-                'single-select/1/options'.toFieldKey(),
-                'single-select/1/selected'.toFieldKey())
+                'single-select/1/selected'.toFieldKey(),
+                'single-select/1/options'.toFieldKey())
                 .addToParent($basicWidgets.Application.create());
 
         $entity.Field.addMocks({
@@ -61,8 +61,8 @@
         });
 
         var select = $basicWidgets.DataSingleSelect.create(
-            'single-select/1/options'.toFieldKey(),
-            'single-select/1/selected'.toFieldKey())
+            'single-select/1/selected'.toFieldKey(),
+            'single-select/1/options'.toFieldKey())
             .addToParent($basicWidgets.Application.create());
 
         select.addMocks({
