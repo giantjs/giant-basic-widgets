@@ -151,13 +151,13 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
                 this._addEventListenerProxy(element, 'change', this.onChange);
             },
 
-            /** Call from host's .afterStateOn */
+            /** @ignore */
             afterStateOn: function (stateName) {
                 $basicWidgets.Disableable.afterStateOn.call(this, stateName);
                 $basicWidgets.DomInputable.afterStateOn.call(this, stateName);
             },
 
-            /** Call from host's .afterStateOff */
+            /** @ignore */
             afterStateOff: function (stateName) {
                 $basicWidgets.Disableable.afterStateOff.call(this, stateName);
                 $basicWidgets.DomInputable.afterStateOff.call(this, stateName);

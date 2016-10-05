@@ -27,7 +27,7 @@ $oop.postpone($basicWidgets, 'OptionPartial', function () {
             },
 
             /** @private */
-            _updateSelectedAttribute: function () {
+            _syncAttributeToSelected: function () {
                 var element = this.getElement(),
                     selected = this.selected;
 
@@ -39,6 +39,21 @@ $oop.postpone($basicWidgets, 'OptionPartial', function () {
                         this.addAttribute('selected', 'true');
                     } else {
                         this.removeAttribute('selected');
+                    }
+                }
+            },
+
+            /** @private */
+            _syncSelectedToElement: function () {
+                var element = this.getElement(),
+                    selectedBefore = this.selected,
+                    selectedAfter = element && element.selected;
+
+                if (element) {
+                    if (selectedAfter && !selectedBefore) {
+                        this.select();
+                    } else if (!selectedAfter && selectedBefore) {
+                        this.deselect();
                     }
                 }
             },
@@ -76,13 +91,14 @@ $oop.postpone($basicWidgets, 'OptionPartial', function () {
 
             /** Call from host's afterAdd */
             afterAdd: function () {
-                this._updateSelectedAttribute();
+                this._syncAttributeToSelected();
             },
 
             /** Call from host's afterRender */
             afterRender: function () {
-                // in case selected property changed between adding widget to hierarchy
-                this._updateSelectedAttribute();
+                // updating state in case element got selected by browser on rendering
+                // (most likely as default)
+                this._syncSelectedToElement();
             },
 
             /** Call from host's .afterStateOn() */
@@ -135,7 +151,7 @@ $oop.postpone($basicWidgets, 'OptionPartial', function () {
             select: function () {
                 if (!this.selected) {
                     this.selected = true;
-                    this._updateSelectedAttribute();
+                    this._syncAttributeToSelected();
 
                     this.spawnEvent($basicWidgets.EVENT_OPTION_SELECTED_CHANGE)
                         .setWasSelected(false)
@@ -153,7 +169,7 @@ $oop.postpone($basicWidgets, 'OptionPartial', function () {
             deselect: function () {
                 if (this.selected) {
                     this.selected = false;
-                    this._updateSelectedAttribute();
+                    this._syncAttributeToSelected();
 
                     this.spawnEvent($basicWidgets.EVENT_OPTION_SELECTED_CHANGE)
                         .setWasSelected(true)
