@@ -427,6 +427,45 @@ _addDataMultiSelect: function (itemWidget) {
         .setName('weekday')
         .linkLabelWidget(label);
 },
+
+/** @private */
+_addHybridMultiSelect: function (itemWidget) {
+    $entity.config.appendNode('document>field'.toPath(), {
+        'multi-select/options': {
+            fieldType: 'collection'
+        },
+        'multi-select/selected': {
+            fieldType: 'collection'
+        }
+    });
+
+    // creating a label for the select
+    var label = $basicWidgets.Text.create()
+        .setChildName('A-label')
+        .setContentString("Day")
+        .setContainerCssClass('widget-container')
+        .addToParent(itemWidget);
+
+    'multi-select/2'.toDocument().setNode({
+        selected: {
+            'sat': 'sat',
+            'sun': 'sun'
+        }
+    });
+
+    return $basicWidgets.DataMultiSelect.create(
+            'multi-select/2/selected'.toFieldKey())
+        .setChildName('B-select')
+        .setName('weekday')
+        .addOption('day-01', 'mon', "Monday")
+        .addOption('day-02', 'tue', "Tuesday")
+        .addOption('day-03', 'wed', "Wednesday")
+        .addOption('day-04', 'thu', "Thursday")
+        .addOption('day-05', 'fri', "Friday")
+        .addOption('day-06', 'sat', "Saturday")
+        .addOption('day-07', 'sun', "Sunday")
+        .linkLabelWidget(label);
+},
             //@formatter:on
 
             /**
@@ -543,6 +582,11 @@ _addDataMultiSelect: function (itemWidget) {
                 this._addWidget(
                     this._addDataMultiSelect,
                     "");
+
+                this._addWidget(
+                    this._addHybridMultiSelect,
+                    "",
+                    "Hybrid");
             },
 
             /** @ignore */
