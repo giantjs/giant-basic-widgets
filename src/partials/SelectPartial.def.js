@@ -46,6 +46,52 @@ $oop.postpone($basicWidgets, 'SelectPartial', function () {
             },
 
             /**
+             * Shorthand for adding an option to the select.
+             * @param {string} childName
+             * @param {string} optionValue
+             * @param {string|$utils.Stringifiable} optionText
+             * @param {boolean} [selected]
+             * @returns {$basicWidgets.SelectPartial}
+             */
+            addOption: function (childName, optionValue, optionText, selected) {
+                var optionWidget = $basicWidgets.Option.create()
+                    .setChildName(childName)
+                    .setOptionValue(optionValue)
+                    .setContentString(optionText);
+
+                if (selected) {
+                    optionWidget.select();
+                }
+
+                this.addItemWidget(optionWidget);
+
+                return this;
+            },
+
+            /**
+             * Shorthand for adding a locale-bound option to the select.
+             * @param {string} childName
+             * @param {string} optionValue
+             * @param {string|$utils.Stringifiable} optionText
+             * @param {boolean} [selected]
+             * @returns {$basicWidgets.SelectPartial}
+             */
+            addLocaleOption: function (childName, optionValue, optionText, selected) {
+                var optionWidget = $basicWidgets.LocaleOption.create()
+                    .setChildName(childName)
+                    .setOptionValue(optionValue)
+                    .setOriginalContentString(optionText);
+
+                if (selected) {
+                    optionWidget.select();
+                }
+
+                this.addItemWidget(optionWidget);
+
+                return this;
+            },
+
+            /**
              * Retrieves the Option instance associated with the specified value.
              * @param {string} optionValue
              * @returns {$basicWidgets.OptionPartial}
