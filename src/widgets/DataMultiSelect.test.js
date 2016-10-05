@@ -30,8 +30,8 @@
 
         var done = assert.async(),
             select = $basicWidgets.DataMultiSelect.create(
-                'multi-select/1/options'.toFieldKey(),
-                'multi-select/1/selected'.toFieldKey())
+                'multi-select/1/selected'.toFieldKey(),
+                'multi-select/1/options'.toFieldKey())
                 .addToParent($basicWidgets.Application.create()),
             items = {};
 
@@ -70,13 +70,13 @@
 
         throws(function () {
             $basicWidgets.DataMultiSelect.create(
-                'multi-select/1/options'.toFieldKey(),
-                'multi-select/1/single-selected'.toFieldKey());
+                'multi-select/1/single-selected'.toFieldKey(),
+                'multi-select/1/options'.toFieldKey());
         }, "should throw exception on invalid argument");
 
         var select = $basicWidgets.DataMultiSelect.create(
-            'multi-select/1/options'.toFieldKey(),
-            'multi-select/1/selected'.toFieldKey())
+            'multi-select/1/selected'.toFieldKey(),
+            'multi-select/1/options'.toFieldKey())
             .addToParent($basicWidgets.Application.create());
 
         select.addMocks({

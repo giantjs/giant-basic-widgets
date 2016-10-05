@@ -421,8 +421,8 @@ _addDataMultiSelect: function (itemWidget) {
     });
 
     return $basicWidgets.DataMultiSelect.create(
-            'multi-select/1/options'.toFieldKey(),
-            'multi-select/1/selected'.toFieldKey())
+            'multi-select/1/selected'.toFieldKey(),
+            'multi-select/1/options'.toFieldKey())
         .setChildName('B-select')
         .setName('weekday')
         .linkLabelWidget(label);
