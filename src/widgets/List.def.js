@@ -47,7 +47,7 @@ $oop.postpone($basicWidgets, 'List', function (ns, cn) {
 
             /**
              * Adds item to list.
-             * @param itemWidget
+             * @param {$widget.Widget} itemWidget
              * @returns {$basicWidgets.List}
              */
             addItemWidget: function (itemWidget) {
@@ -55,6 +55,21 @@ $oop.postpone($basicWidgets, 'List', function (ns, cn) {
                     "Invalid item tag name");
 
                 itemWidget.addToParent(this);
+
+                return this;
+            },
+
+            /**
+             * Removes specified item from list.
+             * @param {$widget.Widget} itemWidget
+             * @returns {$basicWidgets.List}
+             */
+            removeItemWidget: function (itemWidget) {
+                $assertion.assert(
+                    this.getChild(itemWidget.childName) === itemWidget,
+                    "Item widget is not in list");
+
+                itemWidget.removeFromParent();
 
                 return this;
             }

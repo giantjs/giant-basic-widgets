@@ -55,7 +55,7 @@ $oop.postpone($basicWidgets, 'EntityList', function () {
 
                 // removing old widgets
                 widgetsToRemove
-                    .removeFromParent();
+                    .passEachItemTo(this.removeItemWidget, this);
 
                 // adding new widgets
                 widgetsToAdd

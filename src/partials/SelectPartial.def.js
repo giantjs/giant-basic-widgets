@@ -46,6 +46,18 @@ $oop.postpone($basicWidgets, 'SelectPartial', function () {
             },
 
             /**
+             * Removes option widget from select.
+             * @param {$basicWidgets.OptionPartial} itemWidget
+             * @returns {$basicWidgets.SelectPartial}
+             */
+            removeItemWidget: function (itemWidget) {
+                // removing option from lookup
+                this.optionWidgetsByValue.deleteItem(itemWidget.getOptionValue());
+
+                return this;
+            },
+
+            /**
              * Shorthand for adding an option to the select.
              * @param {string} childName
              * @param {string} optionValue

@@ -44,6 +44,15 @@
         }, "should throw exception on adding duplicate");
     });
 
+    test("Item widget removal", function () {
+        var option = $basicWidgets.Option.create()
+            .setOptionValue('foo'),
+            select = SelectPartial.create();
+
+        strictEqual(select.removeItemWidget(option), select, "should be chainable");
+        deepEqual(select.optionWidgetsByValue.items, {}, "should remove item widget from lookup");
+    });
+
     test("Option widget getter", function () {
         var option1 = $basicWidgets.Option.create()
             .setOptionValue('foo'),

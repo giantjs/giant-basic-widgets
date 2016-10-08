@@ -194,6 +194,26 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
             },
 
             /**
+             * @param {$basicWidgets.OptionPartial} itemWidget
+             * @returns {$basicWidgets.MultiSelect}
+             */
+            removeItemWidget: function (itemWidget) {
+                base.removeItemWidget.call(this, itemWidget);
+                $basicWidgets.SelectPartial.removeItemWidget.call(this, itemWidget);
+
+                var optionValue;
+
+                if (itemWidget.selected) {
+                    // TODO: Add test
+                    optionValue = itemWidget.getOptionValue();
+                    this.selectedValues.deleteItem(optionValue);
+                    this._updateLastSelectedValuesDebouncer.schedule(0);
+                }
+
+                return this;
+            },
+
+            /**
              * @param {Event} event
              * @ignore
              */

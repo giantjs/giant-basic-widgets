@@ -181,6 +181,23 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
             },
 
             /**
+             * @param {$basicWidgets.OptionPartial} itemWidget
+             * @returns {$basicWidgets.SingleSelect}
+             */
+            removeItemWidget: function (itemWidget) {
+                base.removeItemWidget.call(this, itemWidget);
+                $basicWidgets.SelectPartial.removeItemWidget.call(this, itemWidget);
+
+                if (itemWidget.selected) {
+                    // TODO: Add test
+                    this.selectedValue = undefined;
+                    this._updateLastSelectedValueDebouncer.schedule(0);
+                }
+
+                return this;
+            },
+
+            /**
              * @param {string} value
              * @returns {$basicWidgets.SingleSelect}
              */

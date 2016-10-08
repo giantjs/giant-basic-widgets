@@ -27,4 +27,18 @@
             .setTagName('div')
             .addItemWidget($widget.Widget.create());
     });
+
+    test("Item removal", function () {
+        var item = $widget.Widget.create().setTagName('li'),
+            widget = $widget.Widget.create(),
+            list = $basicWidgets.List.create()
+                .addItemWidget(item);
+
+        throws(function () {
+            list.removeItemWidget(widget);
+        }, "should throw exception on non-item widget");
+
+        strictEqual(list.removeItemWidget(item), list, "should be chainable");
+        strictEqual(list.getChild(item.childName), undefined, "should remove item from list");
+    });
 }());
