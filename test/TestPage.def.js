@@ -431,9 +431,6 @@ _addDataMultiSelect: function (itemWidget) {
 /** @private */
 _addHybridMultiSelect: function (itemWidget) {
     $entity.config.appendNode('document>field'.toPath(), {
-        'multi-select/options': {
-            fieldType: 'collection'
-        },
         'multi-select/selected': {
             fieldType: 'collection'
         }
