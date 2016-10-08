@@ -32,6 +32,7 @@
         "src/partials/OptionPartial.def.js",
         "src/partials/SelectPartial.def.js",
         "src/widgets/Application.def.js",
+        "src/widgets/Button.def.js",
         "src/widgets/ClickArea.def.js",
         "src/widgets/DataHyperlink.def.js",
         "src/widgets/DataImage.def.js",

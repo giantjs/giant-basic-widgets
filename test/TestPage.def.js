@@ -80,6 +80,13 @@ _addClickArea: function () {
 },
 
 /** @private */
+_addButton: function () {
+    return $basicWidgets.Button.create()
+        .addChild($basicWidgets.Text.create()
+            .setContentString("Button"));
+},
+
+/** @private */
 _addImage: function () {
     return $basicWidgets.Image.create()
         .setImageUrl('http://placekitten.com/g/512/256');
@@ -527,6 +534,10 @@ _addHybridMultiSelect: function (itemWidget) {
 
                 this._addWidget(
                     this._addClickArea,
+                    "widgetId.toWidget().disableBy('foo')");
+
+                this._addWidget(
+                    this._addButton,
                     "widgetId.toWidget().disableBy('foo')");
 
                 this._addWidget(
