@@ -90,6 +90,15 @@ $oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
             },
 
             /**
+             * @param {$entity.EntityChangeEvent} event
+             * @ignore
+             */
+            onItemsChange: function (event) {
+                $basicWidgets.EntityList.onItemsChange.call(this, event);
+                this._syncSelectedToEntity();
+            },
+
+            /**
              * @param {$basicWidgets.SelectSelectionChangeEvent} event
              * @ignore
              */
