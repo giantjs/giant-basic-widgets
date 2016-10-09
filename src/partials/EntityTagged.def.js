@@ -1,22 +1,22 @@
-$oop.postpone($basicWidgets, 'EntityWidget', function () {
+$oop.postpone($basicWidgets, 'EntityTagged', function () {
     "use strict";
 
     var base = $entity.EntityBound,
         self = base.extend();
 
     /**
-     * Provides means to link a widget to an entity.
+     * Tags widget with an entity key. Allows the key to be revealed on the widget's DOM.
      * Expects to be added to widget classes.
      * @class
      * @extends $entity.EntityBound
      * @extends $widget.Widget
      */
-    $basicWidgets.EntityWidget = self
-        .addConstants(/** @lends $basicWidgets.EntityWidget */{
+    $basicWidgets.EntityTagged = self
+        .addConstants(/** @lends $basicWidgets.EntityTagged */{
             /** @constant */
             ATTRIBUTE_NAME_ENTITY_KEY: 'data-entity-key'
         })
-        .addMethods(/** @lends $basicWidgets.EntityWidget# */{
+        .addMethods(/** @lends $basicWidgets.EntityTagged# */{
             /**
              * @param {$entity.EntityKey} entityKey
              */
@@ -33,7 +33,7 @@ $oop.postpone($basicWidgets, 'EntityWidget', function () {
             /**
              * Reveals the entity key associated with the widget
              * on the widget's DOM as an attribute.
-             * @returns {$basicWidgets.EntityWidget}
+             * @returns {$basicWidgets.EntityTagged}
              */
             revealKey: function () {
                 this.addAttribute(self.ATTRIBUTE_NAME_ENTITY_KEY, this.entityKey.toString());
@@ -42,7 +42,7 @@ $oop.postpone($basicWidgets, 'EntityWidget', function () {
 
             /**
              * Hides the entity key associated with the widget from the DOM.
-             * @returns {$basicWidgets.EntityWidget}
+             * @returns {$basicWidgets.EntityTagged}
              */
             hideKey: function () {
                 this.removeAttribute(self.ATTRIBUTE_NAME_ENTITY_KEY);
@@ -55,7 +55,7 @@ $oop.postpone($basicWidgets, 'revealKeys', function () {
     "use strict";
 
     /**
-     * Reveals entity keys on all widgets that have the EntityWidget trait.
+     * Reveals entity keys on all widgets that have the EntityTagged trait.
      * Entity key strings will be added to widget elements as 'data-entity-key' attribute.
      * @type {function}
      */
@@ -69,7 +69,7 @@ $oop.postpone($basicWidgets, 'hideKeys', function () {
     "use strict";
 
     /**
-     * Removes 'data-entity-key' attribute from the DOM of all widgets that have the EntityWidget trait.
+     * Removes 'data-entity-key' attribute from the DOM of all widgets that have the EntityTagged trait.
      * @type {function}
      */
     $basicWidgets.hideKeys = function () {

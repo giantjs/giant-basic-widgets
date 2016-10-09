@@ -1,7 +1,7 @@
 (function () {
     "use strict";
 
-    module("EntityList", {
+    module("EntityListPartial", {
         setup: function () {
             $entity.config.appendNode('document>field'.toPath(), {
                 'form/inputs': {fieldType: 'ordered-collection'}
@@ -11,22 +11,22 @@
 
     var DataTextList = $basicWidgets.List.extend('DataTextList')
         .addTraitAndExtend($entity.EntityBound)
-        .addTraitAndExtend($basicWidgets.EntityList)
+        .addTraitAndExtend($basicWidgets.EntityListPartial)
         .addMethods({
             init: function (fieldKey) {
                 $basicWidgets.List.init.call(this);
                 $entity.EntityBound.init.call(this);
-                $basicWidgets.EntityList.init.call(this, fieldKey);
+                $basicWidgets.EntityListPartial.init.call(this, fieldKey);
             },
 
             afterAdd: function () {
                 $basicWidgets.List.afterAdd.call(this);
-                $basicWidgets.EntityList.afterAdd.call(this);
+                $basicWidgets.EntityListPartial.afterAdd.call(this);
             },
 
             afterRemove: function () {
                 $basicWidgets.List.afterRemove.call(this);
-                $basicWidgets.EntityList.afterRemove.call(this);
+                $basicWidgets.EntityListPartial.afterRemove.call(this);
             },
 
             spawnItemWidget: function (itemKey) {

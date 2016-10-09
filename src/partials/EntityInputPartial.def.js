@@ -1,4 +1,4 @@
-$oop.postpone($basicWidgets, 'EntityInput', function () {
+$oop.postpone($basicWidgets, 'EntityInputPartial', function () {
     "use strict";
 
     var base = $oop.Base,
@@ -13,8 +13,8 @@ $oop.postpone($basicWidgets, 'EntityInput', function () {
      * @extends $entity.EntityBound
      * @extends $basicWidgets.DomInputable
      */
-    $basicWidgets.EntityInput = self
-        .addPrivateMethods(/** @lends $basicWidgets.EntityInput# */{
+    $basicWidgets.EntityInputPartial = self
+        .addPrivateMethods(/** @lends $basicWidgets.EntityInputPartial# */{
             /** @private */
             _syncInputNameToEntity: function () {
                 var nameKey = this.nameKey,
@@ -35,7 +35,7 @@ $oop.postpone($basicWidgets, 'EntityInput', function () {
                 this.setValue(value);
             }
         })
-        .addMethods(/** @lends $basicWidgets.EntityInput# */{
+        .addMethods(/** @lends $basicWidgets.EntityInputPartial# */{
             /**
              * Call from host's init
              * @param {$entity.FieldKey|$entity.ItemKey} valueKey Identifies the input's value

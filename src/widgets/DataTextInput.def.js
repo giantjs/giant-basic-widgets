@@ -3,8 +3,8 @@ $oop.postpone($basicWidgets, 'DataTextInput', function (ns, cn) {
 
     var base = $basicWidgets.TextInput,
         self = base.extend(cn)
-            .addTrait($basicWidgets.EntityWidget)
-            .addTraitAndExtend($basicWidgets.EntityInput);
+            .addTrait($basicWidgets.EntityTagged)
+            .addTraitAndExtend($basicWidgets.EntityInputPartial);
 
     /**
      * @name $basicWidgets.DataTextInput.create
@@ -20,8 +20,8 @@ $oop.postpone($basicWidgets, 'DataTextInput', function (ns, cn) {
      * TODO: Make valueKey optional, too?
      * @class
      * @extends $basicWidgets.TextInput
-     * @extends $basicWidgets.EntityWidget
-     * @extends $basicWidgets.EntityInput
+     * @extends $basicWidgets.EntityTagged
+     * @extends $basicWidgets.EntityInputPartial
      */
     $basicWidgets.DataTextInput = self
         .addPrivateMethods(/** @lends $basicWidgets.DataTextInput# */{
@@ -43,20 +43,20 @@ $oop.postpone($basicWidgets, 'DataTextInput', function (ns, cn) {
                     .isFieldKeyOptional(nameKey, "Invalid input name key");
 
                 base.init.call(this, inputType);
-                $basicWidgets.EntityWidget.init.call(this, valueKey);
-                $basicWidgets.EntityInput.init.call(this, valueKey, nameKey);
+                $basicWidgets.EntityTagged.init.call(this, valueKey);
+                $basicWidgets.EntityInputPartial.init.call(this, valueKey, nameKey);
             },
 
             /** @ignore */
             afterAdd: function () {
                 base.afterAdd.call(this);
-                $basicWidgets.EntityInput.afterAdd.call(this);
+                $basicWidgets.EntityInputPartial.afterAdd.call(this);
             },
 
             /** @ignore */
             afterRemove: function () {
                 base.afterRemove.call(this);
-                $basicWidgets.EntityInput.afterRemove.call(this);
+                $basicWidgets.EntityInputPartial.afterRemove.call(this);
             },
 
             /**

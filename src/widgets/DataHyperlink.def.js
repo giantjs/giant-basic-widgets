@@ -3,7 +3,7 @@ $oop.postpone($basicWidgets, 'DataHyperlink', function (ns, cn) {
 
     var base = $basicWidgets.Hyperlink,
         self = base.extend(cn)
-            .addTrait($basicWidgets.EntityWidget);
+            .addTrait($basicWidgets.EntityTagged);
 
     /**
      * Creates a DataHyperlink instance.
@@ -19,7 +19,7 @@ $oop.postpone($basicWidgets, 'DataHyperlink', function (ns, cn) {
      * This is a general implementation with independent fields for URL and text.
      * @class
      * @extends $basicWidgets.Hyperlink
-     * @extends $basicWidgets.EntityWidget
+     * @extends $basicWidgets.EntityTagged
      */
     $basicWidgets.DataHyperlink = self
         .addPrivateMethods(/** @lends $basicWidgets.DataHyperlink# */{
@@ -38,7 +38,7 @@ $oop.postpone($basicWidgets, 'DataHyperlink', function (ns, cn) {
                 $assertion.isFieldKey(urlKey, "Invalid field key");
 
                 base.init.call(this);
-                $basicWidgets.EntityWidget.init.call(this, urlKey);
+                $basicWidgets.EntityTagged.init.call(this, urlKey);
             },
 
             /** @ignore */

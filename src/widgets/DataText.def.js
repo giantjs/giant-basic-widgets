@@ -3,7 +3,7 @@ $oop.postpone($basicWidgets, 'DataText', function (ns, cn) {
 
     var base = $basicWidgets.Text,
         self = base.extend(cn)
-            .addTrait($basicWidgets.EntityWidget);
+            .addTrait($basicWidgets.EntityTagged);
 
     /**
      * Creates a DataText instance.
@@ -18,7 +18,7 @@ $oop.postpone($basicWidgets, 'DataText', function (ns, cn) {
      * Keeps the text in sync with the changes of the corresponding field.
      * @class
      * @extends $basicWidgets.Text
-     * @extends $basicWidgets.EntityWidget
+     * @extends $basicWidgets.EntityTagged
      */
     $basicWidgets.DataText = self
         .addPrivateMethods(/** @lends $basicWidgets.DataText# */{
@@ -36,7 +36,7 @@ $oop.postpone($basicWidgets, 'DataText', function (ns, cn) {
                 $assertion.isFieldKey(fieldKey, "Invalid field key");
 
                 base.init.call(this);
-                $basicWidgets.EntityWidget.init.call(this, fieldKey);
+                $basicWidgets.EntityTagged.init.call(this, fieldKey);
             },
 
             /** @ignore */

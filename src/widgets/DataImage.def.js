@@ -3,7 +3,7 @@ $oop.postpone($basicWidgets, 'DataImage', function (ns, className) {
 
     var base = $basicWidgets.Image,
         self = base.extend(className)
-            .addTrait($basicWidgets.EntityWidget);
+            .addTrait($basicWidgets.EntityTagged);
 
     /**
      * Creates a DataImage instance.
@@ -18,7 +18,7 @@ $oop.postpone($basicWidgets, 'DataImage', function (ns, className) {
      * Keeps the image in sync with the changes of the corresponding field.
      * @class
      * @extends $basicWidgets.Image
-     * @extends $basicWidgets.EntityWidget
+     * @extends $basicWidgets.EntityTagged
      */
     $basicWidgets.DataImage = self
         .addPrivateMethods(/** @lends $basicWidgets.DataImage# */{
@@ -37,7 +37,7 @@ $oop.postpone($basicWidgets, 'DataImage', function (ns, className) {
                 $assertion.isFieldKey(urlKey, "Invalid field key");
 
                 base.init.call(this);
-                $basicWidgets.EntityWidget.init.call(this, urlKey);
+                $basicWidgets.EntityTagged.init.call(this, urlKey);
             },
 
             /** @ignore */

@@ -1,4 +1,4 @@
-$oop.postpone($basicWidgets, 'DataSelect', function () {
+$oop.postpone($basicWidgets, 'EntitySelectPartial', function () {
     "use strict";
 
     var base = $oop.Base,
@@ -6,15 +6,15 @@ $oop.postpone($basicWidgets, 'DataSelect', function () {
 
     /**
      * Maintains selected field key, and provides default item widget & name spawners.
-     * Expects to be added to widgets having the EntityList partial.
+     * Expects to be added to widgets having the EntityListPartial partial.
      * @class
      * @extends $oop.Base
      * @extends $widget.Widget
-     * @extends $basicWidgets.EntityList
+     * @extends $basicWidgets.EntityListPartial
      * @ignore
      */
-    $basicWidgets.DataSelect = self
-        .addMethods(/** @lends $basicWidgets.DataSelect# */{
+    $basicWidgets.EntitySelectPartial = self
+        .addMethods(/** @lends $basicWidgets.EntitySelectPartial# */{
             /**
              * @param {$entity.ItemKey} itemKey
              * @returns {$basicWidgets.OptionPartial}

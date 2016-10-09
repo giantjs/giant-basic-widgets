@@ -1,4 +1,4 @@
-$oop.postpone($basicWidgets, 'EntityList', function () {
+$oop.postpone($basicWidgets, 'EntityListPartial', function () {
     "use strict";
 
     var base = $oop.Base,
@@ -16,8 +16,8 @@ $oop.postpone($basicWidgets, 'EntityList', function () {
      * @extends $entity.EntityBound
      * @extends $basicWidgets.List
      */
-    $basicWidgets.EntityList = self
-        .addPrivateMethods(/** @lends $basicWidgets.EntityList# */{
+    $basicWidgets.EntityListPartial = self
+        .addPrivateMethods(/** @lends $basicWidgets.EntityListPartial# */{
             /** @private */
             _updateItemWidgets: function () {
                 var that = this,
@@ -69,7 +69,7 @@ $oop.postpone($basicWidgets, 'EntityList', function () {
                     .passEachItemTo(this.spawnItemName);
             }
         })
-        .addMethods(/** @lends $basicWidgets.EntityList# */{
+        .addMethods(/** @lends $basicWidgets.EntityListPartial# */{
             /**
              * @param {$entity.FieldKey} fieldKey
              * @ignore
@@ -129,7 +129,7 @@ $oop.postpone($basicWidgets, 'EntityList', function () {
     /**
      * Creates item widget for the specified item key.
      * To specify a custom widget class, override this method in the host.
-     * @name $basicWidgets.EntityList#spawnItemWidget
+     * @name $basicWidgets.EntityListPartial#spawnItemWidget
      * @function
      * @returns {$widget.Widget}
      */
@@ -138,7 +138,7 @@ $oop.postpone($basicWidgets, 'EntityList', function () {
      * Retrieves the item childName associated with the specified itemKey. (Child name determines order.)
      * To specify custom child name for item widgets, override this method.
      * TODO: Rename to 'spawnItemOrder' once giant-widget supports independent child ordering.
-     * @name $basicWidgets.EntityList#spawnItemName
+     * @name $basicWidgets.EntityListPartial#spawnItemName
      * @function
      * @returns {string}
      */

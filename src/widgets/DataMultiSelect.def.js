@@ -3,9 +3,9 @@ $oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
 
     var base = $basicWidgets.MultiSelect,
         self = base.extend(cn)
-            .addTrait($basicWidgets.EntityWidget)
-            .addTraitAndExtend($basicWidgets.DataSelect)
-            .addTraitAndExtend($basicWidgets.EntityList);
+            .addTrait($basicWidgets.EntityTagged)
+            .addTraitAndExtend($basicWidgets.EntitySelectPartial)
+            .addTraitAndExtend($basicWidgets.EntityListPartial);
 
     /**
      * @name $basicWidgets.DataMultiSelect.create
@@ -19,9 +19,9 @@ $oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
      * Expects the value to be stored in the same document.
      * @class
      * @extends $basicWidgets.MultiSelect
-     * @extends $basicWidgets.EntityWidget
-     * @extends $basicWidgets.DataSelect
-     * @extends $basicWidgets.EntityList
+     * @extends $basicWidgets.EntityTagged
+     * @extends $basicWidgets.EntitySelectPartial
+     * @extends $basicWidgets.EntityListPartial
      */
     $basicWidgets.DataMultiSelect = self
         .addPrivateMethods(/** @lends $basicWidgets.DataMultiSelect# */{
@@ -58,9 +58,9 @@ $oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
                     .isFieldKeyOptional(optionsKey, "Invalid options key");
 
                 base.init.call(this);
-                $basicWidgets.EntityWidget.init.call(this, valueKey);
+                $basicWidgets.EntityTagged.init.call(this, valueKey);
                 if (optionsKey) {
-                    $basicWidgets.EntityList.init.call(this, optionsKey);
+                    $basicWidgets.EntityListPartial.init.call(this, optionsKey);
                 }
 
                 this.elevateMethod('onSelectionChange');
@@ -70,7 +70,7 @@ $oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
             afterAdd: function () {
                 base.afterAdd.call(this);
                 if (this.listKey) {
-                    $basicWidgets.EntityList.afterAdd.call(this);
+                    $basicWidgets.EntityListPartial.afterAdd.call(this);
                 }
 
                 this._syncSelectedToEntity();
@@ -83,7 +83,7 @@ $oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
             afterRemove: function () {
                 base.afterRemove.call(this);
                 if (this.listKey) {
-                    $basicWidgets.EntityList.afterRemove.call(this);
+                    $basicWidgets.EntityListPartial.afterRemove.call(this);
                 }
 
                 this.unbindFromDelegatedEntityChange(this.entityKey, 'onSelectedFieldChange');
@@ -94,7 +94,7 @@ $oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
              * @ignore
              */
             onItemsChange: function (event) {
-                $basicWidgets.EntityList.onItemsChange.call(this, event);
+                $basicWidgets.EntityListPartial.onItemsChange.call(this, event);
                 this._syncSelectedToEntity();
             },
 

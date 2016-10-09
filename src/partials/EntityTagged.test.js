@@ -1,14 +1,14 @@
 (function () {
     "use strict";
 
-    module("EntityWidget");
+    module("EntityTagged");
 
     var DataText = $basicWidgets.Text.extend('DataText')
-        .addTrait($basicWidgets.EntityWidget)
+        .addTrait($basicWidgets.EntityTagged)
         .addMethods({
             init: function (entityKey) {
                 $basicWidgets.Text.init.call(this);
-                $basicWidgets.EntityWidget.init.call(this, entityKey);
+                $basicWidgets.EntityTagged.init.call(this, entityKey);
             }
         });
 
@@ -24,7 +24,7 @@
 
         dataText.addMocks({
             addAttribute: function (attributeName, attributeValue) {
-                equal(attributeName, $basicWidgets.EntityWidget.ATTRIBUTE_NAME_ENTITY_KEY,
+                equal(attributeName, $basicWidgets.EntityTagged.ATTRIBUTE_NAME_ENTITY_KEY,
                     "should add entity key attribute");
                 equal(attributeValue, 'foo/bar', "should pass entity key to attribute addition");
             }
@@ -40,7 +40,7 @@
 
         dataText.addMocks({
             removeAttribute: function (attributeName) {
-                equal(attributeName, $basicWidgets.EntityWidget.ATTRIBUTE_NAME_ENTITY_KEY,
+                equal(attributeName, $basicWidgets.EntityTagged.ATTRIBUTE_NAME_ENTITY_KEY,
                     "should remove entity key attribute");
             }
         });

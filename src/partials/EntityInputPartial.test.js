@@ -1,31 +1,31 @@
 (function () {
     "use strict";
 
-    module("EntityInput");
+    module("EntityInputPartial");
 
-    var EntityInput = $basicWidgets.TextInput.extend('EntityInput')
+    var EntityInputPartial = $basicWidgets.TextInput.extend('EntityInputPartial')
         .addTraitAndExtend($entity.EntityBound)
-        .addTraitAndExtend($basicWidgets.EntityInput)
+        .addTraitAndExtend($basicWidgets.EntityInputPartial)
         .addMethods({
             init: function (valueKey, nameKey) {
                 $basicWidgets.TextInput.init.call(this, 'text');
                 $entity.EntityBound.init.call(this);
-                $basicWidgets.EntityInput.init.call(this, valueKey, nameKey);
+                $basicWidgets.EntityInputPartial.init.call(this, valueKey, nameKey);
             },
             afterAdd: function () {
                 $basicWidgets.TextInput.afterAdd.call(this);
-                $basicWidgets.EntityInput.afterAdd.call(this);
+                $basicWidgets.EntityInputPartial.afterAdd.call(this);
             },
             afterRemove: function () {
                 $basicWidgets.TextInput.afterRemove.call(this);
-                $basicWidgets.EntityInput.afterRemove.call(this);
+                $basicWidgets.EntityInputPartial.afterRemove.call(this);
             }
         });
 
     test("Value change handler", function () {
         expect(1);
 
-        var input = EntityInput.create('input/1/value'.toFieldKey());
+        var input = EntityInputPartial.create('input/1/value'.toFieldKey());
 
         'input/1'.toDocument().unsetNode();
 
@@ -45,7 +45,7 @@
     test("Name change handler", function () {
         expect(1);
 
-        var input = EntityInput.create('input/1/value'.toFieldKey(), 'input/1/name'.toFieldKey());
+        var input = EntityInputPartial.create('input/1/value'.toFieldKey(), 'input/1/name'.toFieldKey());
 
         'input/1'.toDocument().unsetNode();
 
