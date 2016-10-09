@@ -583,11 +583,11 @@ _addHybridMultiSelect: function (itemWidget) {
 
                 this._addWidget(
                     this._addDataSingleSelect,
-                    "");
+                    "'single-select/1/selected'.toField().setValue(1)");
 
                 this._addWidget(
-                    this._addHybridSingleSelect,
-                    "",
+                    this._addHybridSingleSelect ,
+                    "'single-select/2/selected'.toField().setValue(1)",
                     "Hybrid");
 
                 this._addWidget(
