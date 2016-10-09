@@ -3,6 +3,7 @@ $oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
 
     var base = $basicWidgets.MultiSelect,
         self = base.extend(cn)
+            .addTrait($entity.EntityBound)
             .addTraitAndExtend($basicWidgets.DataSelect)
             .addTraitAndExtend($basicWidgets.EntityList);
 
@@ -18,6 +19,7 @@ $oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
      * Expects the value to be stored in the same document.
      * @class
      * @extends $basicWidgets.MultiSelect
+     * @extends $entity.EntityBound
      * @extends $basicWidgets.DataSelect
      * @extends $basicWidgets.EntityList
      */
@@ -56,10 +58,9 @@ $oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
                     .isFieldKeyOptional(optionsKey, "Invalid options key");
 
                 base.init.call(this);
+                $entity.EntityBound.init.call(this);
                 if (optionsKey) {
                     $basicWidgets.EntityList.init.call(this, optionsKey);
-                } else {
-                    $entity.EntityBound.init.call(this);
                 }
                 $basicWidgets.DataSelect.init.call(this, selectedKey);
 
@@ -69,7 +70,7 @@ $oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
             /** @ignore */
             afterAdd: function () {
                 base.afterAdd.call(this);
-                if (this.entityKey) {
+                if (this.listKey) {
                     $basicWidgets.EntityList.afterAdd.call(this);
                 }
 
@@ -82,7 +83,7 @@ $oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
             /** @ignore */
             afterRemove: function () {
                 base.afterRemove.call(this);
-                if (this.entityKey) {
+                if (this.listKey) {
                     $basicWidgets.EntityList.afterRemove.call(this);
                 }
 

@@ -1,19 +1,19 @@
 $oop.postpone($basicWidgets, 'EntityList', function () {
     "use strict";
 
-    var base = $basicWidgets.EntityWidget,
-        self = base.extend()
-            .addTrait($basicWidgets.EntityWidget);
+    var base = $oop.Base,
+        self = base.extend();
 
     /**
      * Enables list-like widgets to bind their children composition to a collection field.
      * Keeps list in sync with the changes of the corresponding collection.
+     * Trait expects to be added to List widgets that also have the EntityBound behavior.
      * Expects to be bound to a field of field type 'collection',
      * and item ID type 'reference'.
      * TODO: Add single item value change handler. (Depends on change in $entity.)
-     * TODO: Move to partials
      * @class
-     * @extends $basicWidgets.EntityWidget
+     * @extends $oop.Base
+     * @extends $entity.EntityBound
      * @extends $basicWidgets.List
      */
     $basicWidgets.EntityList = self
@@ -21,10 +21,10 @@ $oop.postpone($basicWidgets, 'EntityList', function () {
             /** @private */
             _updateItemWidgets: function () {
                 var that = this,
-                    fieldKey = this.entityKey,
+                    listKey = this.listKey,
 
                 // identifying new and current item IDs
-                    itemIdsInCache = this.entityKey.toField()
+                    itemIdsInCache = listKey.toField()
                         .getItemsAsCollection()
                         .toSet(),
                     itemIdsInWidgets = this.itemIdToChildName.toSet(),
@@ -33,12 +33,12 @@ $oop.postpone($basicWidgets, 'EntityList', function () {
                     itemKeysToRemove = itemIdsInWidgets.subtract(itemIdsInCache)
                         .toCollection()
                         .mapValues(function (value, itemId) {
-                            return fieldKey.getItemKey(itemId);
+                            return listKey.getItemKey(itemId);
                         }),
                     itemKeysToAdd = itemIdsInCache.subtract(itemIdsInWidgets)
                         .toCollection()
                         .mapValues(function (value, itemId) {
-                            return fieldKey.getItemKey(itemId);
+                            return listKey.getItemKey(itemId);
                         });
 
                 // obtaining widgets based on
@@ -64,7 +64,7 @@ $oop.postpone($basicWidgets, 'EntityList', function () {
                 // updating item ID to child name lookup
                 this.itemIdToChildName = itemIdsInCache.toCollection()
                     .mapValues(function (value, itemId) {
-                        return fieldKey.getItemKey(itemId);
+                        return listKey.getItemKey(itemId);
                     })
                     .passEachItemTo(this.spawnItemName);
             }
@@ -77,10 +77,13 @@ $oop.postpone($basicWidgets, 'EntityList', function () {
             init: function (fieldKey) {
                 $assertion
                     .isFieldKey(fieldKey, "Invalid field key")
-                    .assert(fieldKey.getFieldType() === 'collection', "Invalid field type");
+                    .assert(fieldKey.toField().isA($entity.CollectionField), "Invalid field type");
 
-                base.init.call(this);
-                $basicWidgets.EntityWidget.init.call(this, fieldKey);
+                /**
+                 * Identifies the collection to base elements on.
+                 * @type {$entity.FieldKey}
+                 */
+                this.listKey = fieldKey;
 
                 /**
                  * Lookup between item IDs and child names for item widgets.
@@ -94,14 +97,14 @@ $oop.postpone($basicWidgets, 'EntityList', function () {
              */
             afterAdd: function () {
                 this._updateItemWidgets();
-                this.bindToEntityChange(this.entityKey, 'onItemsChange');
+                this.bindToEntityChange(this.listKey, 'onItemsChange');
             },
 
             /**
              * Call from host's afterRemove()
              */
             afterRemove: function () {
-                this.unbindFromEntityChange(this.entityKey, 'onItemsChange');
+                this.unbindFromEntityChange(this.listKey, 'onItemsChange');
             },
 
             /**

@@ -122,10 +122,12 @@ _addList: function () {
 _addEntityList: function () {
     // constructing EntityList class
     var EntityList = $basicWidgets.List.extend('EntityList')
+        .addTraitAndExtend($entity.EntityBound)
         .addTraitAndExtend($basicWidgets.EntityList)
         .addMethods({
             init: function (fieldKey) {
                 $basicWidgets.List.init.call(this);
+                $entity.EntityBound.init.call(this);
                 $basicWidgets.EntityList.init.call(this, fieldKey);
             },
             afterAdd: function () {
