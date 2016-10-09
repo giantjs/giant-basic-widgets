@@ -28,6 +28,7 @@
         var done = assert.async(),
             select = $basicWidgets.DataSingleSelect.create(
                 'single-select/1/selected'.toFieldKey(),
+                undefined,
                 'single-select/1/options'.toFieldKey())
                 .addToParent($basicWidgets.Application.create());
 
@@ -62,11 +63,12 @@
 
         var select = $basicWidgets.DataSingleSelect.create(
             'single-select/1/selected'.toFieldKey(),
+            undefined,
             'single-select/1/options'.toFieldKey())
             .addToParent($basicWidgets.Application.create());
 
         select.addMocks({
-            _syncSelectedToEntity: function () {
+            _syncInputValueToEntity: function () {
                 ok(true, "should sync selected state to entity");
             }
         });

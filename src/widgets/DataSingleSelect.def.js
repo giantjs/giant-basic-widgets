@@ -4,6 +4,7 @@ $oop.postpone($basicWidgets, 'DataSingleSelect', function (ns, cn) {
     var base = $basicWidgets.SingleSelect,
         self = base.extend(cn)
             .addTrait($basicWidgets.EntityTagged)
+            .addTrait($basicWidgets.EntityInputPartial)
             .addTraitAndExtend($basicWidgets.EntitySelectPartial)
             .addTraitAndExtend($basicWidgets.EntityListPartial);
 
@@ -11,6 +12,7 @@ $oop.postpone($basicWidgets, 'DataSingleSelect', function (ns, cn) {
      * @name $basicWidgets.DataSingleSelect.create
      * @function
      * @param {$entity.FieldKey} valueKey
+     * @param {$entity.FieldKey} [nameKey]
      * @param {$entity.FieldKey} [optionsKey]
      * @returns {$basicWidgets.DataSingleSelect}
      */
@@ -20,18 +22,19 @@ $oop.postpone($basicWidgets, 'DataSingleSelect', function (ns, cn) {
      * @class
      * @extends $basicWidgets.SingleSelect
      * @extends $basicWidgets.EntityTagged
+     * @extends $basicWidgets.EntityInputPartial
      * @extends $basicWidgets.EntitySelectPartial
      * @extends $basicWidgets.EntityListPartial
      */
     $basicWidgets.DataSingleSelect = self
         .addPrivateMethods(/** @lends $basicWidgets.DataSingleSelect# */{
             /**
-             * TODO: Do this via changing selectedValue.
+             * TODO: Eliminate in favor of SingleSelect#_syncOptionsToSelection
              * @private
              */
-            _syncSelectedToEntity: function () {
+            _syncInputValueToEntity: function () {
                 var selectedValueBefore = this.selectedValue,
-                    selectedValueAfter = this.entityKey.toField().getValue(),
+                    selectedValueAfter = this.valueKey.toField().getValue(),
                     selectedOption,
                     deselectedOption;
 
@@ -52,16 +55,19 @@ $oop.postpone($basicWidgets, 'DataSingleSelect', function (ns, cn) {
         .addMethods(/** @lends $basicWidgets.DataSingleSelect# */{
             /**
              * @param {$entity.FieldKey} valueKey
+             * @param {$entity.FieldKey} [nameKey]
              * @param {$entity.FieldKey} [optionsKey]
              * @ignore
              */
-            init: function (valueKey, optionsKey) {
+            init: function (valueKey, nameKey, optionsKey) {
                 $assertion
-                    .isFieldKey(valueKey, "Invalid selected key")
+                    .isFieldKey(valueKey, "Invalid value key")
+                    .isFieldKeyOptional(nameKey, "Invalid name key")
                     .isFieldKeyOptional(optionsKey, "Invalid options key");
 
                 base.init.call(this);
                 $basicWidgets.EntityTagged.init.call(this, valueKey);
+                $basicWidgets.EntityInputPartial.init.call(this, valueKey, nameKey);
                 if (optionsKey) {
                     $basicWidgets.EntityListPartial.init.call(this, optionsKey);
                 }
@@ -75,11 +81,9 @@ $oop.postpone($basicWidgets, 'DataSingleSelect', function (ns, cn) {
                 if (this.listKey) {
                     $basicWidgets.EntityListPartial.afterAdd.call(this);
                 }
+                $basicWidgets.EntityInputPartial.afterAdd.call(this);
 
-                this._syncSelectedToEntity();
-
-                this.subscribeTo($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, this.onSelectionChange)
-                    .bindToDelegatedEntityChange(this.entityKey, 'onSelectedFieldChange');
+                this.subscribeTo($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, this.onSelectionChange);
             },
 
             /** @ignore */
@@ -88,7 +92,7 @@ $oop.postpone($basicWidgets, 'DataSingleSelect', function (ns, cn) {
                 if (this.listKey) {
                     $basicWidgets.EntityListPartial.afterRemove.call(this);
                 }
-                this.unbindFromDelegatedEntityChange(this.entityKey, 'onSelectedFieldChange');
+                $basicWidgets.EntityInputPartial.afterRemove.call(this);
             },
 
             /**
@@ -97,7 +101,7 @@ $oop.postpone($basicWidgets, 'DataSingleSelect', function (ns, cn) {
              */
             onItemsChange: function (event) {
                 $basicWidgets.EntityListPartial.onItemsChange.call(this, event);
-                this._syncSelectedToEntity();
+                this._syncInputValueToEntity();
             },
 
             /**
@@ -105,18 +109,13 @@ $oop.postpone($basicWidgets, 'DataSingleSelect', function (ns, cn) {
              * @ignore
              */
             onSelectionChange: function (event) {
-                var selectedKey = this.entityKey,
+                var selectedKey = this.valueKey,
                     afterValue = event.afterValues.getFirstValue();
 
                 if (selectedKey) {
                     selectedKey.toField()
                         .setValue(afterValue);
                 }
-            },
-
-            /** @ignore */
-            onSelectedFieldChange: function () {
-                this._syncSelectedToEntity();
             }
         });
 });

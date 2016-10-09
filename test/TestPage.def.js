@@ -357,6 +357,7 @@ _addDataSingleSelect: function (itemWidget) {
 
     return $basicWidgets.DataSingleSelect.create(
             'single-select/1/selected'.toFieldKey(),
+            undefined,
             'single-select/1/options'.toFieldKey())
         .setChildName('B-select')
         .setName('weekday')
@@ -432,6 +433,7 @@ _addDataMultiSelect: function (itemWidget) {
 
     return $basicWidgets.DataMultiSelect.create(
             'multi-select/1/selected'.toFieldKey(),
+            undefined,
             'multi-select/1/options'.toFieldKey())
         .setChildName('B-select')
         .setName('weekday')

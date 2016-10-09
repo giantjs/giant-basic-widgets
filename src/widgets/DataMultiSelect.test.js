@@ -31,6 +31,7 @@
         var done = assert.async(),
             select = $basicWidgets.DataMultiSelect.create(
                 'multi-select/1/selected'.toFieldKey(),
+                undefined,
                 'multi-select/1/options'.toFieldKey())
                 .addToParent($basicWidgets.Application.create()),
             items = {};
@@ -76,11 +77,12 @@
 
         var select = $basicWidgets.DataMultiSelect.create(
             'multi-select/1/selected'.toFieldKey(),
+            undefined,
             'multi-select/1/options'.toFieldKey())
             .addToParent($basicWidgets.Application.create());
 
         select.addMocks({
-            _syncSelectedToEntity: function () {
+            _syncInputValueToEntity: function () {
                 ok(true, "should sync selected state to entity");
             }
         });
