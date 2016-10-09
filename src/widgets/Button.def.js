@@ -6,6 +6,7 @@ $oop.postpone($basicWidgets, 'Button', function (ns, cn) {
             .addTraitAndExtend($basicWidgets.BinaryStateful)
             .addTrait($basicWidgets.Disableable, 'Disableable')
             .addTraitAndExtend($basicWidgets.Clickable, 'Clickable')
+            .addTraitAndExtend($basicWidgets.DomFocusable, 'DomFocusable')
             .addTraitAndExtend($basicWidgets.DomInputable, 'DomInputable')
             .addTraitAndExtend($basicWidgets.DomValuable, 'DomValuable');
 
@@ -22,6 +23,7 @@ $oop.postpone($basicWidgets, 'Button', function (ns, cn) {
      * @extends $basicWidgets.BinaryStateful
      * @extends $basicWidgets.Disableable
      * @extends $basicWidgets.Clickable
+     * @extends $basicWidgets.DomFocusable
      * @extends $basicWidgets.DomInputable
      * @extends $basicWidgets.DomValuable
      */
@@ -33,6 +35,7 @@ $oop.postpone($basicWidgets, 'Button', function (ns, cn) {
                 $basicWidgets.BinaryStateful.init.call(this);
                 $basicWidgets.Disableable.init.call(this);
                 $basicWidgets.Clickable.init.call(this);
+                $basicWidgets.DomFocusable.init.call(this);
                 $basicWidgets.DomValuable.init.call(this);
 
                 this.setTagName('button');
@@ -56,6 +59,7 @@ $oop.postpone($basicWidgets, 'Button', function (ns, cn) {
             afterRender: function () {
                 base.afterRender.call(this);
                 $basicWidgets.Clickable.afterRender.call(this);
+                $basicWidgets.DomFocusable.afterRender.call(this);
                 $basicWidgets.DomValuable.afterRender.call(this);
             },
 
