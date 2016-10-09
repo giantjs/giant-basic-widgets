@@ -18,6 +18,7 @@ $oop.postpone($basicWidgets, 'DomInputable', function () {
      * they're not implementing a common interface within the DOM.
      * Unfortunately the same doesn't apply to the value property / attribute,
      * hence the corresponding virtual methods.
+     * TODO: Break up into DomNamed & InputPartial (linking labels)?
      * @class
      * @extends $oop.Base
      * @extends $basicWidgets.Disableable
