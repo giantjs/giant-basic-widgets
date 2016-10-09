@@ -18,7 +18,6 @@ $oop.postpone($basicWidgets, 'DataSingleSelect', function (ns, cn) {
      */
 
     /**
-     * Expects the value to be stored in the same document.
      * @class
      * @extends $basicWidgets.SingleSelect
      * @extends $basicWidgets.EntityTagged

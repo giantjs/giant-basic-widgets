@@ -18,7 +18,6 @@ $oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
      */
 
     /**
-     * Expects the value to be stored in the same document.
      * @class
      * @extends $basicWidgets.MultiSelect
      * @extends $basicWidgets.EntityTagged
