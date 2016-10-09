@@ -10,6 +10,7 @@ $oop.postpone($basicWidgets, 'EntityTagged', function () {
      * @class
      * @extends $entity.EntityBound
      * @extends $widget.Widget
+     * @ignore
      */
     $basicWidgets.EntityTagged = self
         .addConstants(/** @lends $basicWidgets.EntityTagged */{

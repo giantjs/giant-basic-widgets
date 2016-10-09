@@ -15,6 +15,7 @@ $oop.postpone($basicWidgets, 'EntityListPartial', function () {
      * @extends $oop.Base
      * @extends $entity.EntityBound
      * @extends $basicWidgets.List
+     * @ignore
      */
     $basicWidgets.EntityListPartial = self
         .addPrivateMethods(/** @lends $basicWidgets.EntityListPartial# */{

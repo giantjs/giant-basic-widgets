@@ -12,6 +12,7 @@ $oop.postpone($basicWidgets, 'EntityInputPartial', function () {
      * @extends $oop.Base
      * @extends $entity.EntityBound
      * @extends $basicWidgets.DomInputable
+     * @ignore
      */
     $basicWidgets.EntityInputPartial = self
         .addPrivateMethods(/** @lends $basicWidgets.EntityInputPartial# */{
