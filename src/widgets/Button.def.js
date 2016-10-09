@@ -5,7 +5,9 @@ $oop.postpone($basicWidgets, 'Button', function (ns, cn) {
         self = base.extend(cn)
             .addTraitAndExtend($basicWidgets.BinaryStateful)
             .addTrait($basicWidgets.Disableable, 'Disableable')
-            .addTraitAndExtend($basicWidgets.Clickable, 'Clickable');
+            .addTraitAndExtend($basicWidgets.Clickable, 'Clickable')
+            .addTraitAndExtend($basicWidgets.DomInputable, 'DomInputable')
+            .addTraitAndExtend($basicWidgets.DomValuable, 'DomValuable');
 
     /**
      * Creates a Button instance.
@@ -20,18 +22,10 @@ $oop.postpone($basicWidgets, 'Button', function (ns, cn) {
      * @extends $basicWidgets.BinaryStateful
      * @extends $basicWidgets.Disableable
      * @extends $basicWidgets.Clickable
+     * @extends $basicWidgets.DomInputable
+     * @extends $basicWidgets.DomValuable
      */
     $basicWidgets.Button = self
-        .addPrivateMethods(/** @lends $basicWidgets.Button# */{
-            /** @private */
-            _updateEnabledAttribute: function () {
-                if (this.isDisabled()) {
-                    this.addAttribute('disabled', 'disabled');
-                } else {
-                    this.removeAttribute('disabled');
-                }
-            }
-        })
         .addMethods(/** @lends $basicWidgets.Button# */{
             /** @ignore */
             init: function () {
@@ -39,6 +33,7 @@ $oop.postpone($basicWidgets, 'Button', function (ns, cn) {
                 $basicWidgets.BinaryStateful.init.call(this);
                 $basicWidgets.Disableable.init.call(this);
                 $basicWidgets.Clickable.init.call(this);
+                $basicWidgets.DomValuable.init.call(this);
 
                 this.setTagName('button');
             },
@@ -47,35 +42,33 @@ $oop.postpone($basicWidgets, 'Button', function (ns, cn) {
             afterAdd: function () {
                 base.afterAdd.call(this);
                 $basicWidgets.BinaryStateful.afterAdd.call(this);
-                this._updateEnabledAttribute();
+                $basicWidgets.DomInputable.afterAdd.call(this);
             },
 
             /** @ignore */
             afterRemove: function () {
                 base.afterRemove.call(this);
                 $basicWidgets.BinaryStateful.afterRemove.call(this);
+                $basicWidgets.DomInputable.afterRemove.call(this);
             },
 
             /** @ignore */
             afterRender: function () {
                 base.afterRender.call(this);
                 $basicWidgets.Clickable.afterRender.call(this);
+                $basicWidgets.DomValuable.afterRender.call(this);
             },
 
             /** Call from host's .afterStateOn */
             afterStateOn: function (stateName) {
                 $basicWidgets.Disableable.afterStateOn.call(this, stateName);
-                if (stateName === self.STATE_NAME_DISABLED) {
-                    this._updateEnabledAttribute();
-                }
+                $basicWidgets.DomInputable.afterStateOn.call(this, stateName);
             },
 
             /** Call from host's .afterStateOff */
             afterStateOff: function (stateName) {
                 $basicWidgets.Disableable.afterStateOff.call(this, stateName);
-                if (stateName === self.STATE_NAME_DISABLED) {
-                    this._updateEnabledAttribute();
-                }
+                $basicWidgets.DomInputable.afterStateOff.call(this, stateName);
             },
 
             /**

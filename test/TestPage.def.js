@@ -82,8 +82,9 @@ _addClickArea: function () {
 /** @private */
 _addButton: function () {
     return $basicWidgets.Button.create()
+        .setName('cat-says')
         .addChild($basicWidgets.Text.create()
-            .setContentString("Button"));
+            .setContentString("Meow"));
 },
 
 /** @private */
