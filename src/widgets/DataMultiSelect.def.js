@@ -3,14 +3,14 @@ $oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
 
     var base = $basicWidgets.MultiSelect,
         self = base.extend(cn)
-            .addTrait($entity.EntityBound)
+            .addTrait($basicWidgets.EntityWidget)
             .addTraitAndExtend($basicWidgets.DataSelect)
             .addTraitAndExtend($basicWidgets.EntityList);
 
     /**
      * @name $basicWidgets.DataMultiSelect.create
      * @function
-     * @param {$entity.FieldKey} selectedKey
+     * @param {$entity.FieldKey} valueKey
      * @param {$entity.FieldKey} [optionsKey]
      * @returns {$basicWidgets.DataMultiSelect}
      */
@@ -19,7 +19,7 @@ $oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
      * Expects the value to be stored in the same document.
      * @class
      * @extends $basicWidgets.MultiSelect
-     * @extends $entity.EntityBound
+     * @extends $basicWidgets.EntityWidget
      * @extends $basicWidgets.DataSelect
      * @extends $basicWidgets.EntityList
      */
@@ -27,7 +27,7 @@ $oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
         .addPrivateMethods(/** @lends $basicWidgets.DataMultiSelect# */{
             /** @private */
             _syncSelectedToEntity: function () {
-                var selectedKey = this.selectedKey,
+                var selectedKey = this.entityKey,
                     selectedValuesBefore = this.selectedValues.toSet(),
                     selectedValuesAfter = selectedKey.toField().getItemsAsCollection().toSet(),
                     selectedValues = selectedValuesAfter.subtract(selectedValuesBefore).toCollection(),
@@ -45,24 +45,23 @@ $oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
         })
         .addMethods(/** @lends $basicWidgets.DataMultiSelect# */{
             /**
-             * @param {$entity.FieldKey} selectedKey
+             * @param {$entity.FieldKey} valueKey
              * @param {$entity.FieldKey} [optionsKey]
              * @ignore
              */
-            init: function (selectedKey, optionsKey) {
+            init: function (valueKey, optionsKey) {
                 $assertion
-                    .isFieldKey(selectedKey, "Invalid selected key")
+                    .isFieldKey(valueKey, "Invalid selected key")
                     .assert(
-                        !selectedKey || selectedKey.toField().isA($entity.CollectionField),
+                        !valueKey || valueKey.toField().isA($entity.CollectionField),
                         "Invalid selected field type")
                     .isFieldKeyOptional(optionsKey, "Invalid options key");
 
                 base.init.call(this);
-                $entity.EntityBound.init.call(this);
+                $basicWidgets.EntityWidget.init.call(this, valueKey);
                 if (optionsKey) {
                     $basicWidgets.EntityList.init.call(this, optionsKey);
                 }
-                $basicWidgets.DataSelect.init.call(this, selectedKey);
 
                 this.elevateMethod('onSelectionChange');
             },
@@ -77,7 +76,7 @@ $oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
                 this._syncSelectedToEntity();
 
                 this.subscribeTo($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, this.onSelectionChange)
-                    .bindToDelegatedEntityChange(this.selectedKey, 'onSelectedFieldChange');
+                    .bindToDelegatedEntityChange(this.entityKey, 'onSelectedFieldChange');
             },
 
             /** @ignore */
@@ -87,7 +86,7 @@ $oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
                     $basicWidgets.EntityList.afterRemove.call(this);
                 }
 
-                this.unbindFromDelegatedEntityChange(this.selectedKey, 'onSelectedFieldChange');
+                this.unbindFromDelegatedEntityChange(this.entityKey, 'onSelectedFieldChange');
             },
 
             /**
@@ -104,7 +103,7 @@ $oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
              * @ignore
              */
             onSelectionChange: function (event) {
-                var selectedKey = this.selectedKey,
+                var selectedKey = this.entityKey,
                     afterValues = event.afterValues.clone();
 
                 if (selectedKey) {

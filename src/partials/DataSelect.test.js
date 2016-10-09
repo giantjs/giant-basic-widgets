@@ -8,7 +8,7 @@
         .addMethods({
             init: function (selectedKey) {
                 $widget.Widget.init.call(this);
-                $basicWidgets.DataSelect.init.call(this, selectedKey);
+                $basicWidgets.EntityWidget.init.call(this, selectedKey);
             },
 
             afterAdd: function () {
@@ -16,11 +16,6 @@
                 $basicWidgets.DataSelect.afterAdd.call(this);
             }
         });
-
-    test("Instantiation", function () {
-        var select = DataSelect.create('foo/1/bar'.toFieldKey());
-        ok('foo/1/bar'.toFieldKey().equals(select.selectedKey), "should set selectedKey property");
-    });
 
     test("Item widget spawner", function () {
         var select = DataSelect.create('foo/1/bar'.toFieldKey()),

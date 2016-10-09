@@ -3,14 +3,14 @@ $oop.postpone($basicWidgets, 'DataSingleSelect', function (ns, cn) {
 
     var base = $basicWidgets.SingleSelect,
         self = base.extend(cn)
-            .addTrait($entity.EntityBound)
+            .addTrait($basicWidgets.EntityWidget)
             .addTraitAndExtend($basicWidgets.DataSelect)
             .addTraitAndExtend($basicWidgets.EntityList);
 
     /**
      * @name $basicWidgets.DataSingleSelect.create
      * @function
-     * @param {$entity.FieldKey} selectedKey
+     * @param {$entity.FieldKey} valueKey
      * @param {$entity.FieldKey} [optionsKey]
      * @returns {$basicWidgets.DataSingleSelect}
      */
@@ -19,7 +19,7 @@ $oop.postpone($basicWidgets, 'DataSingleSelect', function (ns, cn) {
      * Expects the value to be stored in the same document.
      * @class
      * @extends $basicWidgets.SingleSelect
-     * @extends $entity.EntityBound
+     * @extends $basicWidgets.EntityWidget
      * @extends $basicWidgets.DataSelect
      * @extends $basicWidgets.EntityList
      */
@@ -31,7 +31,7 @@ $oop.postpone($basicWidgets, 'DataSingleSelect', function (ns, cn) {
              */
             _syncSelectedToEntity: function () {
                 var selectedValueBefore = this.selectedValue,
-                    selectedValueAfter = this.selectedKey.toField().getValue(),
+                    selectedValueAfter = this.entityKey.toField().getValue(),
                     selectedOption,
                     deselectedOption;
 
@@ -51,21 +51,20 @@ $oop.postpone($basicWidgets, 'DataSingleSelect', function (ns, cn) {
         })
         .addMethods(/** @lends $basicWidgets.DataSingleSelect# */{
             /**
-             * @param {$entity.FieldKey} selectedKey
+             * @param {$entity.FieldKey} valueKey
              * @param {$entity.FieldKey} [optionsKey]
              * @ignore
              */
-            init: function (selectedKey, optionsKey) {
+            init: function (valueKey, optionsKey) {
                 $assertion
-                    .isFieldKey(selectedKey, "Invalid selected key")
+                    .isFieldKey(valueKey, "Invalid selected key")
                     .isFieldKeyOptional(optionsKey, "Invalid options key");
 
                 base.init.call(this);
-                $entity.EntityBound.init.call(this);
+                $basicWidgets.EntityWidget.init.call(this, valueKey);
                 if (optionsKey) {
                     $basicWidgets.EntityList.init.call(this, optionsKey);
                 }
-                $basicWidgets.DataSelect.init.call(this, selectedKey);
 
                 this.elevateMethod('onSelectionChange');
             },
@@ -80,7 +79,7 @@ $oop.postpone($basicWidgets, 'DataSingleSelect', function (ns, cn) {
                 this._syncSelectedToEntity();
 
                 this.subscribeTo($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, this.onSelectionChange)
-                    .bindToDelegatedEntityChange(this.selectedKey, 'onSelectedFieldChange');
+                    .bindToDelegatedEntityChange(this.entityKey, 'onSelectedFieldChange');
             },
 
             /** @ignore */
@@ -89,7 +88,7 @@ $oop.postpone($basicWidgets, 'DataSingleSelect', function (ns, cn) {
                 if (this.listKey) {
                     $basicWidgets.EntityList.afterRemove.call(this);
                 }
-                this.unbindFromDelegatedEntityChange(this.selectedKey, 'onSelectedFieldChange');
+                this.unbindFromDelegatedEntityChange(this.entityKey, 'onSelectedFieldChange');
             },
 
             /**
@@ -106,7 +105,7 @@ $oop.postpone($basicWidgets, 'DataSingleSelect', function (ns, cn) {
              * @ignore
              */
             onSelectionChange: function (event) {
-                var selectedKey = this.selectedKey,
+                var selectedKey = this.entityKey,
                     afterValue = event.afterValues.getFirstValue();
 
                 if (selectedKey) {

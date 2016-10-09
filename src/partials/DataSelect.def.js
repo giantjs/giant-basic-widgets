@@ -16,18 +16,6 @@ $oop.postpone($basicWidgets, 'DataSelect', function () {
     $basicWidgets.DataSelect = self
         .addMethods(/** @lends $basicWidgets.DataSelect# */{
             /**
-             * @param {$entity.FieldKey} [selectedKey]
-             * @ignore
-             */
-            init: function (selectedKey) {
-                /**
-                 * Identifies collection where the selected values will be stored.
-                 * @type {$entity.FieldKey}
-                 */
-                this.selectedKey = selectedKey;
-            },
-
-            /**
              * @param {$entity.ItemKey} itemKey
              * @returns {$basicWidgets.OptionPartial}
              * @ignore
