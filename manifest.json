@@ -4,6 +4,8 @@
       "js": [
         "src/namespace.js",
         "src/interfaces/Selectable.def.js",
+        "src/utils/HotkeyWatcher.def.js",
+        "src/utils/HotkeyEvent.def.js",
         "src/utils/InputValidityChangeEvent.def.js",
         "src/utils/InputValueChangeEvent.def.js",
         "src/utils/OptionSelectedChangeEvent.def.js",

@@ -588,7 +588,7 @@ _addHybridMultiSelect: function (itemWidget) {
                     "'single-select/1/selected'.toField().setValue(1)");
 
                 this._addWidget(
-                    this._addHybridSingleSelect ,
+                    this._addHybridSingleSelect,
                     "'single-select/2/selected'.toField().setValue(1)",
                     "Hybrid");
 
@@ -613,7 +613,8 @@ _addHybridMultiSelect: function (itemWidget) {
                     .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, this.onInputValidityChange)
                     .subscribeTo($basicWidgets.EVENT_OPTION_VALUE_CHANGE, this.onOptionValueChange)
                     .subscribeTo($basicWidgets.EVENT_OPTION_SELECTED_CHANGE, this.onOptionSelectedChange)
-                    .subscribeTo($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, this.onSelectSelectionChange);
+                    .subscribeTo($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, this.onSelectSelectionChange)
+                    .subscribeTo($basicWidgets.EVENT_HOTKEY_DOWN, this.onHotkeyDown);
             },
 
             /**
@@ -696,6 +697,15 @@ _addHybridMultiSelect: function (itemWidget) {
                     "select selection changed", event.sender.instanceId,
                     "from", beforeValues.getValues(),
                     "to", afterValues.getValues());
+            },
+
+            /**
+             * @param {$widget.WidgetEvent} event
+             * @ignore
+             */
+            onHotkeyDown: function (event) {
+                var keyboardEvent = event.originalEvent;
+                console.info("hotkey pressed", keyboardEvent.key || keyboardEvent.which);
             }
         });
 });
