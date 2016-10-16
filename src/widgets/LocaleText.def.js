@@ -63,6 +63,8 @@ $oop.postpone($basicWidgets, 'LocaleText', function (ns, cn) {
 
                 this.originalContentString = originalContentString;
 
+                this._updateContentString();
+
                 if ($templating.LiveTemplate.isBaseOf(oldOriginalContentString)) {
                     oldOriginalContentString
                         .unsubscribeFrom($templating.EVENT_TEMPLATE_PARAMETER_VALUES_CHANGE, this.onParameterValuesChange);

@@ -11,8 +11,16 @@
     });
 
     test("Original content string setter", function () {
+        expect(3);
+
         var localeText = $basicWidgets.LocaleText.create(),
             originalContentString = "Hello".toTranslatable();
+
+        localeText.addMocks({
+           _updateContentString: function () {
+               ok(true, "should update content string");
+           }
+        });
 
         strictEqual(localeText.setOriginalContentString(originalContentString), localeText,
             "should be chainable");
