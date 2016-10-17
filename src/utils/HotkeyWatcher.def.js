@@ -29,6 +29,7 @@ $oop.postpone($basicWidgets, 'HotkeyWatcher', function () {
                 if (rootWidget) {
                     rootWidget
                         .spawnEvent($basicWidgets.EVENT_HOTKEY_DOWN)
+                        // TODO: At this point only payload survives broadcasting, not event properties.
                         .setPayloadItems({
                             originWidget: originWidget
                         })
