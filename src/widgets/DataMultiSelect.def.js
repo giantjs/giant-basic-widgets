@@ -109,7 +109,7 @@ $oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
                     afterValues = event.afterValues.clone();
 
                 if (selectedKey) {
-                    selectedKey.toField()
+                    selectedKey.toEntity()
                         .setValue(afterValues.items);
                 }
             }

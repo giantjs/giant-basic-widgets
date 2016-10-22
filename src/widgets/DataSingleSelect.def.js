@@ -112,7 +112,7 @@ $oop.postpone($basicWidgets, 'DataSingleSelect', function (ns, cn) {
                     afterValue = event.afterValues.getFirstValue();
 
                 if (selectedKey) {
-                    selectedKey.toField()
+                    selectedKey.toEntity()
                         .setValue(afterValue);
                 }
             }

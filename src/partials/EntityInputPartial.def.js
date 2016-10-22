@@ -35,7 +35,7 @@ $oop.postpone($basicWidgets, 'EntityInputPartial', function () {
              * @private
              */
             _syncInputValueToEntity: function () {
-                var value = this.valueKey.toField().getValue();
+                var value = this.valueKey.toEntity().getValue();
                 this.setValue(value);
             }
         })

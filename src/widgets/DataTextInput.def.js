@@ -27,7 +27,7 @@ $oop.postpone($basicWidgets, 'DataTextInput', function (ns, cn) {
         .addPrivateMethods(/** @lends $basicWidgets.DataTextInput# */{
             /** @private */
             _syncEntityToInputValue: function () {
-                this.valueKey.toField().setValue(this.value);
+                this.valueKey.toEntity().setValue(this.value);
             }
         })
         .addMethods(/** @lends $basicWidgets.DataTextInput# */{
