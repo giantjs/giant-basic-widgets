@@ -52,7 +52,6 @@ $oop.postpone($basicWidgets, 'Button', function (ns, cn) {
             afterRemove: function () {
                 base.afterRemove.call(this);
                 $basicWidgets.BinaryStateful.afterRemove.call(this);
-                $basicWidgets.DomInputable.afterRemove.call(this);
             },
 
             /** @ignore */
