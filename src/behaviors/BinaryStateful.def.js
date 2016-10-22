@@ -102,7 +102,11 @@ $oop.postpone($basicWidgets, 'BinaryStateful', function () {
                 this.binaryStates
                     .forEachItem(function (sources, stateName) {
                         // checking whether any of the parents have matching states set
-                        that._applyImposedState(stateName);
+                        var state = that.getBinaryState(stateName);
+                        if (state.isCascading) {
+                            // only when state is set to cascade on current instance
+                            that._applyImposedState(stateName);
+                        }
 
                         // initializing binary state
                         if (that.isStateOn(stateName)) {
