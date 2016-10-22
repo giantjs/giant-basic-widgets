@@ -9,8 +9,9 @@ $oop.postpone($basicWidgets, 'DataTextInput', function (ns, cn) {
     /**
      * @name $basicWidgets.DataTextInput.create
      * @function
-     * @param {string} [type]
+     * @param {string} [inputType]
      * @param {$entity.DocumentKey} inputKey
+     * @param {$entity.FieldKey} [nameKey]
      * @returns {$basicWidgets.DataTextInput}
      */
 
