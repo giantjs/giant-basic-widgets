@@ -52,13 +52,15 @@ $oop.postpone($basicWidgets, 'LocaleText', function (ns, cn) {
                 base.setContentString.call(this, contentString);
 
                 if ($templating.LiveTemplate.isBaseOf(oldContentString)) {
-                    oldContentString
-                        .unsubscribeFrom($templating.EVENT_TEMPLATE_PARAMETER_VALUES_CHANGE, this.onParameterValuesChange);
+                    oldContentString.unsubscribeFrom(
+                        $templating.EVENT_TEMPLATE_PARAMETER_VALUES_CHANGE,
+                        this.onParameterValuesChange);
                 }
 
                 if ($templating.LiveTemplate.isBaseOf(contentString)) {
-                    contentString
-                        .subscribeTo($templating.EVENT_TEMPLATE_PARAMETER_VALUES_CHANGE, this.onParameterValuesChange);
+                    contentString.subscribeTo(
+                        $templating.EVENT_TEMPLATE_PARAMETER_VALUES_CHANGE,
+                        this.onParameterValuesChange);
                 }
 
                 return this;
