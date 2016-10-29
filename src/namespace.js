@@ -20,6 +20,9 @@ var $entity = $entity || require('giant-entity');
 var $templating = $templating || require('giant-templating');
 
 /** @namespace */
+var $i18n = $i18n || require('giant-i18n');
+
+/** @namespace */
 var $widget = $widget || require('giant-widget');
 
 /** @namespace */

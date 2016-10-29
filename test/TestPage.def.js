@@ -51,7 +51,7 @@ _addLocaleBoundText: function () {
     'de-de'.toLocale().setAsCurrentLocale();
 
     return $basicWidgets.LocaleText.create()
-        .setOriginalContentString("Hi!".toTranslatable());
+        .setContentString("Hi!".toTranslatable());
 },
 
 /** @private */

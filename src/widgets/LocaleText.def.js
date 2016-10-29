@@ -19,12 +19,6 @@ $oop.postpone($basicWidgets, 'LocaleText', function (ns, cn) {
      * @extends $i18n.LocaleBound
      */
     $basicWidgets.LocaleText = self
-        .addPrivateMethods(/** @lends $basicWidgets.LocaleText# */{
-            /** @private */
-            _updateContentString: function () {
-                this.setContentString($utils.Stringifier.stringify(this.originalContentString));
-            }
-        })
         .addMethods(/** @lends $basicWidgets.LocaleText# */{
             /**
              * @ignore
@@ -34,17 +28,11 @@ $oop.postpone($basicWidgets, 'LocaleText', function (ns, cn) {
                 $i18n.LocaleBound.init.call(this);
 
                 this.elevateMethod('onParameterValuesChange');
-
-                /**
-                 * @type {$templating.LiveTemplate|$i18n.Translatable}
-                 */
-                this.originalContentString = undefined;
             },
 
             /** @ignore */
             afterAdd: function () {
                 base.afterAdd.call(this);
-                this._updateContentString();
                 this.bindToCurrentLocaleReady('onCurrentLocaleReady');
             },
 
@@ -55,23 +43,21 @@ $oop.postpone($basicWidgets, 'LocaleText', function (ns, cn) {
             },
 
             /**
-             * @param {$templating.LiveTemplate|$i18n.Translatable} originalContentString
+             * @param {$templating.LiveTemplate|$i18n.Translatable} contentString
              * @returns {$basicWidgets.LocaleText}
              */
-            setOriginalContentString: function (originalContentString) {
-                var oldOriginalContentString = this.originalContentString;
+            setContentString: function (contentString) {
+                var oldContentString = this.contentString;
 
-                this.originalContentString = originalContentString;
+                base.setContentString.call(this, contentString);
 
-                this._updateContentString();
-
-                if ($templating.LiveTemplate.isBaseOf(oldOriginalContentString)) {
-                    oldOriginalContentString
+                if ($templating.LiveTemplate.isBaseOf(oldContentString)) {
+                    oldContentString
                         .unsubscribeFrom($templating.EVENT_TEMPLATE_PARAMETER_VALUES_CHANGE, this.onParameterValuesChange);
                 }
 
-                if ($templating.LiveTemplate.isBaseOf(originalContentString)) {
-                    originalContentString
+                if ($templating.LiveTemplate.isBaseOf(contentString)) {
+                    contentString
                         .subscribeTo($templating.EVENT_TEMPLATE_PARAMETER_VALUES_CHANGE, this.onParameterValuesChange);
                 }
 
@@ -80,12 +66,12 @@ $oop.postpone($basicWidgets, 'LocaleText', function (ns, cn) {
 
             /** @ignore */
             onCurrentLocaleReady: function () {
-                this._updateContentString();
+                this.applyFilters();
             },
 
             /** @ignore */
             onParameterValuesChange: function () {
-                this._updateContentString();
+                this.applyFilters();
             }
         });
 });

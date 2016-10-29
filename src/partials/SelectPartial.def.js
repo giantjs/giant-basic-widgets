@@ -92,7 +92,7 @@ $oop.postpone($basicWidgets, 'SelectPartial', function () {
                 var optionWidget = $basicWidgets.LocaleOption.create()
                     .setChildName(childName)
                     .setOptionValue(optionValue)
-                    .setOriginalContentString(optionText);
+                    .setContentString(optionText);
 
                 if (selected) {
                     optionWidget.select();

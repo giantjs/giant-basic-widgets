@@ -4,6 +4,8 @@
       "js": [
         "src/namespace.js",
         "src/interfaces/Selectable.def.js",
+        "src/utils/StringFilter.def.js",
+        "src/utils/StringFilterCollection.def.js",
         "src/utils/HotkeyWatcher.def.js",
         "src/utils/HotkeyEvent.def.js",
         "src/utils/InputValidityChangeEvent.def.js",
@@ -27,6 +29,7 @@
         "src/behaviors/DomInputable.def.js",
         "src/behaviors/DomValuable.def.js",
         "src/behaviors/Validatable.def.js",
+        "src/behaviors/Formattable.def.js",
         "src/partials/EntityInputPartial.def.js",
         "src/partials/EntityListPartial.def.js",
         "src/partials/EntitySelectPartial.def.js",

@@ -6,10 +6,9 @@
     test("Instantiation", function () {
         var text = $basicWidgets.Text.create();
         equal(typeof text.contentString, 'undefined', "should add contentString property");
-        equal(text.htmlEscaped, true, "should set htmlEscaped property to true");
     });
 
-    test("Text text setter", function () {
+    test("Content string setter", function () {
         expect(3);
 
         var text = $basicWidgets.Text.create();
@@ -31,21 +30,16 @@
     });
 
     test("Html escape setter", function () {
-        expect(2);
+        expect(1);
 
         var text = $basicWidgets.Text.create();
 
         text.addMocks({
-            _updateDom: function () {
-                ok(true, "should update DOM");
+            applyFilters: function () {
+                ok(true, "should apply format");
             }
         });
 
-        // should not trigger any changes
-        text.setHtmlEscaped(true);
-
         text.setHtmlEscaped(false);
-
-        equal(text.htmlEscaped, false, "should set htmlEscaped property");
     });
 }());

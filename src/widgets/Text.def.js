@@ -2,7 +2,8 @@ $oop.postpone($basicWidgets, 'Text', function (ns, cn) {
     "use strict";
 
     var base = $widget.Widget,
-        self = base.extend(cn);
+        self = base.extend(cn)
+            .addTrait($basicWidgets.Formattable);
 
     /**
      * Creates a Text instance.
@@ -16,9 +17,19 @@ $oop.postpone($basicWidgets, 'Text', function (ns, cn) {
      * TODO: Move functionality to a partial class.
      * @class
      * @extends $widget.Widget
+     * @extends $basicWidgets.Formattable
      */
     $basicWidgets.Text = self
         .addPrivateMethods(/** @lends $basicWidgets.Text# */{
+            /**
+             * @param {string} str
+             * @returns {string}
+             * @private
+             */
+            _htmlEscape: function (str) {
+                return str.toHtml();
+            },
+
             /**
              * Updates Text's CSS classes based on its content.
              * @private
@@ -38,21 +49,14 @@ $oop.postpone($basicWidgets, 'Text', function (ns, cn) {
 
             /** @private */
             _updateDom: function () {
-                var element = this.getElement(),
-                    currentLabelText;
-
-                if (element) {
-                    currentLabelText = $utils.Stringifier.stringify(this.contentString);
-                    element.innerHTML = this.htmlEscaped ?
-                        currentLabelText.toHtml() :
-                        currentLabelText;
-                }
+                this.applyFilters();
             }
         })
         .addMethods(/** @lends $basicWidgets.Text# */{
             /** @ignore */
             init: function () {
                 base.init.call(this);
+                $basicWidgets.Formattable.init.call(this);
 
                 /**
                  * String contents of the Text widget.
@@ -60,23 +64,38 @@ $oop.postpone($basicWidgets, 'Text', function (ns, cn) {
                  */
                 this.contentString = undefined;
 
-                /**
-                 * Whether widget HTML escapes text before rendering.
-                 * @type {boolean}
-                 */
-                this.htmlEscaped = true;
+                this.setTagName('span')
 
-                this.setTagName('span');
+                    // HTML escaping should be the last formatter
+                    .addFormatter('z-html-escape', this._htmlEscape.toStringFilter())
+
+                    // HTML escaped by default
+                    .setHtmlEscaped(true);
 
                 this._updateStyle();
             },
 
             /** @ignore */
             contentMarkup: function () {
-                var currentContentString = $utils.Stringifier.stringify(this.contentString);
-                return this.htmlEscaped ?
-                    currentContentString.toHtml() :
-                    currentContentString;
+                return this.getFormattedString();
+            },
+
+            /**
+             * @returns {string}
+             */
+            getOriginalString: function () {
+                return $utils.Stringifier.stringify(this.contentString);
+            },
+
+            /**
+             * TODO: Use proxy
+             * @returns {string|$utils.Stringifiable}
+             */
+            setDomString: function (domString) {
+                var element = this.getElement();
+                if (element) {
+                    element.innerHTML = domString;
+                }
             },
 
             /**
@@ -101,9 +120,10 @@ $oop.postpone($basicWidgets, 'Text', function (ns, cn) {
              * @returns {$basicWidgets.Text}
              */
             setHtmlEscaped: function (htmlEscaped) {
-                if (this.htmlEscaped !== htmlEscaped) {
-                    this.htmlEscaped = htmlEscaped;
-                    this._updateDom();
+                if (htmlEscaped) {
+                    this.activateFormatter('z-html-escape');
+                } else {
+                    this.deactivateFormatter('z-html-escape');
                 }
                 return this;
             }
