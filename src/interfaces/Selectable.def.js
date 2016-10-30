@@ -42,11 +42,17 @@
  * @returns {string}
  */
 
-// TODO: Restore selectable value change event?
 $oop.addGlobalConstants.call($basicWidgets, /** @lends $basicWidgets */{
     /**
+     * Signals that the value associated with a selectable
+     * (option, checkbox, etc.) changed.
+     * @constant
+     */
+    EVENT_SELECTABLE_VALUE_CHANGE: 'widget.change.selectable.value',
+
+    /**
      * Signals that the selected state of a selectable
-     * (option, checkbox, etc.) has changed.
+     * (option, checkbox, etc.) changed.
      * @constant
      */
     EVENT_SELECTABLE_STATE_CHANGE: 'widget.change.selectable.state'

@@ -182,7 +182,7 @@ $oop.postpone($basicWidgets, 'BinaryInput', function (ns, cn) {
                     this.addAttribute('value', value);
 
                     // TODO: Should be non-bubbling?
-                    this.spawnEvent($basicWidgets.EVENT_INPUT_VALUE_CHANGE)
+                    this.spawnEvent($basicWidgets.EVENT_SELECTABLE_VALUE_CHANGE)
                         .setBeforeValue(beforeValue)
                         .setAfterValue(value)
                         .triggerSync();

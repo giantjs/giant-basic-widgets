@@ -541,6 +541,7 @@ _addHybridMultiSelect: function (itemWidget) {
                     'onInputBlur',
                     'onInputValidityChange',
                     'onInputValueChange',
+                    'onSelectableValueChange',
                     'onSelectableStateChange',
                     'onSelectSelectionChange');
 
@@ -655,6 +656,7 @@ _addHybridMultiSelect: function (itemWidget) {
                     .subscribeTo($basicWidgets.EVENT_INPUT_BLUR, this.onInputBlur)
                     .subscribeTo($basicWidgets.EVENT_INPUT_VALUE_CHANGE, this.onInputValueChange)
                     .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, this.onInputValidityChange)
+                    .subscribeTo($basicWidgets.EVENT_SELECTABLE_VALUE_CHANGE, this.onSelectableValueChange)
                     .subscribeTo($basicWidgets.EVENT_SELECTABLE_STATE_CHANGE, this.onSelectableStateChange)
                     .subscribeTo($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, this.onSelectSelectionChange)
                     .subscribeTo($basicWidgets.EVENT_HOTKEY_DOWN, this.onHotkeyDown);
@@ -707,12 +709,23 @@ _addHybridMultiSelect: function (itemWidget) {
             },
 
             /**
+             * @param {$basicWidgets.InputValueChangeEvent} event
+             * @ignore
+             */
+            onSelectableValueChange: function (event) {
+                console.info(
+                    "selectable value changed", event.sender.instanceId,
+                    "from", event.beforeValue,
+                    "to", event.afterValue);
+            },
+
+            /**
              * @param {$basicWidgets.SelectableStateChangeEvent} event
              * @ignore
              */
             onSelectableStateChange: function (event) {
                 console.info(
-                    "option selected state changed", event.sender.instanceId,
+                    "selectable state changed", event.sender.instanceId,
                     "from", event.wasSelected,
                     "to", event.isSelected,
                     "value from", event.wasSelected ? event.sender.getValue() : undefined,

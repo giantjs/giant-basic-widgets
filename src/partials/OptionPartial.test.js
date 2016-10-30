@@ -73,7 +73,7 @@
             equal(event.afterValue, 'foo', "should set afterValue");
         }
 
-        option.subscribeTo($basicWidgets.EVENT_INPUT_VALUE_CHANGE, onValueChange);
+        option.subscribeTo($basicWidgets.EVENT_SELECTABLE_VALUE_CHANGE, onValueChange);
 
         strictEqual(option.setValue('foo'), option, "should be chainable");
         equal(option.getValue(), 'foo', "should set option value attribute");
@@ -82,7 +82,7 @@
         option.setValue('foo');
 
         option.removeMocks();
-        option.unsubscribeFrom($basicWidgets.EVENT_INPUT_VALUE_CHANGE, onValueChange);
+        option.unsubscribeFrom($basicWidgets.EVENT_SELECTABLE_VALUE_CHANGE, onValueChange);
     });
 
     // TODO: Extend with events

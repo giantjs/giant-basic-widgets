@@ -109,7 +109,6 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
                     '_updateLastSelectedValues',
                     'getItemWidgetByValue',
                     'onChange',
-                    'onInputValueChange',
                     'onSelectableStateChange');
 
                 this.addAttribute('multiple', 'true');
@@ -147,8 +146,7 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
 
                 this._syncOptionsToSelection();
 
-                this.subscribeTo($basicWidgets.EVENT_INPUT_VALUE_CHANGE, this.onInputValueChange)
-                    .subscribeTo($basicWidgets.EVENT_SELECTABLE_STATE_CHANGE, this.onSelectableStateChange);
+                this.subscribeTo($basicWidgets.EVENT_SELECTABLE_STATE_CHANGE, this.onSelectableStateChange);
             },
 
             /** @ignore */
@@ -251,7 +249,10 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
              * @param {$basicWidgets.InputValueChangeEvent} event
              * @ignore
              */
-            onInputValueChange: function (event) {
+            onSelectableValueChange: function (event) {
+                $basicWidgets.SelectableLookupMaintainer
+                    .onSelectableValueChange.call(this, event);
+
                 var beforeValue = event.beforeValue,
                     afterValue = event.afterValue,
                     selectedValues = this.selectedValues;

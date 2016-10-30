@@ -7,7 +7,6 @@ $oop.postpone($basicWidgets, 'SelectableLookupMaintainer', function () {
     /**
      * Maintains associations between option widgets and their values.
      * Expects to be added to List widgets.
-     * TODO: Updating lookup when values change.
      * @class
      * @extends $oop.Base
      * @extends $basicWidgets.List
@@ -29,8 +28,7 @@ $oop.postpone($basicWidgets, 'SelectableLookupMaintainer', function () {
 
             /** Call from host's afterAdd */
             afterAdd: function () {
-                // TODO: Change to EVENT_SELECTABLE_VALUE_CHANGE
-                this.subscribeTo($basicWidgets.EVENT_INPUT_VALUE_CHANGE, this.onSelectableValueChange);
+                this.subscribeTo($basicWidgets.EVENT_SELECTABLE_VALUE_CHANGE, this.onSelectableValueChange);
             },
 
             /**
