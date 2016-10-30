@@ -102,8 +102,8 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
                 this.elevateMethods(
                     '_updateLastSelectedValue',
                     'onChange',
-                    'onOptionValueChange',
-                    'onOptionSelectedChange');
+                    'onInputValueChange',
+                    'onSelectableStateChange');
 
                 /**
                  * Selected value before the last option select event.
@@ -133,8 +133,8 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
 
                 this._syncOptionsToSelection();
 
-                this.subscribeTo($basicWidgets.EVENT_OPTION_VALUE_CHANGE, this.onOptionValueChange)
-                    .subscribeTo($basicWidgets.EVENT_OPTION_SELECTED_CHANGE, this.onOptionSelectedChange);
+                this.subscribeTo($basicWidgets.EVENT_INPUT_VALUE_CHANGE, this.onInputValueChange)
+                    .subscribeTo($basicWidgets.EVENT_SELECTABLE_STATE_CHANGE, this.onSelectableStateChange);
             },
 
             /** @ignore */
@@ -246,10 +246,10 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
             },
 
             /**
-             * @param {$basicWidgets.OptionValueChangeEvent} event
+             * @param {$basicWidgets.InputValueChangeEvent} event
              * @ignore
              */
-            onOptionValueChange: function (event) {
+            onInputValueChange: function (event) {
                 var beforeValue = event.beforeValue,
                     afterValue = event.afterValue,
                     optionWidgetsByValue = this.optionWidgetsByValue,
@@ -275,7 +275,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
              * @param {$event.Event} event
              * @ignore
              */
-            onOptionSelectedChange: function (event) {
+            onSelectableStateChange: function (event) {
                 var affectedOptionWidget = event.sender,
                     isSelected = affectedOptionWidget.selected,
                     selectedValueBefore = this.selectedValue,

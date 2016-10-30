@@ -73,7 +73,7 @@
             equal(event.afterValue, 'foo', "should set afterValue");
         }
 
-        option.subscribeTo($basicWidgets.EVENT_OPTION_VALUE_CHANGE, onValueChange);
+        option.subscribeTo($basicWidgets.EVENT_INPUT_VALUE_CHANGE, onValueChange);
 
         strictEqual(option.setValue('foo'), option, "should be chainable");
         equal(option.getValue(), 'foo', "should set option value attribute");
@@ -82,7 +82,7 @@
         option.setValue('foo');
 
         option.removeMocks();
-        option.unsubscribeFrom($basicWidgets.EVENT_OPTION_VALUE_CHANGE, onValueChange);
+        option.unsubscribeFrom($basicWidgets.EVENT_INPUT_VALUE_CHANGE, onValueChange);
     });
 
     // TODO: Extend with events
@@ -99,12 +99,12 @@
             ok(event.isSelected, "should set isSelected");
         }
 
-        option.subscribeTo($basicWidgets.EVENT_OPTION_SELECTED_CHANGE, onSelectedChange);
+        option.subscribeTo($basicWidgets.EVENT_SELECTABLE_STATE_CHANGE, onSelectedChange);
 
         strictEqual(option.select(), option, "should be chainable");
         ok(option.selected, "should add selected attribute");
 
-        option.unsubscribeFrom($basicWidgets.EVENT_OPTION_SELECTED_CHANGE, onSelectedChange);
+        option.unsubscribeFrom($basicWidgets.EVENT_SELECTABLE_STATE_CHANGE, onSelectedChange);
     });
 
     // TODO: Extend with events
@@ -122,13 +122,13 @@
             ok(!event.isSelected, "should set isSelected");
         }
 
-        option.subscribeTo($basicWidgets.EVENT_OPTION_SELECTED_CHANGE, onSelectedChange);
+        option.subscribeTo($basicWidgets.EVENT_SELECTABLE_STATE_CHANGE, onSelectedChange);
 
         option.select();
 
         strictEqual(option.deselect(), option, "should be chainable");
         ok(!option.selected, "should remove selected attribute");
 
-        option.unsubscribeFrom($basicWidgets.EVENT_OPTION_SELECTED_CHANGE, onSelectedChange);
+        option.unsubscribeFrom($basicWidgets.EVENT_SELECTABLE_STATE_CHANGE, onSelectedChange);
     });
 }());

@@ -125,19 +125,19 @@ $oop.postpone($basicWidgets, 'OptionPartial', function () {
 
             /**
              * Associates value with option.
-             * @param {string} optionValue
+             * @param {string} value
              * @returns {$basicWidgets.OptionPartial}
              */
-            setValue: function (optionValue) {
+            setValue: function (value) {
                 var beforeValue = this.getValue();
 
-                if (optionValue !== beforeValue) {
-                    this.addAttribute('value', optionValue);
+                if (value !== beforeValue) {
+                    this.addAttribute('value', value);
 
-                    // triggering event about value change (on parent, non-bubbling)
-                    this.spawnEvent($basicWidgets.EVENT_OPTION_VALUE_CHANGE)
+                    // TODO: Should be non-bubbling?
+                    this.spawnEvent($basicWidgets.EVENT_INPUT_VALUE_CHANGE)
                         .setBeforeValue(beforeValue)
-                        .setAfterValue(optionValue)
+                        .setAfterValue(value)
                         .triggerSync();
                 }
 
@@ -153,7 +153,7 @@ $oop.postpone($basicWidgets, 'OptionPartial', function () {
                     this.selected = true;
                     this._syncAttributeToSelected();
 
-                    this.spawnEvent($basicWidgets.EVENT_OPTION_SELECTED_CHANGE)
+                    this.spawnEvent($basicWidgets.EVENT_SELECTABLE_STATE_CHANGE)
                         .setWasSelected(false)
                         .setIsSelected(true)
                         .triggerSync();
@@ -171,7 +171,7 @@ $oop.postpone($basicWidgets, 'OptionPartial', function () {
                     this.selected = false;
                     this._syncAttributeToSelected();
 
-                    this.spawnEvent($basicWidgets.EVENT_OPTION_SELECTED_CHANGE)
+                    this.spawnEvent($basicWidgets.EVENT_SELECTABLE_STATE_CHANGE)
                         .setWasSelected(true)
                         .setIsSelected(false)
                         .triggerSync();
@@ -181,21 +181,3 @@ $oop.postpone($basicWidgets, 'OptionPartial', function () {
             }
         });
 });
-
-(function () {
-    "use strict";
-
-    $oop.addGlobalConstants.call($basicWidgets, /** @lends $basicWidgets */{
-        /**
-         * Signals that the value of an option has changed.
-         * @constants
-         */
-        EVENT_OPTION_VALUE_CHANGE: 'widget.change.option.value',
-
-        /**
-         * Signals that the selected state of an option has changed.
-         * @constants
-         */
-        EVENT_OPTION_SELECTED_CHANGE: 'widget.change.option.selected'
-    });
-}());

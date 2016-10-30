@@ -41,3 +41,12 @@
  * @function
  * @returns {string}
  */
+
+$oop.addGlobalConstants.call($basicWidgets, /** @lends $basicWidgets */{
+    /**
+     * Signals that the selected state of a selectable
+     * (option, checkbox, etc.) has changed.
+     * @constant
+     */
+    EVENT_SELECTABLE_STATE_CHANGE: 'widget.change.selectable.state'
+});

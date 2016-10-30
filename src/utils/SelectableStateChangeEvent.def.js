@@ -1,23 +1,23 @@
-$oop.postpone($basicWidgets, 'OptionSelectedChangeEvent', function () {
+$oop.postpone($basicWidgets, 'SelectableStateChangeEvent', function () {
     "use strict";
 
     var base = $widget.WidgetEvent,
         self = base.extend();
 
     /**
-     * @name $basicWidgets.OptionSelectedChangeEvent.create
+     * @name $basicWidgets.SelectableStateChangeEvent.create
      * @function
      * @param {string} eventName
      * @param {$event.EventSpace} eventSpace
-     * @returns {$basicWidgets.OptionSelectedChangeEvent}
+     * @returns {$basicWidgets.SelectableStateChangeEvent}
      */
 
     /**
      * @class
      * @extends $widget.WidgetEvent
      */
-    $basicWidgets.OptionSelectedChangeEvent = self
-        .addMethods(/** @lends $basicWidgets.OptionSelectedChangeEvent# */{
+    $basicWidgets.SelectableStateChangeEvent = self
+        .addMethods(/** @lends $basicWidgets.SelectableStateChangeEvent# */{
             /**
              * @param {string} eventName
              * @param {$event.EventSpace} eventSpace
@@ -39,7 +39,7 @@ $oop.postpone($basicWidgets, 'OptionSelectedChangeEvent', function () {
 
             /**
              * @param {boolean} wasSelected
-             * @returns {$basicWidgets.OptionSelectedChangeEvent}
+             * @returns {$basicWidgets.SelectableStateChangeEvent}
              */
             setWasSelected: function (wasSelected) {
                 this.wasSelected = wasSelected;
@@ -48,7 +48,7 @@ $oop.postpone($basicWidgets, 'OptionSelectedChangeEvent', function () {
 
             /**
              * @param {boolean} isSelected
-             * @returns {$basicWidgets.OptionSelectedChangeEvent}
+             * @returns {$basicWidgets.SelectableStateChangeEvent}
              */
             setIsSelected: function (isSelected) {
                 this.isSelected = isSelected;
@@ -57,7 +57,7 @@ $oop.postpone($basicWidgets, 'OptionSelectedChangeEvent', function () {
 
             /**
              * @param {$data.Path} currentPath
-             * @returns {$basicWidgets.OptionSelectedChangeEvent}
+             * @returns {$basicWidgets.SelectableStateChangeEvent}
              */
             clone: function (currentPath) {
                 var result = base.clone.call(this, currentPath);
@@ -74,7 +74,7 @@ $oop.amendPostponed($event, 'Event', function () {
     "use strict";
 
     $event.Event
-        .addSurrogate($basicWidgets, 'OptionSelectedChangeEvent', function (eventName) {
-            return eventName === 'widget.change.option.selected';
+        .addSurrogate($basicWidgets, 'SelectableStateChangeEvent', function (eventName) {
+            return eventName === 'widget.change.selectable.state';
         }, 1);
 });
