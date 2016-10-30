@@ -14,8 +14,6 @@
 
     test("Instantiation", function () {
         var select = SelectPartial.create();
-
-        ok(select.optionWidgetsByValue.isA($data.Collection), "should add optionWidgetsByValue property");
         equal(select.tagName, 'select', "should set tagName property");
     });
 
@@ -29,40 +27,5 @@
         throws(function () {
             select.addItemWidget($widget.Widget.create());
         }, "should throw exception on invalid option argument");
-
-        var option = $basicWidgets.Option.create()
-            .setValue('foo');
-
-        strictEqual(select.addItemWidget(option), select, "should be chainable");
-        deepEqual(select.optionWidgetsByValue.items, {
-            foo: option
-        }, "should add item widget to lookup");
-
-        throws(function () {
-            select.addItemWidget($basicWidgets.Option.create()
-                .setValue('foo'));
-        }, "should throw exception on adding duplicate");
-    });
-
-    test("Item widget removal", function () {
-        var option = $basicWidgets.Option.create()
-            .setValue('foo'),
-            select = SelectPartial.create();
-
-        strictEqual(select.removeItemWidget(option), select, "should be chainable");
-        deepEqual(select.optionWidgetsByValue.items, {}, "should remove item widget from lookup");
-    });
-
-    test("Option widget getter", function () {
-        var option1 = $basicWidgets.Option.create()
-            .setValue('foo'),
-            option2 = $basicWidgets.Option.create()
-                .setValue('bar'),
-            select = SelectPartial.create()
-                .addItemWidget(option1)
-                .addItemWidget(option2);
-
-        strictEqual(select.getOptionWidgetByValue('bar'), option2,
-            "should return option instance with specified value");
     });
 }());

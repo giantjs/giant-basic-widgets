@@ -616,7 +616,7 @@ _addHybridMultiSelect: function (itemWidget) {
 
                 this._addWidget(
                     this._addSingleSelect,
-                    "widgetId.toWidget().getOptionWidgetByValue('wed').select()");
+                    "widgetId.toWidget().getItemWidgetByValue('wed').select()");
 
                 this._addWidget(
                     this._addLocaleSingleSelect,
@@ -625,7 +625,7 @@ _addHybridMultiSelect: function (itemWidget) {
 
                 this._addWidget(
                     this._addMultiSelect,
-                    "widgetId.toWidget().getOptionWidgetByValue('wed').select()");
+                    "widgetId.toWidget().getItemWidgetByValue('wed').select()");
 
                 this._addWidget(
                     this._addDataSingleSelect,

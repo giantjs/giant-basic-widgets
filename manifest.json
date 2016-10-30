@@ -34,6 +34,7 @@
         "src/partials/EntitySelectPartial.def.js",
         "src/partials/EntityTagged.def.js",
         "src/partials/OptionPartial.def.js",
+        "src/partials/SelectableLookupMaintainer.def.js",
         "src/partials/SelectPartial.def.js",
         "src/widgets/Application.def.js",
         "src/widgets/BinaryInput.def.js",

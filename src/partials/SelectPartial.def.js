@@ -5,9 +5,7 @@ $oop.postpone($basicWidgets, 'SelectPartial', function () {
         self = base.extend();
 
     /**
-     * Maintains associations between option widgets and their values.
-     * Expects to be added to List widgets.
-     * TODO: Rename to OptionWidgetLookupMaintainer?
+     * Implements common functionality for SingleSelect & MultiSelect.
      * @class
      * @extends $oop.Base
      * @extends $basicWidgets.List
@@ -18,41 +16,17 @@ $oop.postpone($basicWidgets, 'SelectPartial', function () {
             /** @ignore */
             init: function () {
                 this.setTagName('select');
-
-                /**
-                 * All option widgets indexed by their values.
-                 * Holds instances of OptionPartial.
-                 * @type {$data.Collection}
-                 */
-                this.optionWidgetsByValue = $data.Collection.create();
             },
 
             /**
              * Adds option widget to the select.
              * Only allows Option instances the value on which are not yet present in the SelectPartial.
-             * @param {$basicWidgets.OptionPartial} itemWidget
+             * @param {$basicWidgets.Selectable} itemWidget
              * @returns {$basicWidgets.SelectPartial}
              */
             addItemWidget: function (itemWidget) {
                 $assertion
-                    .assert(itemWidget && itemWidget.tagName === 'option', "Invalid option widget")
-                    .assert(!this.getOptionWidgetByValue(itemWidget.getValue()),
-                        "Duplicate option value");
-
-                // adding option to lookup
-                this.optionWidgetsByValue.setItem(itemWidget.getValue(), itemWidget);
-
-                return this;
-            },
-
-            /**
-             * Removes option widget from select.
-             * @param {$basicWidgets.OptionPartial} itemWidget
-             * @returns {$basicWidgets.SelectPartial}
-             */
-            removeItemWidget: function (itemWidget) {
-                // removing option from lookup
-                this.optionWidgetsByValue.deleteItem(itemWidget.getValue());
+                    .assert(itemWidget && itemWidget.tagName === 'option', "Invalid option widget");
 
                 return this;
             },
@@ -101,15 +75,6 @@ $oop.postpone($basicWidgets, 'SelectPartial', function () {
                 this.addItemWidget(optionWidget);
 
                 return this;
-            },
-
-            /**
-             * Retrieves the Option instance associated with the specified value.
-             * @param {string} optionValue
-             * @returns {$basicWidgets.OptionPartial}
-             */
-            getOptionWidgetByValue: function (optionValue) {
-                return this.optionWidgetsByValue.getItem(optionValue);
             }
         });
 });

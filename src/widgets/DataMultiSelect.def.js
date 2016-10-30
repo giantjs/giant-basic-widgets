@@ -35,13 +35,13 @@ $oop.postpone($basicWidgets, 'DataMultiSelect', function (ns, cn) {
                     selectedValues = selectedValuesAfter.subtract(selectedValuesBefore).toCollection(),
                     deselectedValues = selectedValuesBefore.subtract(selectedValuesAfter).toCollection();
 
-                // getOptionWidgetByValue is elevated by base class
+                // getItemWidgetByValue is elevated by base class
                 selectedValues
-                    .mapValues(this.getOptionWidgetByValue)
+                    .mapValues(this.getItemWidgetByValue)
                     .callOnEachItem('select');
 
                 deselectedValues
-                    .mapValues(this.getOptionWidgetByValue)
+                    .mapValues(this.getItemWidgetByValue)
                     .callOnEachItem('deselect');
             }
         })

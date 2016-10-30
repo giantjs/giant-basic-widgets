@@ -3,6 +3,7 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
 
     var base = $basicWidgets.List,
         self = base.extend(cn)
+            .addTraitAndExtend($basicWidgets.SelectableLookupMaintainer)
             .addTrait($basicWidgets.SelectPartial)
             .addTraitAndExtend($basicWidgets.BinaryStateful)
             .addTraitAndExtend($basicWidgets.Disableable, 'Disableable')
@@ -19,6 +20,7 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
      * Dom-native select dropdown with multiple selections.
      * @class
      * @extends $basicWidgets.List
+     * @extends $basicWidgets.SelectableLookupMaintainer
      * @extends $basicWidgets.SelectPartial
      * @extends $basicWidgets.BinaryStateful
      * @extends $basicWidgets.Disableable
@@ -58,7 +60,7 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
 
             /** @private */
             _syncOptionsToSelection: function () {
-                var selectedValuesBefore = this.optionWidgetsByValue
+                var selectedValuesBefore = this.itemWidgetsByValue
                         .filterBySelector(function (optionWidget) {
                             return optionWidget.selected;
                         })
@@ -71,11 +73,11 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
                     deselectedValues = selectedValuesBefore.subtract(selectedValuesAfter).toCollection();
 
                 selectedValues
-                    .mapValues(this.getOptionWidgetByValue)
+                    .mapValues(this.getItemWidgetByValue)
                     .callOnEachItem('select');
 
                 deselectedValues
-                    .mapValues(this.getOptionWidgetByValue)
+                    .mapValues(this.getItemWidgetByValue)
                     .callOnEachItem('deselect');
             },
 
@@ -97,6 +99,7 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
             /** @ignore */
             init: function () {
                 base.init.call(this);
+                $basicWidgets.SelectableLookupMaintainer.init.call(this);
                 $basicWidgets.SelectPartial.init.call(this);
                 $basicWidgets.BinaryStateful.init.call(this);
                 $basicWidgets.Disableable.init.call(this);
@@ -104,7 +107,7 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
                 this.elevateMethods(
                     '_valueGetterProxy',
                     '_updateLastSelectedValues',
-                    'getOptionWidgetByValue',
+                    'getItemWidgetByValue',
                     'onChange',
                     'onInputValueChange',
                     'onSelectableStateChange');
@@ -179,6 +182,7 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
              */
             addItemWidget: function (itemWidget) {
                 base.addItemWidget.call(this, itemWidget);
+                $basicWidgets.SelectableLookupMaintainer.addItemWidget.call(this, itemWidget);
                 $basicWidgets.SelectPartial.addItemWidget.call(this, itemWidget);
 
                 var optionValue;
@@ -199,7 +203,7 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
              */
             removeItemWidget: function (itemWidget) {
                 base.removeItemWidget.call(this, itemWidget);
-                $basicWidgets.SelectPartial.removeItemWidget.call(this, itemWidget);
+                $basicWidgets.SelectableLookupMaintainer.removeItemWidget.call(this, itemWidget);
 
                 var optionValue;
 
@@ -232,11 +236,11 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
                     deselectedValues = selectedValuesBefore.subtract(selectedValuesAfter).toCollection();
 
                 selectedValues
-                    .mapValues(this.getOptionWidgetByValue)
+                    .mapValues(this.getItemWidgetByValue)
                     .callOnEachItem('select');
 
                 deselectedValues
-                    .mapValues(this.getOptionWidgetByValue)
+                    .mapValues(this.getItemWidgetByValue)
                     .callOnEachItem('deselect');
 
                 link.unlink();
@@ -249,7 +253,7 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
             onInputValueChange: function (event) {
                 var beforeValue = event.beforeValue,
                     afterValue = event.afterValue,
-                    optionWidgetsByValue = this.optionWidgetsByValue,
+                    optionWidgetsByValue = this.itemWidgetsByValue,
                     selectedValues = this.selectedValues,
                     affectedOptionWidget = optionWidgetsByValue.getItem(beforeValue),
                     targetOptionWidget = optionWidgetsByValue.getItem(afterValue);

@@ -38,8 +38,8 @@ $oop.postpone($basicWidgets, 'DataSingleSelect', function (ns, cn) {
                     deselectedOption;
 
                 if (selectedValueAfter !== selectedValueBefore) {
-                    selectedOption = this.getOptionWidgetByValue(selectedValueAfter);
-                    deselectedOption = this.getOptionWidgetByValue(selectedValueBefore);
+                    selectedOption = this.getItemWidgetByValue(selectedValueAfter);
+                    deselectedOption = this.getItemWidgetByValue(selectedValueBefore);
 
                     if (selectedOption) {
                         selectedOption.select();

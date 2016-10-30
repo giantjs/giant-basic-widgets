@@ -3,6 +3,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
 
     var base = $basicWidgets.List,
         self = base.extend(cn)
+            .addTraitAndExtend($basicWidgets.SelectableLookupMaintainer)
             .addTrait($basicWidgets.SelectPartial)
             .addTraitAndExtend($basicWidgets.BinaryStateful)
             .addTraitAndExtend($basicWidgets.Disableable, 'Disableable')
@@ -18,6 +19,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
      * Dom-native select dropdown.
      * @class
      * @extends $basicWidgets.List
+     * @extends $basicWidgets.SelectableLookupMaintainer
      * @extends $basicWidgets.SelectPartial
      * @extends $basicWidgets.BinaryStateful
      * @extends $basicWidgets.Disableable
@@ -63,8 +65,8 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
                     deselectedOption;
 
                 if (selectedValueAfter !== selectedValueBefore) {
-                    selectedOption = this.getOptionWidgetByValue(selectedValueAfter);
-                    deselectedOption = this.getOptionWidgetByValue(selectedValueBefore);
+                    selectedOption = this.getItemWidgetByValue(selectedValueAfter);
+                    deselectedOption = this.getItemWidgetByValue(selectedValueBefore);
 
                     if (selectedOption) {
                         selectedOption.select();
@@ -95,6 +97,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
             /** @ignore */
             init: function () {
                 base.init.call(this);
+                $basicWidgets.SelectableLookupMaintainer.init.call(this);
                 $basicWidgets.SelectPartial.init.call(this);
                 $basicWidgets.BinaryStateful.init.call(this);
                 $basicWidgets.Disableable.init.call(this);
@@ -169,6 +172,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
              */
             addItemWidget: function (itemWidget) {
                 base.addItemWidget.call(this, itemWidget);
+                $basicWidgets.SelectableLookupMaintainer.addItemWidget.call(this, itemWidget);
                 $basicWidgets.SelectPartial.addItemWidget.call(this, itemWidget);
 
                 if (itemWidget.selected) {
@@ -186,7 +190,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
              */
             removeItemWidget: function (itemWidget) {
                 base.removeItemWidget.call(this, itemWidget);
-                $basicWidgets.SelectPartial.removeItemWidget.call(this, itemWidget);
+                $basicWidgets.SelectableLookupMaintainer.removeItemWidget.call(this, itemWidget);
 
                 if (itemWidget.selected) {
                     // TODO: Add test
@@ -233,12 +237,12 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
                 if (selectedValueAfter !== selectedValueBefore) {
                     // deselecting current option
                     if (selectedValueBefore) {
-                        this.getOptionWidgetByValue(selectedValueBefore).deselect();
+                        this.getItemWidgetByValue(selectedValueBefore).deselect();
                     }
 
                     // selecting new option
                     if (selectedValueAfter) {
-                        this.getOptionWidgetByValue(selectedValueAfter).select();
+                        this.getItemWidgetByValue(selectedValueAfter).select();
                     }
                 }
 
@@ -252,7 +256,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
             onInputValueChange: function (event) {
                 var beforeValue = event.beforeValue,
                     afterValue = event.afterValue,
-                    optionWidgetsByValue = this.optionWidgetsByValue,
+                    optionWidgetsByValue = this.itemWidgetsByValue,
                     selectedValueBefore = this.selectedValue,
                     affectedOptionWidget = optionWidgetsByValue.getItem(beforeValue),
                     targetOptionWidget = optionWidgetsByValue.getItem(afterValue);
@@ -285,7 +289,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
 
                 // deselecting previously selected option
                 if (isSelected && selectedValueBefore) {
-                    this.optionWidgetsByValue.getItem(selectedValueBefore)
+                    this.itemWidgetsByValue.getItem(selectedValueBefore)
                         .deselect();
                 }
 

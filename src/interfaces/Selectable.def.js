@@ -42,6 +42,7 @@
  * @returns {string}
  */
 
+// TODO: Restore selectable value change event?
 $oop.addGlobalConstants.call($basicWidgets, /** @lends $basicWidgets */{
     /**
      * Signals that the selected state of a selectable
