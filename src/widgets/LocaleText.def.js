@@ -13,6 +13,8 @@ $oop.postpone($basicWidgets, 'LocaleText', function (ns, cn) {
      */
 
     /**
+     * Shorthand for templated & localized text that updates on
+     * locale change (locale 'ready' change) and changing template parameters.
      * TODO: Add tests for events.
      * @class
      * @extends $basicWidgets.Text
