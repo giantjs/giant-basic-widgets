@@ -242,6 +242,43 @@ _addEmail: function (itemWidget) {
 },
 
 /** @private */
+_addCheckboxInput: function (itemWidget) {
+    // creating a label for the input
+    var label = $basicWidgets.Text.create()
+        .setChildName('z-label')
+        .setContentString("Meows")
+        .setContainerCssClass('widget-container')
+        .addToParent(itemWidget);
+
+    return $basicWidgets.BinaryInput.create('checkbox')
+        .setName('meows')
+        .setValue('Yes')
+        .linkLabelWidget(label);
+},
+
+/** @private */
+_addDataCheckboxInput: function (itemWidget) {
+    // setting input properties
+    'input/2'.toDocument().setNode({
+        name: 'abilities',
+        value: 'jumps'
+    });
+
+    // creating a label for the input
+    var label = $basicWidgets.Text.create()
+        .setChildName('z-label')
+        .setContentString("Jumps")
+        .setContainerCssClass('widget-container')
+        .addToParent(itemWidget);
+
+    return $basicWidgets.DataBinaryInput.create(
+        'checkbox',
+        'input/2/value'.toFieldKey(),
+        'input/2/name'.toFieldKey())
+        .linkLabelWidget(label);
+},
+
+/** @private */
 _addSingleSelect: function (itemWidget) {
     // creating a label for the select
     var label = $basicWidgets.Text.create()
@@ -502,10 +539,9 @@ _addHybridMultiSelect: function (itemWidget) {
                     'onClickableClick',
                     'onInputFocus',
                     'onInputBlur',
-                    'onInputValueChange',
                     'onInputValidityChange',
-                    'onOptionValueChange',
-                    'onOptionSelectedChange',
+                    'onInputValueChange',
+                    'onSelectableStateChange',
                     'onSelectSelectionChange');
 
                 $basicWidgets.Text.create()
@@ -571,6 +607,14 @@ _addHybridMultiSelect: function (itemWidget) {
                     "Text Area");
 
                 this._addWidget(
+                    this._addCheckboxInput,
+                    "widgetId.toWidget().select(true)");
+
+                this._addWidget(
+                    this._addDataCheckboxInput,
+                    "widgetId.toWidget().select(true)");
+
+                this._addWidget(
                     this._addSingleSelect,
                     "widgetId.toWidget().getOptionWidgetByValue('wed').select()");
 
@@ -611,8 +655,7 @@ _addHybridMultiSelect: function (itemWidget) {
                     .subscribeTo($basicWidgets.EVENT_INPUT_BLUR, this.onInputBlur)
                     .subscribeTo($basicWidgets.EVENT_INPUT_VALUE_CHANGE, this.onInputValueChange)
                     .subscribeTo($basicWidgets.EVENT_INPUT_VALIDITY_CHANGE, this.onInputValidityChange)
-                    .subscribeTo($basicWidgets.EVENT_OPTION_VALUE_CHANGE, this.onOptionValueChange)
-                    .subscribeTo($basicWidgets.EVENT_OPTION_SELECTED_CHANGE, this.onOptionSelectedChange)
+                    .subscribeTo($basicWidgets.EVENT_SELECTABLE_STATE_CHANGE, this.onSelectableStateChange)
                     .subscribeTo($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, this.onSelectSelectionChange)
                     .subscribeTo($basicWidgets.EVENT_HOTKEY_DOWN, this.onHotkeyDown);
             },
@@ -664,25 +707,16 @@ _addHybridMultiSelect: function (itemWidget) {
             },
 
             /**
-             * @param {$basicWidgets.OptionValueChangeEvent} event
+             * @param {$basicWidgets.SelectableStateChangeEvent} event
              * @ignore
              */
-            onOptionValueChange: function (event) {
-                console.info(
-                    "option value changed", event.sender.instanceId,
-                    "from", event.beforeValue,
-                    "to", event.afterValue);
-            },
-
-            /**
-             * @param {$basicWidgets.OptionSelectedChangeEvent} event
-             * @ignore
-             */
-            onOptionSelectedChange: function (event) {
+            onSelectableStateChange: function (event) {
                 console.info(
                     "option selected state changed", event.sender.instanceId,
                     "from", event.wasSelected,
-                    "to", event.isSelected);
+                    "to", event.isSelected,
+                    "value from", event.wasSelected ? event.sender.getValue() : undefined,
+                    "to", event.isSelected ? event.sender.getValue() : undefined);
             },
 
             /**
