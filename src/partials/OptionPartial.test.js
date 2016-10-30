@@ -59,7 +59,7 @@
 
         option.addAttribute('value', 'foo');
 
-        equal(option.getOptionValue(), 'foo', "should retrieve value attribute");
+        equal(option.getValue(), 'foo', "should retrieve value attribute");
     });
 
     test("Option value setter", function () {
@@ -75,11 +75,11 @@
 
         option.subscribeTo($basicWidgets.EVENT_OPTION_VALUE_CHANGE, onValueChange);
 
-        strictEqual(option.setOptionValue('foo'), option, "should be chainable");
-        equal(option.getOptionValue(), 'foo', "should set option value attribute");
+        strictEqual(option.setValue('foo'), option, "should be chainable");
+        equal(option.getValue(), 'foo', "should set option value attribute");
 
         // should not trigger any further events when setting same value
-        option.setOptionValue('foo');
+        option.setValue('foo');
 
         option.removeMocks();
         option.unsubscribeFrom($basicWidgets.EVENT_OPTION_VALUE_CHANGE, onValueChange);

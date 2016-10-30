@@ -31,7 +31,7 @@
         }, "should throw exception on invalid option argument");
 
         var option = $basicWidgets.Option.create()
-            .setOptionValue('foo');
+            .setValue('foo');
 
         strictEqual(select.addItemWidget(option), select, "should be chainable");
         deepEqual(select.optionWidgetsByValue.items, {
@@ -40,13 +40,13 @@
 
         throws(function () {
             select.addItemWidget($basicWidgets.Option.create()
-                .setOptionValue('foo'));
+                .setValue('foo'));
         }, "should throw exception on adding duplicate");
     });
 
     test("Item widget removal", function () {
         var option = $basicWidgets.Option.create()
-            .setOptionValue('foo'),
+            .setValue('foo'),
             select = SelectPartial.create();
 
         strictEqual(select.removeItemWidget(option), select, "should be chainable");
@@ -55,9 +55,9 @@
 
     test("Option widget getter", function () {
         var option1 = $basicWidgets.Option.create()
-            .setOptionValue('foo'),
+            .setValue('foo'),
             option2 = $basicWidgets.Option.create()
-                .setOptionValue('bar'),
+                .setValue('bar'),
             select = SelectPartial.create()
                 .addItemWidget(option1)
                 .addItemWidget(option2);

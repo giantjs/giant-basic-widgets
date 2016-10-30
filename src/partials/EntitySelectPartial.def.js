@@ -22,7 +22,7 @@ $oop.postpone($basicWidgets, 'EntitySelectPartial', function () {
              */
             spawnItemWidget: function (itemKey) {
                 return $basicWidgets.DataOption.create(itemKey)
-                    .setOptionValue(itemKey.itemId);
+                    .setValue(itemKey.itemId);
             },
 
             /**

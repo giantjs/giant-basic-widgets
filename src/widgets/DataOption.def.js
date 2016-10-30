@@ -28,11 +28,11 @@ $oop.postpone($basicWidgets, 'DataOption', function (ns, cn) {
         .addPrivateMethods(/** @lends $basicWidgets.DataOption# */{
             /** @private */
             _syncValueToEntity: function () {
-                var oldValue = this.getOptionValue(),
+                var oldValue = this.getValue(),
                     newValue = this.valueKey.toField().getValue();
 
                 if (newValue !== oldValue) {
-                    this.setOptionValue(newValue);
+                    this.setValue(newValue);
                 }
             }
         })
@@ -52,7 +52,7 @@ $oop.postpone($basicWidgets, 'DataOption', function (ns, cn) {
 
                 /**
                  * Identifies option value in the entity store.
-                 * When absent, value is expected to be set via `setOptionValue`.
+                 * When absent, value is expected to be set via `setValue`.
                  * @type {$entity.FieldKey}
                  */
                 this.valueKey = valueKey;

@@ -36,11 +36,11 @@ $oop.postpone($basicWidgets, 'SelectPartial', function () {
             addItemWidget: function (itemWidget) {
                 $assertion
                     .assert(itemWidget && itemWidget.tagName === 'option', "Invalid option widget")
-                    .assert(!this.getOptionWidgetByValue(itemWidget.getOptionValue()),
+                    .assert(!this.getOptionWidgetByValue(itemWidget.getValue()),
                         "Duplicate option value");
 
                 // adding option to lookup
-                this.optionWidgetsByValue.setItem(itemWidget.getOptionValue(), itemWidget);
+                this.optionWidgetsByValue.setItem(itemWidget.getValue(), itemWidget);
 
                 return this;
             },
@@ -52,7 +52,7 @@ $oop.postpone($basicWidgets, 'SelectPartial', function () {
              */
             removeItemWidget: function (itemWidget) {
                 // removing option from lookup
-                this.optionWidgetsByValue.deleteItem(itemWidget.getOptionValue());
+                this.optionWidgetsByValue.deleteItem(itemWidget.getValue());
 
                 return this;
             },
@@ -68,7 +68,7 @@ $oop.postpone($basicWidgets, 'SelectPartial', function () {
             addOption: function (childName, optionValue, optionText, selected) {
                 var optionWidget = $basicWidgets.Option.create()
                     .setChildName(childName)
-                    .setOptionValue(optionValue)
+                    .setValue(optionValue)
                     .setContentString(optionText);
 
                 if (selected) {
@@ -91,7 +91,7 @@ $oop.postpone($basicWidgets, 'SelectPartial', function () {
             addLocaleOption: function (childName, optionValue, optionText, selected) {
                 var optionWidget = $basicWidgets.LocaleOption.create()
                     .setChildName(childName)
-                    .setOptionValue(optionValue)
+                    .setValue(optionValue)
                     .setContentString(optionText);
 
                 if (selected) {

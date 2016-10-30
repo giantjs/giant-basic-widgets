@@ -185,7 +185,7 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
 
                 if (itemWidget.selected) {
                     // TODO: Add test
-                    optionValue = itemWidget.getOptionValue();
+                    optionValue = itemWidget.getValue();
                     this.selectedValues.setItem(optionValue, optionValue);
                     this._updateLastSelectedValuesDebouncer.schedule(0);
                 }
@@ -205,7 +205,7 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
 
                 if (itemWidget.selected) {
                     // TODO: Add test
-                    optionValue = itemWidget.getOptionValue();
+                    optionValue = itemWidget.getValue();
                     this.selectedValues.deleteItem(optionValue);
                     this._updateLastSelectedValuesDebouncer.schedule(0);
                 }
@@ -279,7 +279,7 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
              */
             onOptionSelectedChange: function (event) {
                 var affectedOptionWidget = event.sender,
-                    affectedValue = affectedOptionWidget.getOptionValue(),
+                    affectedValue = affectedOptionWidget.getValue(),
                     selectedValues = this.selectedValues,
                     isSelected = affectedOptionWidget.selected;
 

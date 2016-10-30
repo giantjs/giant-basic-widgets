@@ -173,7 +173,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
 
                 if (itemWidget.selected) {
                     // TODO: Add test
-                    this.selectedValue = itemWidget.getOptionValue();
+                    this.selectedValue = itemWidget.getValue();
                     this._updateLastSelectedValueDebouncer.schedule(0);
                 }
 
@@ -280,7 +280,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
                     isSelected = affectedOptionWidget.selected,
                     selectedValueBefore = this.selectedValue,
                     selectedValueAfter = isSelected ?
-                        affectedOptionWidget.getOptionValue() :
+                        affectedOptionWidget.getValue() :
                         undefined;
 
                 // deselecting previously selected option

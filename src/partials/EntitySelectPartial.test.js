@@ -22,7 +22,7 @@
             itemWidget = select.spawnItemWidget('foo/1/baz/0'.toItemKey());
 
         ok(itemWidget.isA($basicWidgets.DataOption), "should return DataOption instance");
-        equal(itemWidget.getOptionValue(), '0', "should set Option value");
+        equal(itemWidget.getValue(), '0', "should set Option value");
     });
 
     test("Item name spawner", function () {

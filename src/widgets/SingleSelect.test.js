@@ -14,13 +14,13 @@
 
         var select = $basicWidgets.SingleSelect.create()
             .addItemWidget($basicWidgets.Option.create()
-                .setOptionValue('foo'))
+                .setValue('foo'))
             .addItemWidget($basicWidgets.Option.create()
-                .setOptionValue('bar'));
+                .setValue('bar'));
 
         $basicWidgets.Option.addMocks({
             select: function () {
-                equal(this.getOptionValue(), 'foo', "should select corresponding option");
+                equal(this.getValue(), 'foo', "should select corresponding option");
             }
         });
 
@@ -43,7 +43,7 @@
 
         var element = {},
             option = $basicWidgets.Option.create()
-                .setOptionValue('foo'),
+                .setValue('foo'),
             select = $basicWidgets.SingleSelect.create()
                 .addItemWidget(option);
 
@@ -59,7 +59,7 @@
 
         option.addMocks({
             select: function () {
-                equal(this.getOptionValue(), 'foo', "should select matching option widget");
+                equal(this.getValue(), 'foo', "should select matching option widget");
             }
         });
 
@@ -71,9 +71,9 @@
 
         var done = assert.async(),
             option1 = $basicWidgets.Option.create()
-                .setOptionValue('foo'),
+                .setValue('foo'),
             option2 = $basicWidgets.Option.create()
-                .setOptionValue('bar'),
+                .setValue('bar'),
             select = $basicWidgets.SingleSelect.create()
                 .addItemWidget(option1)
                 .addItemWidget(option2)
@@ -95,10 +95,10 @@
 
         select.subscribeTo($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, onSelectionChange);
 
-        option2.setOptionValue('baz');
+        option2.setValue('baz');
 
         throws(function () {
-            option2.setOptionValue('foo');
+            option2.setValue('foo');
         }, "should throw exception on existing target value");
     });
 
@@ -107,9 +107,9 @@
 
         var done = assert.async(),
             option1 = $basicWidgets.Option.create()
-                .setOptionValue('foo'),
+                .setValue('foo'),
             option2 = $basicWidgets.Option.create()
-                .setOptionValue('bar'),
+                .setValue('bar'),
             select = $basicWidgets.SingleSelect.create()
                 .addItemWidget(option1)
                 .addItemWidget(option2)

@@ -119,7 +119,7 @@ $oop.postpone($basicWidgets, 'OptionPartial', function () {
              * Retrieves value currently associated with the option.
              * @returns {string}
              */
-            getOptionValue: function () {
+            getValue: function () {
                 return this.htmlAttributes.getItem('value');
             },
 
@@ -128,8 +128,8 @@ $oop.postpone($basicWidgets, 'OptionPartial', function () {
              * @param {string} optionValue
              * @returns {$basicWidgets.OptionPartial}
              */
-            setOptionValue: function (optionValue) {
-                var beforeValue = this.getOptionValue();
+            setValue: function (optionValue) {
+                var beforeValue = this.getValue();
 
                 if (optionValue !== beforeValue) {
                     this.addAttribute('value', optionValue);
