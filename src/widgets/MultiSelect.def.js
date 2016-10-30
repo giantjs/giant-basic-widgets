@@ -141,6 +141,7 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
             /** @ignore */
             afterAdd: function () {
                 base.afterAdd.call(this);
+                $basicWidgets.SelectableLookupMaintainer.afterAdd.call(this);
                 $basicWidgets.BinaryStateful.afterAdd.call(this);
                 $basicWidgets.DomInputable.afterAdd.call(this);
 
@@ -253,17 +254,7 @@ $oop.postpone($basicWidgets, 'MultiSelect', function (ns, cn) {
             onInputValueChange: function (event) {
                 var beforeValue = event.beforeValue,
                     afterValue = event.afterValue,
-                    optionWidgetsByValue = this.itemWidgetsByValue,
-                    selectedValues = this.selectedValues,
-                    affectedOptionWidget = optionWidgetsByValue.getItem(beforeValue),
-                    targetOptionWidget = optionWidgetsByValue.getItem(afterValue);
-
-                $assertion.assert(!targetOptionWidget, "Target value already exists");
-
-                // moving option widget in lookup
-                optionWidgetsByValue
-                    .deleteItem(beforeValue)
-                    .setItem(afterValue, affectedOptionWidget);
+                    selectedValues = this.selectedValues;
 
                 if (selectedValues.getItem(beforeValue)) {
                     // select has this option selected

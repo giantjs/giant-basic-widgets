@@ -67,7 +67,7 @@
     });
 
     test("Option value change handler", function (assert) {
-        expect(4);
+        expect(3);
 
         var done = assert.async(),
             option1 = $basicWidgets.Option.create()
@@ -96,10 +96,6 @@
         select.subscribeTo($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, onSelectionChange);
 
         option2.setValue('baz');
-
-        throws(function () {
-            option2.setValue('foo');
-        }, "should throw exception on existing target value");
     });
 
     test("Option selected change handler", function (assert) {

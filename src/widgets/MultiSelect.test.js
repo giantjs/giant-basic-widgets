@@ -37,7 +37,7 @@
     });
 
     test("Option value change handler", function (assert) {
-        expect(4);
+        expect(3);
 
         var done = assert.async(),
             option1 = $basicWidgets.Option.create()
@@ -69,10 +69,6 @@
         option1.select();
         option2.select();
         option2.setValue('baz');
-
-        throws(function () {
-            option2.setValue('foo');
-        }, "should throw exception on existing target value");
     });
 
     test("Multiple option selected state change handler", function (assert) {

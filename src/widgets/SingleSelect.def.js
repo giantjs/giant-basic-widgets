@@ -131,6 +131,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
             /** @ignore */
             afterAdd: function () {
                 base.afterAdd.call(this);
+                $basicWidgets.SelectableLookupMaintainer.afterAdd.call(this);
                 $basicWidgets.BinaryStateful.afterAdd.call(this);
                 $basicWidgets.DomInputable.afterAdd.call(this);
 
@@ -256,17 +257,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
             onInputValueChange: function (event) {
                 var beforeValue = event.beforeValue,
                     afterValue = event.afterValue,
-                    optionWidgetsByValue = this.itemWidgetsByValue,
-                    selectedValueBefore = this.selectedValue,
-                    affectedOptionWidget = optionWidgetsByValue.getItem(beforeValue),
-                    targetOptionWidget = optionWidgetsByValue.getItem(afterValue);
-
-                $assertion.assert(!targetOptionWidget, "Target value already exists");
-
-                // moving option widget in lookup
-                optionWidgetsByValue
-                    .deleteItem(beforeValue)
-                    .setItem(afterValue, affectedOptionWidget);
+                    selectedValueBefore = this.selectedValue;
 
                 // replacing selected value
                 if (selectedValueBefore === beforeValue) {
