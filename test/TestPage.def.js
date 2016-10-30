@@ -279,6 +279,28 @@ _addDataCheckboxInput: function (itemWidget) {
 },
 
 /** @private */
+_addRadioGroup: function (itemWidget) {
+    // creating a label for the select
+    var label = $basicWidgets.Text.create()
+        .setChildName('A-label')
+        .setContentString("Day")
+        .setContainerCssClass('widget-container')
+        .addToParent(itemWidget);
+
+    return $basicWidgets.RadioGroup.create()
+        .setChildName('B-radio-group')
+        .setName('weekday')
+        .addRadioButton('day-01', 'mon', "Monday")
+        .addRadioButton('day-02', 'tue', "Tuesday")
+        .addRadioButton('day-03', 'wed', "Wednesday")
+        .addRadioButton('day-04', 'thu', "Thursday")
+        .addRadioButton('day-05', 'fri', "Friday")
+        .addRadioButton('day-06', 'sat', "Saturday")
+        .addRadioButton('day-07', 'sun', "Sunday")
+        .setValue('tue');
+},
+
+/** @private */
 _addSingleSelect: function (itemWidget) {
     // creating a label for the select
     var label = $basicWidgets.Text.create()
@@ -614,6 +636,10 @@ _addHybridMultiSelect: function (itemWidget) {
                 this._addWidget(
                     this._addDataCheckboxInput,
                     "widgetId.toWidget().select(true)");
+
+                this._addWidget(
+                    this._addRadioGroup,
+                    "widgetId.toWidget().getItemWidgetByValue('wed').select()");
 
                 this._addWidget(
                     this._addSingleSelect,

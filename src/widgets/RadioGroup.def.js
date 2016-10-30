@@ -1,67 +1,32 @@
-$oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
+$oop.postpone($basicWidgets, 'RadioGroup', function (ns, cn) {
     "use strict";
 
     var base = $basicWidgets.List,
         self = base.extend(cn)
             .addTraitAndExtend($basicWidgets.SelectableLookupMaintainer)
-            .addTrait($basicWidgets.SelectPartial)
             .addTraitAndExtend($basicWidgets.BinaryStateful)
-            .addTraitAndExtend($basicWidgets.Disableable, 'Disableable')
-            .addTraitAndExtend($basicWidgets.DomInputable, 'DomInputable');
+            .addTraitAndExtend($basicWidgets.Disableable, 'Disableable');
 
     /**
-     * @name $basicWidgets.SingleSelect.create
+     * @name $basicWidgets.RadioGroup.create
      * @function
-     * @returns {$basicWidgets.SingleSelect}
+     * @returns {$basicWidgets.RadioGroup}
      */
 
     /**
-     * Dom-native select dropdown.
      * @class
      * @extends $basicWidgets.List
      * @extends $basicWidgets.SelectableLookupMaintainer
-     * @extends $basicWidgets.SelectPartial
      * @extends $basicWidgets.BinaryStateful
      * @extends $basicWidgets.Disableable
-     * @extends $basicWidgets.DomInputable
      */
-    $basicWidgets.SingleSelect = self
-        .addPrivateMethods(/** @lends $basicWidgets.SingleSelect# */{
+    $basicWidgets.RadioGroup = self
+        .addPrivateMethods(/** @lends $basicWidgets.RadioGroup# */{
             /**
-             * TODO: Move to DomProxy static class.
-             * @param {Element} element
-             * @param {string} type
-             * @param {function} callback
+             * TODO: Same as in SingleSelect.
              * @private
              */
-            _addEventListenerProxy: function (element, type, callback) {
-                return element.addEventListener(type, callback);
-            },
-
-            /**
-             * TODO: Move to DomProxy static class.
-             * @param {Element} element
-             * @private
-             */
-            _valueGetterProxy: function (element) {
-                return element.value;
-            },
-
-            /**
-             * TODO: Move to DomProxy static class.
-             * @param {HTMLSelectElement} element
-             * @returns {HTMLCollection}
-             * @private
-             */
-            _selectedOptionsGetterProxy: function (element) {
-                return element.selectedOptions;
-            },
-
-            /**
-             * TODO: Rename to _syncItemsToSelection
-             * @private
-             */
-            _syncOptionsToSelection: function () {
+            _syncItemsToSelection: function () {
                 var selectedValueBefore = this._lastSelectedValue,
                     selectedValueAfter = this.selectedValue,
                     selectedOption,
@@ -81,7 +46,10 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
                 }
             },
 
-            /** @private */
+            /**
+             * TODO: Same as in SingleSelect.
+             * @private
+             */
             _updateLastSelectedValue: function () {
                 var selectedValueBefore = this._lastSelectedValue,
                     selectedValueAfter = this.selectedValue;
@@ -96,18 +64,18 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
                 }
             }
         })
-        .addMethods(/** @lends $basicWidgets.SingleSelect# */{
+        .addMethods(/** @lends $basicWidgets.RadioGroup# */{
             /** @ignore */
             init: function () {
                 base.init.call(this);
                 $basicWidgets.SelectableLookupMaintainer.init.call(this);
-                $basicWidgets.SelectPartial.init.call(this);
                 $basicWidgets.BinaryStateful.init.call(this);
                 $basicWidgets.Disableable.init.call(this);
 
+                // TODO: Common w/ SingleSelect
+                // SingleChoiceInputPartial?
                 this.elevateMethods(
                     '_updateLastSelectedValue',
-                    'onChange',
                     'onSelectableStateChange');
 
                 /**
@@ -128,6 +96,13 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
                  * @type {string}
                  */
                 this.selectedValue = undefined;
+
+                /**
+                 * @type {string}
+                 */
+                this.inputName = undefined;
+
+                //this.setTagName('div');
             },
 
             /** @ignore */
@@ -135,9 +110,8 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
                 base.afterAdd.call(this);
                 $basicWidgets.SelectableLookupMaintainer.afterAdd.call(this);
                 $basicWidgets.BinaryStateful.afterAdd.call(this);
-                $basicWidgets.DomInputable.afterAdd.call(this);
 
-                this._syncOptionsToSelection();
+                this._syncItemsToSelection();
 
                 this.subscribeTo($basicWidgets.EVENT_SELECTABLE_STATE_CHANGE, this.onSelectableStateChange);
             },
@@ -149,37 +123,37 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
             },
 
             /** @ignore */
-            afterRender: function () {
-                base.afterRender.call(this);
-
-                var element = this.getElement();
-                this._addEventListenerProxy(element, 'change', this.onChange);
-            },
-
-            /** @ignore */
             afterStateOn: function (stateName) {
                 $basicWidgets.Disableable.afterStateOn.call(this, stateName);
-                $basicWidgets.DomInputable.afterStateOn.call(this, stateName);
             },
 
             /** @ignore */
             afterStateOff: function (stateName) {
                 $basicWidgets.Disableable.afterStateOff.call(this, stateName);
-                $basicWidgets.DomInputable.afterStateOff.call(this, stateName);
             },
 
             /**
+             * TODO: Part of it is shared w/ SingleSelect
              * @param {$basicWidgets.OptionPartial} itemWidget
-             * @returns {$basicWidgets.SingleSelect}
+             * @returns {$basicWidgets.RadioGroup}
              */
             addItemWidget: function (itemWidget) {
                 base.addItemWidget.call(this, itemWidget);
-                $basicWidgets.SelectableLookupMaintainer.addItemWidget.call(this, itemWidget);
-                $basicWidgets.SelectPartial.addItemWidget.call(this, itemWidget);
 
-                if (itemWidget.selected) {
+                var binaryInput = itemWidget.getAllDescendants()
+                    .filterByType($basicWidgets.BinaryInput)
+                    .getFirstValue();
+
+                $assertion.assert(binaryInput, "Item contains no input widget");
+
+                $basicWidgets.SelectableLookupMaintainer.addItemWidget.call(this, binaryInput);
+
+                // making sure input name matches siblings
+                binaryInput.setName(this.inputName);
+
+                if (binaryInput.selected) {
                     // TODO: Add test
-                    this.selectedValue = itemWidget.getValue();
+                    this.selectedValue = binaryInput.getValue();
                     this._updateLastSelectedValueDebouncer.schedule(0);
                 }
 
@@ -187,14 +161,22 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
             },
 
             /**
-             * @param {$basicWidgets.OptionPartial} itemWidget
-             * @returns {$basicWidgets.SingleSelect}
+             * TODO: Part of it is shared w/ SingleSelect
+             * @param {$widget.Widget} itemWidget Supposed to contain one (and only one) BinaryInput.
+             * @returns {$basicWidgets.RadioGroup}
              */
             removeItemWidget: function (itemWidget) {
                 base.removeItemWidget.call(this, itemWidget);
-                $basicWidgets.SelectableLookupMaintainer.removeItemWidget.call(this, itemWidget);
 
-                if (itemWidget.selected) {
+                var binaryInput = itemWidget.getAllDescendants()
+                    .filterByType($basicWidgets.BinaryInput)
+                    .getFirstValue();
+
+                $assertion.assert(binaryInput, "Item contains no input widget");
+
+                $basicWidgets.SelectableLookupMaintainer.removeItemWidget.call(this, binaryInput);
+
+                if (binaryInput.selected) {
                     // TODO: Add test
                     this.selectedValue = undefined;
                     this._updateLastSelectedValueDebouncer.schedule(0);
@@ -204,20 +186,68 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
             },
 
             /**
+             * Sets input name.
+             * TODO: Should come from an input-like interface (set(Input)Name, set(Input)Value)
+             * @param {string} name
+             * @returns {$basicWidgets.RadioGroup}
+             */
+            setName: function (name) {
+                this.getAllDescendants()
+                    .filterByType($basicWidgets.BinaryInput)
+                    .callOnEachItem('setName', name);
+
+                /** @type {string} */
+                this.inputName = name;
+
+                return this;
+            },
+
+            /**
+             * Shorthand for adding a radio button with text to the group.
+             * @param {string} childName
+             * @param {string} radioValue
+             * @param {string|$utils.Stringifiable} radioText
+             * @param {boolean} [selected]
+             * @returns {$basicWidgets.RadioGroup}
+             */
+            addRadioButton: function (childName, radioValue, radioText, selected) {
+                var labelWidget = $basicWidgets.Text.create()
+                    .setContentString(radioText),
+                    radioWidget = $basicWidgets.BinaryInput.create('radio')
+                        .setChildName(childName)
+                        .setValue(radioValue)
+                        .linkLabelWidget(labelWidget);
+
+                if (selected) {
+                    radioWidget.select();
+                }
+
+                this.addItemWidget($widget.Widget.create()
+                    .setChildName(childName)
+                    .setTagName('li')
+                    .addChild(radioWidget)
+                    .addChild(labelWidget));
+
+                return this;
+            },
+
+            /**
+             * TODO: Large part of it is shared w/ SingleSelect
              * @param {string} value
-             * @returns {$basicWidgets.SingleSelect}
+             * @returns {$basicWidgets.RadioGroup}
              */
             setValue: function (value) {
                 var selectedValue = this.selectedValue;
                 if (value !== selectedValue) {
                     this.selectedValue = value;
                     this._updateLastSelectedValueDebouncer.schedule(0);
-                    this._syncOptionsToSelection();
+                    this._syncItemsToSelection();
                 }
                 return this;
             },
 
             /**
+             * TODO: Shared w/ SingleSelect
              * @returns {string}
              */
             getValue: function () {
@@ -225,33 +255,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
             },
 
             /**
-             * @param {Event} event
-             * @ignore
-             */
-            onChange: function (event) {
-                var link = $event.pushOriginalEvent(event);
-
-                var selectedOptionElements = this._selectedOptionsGetterProxy(this.getElement()),
-                    selectedOptionElement = selectedOptionElements[0],
-                    selectedValueBefore = this.selectedValue,
-                    selectedValueAfter = selectedOptionElement && this._valueGetterProxy(selectedOptionElement);
-
-                if (selectedValueAfter !== selectedValueBefore) {
-                    // deselecting current option
-                    if (selectedValueBefore) {
-                        this.getItemWidgetByValue(selectedValueBefore).deselect();
-                    }
-
-                    // selecting new option
-                    if (selectedValueAfter) {
-                        this.getItemWidgetByValue(selectedValueAfter).select();
-                    }
-                }
-
-                link.unlink();
-            },
-
-            /**
+             * TODO: Shared w/ SingleSelect
              * @param {$basicWidgets.InputValueChangeEvent} event
              * @ignore
              */
@@ -271,6 +275,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
             },
 
             /**
+             * TODO: Shared w/ SingleSelect
              * @param {$event.Event} event
              * @ignore
              */
