@@ -545,11 +545,6 @@ _addHybridMultiSelect: function (itemWidget) {
                     'onSelectableStateChange',
                     'onSelectSelectionChange');
 
-                $basicWidgets.Text.create()
-                    .setTagName('h1')
-                    .setContentString("Giant Basic Widgets")
-                    .addToParent(this);
-
                 TestList.create()
                     .setChildName('widget-list')
                     .addToParent(this);
@@ -660,6 +655,16 @@ _addHybridMultiSelect: function (itemWidget) {
                     .subscribeTo($basicWidgets.EVENT_SELECTABLE_STATE_CHANGE, this.onSelectableStateChange)
                     .subscribeTo($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, this.onSelectSelectionChange)
                     .subscribeTo($basicWidgets.EVENT_HOTKEY_DOWN, this.onHotkeyDown);
+            },
+
+            /** @ignore */
+            afterRender: function () {
+                base.afterRender.call(this);
+
+                var containerElement = document.getElementById('app');
+                if (containerElement) {
+                    containerElement.appendChild(this.getElement());
+                }
             },
 
             /**
