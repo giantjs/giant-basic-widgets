@@ -24,34 +24,35 @@ $oop.postpone(window, 'TestPage', function (ns, cn) {
 /** @private */
 _addPlainText: function () {
     return $basicWidgets.Text.create()
-        .setContentString("<em>Hello</em>");
+        .setContentString("<em>Feline</em>");
 },
 
 /** @private */
 _addEntityBoundText: function () {
     // setting initial field value
-    'user/1/name'.toField()
-        .setValue("<em>Joe</em>");
+    'cat/tiger/name'.toField()
+        .setValue("<em>Tiger</em>");
 
-    return $basicWidgets.DataText.create('user/1/name'.toFieldKey());
+    return $basicWidgets.DataText.create('cat/tiger/name'.toFieldKey());
 },
 
 /** @private */
 _addLocaleBoundText: function () {
     // initializing translations
-    'locale/en-uk'.toDocument()
-        .setTranslation("Hi!", ["Hi!"]);
-    'locale/de-de'.toDocument()
-        .setTranslation("Hi!", ["Gruß dich!"]);
-    $i18n.LocaleEnvironment.create()
-        .markLocaleAsReady('en-uk'.toLocale())
-        .markLocaleAsReady('de-de'.toLocale());
+    'locale/en'.toDocument()
+        .setTranslation("cat", ["cat"]);
+    'locale/ja'.toDocument()
+        .setTranslation("cat", ["ネコ"]);
 
-    // setting current locale to 'de-de'
-    'de-de'.toLocale().setAsCurrentLocale();
+    $i18n.LocaleEnvironment.create()
+        .markLocaleAsReady('en'.toLocale())
+        .markLocaleAsReady('ja'.toLocale());
+
+    // setting current locale to 'ja'
+    'ja'.toLocale().setAsCurrentLocale();
 
     return $basicWidgets.LocaleText.create()
-        .setContentString("Hi!".toTranslatable());
+        .setContentString("cat".toTranslatable());
 },
 
 /** @private */
@@ -304,7 +305,7 @@ _addSingleSelect: function (itemWidget) {
 /** @private */
 _addLocaleSingleSelect: function (itemWidget) {
     // initializing translations
-    'locale/de-de'.toDocument()
+    'locale/ja'.toDocument()
         .setTranslation("Monday", ["Montag"])
         .setTranslation("Tuesday", ["Dienstag"])
         .setTranslation("Wednesday", ["Mittwoch"])
@@ -314,10 +315,10 @@ _addLocaleSingleSelect: function (itemWidget) {
         .setTranslation("Sunday", ["Sonntag"]);
 
     $i18n.LocaleEnvironment.create()
-        .markLocaleAsReady('de-de'.toLocale());
+        .markLocaleAsReady('ja'.toLocale());
 
-    // setting current locale to 'de-de'
-    'de-de'.toLocale().setAsCurrentLocale();
+    // setting current locale to 'ja'
+    'ja'.toLocale().setAsCurrentLocale();
 
     // creating a label for the select
     var label = $basicWidgets.Text.create()
@@ -559,7 +560,7 @@ _addHybridMultiSelect: function (itemWidget) {
 
                 this._addWidget(
                     this._addLocaleBoundText,
-                    "'en-uk'.toLocale().setAsCurrentLocale()");
+                    "'en'.toLocale().setAsCurrentLocale()");
 
                 this._addWidget(
                     this._addHyperlink,
@@ -616,7 +617,7 @@ _addHybridMultiSelect: function (itemWidget) {
 
                 this._addWidget(
                     this._addLocaleSingleSelect,
-                    "'en-uk'.toLocale().setAsCurrentLocale()",
+                    "'en'.toLocale().setAsCurrentLocale()",
                     "Locale");
 
                 this._addWidget(
