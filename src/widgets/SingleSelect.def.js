@@ -57,11 +57,8 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
                 return element.selectedOptions;
             },
 
-            /**
-             * TODO: Rename to _syncItemsToSelection
-             * @private
-             */
-            _syncOptionsToSelection: function () {
+            /** @private */
+            _syncItemsToSelection: function () {
                 var selectedValueBefore = this._lastSelectedValue,
                     selectedValueAfter = this.selectedValue,
                     selectedOption,
@@ -137,7 +134,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
                 $basicWidgets.BinaryStateful.afterAdd.call(this);
                 $basicWidgets.DomInputable.afterAdd.call(this);
 
-                this._syncOptionsToSelection();
+                this._syncItemsToSelection();
 
                 this.subscribeTo($basicWidgets.EVENT_SELECTABLE_STATE_CHANGE, this.onSelectableStateChange);
             },
@@ -212,7 +209,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
                 if (value !== selectedValue) {
                     this.selectedValue = value;
                     this._updateLastSelectedValueDebouncer.schedule(0);
-                    this._syncOptionsToSelection();
+                    this._syncItemsToSelection();
                 }
                 return this;
             },
