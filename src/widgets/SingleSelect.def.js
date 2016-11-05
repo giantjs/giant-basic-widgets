@@ -4,6 +4,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
     var base = $basicWidgets.List,
         self = base.extend(cn)
             .addTraitAndExtend($basicWidgets.SelectableLookupMaintainer)
+            .addTraitAndExtend($basicWidgets.SingleOptionInputPartial)
             .addTrait($basicWidgets.SelectPartial)
             .addTraitAndExtend($basicWidgets.BinaryStateful)
             .addTraitAndExtend($basicWidgets.Disableable, 'Disableable')
@@ -20,6 +21,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
      * @class
      * @extends $basicWidgets.List
      * @extends $basicWidgets.SelectableLookupMaintainer
+     * @extends $basicWidgets.SingleOptionInputPartial
      * @extends $basicWidgets.SelectPartial
      * @extends $basicWidgets.BinaryStateful
      * @extends $basicWidgets.Disableable
@@ -55,42 +57,6 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
              */
             _selectedOptionsGetterProxy: function (element) {
                 return element.selectedOptions;
-            },
-
-            /** @private */
-            _syncItemsToSelection: function () {
-                var selectedValueBefore = this._lastSelectedValue,
-                    selectedValueAfter = this.selectedValue,
-                    selectedOption,
-                    deselectedOption;
-
-                if (selectedValueAfter !== selectedValueBefore) {
-                    selectedOption = this.getItemWidgetByValue(selectedValueAfter);
-                    deselectedOption = this.getItemWidgetByValue(selectedValueBefore);
-
-                    if (selectedOption) {
-                        selectedOption.select();
-                    }
-
-                    if (deselectedOption) {
-                        deselectedOption.deselect();
-                    }
-                }
-            },
-
-            /** @private */
-            _updateLastSelectedValue: function () {
-                var selectedValueBefore = this._lastSelectedValue,
-                    selectedValueAfter = this.selectedValue;
-
-                if (selectedValueAfter !== selectedValueBefore) {
-                    this._lastSelectedValue = selectedValueAfter;
-
-                    this.spawnEvent($basicWidgets.EVENT_SELECT_SELECTION_CHANGE)
-                        .setBeforeValues([selectedValueBefore].toCollection())
-                        .setAfterValues([selectedValueAfter].toCollection())
-                        .triggerSync();
-                }
             }
         })
         .addMethods(/** @lends $basicWidgets.SingleSelect# */{
@@ -98,45 +64,21 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
             init: function () {
                 base.init.call(this);
                 $basicWidgets.SelectableLookupMaintainer.init.call(this);
+                $basicWidgets.SingleOptionInputPartial.init.call(this);
                 $basicWidgets.SelectPartial.init.call(this);
                 $basicWidgets.BinaryStateful.init.call(this);
                 $basicWidgets.Disableable.init.call(this);
 
-                this.elevateMethods(
-                    '_updateLastSelectedValue',
-                    'onChange',
-                    'onSelectableStateChange');
-
-                /**
-                 * Selected value before the last option select event.
-                 * @type {string}
-                 * @private
-                 */
-                this._lastSelectedValue = undefined;
-
-                /**
-                 * @type {$utils.Debouncer}
-                 * @private
-                 */
-                this._updateLastSelectedValueDebouncer = this._updateLastSelectedValue.toDebouncer();
-
-                /**
-                 * Currently selected value.
-                 * @type {string}
-                 */
-                this.selectedValue = undefined;
+                this.elevateMethod('onChange');
             },
 
             /** @ignore */
             afterAdd: function () {
                 base.afterAdd.call(this);
                 $basicWidgets.SelectableLookupMaintainer.afterAdd.call(this);
+                $basicWidgets.SingleOptionInputPartial.afterAdd.call(this);
                 $basicWidgets.BinaryStateful.afterAdd.call(this);
                 $basicWidgets.DomInputable.afterAdd.call(this);
-
-                this._syncItemsToSelection();
-
-                this.subscribeTo($basicWidgets.EVENT_SELECTABLE_STATE_CHANGE, this.onSelectableStateChange);
             },
 
             /** @ignore */
@@ -173,13 +115,7 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
                 base.addItemWidget.call(this, itemWidget);
                 $basicWidgets.SelectableLookupMaintainer.addItemWidget.call(this, itemWidget);
                 $basicWidgets.SelectPartial.addItemWidget.call(this, itemWidget);
-
-                if (itemWidget.selected) {
-                    // TODO: Add test
-                    this.selectedValue = itemWidget.getValue();
-                    this._updateLastSelectedValueDebouncer.schedule(0);
-                }
-
+                $basicWidgets.SingleOptionInputPartial.addItemWidget.call(this, itemWidget);
                 return this;
             },
 
@@ -190,35 +126,8 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
             removeItemWidget: function (itemWidget) {
                 base.removeItemWidget.call(this, itemWidget);
                 $basicWidgets.SelectableLookupMaintainer.removeItemWidget.call(this, itemWidget);
-
-                if (itemWidget.selected) {
-                    // TODO: Add test
-                    this.selectedValue = undefined;
-                    this._updateLastSelectedValueDebouncer.schedule(0);
-                }
-
+                $basicWidgets.SingleOptionInputPartial.removeItemWidget.call(this, itemWidget);
                 return this;
-            },
-
-            /**
-             * @param {string} value
-             * @returns {$basicWidgets.SingleSelect}
-             */
-            setValue: function (value) {
-                var selectedValue = this.selectedValue;
-                if (value !== selectedValue) {
-                    this.selectedValue = value;
-                    this._updateLastSelectedValueDebouncer.schedule(0);
-                    this._syncItemsToSelection();
-                }
-                return this;
-            },
-
-            /**
-             * @returns {string}
-             */
-            getValue: function () {
-                return this.selectedValue;
             },
 
             /**
@@ -255,39 +164,8 @@ $oop.postpone($basicWidgets, 'SingleSelect', function (ns, cn) {
             onSelectableValueChange: function (event) {
                 $basicWidgets.SelectableLookupMaintainer
                     .onSelectableValueChange.call(this, event);
-
-                var beforeValue = event.beforeValue,
-                    afterValue = event.afterValue,
-                    selectedValueBefore = this.selectedValue;
-
-                // replacing selected value
-                if (selectedValueBefore === beforeValue) {
-                    this.selectedValue = afterValue;
-                    this._updateLastSelectedValueDebouncer.schedule(0, afterValue);
-                }
-            },
-
-            /**
-             * @param {$event.Event} event
-             * @ignore
-             */
-            onSelectableStateChange: function (event) {
-                var affectedOptionWidget = event.sender,
-                    isSelected = affectedOptionWidget.selected,
-                    selectedValueBefore = this.selectedValue,
-                    selectedValueAfter = isSelected ?
-                        affectedOptionWidget.getValue() :
-                        undefined;
-
-                // deselecting previously selected option
-                if (isSelected && selectedValueBefore) {
-                    this.itemWidgetsByValue.getItem(selectedValueBefore)
-                        .deselect();
-                }
-
-                // updating selected value
-                this.selectedValue = selectedValueAfter;
-                this._updateLastSelectedValueDebouncer.schedule(0);
+                $basicWidgets.SingleOptionInputPartial
+                    .onSelectableValueChange.call(this, event);
             }
         });
 });

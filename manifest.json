@@ -37,6 +37,7 @@
         "src/partials/OptionPartial.def.js",
         "src/partials/SelectableLookupMaintainer.def.js",
         "src/partials/SelectPartial.def.js",
+        "src/partials/SingleOptionInputPartial.def.js",
         "src/widgets/Application.def.js",
         "src/widgets/BinaryInput.def.js",
         "src/widgets/Button.def.js",
