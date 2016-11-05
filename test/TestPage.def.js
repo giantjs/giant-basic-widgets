@@ -39,8 +39,6 @@ _addEntityBoundText: function () {
 /** @private */
 _addLocaleBoundText: function () {
     // initializing translations
-    'locale/en'.toDocument()
-        .setTranslation("cat", ["cat"]);
     'locale/ja'.toDocument()
         .setTranslation("cat", ["ネコ"]);
 
@@ -53,6 +51,32 @@ _addLocaleBoundText: function () {
 
     return $basicWidgets.LocaleText.create()
         .setContentString("cat".toTranslatable());
+},
+
+/** @private */
+_addTemplateText: function () {
+    // initializing translations
+    'locale/ja'.toDocument().setTranslation(
+            "The cat's name is {{catName}}",
+            ["猫の名前は「{{catName}}」であります"]);
+
+    $i18n.LocaleEnvironment.create()
+        .markLocaleAsReady('en'.toLocale())
+        .markLocaleAsReady('ja'.toLocale());
+
+    // setting current locale to 'ja'
+    'ja'.toLocale().setAsCurrentLocale();
+
+    // setting cat name as entity
+    'cat/fluffy/name'.toField().setValue("Fluffy");
+
+    return $basicWidgets.TemplateText.create()
+        .setContentString(
+            "The cat's name is {{catName}}".toTranslatable()
+                .toLiveTemplate()
+                .setParameterValues({
+                    '{{catName}}': 'cat/fluffy/name'.toField()
+                }));
 },
 
 /** @private */
@@ -561,6 +585,10 @@ _addHybridMultiSelect: function (itemWidget) {
                 this._addWidget(
                     this._addLocaleBoundText,
                     "'en'.toLocale().setAsCurrentLocale()");
+
+                this._addWidget(
+                    this._addTemplateText,
+                    "'cat/fluffy/name'.toField().setValue('Smudge')");
 
                 this._addWidget(
                     this._addHyperlink,

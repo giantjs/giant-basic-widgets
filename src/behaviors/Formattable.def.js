@@ -9,7 +9,7 @@ $oop.postpone($basicWidgets, 'Formattable', function () {
      * Updates the DOM with formatted text.
      * @class
      * @extends $oop.Base
-     * @extends $basicWidgets.Widget
+     * @extends $widget.Widget
      */
     $basicWidgets.Formattable = self
         .addMethods(/** @lends $basicWidgets.Formattable# */{
@@ -90,6 +90,7 @@ $oop.postpone($basicWidgets, 'Formattable', function () {
 
             /**
              * Applies format to DOM.
+             * TODO: Rename to reRenderContents?
              * @returns {$basicWidgets.Formattable}
              */
             applyFilters: function () {
