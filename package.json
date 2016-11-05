@@ -1,6 +1,6 @@
 {
   "name": "giant-basic-widgets",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Basic widgets module for Giant",
   "keywords": [
     "databound",
@@ -28,7 +28,6 @@
     "giant-i18n": "~0.3.1",
     "giant-oop": "~0.3.0",
     "giant-templating": "~0.3.0",
-    "giant-transport": "~0.3.0",
     "giant-utils": "~0.3.0",
     "giant-widget": "~0.3.0",
     "jquery": "~2.1.0"

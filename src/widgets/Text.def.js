@@ -45,11 +45,6 @@ $oop.postpone($basicWidgets, 'Text', function (ns, cn) {
                         .removeCssClass('text-has-content')
                         .addCssClass('text-empty');
                 }
-            },
-
-            /** @private */
-            _updateDom: function () {
-                this.applyFilters();
             }
         })
         .addMethods(/** @lends $basicWidgets.Text# */{
@@ -107,7 +102,7 @@ $oop.postpone($basicWidgets, 'Text', function (ns, cn) {
             setContentString: function (contentString) {
                 if (this.contentString !== contentString) {
                     this.contentString = contentString;
-                    this._updateDom();
+                    this.reRenderContents();
                     this._updateStyle();
                 }
                 return this;

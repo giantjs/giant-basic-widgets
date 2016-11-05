@@ -5,8 +5,8 @@ module.exports = function (grunt) {
     var $asset = require('giant-asset'),
         $gruntTools = require('giant-grunt-tools'),
         packageNode = require('./package.json'),
-        manifestNode = require('./manifest.json'),
-        manifest = $asset.Manifest.create(manifestNode),
+        manifest = $asset.Manifest.create(require('./manifest.json')),
+        demoManifest = $asset.Manifest.create(require('./test/manifest.json')),
         multiTasks = [].toMultiTaskCollection(),
         gruntTasks = [].toGruntTaskCollection();
 
@@ -24,6 +24,18 @@ module.exports = function (grunt) {
                     src : manifest.getAssets('css')
                         .getAssetNames(),
                     dest: 'lib/' + packageNode.name + '.css'
+                }]
+            },
+
+            'demo': {
+                files: [{
+                    src : demoManifest.getAssets('js')
+                        .getAssetNames(),
+                    dest: 'doc/' + packageNode.name + '-demo.js'
+                }, {
+                    src : demoManifest.getAssets('css')
+                        .getAssetNames(),
+                    dest: 'doc/' + packageNode.name + '-demo.css'
                 }]
             }
         })

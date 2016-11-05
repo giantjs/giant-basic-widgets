@@ -9,7 +9,7 @@ $oop.postpone($basicWidgets, 'Formattable', function () {
      * Updates the DOM with formatted text.
      * @class
      * @extends $oop.Base
-     * @extends $basicWidgets.Widget
+     * @extends $widget.Widget
      */
     $basicWidgets.Formattable = self
         .addMethods(/** @lends $basicWidgets.Formattable# */{
@@ -41,7 +41,7 @@ $oop.postpone($basicWidgets, 'Formattable', function () {
                 if (isActive !== false) {
                     this.activeStringFilterIds.setItem(filterId, filterId);
                 }
-                this.applyFilters();
+                this.reRenderContents();
                 return this;
             },
 
@@ -56,7 +56,7 @@ $oop.postpone($basicWidgets, 'Formattable', function () {
 
                 if (stringFilter && !wasActive) {
                     activeFilterIds.setItem(filterId, filterId);
-                    this.applyFilters();
+                    this.reRenderContents();
                 }
 
                 return this;
@@ -73,7 +73,7 @@ $oop.postpone($basicWidgets, 'Formattable', function () {
 
                 if (stringFilter && wasActive) {
                     activeFilterIds.deleteItem(filterId);
-                    this.applyFilters();
+                    this.reRenderContents();
                 }
 
                 return this;
@@ -90,9 +90,10 @@ $oop.postpone($basicWidgets, 'Formattable', function () {
 
             /**
              * Applies format to DOM.
+             * Replaces host's reRenderContents.
              * @returns {$basicWidgets.Formattable}
              */
-            applyFilters: function () {
+            reRenderContents: function () {
                 var element = this.getElement();
                 if (element) {
                     this.setDomString(this.getFormattedString());

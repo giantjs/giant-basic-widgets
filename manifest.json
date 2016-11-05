@@ -59,6 +59,7 @@
         "src/widgets/Page.def.js",
         "src/widgets/RadioGroup.def.js",
         "src/widgets/SingleSelect.def.js",
+        "src/widgets/TemplateText.def.js",
         "src/widgets/Text.def.js",
         "src/widgets/TextInput.def.js",
         "src/exports.js"

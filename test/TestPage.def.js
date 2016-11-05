@@ -24,34 +24,59 @@ $oop.postpone(window, 'TestPage', function (ns, cn) {
 /** @private */
 _addPlainText: function () {
     return $basicWidgets.Text.create()
-        .setContentString("<em>Hello</em>");
+        .setContentString("<em>Feline</em>");
 },
 
 /** @private */
 _addEntityBoundText: function () {
     // setting initial field value
-    'user/1/name'.toField()
-        .setValue("<em>Joe</em>");
+    'cat/tiger/name'.toField()
+        .setValue("<em>Tiger</em>");
 
-    return $basicWidgets.DataText.create('user/1/name'.toFieldKey());
+    return $basicWidgets.DataText.create('cat/tiger/name'.toFieldKey());
 },
 
 /** @private */
 _addLocaleBoundText: function () {
     // initializing translations
-    'locale/en-uk'.toDocument()
-        .setTranslation("Hi!", ["Hi!"]);
-    'locale/de-de'.toDocument()
-        .setTranslation("Hi!", ["Gruß dich!"]);
-    $i18n.LocaleEnvironment.create()
-        .markLocaleAsReady('en-uk'.toLocale())
-        .markLocaleAsReady('de-de'.toLocale());
+    'locale/ja'.toDocument()
+        .setTranslation("cat", ["ネコ"]);
 
-    // setting current locale to 'de-de'
-    'de-de'.toLocale().setAsCurrentLocale();
+    $i18n.LocaleEnvironment.create()
+        .markLocaleAsReady('en'.toLocale())
+        .markLocaleAsReady('ja'.toLocale());
+
+    // setting current locale to 'ja'
+    'ja'.toLocale().setAsCurrentLocale();
 
     return $basicWidgets.LocaleText.create()
-        .setContentString("Hi!".toTranslatable());
+        .setContentString("cat".toTranslatable());
+},
+
+/** @private */
+_addTemplateText: function () {
+    // initializing translations
+    'locale/ja'.toDocument().setTranslation(
+            "The cat's name is {{catName}}",
+            ["猫の名前は「{{catName}}」であります"]);
+
+    $i18n.LocaleEnvironment.create()
+        .markLocaleAsReady('en'.toLocale())
+        .markLocaleAsReady('ja'.toLocale());
+
+    // setting current locale to 'ja'
+    'ja'.toLocale().setAsCurrentLocale();
+
+    // setting cat name as entity
+    'cat/fluffy/name'.toField().setValue("Fluffy");
+
+    return $basicWidgets.TemplateText.create()
+        .setContentString(
+            "The cat's name is {{catName}}".toTranslatable()
+                .toLiveTemplate()
+                .setParameterValues({
+                    '{{catName}}': 'cat/fluffy/name'.toField()
+                }));
 },
 
 /** @private */
@@ -326,7 +351,7 @@ _addSingleSelect: function (itemWidget) {
 /** @private */
 _addLocaleSingleSelect: function (itemWidget) {
     // initializing translations
-    'locale/de-de'.toDocument()
+    'locale/ja'.toDocument()
         .setTranslation("Monday", ["Montag"])
         .setTranslation("Tuesday", ["Dienstag"])
         .setTranslation("Wednesday", ["Mittwoch"])
@@ -336,10 +361,10 @@ _addLocaleSingleSelect: function (itemWidget) {
         .setTranslation("Sunday", ["Sonntag"]);
 
     $i18n.LocaleEnvironment.create()
-        .markLocaleAsReady('de-de'.toLocale());
+        .markLocaleAsReady('ja'.toLocale());
 
-    // setting current locale to 'de-de'
-    'de-de'.toLocale().setAsCurrentLocale();
+    // setting current locale to 'ja'
+    'ja'.toLocale().setAsCurrentLocale();
 
     // creating a label for the select
     var label = $basicWidgets.Text.create()
@@ -567,11 +592,6 @@ _addHybridMultiSelect: function (itemWidget) {
                     'onSelectableStateChange',
                     'onSelectSelectionChange');
 
-                $basicWidgets.Text.create()
-                    .setTagName('h1')
-                    .setContentString("Giant Basic Widgets")
-                    .addToParent(this);
-
                 TestList.create()
                     .setChildName('widget-list')
                     .addToParent(this);
@@ -586,7 +606,11 @@ _addHybridMultiSelect: function (itemWidget) {
 
                 this._addWidget(
                     this._addLocaleBoundText,
-                    "'en-uk'.toLocale().setAsCurrentLocale()");
+                    "'en'.toLocale().setAsCurrentLocale()");
+
+                this._addWidget(
+                    this._addTemplateText,
+                    "'cat/fluffy/name'.toField().setValue('Smudge')");
 
                 this._addWidget(
                     this._addHyperlink,
@@ -647,7 +671,7 @@ _addHybridMultiSelect: function (itemWidget) {
 
                 this._addWidget(
                     this._addLocaleSingleSelect,
-                    "'en-uk'.toLocale().setAsCurrentLocale()",
+                    "'en'.toLocale().setAsCurrentLocale()",
                     "Locale");
 
                 this._addWidget(
@@ -686,6 +710,16 @@ _addHybridMultiSelect: function (itemWidget) {
                     .subscribeTo($basicWidgets.EVENT_SELECTABLE_STATE_CHANGE, this.onSelectableStateChange)
                     .subscribeTo($basicWidgets.EVENT_SELECT_SELECTION_CHANGE, this.onSelectSelectionChange)
                     .subscribeTo($basicWidgets.EVENT_HOTKEY_DOWN, this.onHotkeyDown);
+            },
+
+            /** @ignore */
+            afterRender: function () {
+                base.afterRender.call(this);
+
+                var containerElement = document.getElementById('app');
+                if (containerElement) {
+                    containerElement.appendChild(this.getElement());
+                }
             },
 
             /**

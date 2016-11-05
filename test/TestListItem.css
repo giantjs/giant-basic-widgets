@@ -1,23 +1,15 @@
-.TestListItem > * {
-    margin: 0.5em 0;
-}
-
 .TestListItem > :not(.widget-container) {
     font-size: 12px;
 }
 
-.TestListItem > :not(.widget-container) h2,
-.TestListItem > :not(.widget-container) h3 {
-    display: inline;
+.TestListItem > .name-container {
+    position: relative;
 }
 
-.TestListItem > :not(.widget-container) h2 {
-    font-size: 18px;
-}
-
-.TestListItem > :not(.widget-container) h3 {
-    font-size: 16px;
-    margin-left: 0.5em;
+.TestListItem > .name-container h3 {
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 .TestListItem > :not(.widget-container) h3.text-has-content:before {
