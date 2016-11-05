@@ -122,17 +122,17 @@ $oop.postpone($basicWidgets, 'TemplateText', function (ns, cn) {
             /** @ignore */
             onParameterValuesChange: function () {
                 this._updateEntityBindings();
-                this.applyFilters();
+                this.reRenderContents();
             },
 
             /** @ignore */
             onFieldParameterChange: function () {
-                this.applyFilters();
+                this.reRenderContents();
             },
 
             /** @ignore */
             onCurrentLocaleReady: function () {
-                this.applyFilters();
+                this.reRenderContents();
             }
         });
 });

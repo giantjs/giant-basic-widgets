@@ -51,7 +51,7 @@
             }).toStringFilter(), false);
 
         formattable.addMocks({
-            applyFilters: function () {
+            reRenderContents: function () {
                 ok(true, "should apply filters");
             }
         });
@@ -71,7 +71,7 @@
             }).toStringFilter());
 
         formattable.addMocks({
-            applyFilters: function () {
+            reRenderContents: function () {
                 ok(true, "should apply filters");
             }
         });
@@ -117,6 +117,6 @@
             }
         });
 
-        strictEqual(formattable.applyFilters(), formattable, "should be chainable");
+        strictEqual(formattable.reRenderContents(), formattable, "should be chainable");
     });
 }());

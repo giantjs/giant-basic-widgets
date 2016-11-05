@@ -42,7 +42,7 @@ $oop.postpone($basicWidgets, 'LocaleText', function (ns, cn) {
 
             /** @ignore */
             onCurrentLocaleReady: function () {
-                this.applyFilters();
+                this.reRenderContents();
             }
         });
 });

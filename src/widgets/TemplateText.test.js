@@ -40,7 +40,7 @@
             _updateEntityBindings: function () {
                 ok(true, "should update entity bindings");
             },
-            applyFilters: function () {
+            reRenderContents: function () {
                 ok(true, "should update DOM");
             }
         });
@@ -65,7 +65,7 @@
         templateText.setContentString(liveTemplate);
 
         templateText.addMocks({
-            applyFilters: function () {
+            reRenderContents: function () {
                 ok(true, "should update DOM");
             }
         });
@@ -96,7 +96,7 @@
         templateText.afterAdd();
 
         templateText.addMocks({
-            applyFilters: function () {
+            reRenderContents: function () {
                 ok(true, "should update DOM");
             }
         });

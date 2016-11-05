@@ -14,7 +14,7 @@
         var text = $basicWidgets.Text.create();
 
         text.addMocks({
-            _updateDom: function () {
+            reRenderContents: function () {
                 ok(true, "should update DOM");
             },
 
@@ -35,8 +35,8 @@
         var text = $basicWidgets.Text.create();
 
         text.addMocks({
-            applyFilters: function () {
-                ok(true, "should apply format");
+            reRenderContents: function () {
+                ok(true, "should re-render widget contents");
             }
         });
 
