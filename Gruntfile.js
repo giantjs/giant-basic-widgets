@@ -29,13 +29,17 @@ module.exports = function (grunt) {
 
             'demo': {
                 files: [{
+                    src : demoManifest.getAssets('html')
+                        .getAssetNames(),
+                    dest: 'lib/doc/' + packageNode.name + '-demo.html'
+                }, {
                     src : demoManifest.getAssets('js')
                         .getAssetNames(),
-                    dest: 'doc/' + packageNode.name + '-demo.js'
+                    dest: 'lib/doc/' + packageNode.name + '-demo.js'
                 }, {
                     src : demoManifest.getAssets('css')
                         .getAssetNames(),
-                    dest: 'doc/' + packageNode.name + '-demo.css'
+                    dest: 'lib/doc/' + packageNode.name + '-demo.css'
                 }]
             }
         })

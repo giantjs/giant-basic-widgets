@@ -1,6 +1,9 @@
 {
   "main": {
     "assets": {
+      "html": [
+        "test/index.html"
+      ],
       "js": [
         "test/TestList.def.js",
         "test/TestListItem.def.js",
