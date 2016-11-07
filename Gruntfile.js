@@ -6,7 +6,8 @@ module.exports = function (grunt) {
         $gruntTools = require('giant-grunt-tools'),
         packageNode = require('./package.json'),
         manifest = $asset.Manifest.create(require('./manifest.json')),
-        demoManifest = $asset.Manifest.create(require('./test/manifest.json')),
+        mainModule = manifest.getModule('main'),
+        demoModule = manifest.getModule('demo'),
         multiTasks = [].toMultiTaskCollection(),
         gruntTasks = [].toGruntTaskCollection();
 
@@ -17,11 +18,11 @@ module.exports = function (grunt) {
         .toMultiTask({
             'default': {
                 files: [{
-                    src : manifest.getAssets('js')
+                    src : mainModule.getAssets('js')
                         .getAssetNames(),
                     dest: 'lib/' + packageNode.name + '.js'
                 }, {
-                    src : manifest.getAssets('css')
+                    src : mainModule.getAssets('css')
                         .getAssetNames(),
                     dest: 'lib/' + packageNode.name + '.css'
                 }]
@@ -29,15 +30,15 @@ module.exports = function (grunt) {
 
             'demo': {
                 files: [{
-                    src : demoManifest.getAssets('html')
+                    src : demoModule.getAssets('html')
                         .getAssetNames(),
                     dest: 'lib/doc/' + packageNode.name + '-demo.html'
                 }, {
-                    src : demoManifest.getAssets('js')
+                    src : demoModule.getAssets('js')
                         .getAssetNames(),
                     dest: 'lib/doc/' + packageNode.name + '-demo.js'
                 }, {
-                    src : demoManifest.getAssets('css')
+                    src : demoModule.getAssets('css')
                         .getAssetNames(),
                     dest: 'lib/doc/' + packageNode.name + '-demo.css'
                 }]

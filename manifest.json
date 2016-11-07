@@ -71,5 +71,22 @@
         "src/widgets/Text.css"
       ]
     }
+  },
+  "demo": {
+    "assets": {
+      "html": [
+        "test/index.html"
+      ],
+      "js": [
+        "test/TestList.def.js",
+        "test/TestListItem.def.js",
+        "test/TestPage.def.js"
+      ],
+      "css": [
+        "test/TestList.css",
+        "test/TestListItem.css",
+        "test/TestPage.css"
+      ]
+    }
   }
 }
