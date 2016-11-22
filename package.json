@@ -1,6 +1,6 @@
 {
   "name": "giant-basic-widgets",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Basic widgets module for Giant",
   "keywords": [
     "databound",
@@ -25,7 +25,7 @@
     "giant-data": "~0.4.0",
     "giant-entity": "~0.4.0",
     "giant-event": "~0.4.0",
-    "giant-i18n": "~0.3.1",
+    "giant-i18n": "~0.4.0",
     "giant-oop": "~0.4.0",
     "giant-templating": "~0.4.0",
     "giant-utils": "~0.4.0",
